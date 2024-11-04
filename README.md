@@ -4,7 +4,7 @@
 
 ## Cloning the Repository:
 <pre>
-# Type this in Git bash or VS Code in-built terminal to Clone the main branch
+# Type this in Git bash or VS Code in-built terminal to Clone the master branch
 # Go to whatever directory you want the repo folder to be created through the terminal your using
 git clone https://github.com/pramodh123kit/AeroVault.git
 cd AeroVault
@@ -15,16 +15,16 @@ code .
 
 
 ## Checking Out to the Specific Branch:
-## To get a copy of the main branch
+## To get a copy of the master branch
 <pre>
 # Your branch's name (eg: pramodh_branch)
 git checkout pramodh_branch
 
-git fetch origin main
-git checkout main
-git pull origin main 
+git fetch origin master
+git checkout master
+git pull origin master 
 git checkout pramodh_branch <--your branch's name
-git merge main
+git merge master
 </pre>
 
 
@@ -49,5 +49,5 @@ git push origin pramodh_branch
 ## Create a Pull Request
 * Go to the repository on GitHub and navigate to (your branch)
 * Click on the "Pull Request" button
-* In the Pull Request interface, select the **main branch**
+* In the Pull Request interface, select the **master branch**
 * Write a description, changes and screenshots of the updates you've made in Pull Request
