@@ -6,7 +6,7 @@
 <pre>
 # Type this in Git bash or VS Code in-built terminal to Clone the main branch
 # Go to whatever directory you want the repo folder to be created through the terminal your using
-https://github.com/pramodh123kit/AeroVault.git
+git clone https://github.com/pramodh123kit/AeroVault.git
 cd AeroVault
 # To open the VS code from the project folder
 code .
