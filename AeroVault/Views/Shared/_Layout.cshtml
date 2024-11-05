@@ -75,7 +75,17 @@
         }
 
     </header>
-    @if (ViewData["HideNavbar"] == null || !(bool)ViewData["HideNavbar"])
+
+
+    @if (ViewData["UserHeader"] != null && (bool)ViewData["UserHeader"])
+    {
+        <div class="main-container p-0">
+            <main role="main">
+                @RenderBody()
+            </main>
+        </div>
+    }
+    else if (ViewData["HideNavbar"] == null || !(bool)ViewData["HideNavbar"])
     {
         <div class="main-container">
             <main role="main">
@@ -90,10 +100,10 @@
                 @RenderBody()
             </main>
         </div>
-        {
-        }
-
     }
+
+
+
     @if (ViewData["HideNavbar"] == null || !(bool)ViewData["HideNavbar"])
     {
         <footer class="footer-section">
