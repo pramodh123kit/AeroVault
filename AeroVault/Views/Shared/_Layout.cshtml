@@ -10,38 +10,81 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AeroVault</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="UserOverview" asp-action="Index">Dashboard</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+         @if (ViewData["HideNavbar"] == null || !(bool)ViewData["HideNavbar"])
+        {
+            @if (ViewData["CustomNavbar"] != null && (bool)ViewData["CustomNavbar"])
+            {
+                <nav class="navbar navbar-expand-sm navbar-dark bg-primary user-navbar">
+                    <div class="container-fluid">
+                        <a class="navbar-brand d-flex align-items-center" href="#">
+                            <img src="~/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" width="100%" height="100%" class="d-inline-block align-top">
+                        </a>
+
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                        <div class="collapse navbar-collapse" id="navbarNav">
+                            <ul class="navbar-nav centered-links">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="UserOverview" asp-action="UserPageOverview">Dashboard</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="UserFileRepository" asp-action="FileRepository">File Repository</a>
+                                </li>
+                            </ul>
+                            <div class="navbar-icons d-flex align-items-center">
+                                <img src="~/Assets/UserProfilePic.svg" alt="User Icon" width="39" height="39" class="rounded-circle">
+                                <img src="~/Assets/Line.svg" class="line-seperator" height="50" alt="Line separator" />
+                                <a class="logout-icon" asp-area="" asp-controller="UserFileRepository" asp-action="FileRepository">
+                                    <img src="~/Assets/LogoutIcon.svg" alt="Logout Icon" width="24" height="25"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+        }  
+            else
+            {
+                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AeroVault</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="UserOverview" asp-action="UserPageOverview">Dashboard</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="UserFileRepository" asp-action="FileRepository">File Repository</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            }
+        }
+
     </header>
-    <div class="containerr">
+    <div class="main-container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="containerr">
-            &copy; 2024 - AeroVault - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="footer-section">
+        <div class="footer-content">
+            <img src="~/Assets/copyright-icon.svg" alt="Copyright Icon" class="copyright-icon">
+            <span>2024 Sri Lankan IT Systems. All Rights Reserved.</span>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
