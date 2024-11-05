@@ -1,1 +1,84 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Login Page";
+    ViewData["HideNavBar"] = true;
+}
+
+
+<html>
+<head>
+    <title>
+        GovTra - Government Travel System
+    </title>
+    <link rel="stylesheet" href=~/css/Login.css/>
+
+</head>
+<body>
+    <div class="container2">
+        <div class="login-box">
+            <h1>
+                Gov
+                <span style="margin-left:-10px;">
+                    Tra
+                </span>
+            </h1>
+            <p class="p1">
+                <b>
+                    Government Travel System
+                </b>
+            </p>
+
+            <form id="form" action="~/Views/Home/Index.cshtml" method="get">
+                <input id="username" placeholder="Username" type="text" class="errorinput" />
+                <div id="error"></div>
+                <input id="password" placeholder="Password" type="password" class="errorinput" />
+                <div id="error2"></div>
+
+                <button type="submit" id="submit">
+                    LOGIN
+                </button>
+            </form>
+            <div class="footer">
+                <img alt="SriLankan Airlines logo" src="~/images/logo.svg" style="height:20px" />
+                <p>
+                    © 2024 SriLankan IT Systems. All Rights Reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+    <script>
+        const username = document.getElementById('username')
+        const password = document.getElementById('password')
+        const form = document.getElementById('form')
+        const errorElement = document.getElementById('error')
+        const errorElement2 = document.getElementById('error2')
+
+        form.addEventListener('submit', (e) => {
+            let messages = []
+            let messages2 = []
+            if (username.value.trim() === '') {
+                messages.push('*Please enter username')
+            } else if (username.value.length < 5) {
+                messages.push('*username must be at least 5 characters long')
+            } else {
+                messages.push()
+            }
+
+            if (password.value.trim() === '') {
+                messages2.push('*Please enter password')
+            } else if (password.value.length < 5) {
+                messages2.push('*Password must be at least 5 characters long')
+            } else {
+                messages2.push()
+            }
+
+            if (messages.length > 0 || messages2.length > 0) {
+                e.preventDefault()
+                errorElement.innerText = messages.join(', ')
+                errorElement2.innerText = messages2.join(', ')
+            }
+
+
+        })
+    </script>
+</body>
+</html>
