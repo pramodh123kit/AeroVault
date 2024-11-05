@@ -4,7 +4,7 @@ namespace AeroVault.Controllers
 {
     public class LoginController : Controller
     {
-        public IActionResult Index()
+        public IActionResult LoginPage()
         {
             return View();
         }
