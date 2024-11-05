@@ -2,9 +2,9 @@
 
 namespace AeroVault.Controllers
 {
-    public class UserOverview : Controller
+    public class UserFileRepository : Controller
     {
-        public IActionResult UserPageOverview()
+        public IActionResult FileRepository()
         {
             return View();
         }
