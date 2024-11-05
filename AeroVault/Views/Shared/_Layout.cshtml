@@ -75,18 +75,34 @@
         }
 
     </header>
-    <div class="main-container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    @if (ViewData["HideNavbar"] == null || !(bool)ViewData["HideNavbar"])
+    {
+        <div class="main-container">
+            <main role="main">
+                @RenderBody()
+            </main>
+        </div>
+    }
+    else
+    {
+        <div class="main-container p-0">
+            <main role="main">
+                @RenderBody()
+            </main>
+        </div>
+        {
+        }
 
-    <footer class="footer-section">
-        <div class="footer-content">
+    }
+    @if (ViewData["HideNavbar"] == null || !(bool)ViewData["HideNavbar"])
+    {
+        <footer class="footer-section">
+            <div class="footer-content">
             <img src="~/Assets/copyright-icon.svg" alt="Copyright Icon" class="copyright-icon">
             <span>2024 Sri Lankan IT Systems. All Rights Reserved.</span>
         </div>
     </footer>
+    }
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
