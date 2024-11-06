@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/AdminLayout.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <img src="~/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" class="logo" />
+            <div class="profile-info">  
+                <img src="~/Assets/AdminProf.svg" alt="Profile Picture">
+                <span class="name">Pramodh Lihinikaduwa</span>
+            </div>
+            <ul class="menu">
+                <li class="nav-item">
+                    <a href="javascript:void(0);" onclick="loadContent('_Overview')" class="nav-link">
+                        <img src="~/Assets/overview-icon.svg" alt="Overview Icon" class="sidebar-icon" />
+                        Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" onclick="loadContent('_Upload')" class="nav-link">
+                        <img src="~/Assets/upload-icon.svg" alt="Upload Icon" class="sidebar-icon" />
+                        Upload</a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" onclick="loadContent('_Systems')" class="nav-link">
+                        <img src="~/Assets/systems-icon.svg" alt="Systems Icon" class="sidebar-icon" />
+                        Systems</a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" onclick="loadContent('_Departments')" class="nav-link">
+                        <img src="~/Assets/departments-icon.svg" alt="Departments Icon" class="sidebar-icon" />
+                        Departments</a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" onclick="loadContent('_Divisions')" class="nav-link">
+                        <img src="~/Assets/divisions-icon.svg" alt="Divisions Icon" class="sidebar-icon" />
+                        Divisions</a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" onclick="loadContent('_Review')" class="nav-link">
+                        <img src="~/Assets/review-icon.svg" alt="Review Icon" class="sidebar-icon" />
+                        Review</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <div class="header">
+                <div style="display: flex; align-items: center;">
+                    <img src="~/Assets/admin-sidebar-collapse.svg" alt="sidebar-collapse-icon" />
+                    <h1 class="page-title-name">Manage</h1>
+                </div>
+             
+               <img src="~/Assets/LogoutIcon.svg" alt="Logout-icon" />
+            </div>
+
+            <div class="main-content" id="main-content">
+                @RenderBody()
+            </div>
+            <footer class="footer-section">
+                <div class="footer-content">
+                    <img src="~/Assets/copyright-icon.svg" alt="Copyright Icon" class="copyright-icon">
+                    <span>2024 Sri Lankan IT Systems. All Rights Reserved.</span>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        function loadContent(viewName) {
+            $.ajax({
+                url: '@Url.Action("LoadView", "Admin")',
+                type: 'GET',
+                data: { viewName: viewName },
+                success: function (result) {
+                    $('#main-content').html(result);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading content:", error);
+                    $('#main-content').html('<p class="text-danger">Failed to load content. Please try again later.</p>');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
