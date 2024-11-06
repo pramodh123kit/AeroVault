@@ -1,56 +1,64 @@
-﻿
-body, html {
+﻿body, html {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
     font-family: Arial, sans-serif;
-}
 
-.container2 {   
+}
+@keyframes firstLoad {
+    0%{
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+.container2 {
+
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    width: 100vw;
     background-image: url(../Assets/Login.png);
     background-size: cover;
     background-position: center;
 }
 
-.login-box {
-    background-color: white;
-    padding: 20px 40px 20px 40px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
+.OuterLoginBox {
+    animation: firstLoad;
+    animation-duration: 1s;
+    animation-timing-function:ease-in;
+
+    transform: scale(1.2);
+    padding: 5px 10px 5px 10px;
+    width: 385px;
+    height: 485px;
     text-align: center;
-    margin-left: 500px;
+    margin-left: 800px;
+    border-radius: 0px 30px;
+    border: 10px solid var(--Schemes-On-Primary, #FFF);
+    box-shadow: 0px 4px 100px 0px rgba(0, 0, 0, 0.25);
 }
 
-    .login-box h1 {
-        font-family: Salsa;
-        font-size: 40px;
-        margin-bottom: 10px;
-        color: #006FB0;
-    }
+.login-box {
+    position: relative;
+    border-radius: 0px 20px;
+    background: var(--Schemes-On-Primary, #FFF);
+    box-shadow: 0px 4px 100px 0px rgba(0, 0, 0, 0.25);
+    background-color: white;
+    padding: 20px 40px 20px 40px;
+    width: 350px;
+    text-align: center;
+    margin-left: -0.7%;
+    margin-top: 0.5%;
+}
 
-        .login-box h1 span {
-            color: #FE9151;
-        }
-
-    .login-box p {
-        font-size: 12px;
-        color: #666;
-        margin-bottom: 20px;
-    }
-
-    .login-box .p1 {
-        font-family: 'Inria Sans';
-        font-size: 20px;
-        color: #666;
-        margin-bottom: 20px;
-        margin-top: -15px;
-    }
+.LogoWithT {
+    margin-left: -27%;
+    transform: scale(0.65);
+}
 
 .errorinput {
     font-family: 'Inter 18pt 18pt';
@@ -62,41 +70,67 @@ body, html {
 }
 
 .login-box input[type="text"] {
+    font-size: 15px;
+    border: none;
+    background-color: #FBFBFB;
     padding-left: 60px;
-    background-image: url(../../images/user_1077114.svg);
+    background-image: url(../Assets/userIcon.svg) !important;
     background-position: 10px 50%;
     background-size: 25px;
     background-repeat: no-repeat;
+    box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.25);
+    background-clip: padding-box;
 }
+    .login-box input[type="text"]::placeholder {
+        color: #A9A9A9; /* Change to your desired placeholder color */
+        font-family: Arial; /* Set the font for the placeholder */
+        font-size: 16px; /* Set the font size for the placeholder */
+    }
 
 .login-box input[type="password"] {
-    padding-left: 60px;
-    background-image: url(../../images/lock_3917642.svg);
-    background-position: 10px 50%;
-    background-size: 25px;
-    background-repeat: no-repeat;
-}
-
-.login-box button {
-    width: 100%;
-    padding: 10px;
-    background-color: #006FB0;
+    font-size: 15px;
     border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
+    background-color: #FBFBFB;
+    padding-left: 60px;
+    background-image: url(../Assets/passwordIcon.svg);
+    background-position: 14px 50%;
+    background-size: 15px;
+    background-repeat: no-repeat;
+    box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.25);
 }
+    .login-box input[type="password"]::placeholder {
+        color: #A9A9A9; /* Change to your desired placeholder color */
+        font-family: Arial; /* Set the font for the placeholder */
+        font-size: 16px; /* Set the font size for the placeholder */
+    }
+
+    .login-box button {
+        font-family: Arial;
+        font-weight: bold;
+        margin-top: 7%;
+        width: 100%;
+        padding: 10px;
+        background: linear-gradient(120deg, #0769A5, #0083AF);
+        border: none;
+        border-radius: 5px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
 
     .login-box button:hover {
         background-color: #0056b3;
     }
 
 .login-box .footer {
-    margin-top: 20px;
+    margin-top: -5%;
     font-size: 12px;
     color: #999;
 }
+    .login-box .footer p {
+        font-size:10px;
+        font-family:Arial;
+    }
 
     .login-box .footer img {
         width: 300px;
@@ -113,6 +147,8 @@ body, html {
 }
 
 #error {
+    position: absolute; /* Position the error messages absolutely */
+    left: 12%; /* Adjust as needed */
     font-family: 'Inria Sans';
     color: red;
     font-size: 14px;
@@ -121,10 +157,41 @@ body, html {
 }
 
 #error2 {
+    position: absolute; /* Position the error messages absolutely */
+    left: 12%; /* Adjust as needed */
     font-family: 'Inria Sans';
     color: red;
     font-size: 14px;
     text-align: left;
     margin-top: -10px;
     margin-bottom: 10px;
+}
+
+.LoginHere {
+    margin-top:-4%;
+    margin-bottom:3%;
+    display: flex; /* Use flexbox to align items */
+    align-items: center; /* Center the text vertically */
+    text-align: center; /* Center the text */
+    font-family: Arial;
+    font-weight: bold;
+    color: #575757;
+}
+
+    .LoginHere::before,
+    .LoginHere::after {
+        content: ""; /* Required for pseudo-elements */
+        flex: 1; /* Allow the lines to grow */
+        border-bottom: 2px solid #575757; /* Change color and thickness as needed */
+    }
+    .LoginHere span {
+        padding: 0 15px; /* Space between the lines and the text */
+    }
+
+.SLLogo2 {
+    transform: scale(0.7);
+    margin-left: -5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
