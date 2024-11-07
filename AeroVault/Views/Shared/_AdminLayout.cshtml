@@ -52,7 +52,7 @@
                 </li>
             </ul>
             <img src="~/Assets/admin-sidebar-SLA-logo.svg" alt="Sri Lankan IT Systems Logo" class="footer-logo" />
-            @* <img src="~/Assets/admin-sidebar-peacock.svg" alt="Sri Lankan brand background" class="sidebar-background" />  *@
+            @* <img src="~/Assets/admin-sidebar-peacock.svg" alt="Sri Lankan brand background" class="sidebar-background" /> *@
         </div>
 
         <div class="overlay" id="overlay"></div>
@@ -95,11 +95,6 @@
             });
         }
 
-        
-
-
-
-
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
         const sidebarToggle = document.getElementById('sidebar-toggle');
@@ -107,17 +102,15 @@
 
         // Add event listener to toggle sidebar visibility and content width
         sidebarToggle.addEventListener('click', function () {
-            // Check if the sidebar is currently visible
+            // Toggle sidebar visibility (show/hide)
+            sidebar.classList.toggle('sidebar-visible');
+            overlay.classList.toggle('overlay-visible');
+
+            // Adjust content width depending on the sidebar visibility
             if (sidebar.classList.contains('sidebar-visible')) {
-                // If it is visible, collapse it
-                sidebar.classList.remove('sidebar-visible');
-                overlay.classList.remove('overlay-visible'); // Hide overlay
-                content.classList.add('full-width'); // Reset content width when sidebar is hidden
+                content.classList.remove('full-width');
             } else {
-                // If it is not visible, show it
-                sidebar.classList.add('sidebar-visible');
-                overlay.classList.add('overlay-visible'); // Show overlay
-                content.classList.remove('full-width'); // Adjust content width when sidebar is shown
+                content.classList.add('full-width');
             }
         });
 
@@ -128,8 +121,24 @@
             content.classList.add('full-width'); // Reset content width when sidebar is hidden
         });
 
+        function loadContent(viewName, pageTitle) {
+            // Update the page title
+            document.querySelector('.page-title-name').textContent = pageTitle;
 
-
+            // Ajax call to load the content
+            $.ajax({
+                url: '@Url.Action("LoadView", "Admin")',
+                type: 'GET',
+                data: { viewName: viewName },
+                success: function (result) {
+                    $('#main-content').html(result);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading content:", error);
+                    $('#main-content').html('<p class="text-danger">Failed to load content. Please try again later.</p>');
+                }
+            });
+        }
 
 
     </script>
