@@ -7,54 +7,63 @@
 </head>
 <body>
     <div class="container">
-        <div class="sidebar">
+        <div class="sidebar" id="sidebar">
             <img src="~/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" class="logo" />
-            <div class="profile-info">  
+            <div class="profile-info">
                 <img src="~/Assets/AdminProf.svg" alt="Profile Picture">
                 <span class="name">Pramodh Lihinikaduwa</span>
             </div>
             <ul class="menu">
                 <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('_Overview')" class="nav-link">
+                    <a href="javascript:void(0);" onclick="loadContent('_Overview', 'Overview')" class="nav-link">
                         <img src="~/Assets/overview-icon.svg" alt="Overview Icon" class="sidebar-icon" />
-                        Overview</a>
+                        Overview
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('_Upload')" class="nav-link">
+                    <a href="javascript:void(0);" onclick="loadContent('_Upload', 'Upload')" class="nav-link">
                         <img src="~/Assets/upload-icon.svg" alt="Upload Icon" class="sidebar-icon" />
-                        Upload</a>
+                        Upload
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('_Systems')" class="nav-link">
+                    <a href="javascript:void(0);" onclick="loadContent('_Systems', 'Manage')" class="nav-link">
                         <img src="~/Assets/systems-icon.svg" alt="Systems Icon" class="sidebar-icon" />
-                        Systems</a>
+                        Systems
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('_Departments')" class="nav-link">
+                    <a href="javascript:void(0);" onclick="loadContent('_Departments', 'Manage')" class="nav-link">
                         <img src="~/Assets/departments-icon.svg" alt="Departments Icon" class="sidebar-icon" />
-                        Departments</a>
+                        Departments
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('_Divisions')" class="nav-link">
+                    <a href="javascript:void(0);" onclick="loadContent('_Divisions', 'Manage')" class="nav-link">
                         <img src="~/Assets/divisions-icon.svg" alt="Divisions Icon" class="sidebar-icon" />
-                        Divisions</a>
+                        Divisions
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('_Review')" class="nav-link">
+                    <a href="javascript:void(0);" onclick="loadContent('_Review', 'Review')" class="nav-link">
                         <img src="~/Assets/review-icon.svg" alt="Review Icon" class="sidebar-icon" />
-                        Review</a>
+                        Review
+                    </a>
                 </li>
             </ul>
+            <img src="~/Assets/admin-sidebar-SLA-logo.svg" alt="Sri Lankan IT Systems Logo" class="footer-logo" />
+            @* <img src="~/Assets/admin-sidebar-peacock.svg" alt="Sri Lankan brand background" class="sidebar-background" />  *@
         </div>
+
+        <div class="overlay" id="overlay"></div>
 
         <div class="content">
             <div class="header">
                 <div style="display: flex; align-items: center;">
-                    <img src="~/Assets/admin-sidebar-collapse.svg" alt="sidebar-collapse-icon" />
-                    <h1 class="page-title-name">Manage</h1>
+                    <img src="~/Assets/admin-sidebar-collapse.svg" alt="sidebar-collapse-icon" id="sidebar-toggle" />
+                    <h1 class="page-title-name">Overview</h1>
                 </div>
-             
-               <img src="~/Assets/LogoutIcon.svg" alt="Logout-icon" />
+                <img src="~/Assets/LogoutIcon.svg" alt="Logout-icon" />
             </div>
 
             <div class="main-content" id="main-content">
@@ -85,6 +94,44 @@
                 }
             });
         }
+
+        
+
+
+
+
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const content = document.querySelector('.content');
+
+        // Add event listener to toggle sidebar visibility and content width
+        sidebarToggle.addEventListener('click', function () {
+            // Check if the sidebar is currently visible
+            if (sidebar.classList.contains('sidebar-visible')) {
+                // If it is visible, collapse it
+                sidebar.classList.remove('sidebar-visible');
+                overlay.classList.remove('overlay-visible'); // Hide overlay
+                content.classList.add('full-width'); // Reset content width when sidebar is hidden
+            } else {
+                // If it is not visible, show it
+                sidebar.classList.add('sidebar-visible');
+                overlay.classList.add('overlay-visible'); // Show overlay
+                content.classList.remove('full-width'); // Adjust content width when sidebar is shown
+            }
+        });
+
+        // Hide sidebar and overlay when overlay is clicked
+        overlay.addEventListener('click', function () {
+            sidebar.classList.remove('sidebar-visible');
+            overlay.classList.remove('overlay-visible');
+            content.classList.add('full-width'); // Reset content width when sidebar is hidden
+        });
+
+
+
+
+
     </script>
 </body>
 </html>

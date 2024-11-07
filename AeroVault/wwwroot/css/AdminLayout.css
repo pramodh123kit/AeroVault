@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family:Arial;
+    font-family: Arial;
 }
 
 body {
@@ -23,28 +23,29 @@ body {
     width: 16%;
     background-color: #06182C;
     font-size: 20px;
-    font-family: Arial;
+    position: relative;
+    transition: transform 0.3s ease;
 }
+
     .sidebar .profile-info span {
         font-size: 20px;
-        padding: 20px;
-        padding-left: 0px;
+        padding: 10px 0;
+        margin-bottom: 10px;
         color: #C2C2C2;
     }
 
     .sidebar .profile-info img {
-        margin-left:20px;
-        margin-bottom:5px;
-        margin-right:10px;
+        margin-left: 20px;
+        margin-bottom: 0px;
+        margin-right: 10px;
     }
 
     .sidebar .profile-info {
-        margin-bottom: 0;
-        width:100%;
+        width: 100%;
         border-top: 1px solid #ABB5C7;
         border-bottom: 1px solid #ABB5C7;
-        margin-top:10px;
-        padding:10px 0px;
+        margin-top: 10px;
+        padding: 10px 0;
     }
 
 .sidebar-icon {
@@ -53,38 +54,36 @@ body {
 
 .sidebar .logo {
     font-weight: bold;
-    width: 250px;
-    margin-bottom: 0px;
     padding: 20px;
 }
 
-    .sidebar .menu {
-        list-style: none;
-        padding: 20px;
+.sidebar .menu {
+    list-style: none;
+    padding: 20px;
+}
+
+    .sidebar .menu li {
+        margin-bottom: 15px;
     }
 
-        .sidebar .menu li {
-            margin-bottom: 15px;
+        .sidebar .menu li a {
+            text-decoration: none;
+            color: #ABB5C7;
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            border-radius: 5px;
         }
 
-            .sidebar .menu li a {
-                text-decoration: none;
-                color: #ABB5C7;
-                display: flex;
-                align-items: center;
-                padding: 8px;
-                border-radius: 5px;
+            .sidebar .menu li a.active {
+                background-color: #5a7b9f;
+                color: #ffffff;
             }
 
-                .sidebar .menu li a.active {
-                    background-color: #5a7b9f;
-                    color: #ffffff;
-                }
-
-                .sidebar .menu li a:hover {
-                    background-color: #C9E0FF;
-                    color:black;
-                }
+            .sidebar .menu li a:hover {
+                background-color: #C9E0FF;
+                color: black;
+            }
 
 /* Main Content */
 .content {
@@ -124,36 +123,222 @@ body {
     height: 35px;
 }
 
-
-
 .main-content {
-/*    background-color:red;*/
-    height:100%;
-    margin:1%;
+    height: 100%;
+    margin: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+/* Sidebar Toggle States */
+.sidebar.visible {
+    transform: translateX(0);
+}
+
+.sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 5;
+    opacity: 0;
+    /*    transition: opacity 0.3s ease;*/
+}
+
+    .overlay.active {
+        display: block;
+        opacity: 1;
+    }
+
+/* Responsive Adjustments: Hide Sidebar on Tablet Size */
+@media (max-width: 1024px) {
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 16%; /* Fixed width for consistency */
+        transform: translateX(-100%);
+        z-index: 10;
+    }
+
+        .sidebar.visible {
+            transform: translateX(0);
+        }
+
+    .overlay {
+        display: block;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+    /* Adjust main content to full width when sidebar is hidden */
+    .content {
+        width: 100%;
+    }
+
+    .header h1 {
+        width: 100%;
+        text-align: center;
+    }
+
+    .header {
+        padding: 10px;
+    }
+
+    .main-content {
+        margin: 10px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
 }
 
 
-/* Profile Info */
-.profile-info {
+/* General Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial;
+}
+
+body {
+    background-color: #E3F1FD;
     display: flex;
-    align-items: center;
-    margin-bottom: 30px;
+    height: 100vh;
 }
 
-    .profile-info img {
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
+.container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 307px; /* Fixed width for consistent size on all screen sizes */
+    background-color: #06182C;
+    font-size: 20px;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.footer-logo {
+    position: absolute;
+    bottom: 20px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%; /* Adjust size as needed */
+    padding-bottom: 10px;
+}
+
+
+#sidebar-toggle {
+    cursor: pointer;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 307px; /* Maintain the fixed width */
+        transform: translateX(-100%);
+        z-index: 1000;
+    }
+
+    .sidebar-visible {
+        transform: translateX(0);
+    }
+
+    .overlay {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 500;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+
+    .overlay-visible {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    /* Adjust content width when sidebar is hidden */
+    .content {
+        width: 100%;
+    }
+
+    .header h1.page-title-name {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.sidebar .profile-info {
+    width: 100%;
+    border-top: 1px solid #ABB5C7;
+    border-bottom: 1px solid #ABB5C7;
+    margin-top: 10px;
+    padding: 10px 0;
+    display: flex; /* Add this line */
+    align-items: center; /* Aligns items vertically */
+}
+
+    .sidebar .profile-info img {
+        margin-left: 20px;
         margin-right: 10px;
     }
 
-    .profile-info .name {
-        font-size: 16px;
-        color: #ffffff;
+    .sidebar .profile-info span {
+        font-size: 20px;
+        color: #C2C2C2;
+        margin: 0; /* Remove any default margin */
     }
 
-/* Icons */
-.icon {
-    margin-right: 10px;
-    color: #ffffff;
+
+
+
+.sidebar.hidden {
+    transform: translateX(-100%);
+    position: absolute; /* Keeps the sidebar off-canvas */
+}
+
+/* Content expands to full width when sidebar is hidden */
+.content {
+    flex: 1;
+    transition: width 0.3s ease;
+}
+
+    .content.full-width {
+        width: 100%;
+    }
+
+
+
+
+.sidebar-background {
+    width: 307px;
+    height: 500px;
 }
