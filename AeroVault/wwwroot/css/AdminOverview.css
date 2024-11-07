@@ -1,2 +1,88 @@
-﻿body {
+﻿@keyframes load {
+    0% {
+        opacity:0;
+        overflow:hidden;
+        transform:translateY(90px);
+    }
+    100% {
+        overflow:auto;
+    }
+}
+@keyframes load2 {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+    }
+}
+
+.ActivityO {
+    animation: load;
+    animation-duration: 3s;
+}
+.Cards {
+    margin-left:-1.7%;
+    width:102%;
+    animation: load2;
+    animation-duration: 3s;
+    display: flex; /* Enable flexbox to arrange items in a row */
+    justify-content: flex-start; /* Align items to the start (optional) */
+    gap: 0%; /* Adjust this value to control spacing between cards */
+}
+
+.Card {
+    position: relative; /* Set the Card as a positioning context */
+    width: 100%; /* Set a specific width for the Card */
+    height: 100%; /* Set a specific height for the Card */
+    overflow: hidden; /* Hide overflow to ensure text doesn't go outside */
+}
+
+    .Card img {
+        width: 100%; /* Set the image to fill the Card */
+        height: 100%; /* Maintain aspect ratio */
+    }
+.admin-main-content h1 {
+    font-family: Arial;
+    font-weight: bold;
+    color: black;
+    margin-left: 0%;
+    font-size: 25px;
+}
+.Card h1 {
+    position: absolute; /* Position the text absolutely within the Card */
+    top: 50%; /* Center vertically */
+    left: 23%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for half of the text size */
+    color: white; /* Change text color for better visibility */
+    text-align: center; /* Center align text */
+    margin: 0; /* Remove default margin */
+    font-size: 30px; /* Adjust font size as needed */
+    z-index: 1; /* Ensure text is above the image */
+}
+.pieChart {
+    background-color:white; 
+    margin-left:6%;
+    margin-top:5%;
+    transform:scale(1);
+    width: 50%; /* Set width to 50% of the parent container */
+    height: 50%; /* Set height to 50% of the parent container */
+    max-width: 300px; /* Optional: Set a maximum width */
+    max-height: 300px; /* Optional: Set a maximum height */
+}
+.outerPieChart {
+    width: 50%;
+    height: 50%;
+    background-color: white;
+    display: flex; /* Enable flexbox to arrange items in a row */
+    justify-content: flex-start; /* Align items to the start (optional) */
+    gap: 10px;
+}
+.outerPieChartsContainer {
+    animation: load;
+    animation-duration: 3s;
+    display: flex; /* Enable flexbox to arrange items in a row */
+    justify-content: flex-start; /* Align items to the start (optional) */
+    gap: 10px; /* Space between the pie charts */
+    width: 100%; /* Full width of the parent */
 }

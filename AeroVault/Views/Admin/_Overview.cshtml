@@ -1,10 +1,43 @@
 ﻿<html>
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href=~/css/AdminOverview.css />
 </head>
 <body>
     <div class="admin-main-content">
-        <h1>Overview</h1>
+        <div class="Cards">
+            <div class="Card">
+                <img src="~/Assets/department.svg" />
+                <h1>105</h1>
+            </div>
+            <div class="Card">
+                <img src="~/Assets/Systems.svg" />
+                <h1>140</h1>
+            </div>
+            <div class="Card">
+                <img src="~/Assets/documents.svg" />
+                <h1>750</h1>
+            </div>
+            <div class="Card">
+                <img src="~/Assets/Videos.svg" />
+                <h1>750</h1>
+            </div> 
+        </div>
+        <h1 class="ActivityO">Activity Overview</h1>
+        
+        <div class="outerPieChartsContainer">
+            <div class="outerPieChart">
+                <div class="pieChart">
+                    <canvas id="myChart" class="myChart"></canvas>
+                </div>
+            </div>
+            <div class="outerPieChart">
+                <div class="pieChart">
+                    <canvas id="myChart2" class="myChart"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
+<script src="~/js/AdminOverview.js"></script>
 </html>
