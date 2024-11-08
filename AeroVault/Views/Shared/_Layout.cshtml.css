@@ -48,7 +48,8 @@ button.accept-policy {
 
 .user-navbar {
     background: linear-gradient(90deg, #06182C, #05448B);
-    padding: 5px 25px;
+    padding: 0px 25px;
+    height:54px;
 }
 
 .navbar-brand {
@@ -104,3 +105,29 @@ button.accept-policy {
     height: 16px;
 }
 
+
+.line-seperator {
+    width:0px;
+}
+
+.bold-white-text {
+    font-weight: bold;
+    color: white;
+}
+
+
+.navbar .nav-link.bold-white-text {
+    font-weight: bold;
+    color: white !important;
+}
+
+
+.navbar-custom .nav-link.dashboard-active {
+    font-weight: bold;
+    color: #ffffff !important;
+}
+
+.navbar-custom .nav-link.file-repository {
+    font-weight: normal;
+    color: #ffffff8c !important;
+}
