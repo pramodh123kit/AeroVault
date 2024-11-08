@@ -230,7 +230,7 @@
         height:400px;
     }
     .myChart2 {
-        width: 100%; /* Set width to 100% of its parent container */
+        width: 125%; /* Set width to 100% of its parent container */
         height: 100%; /* Set a fixed height */
     }
     .stats {
