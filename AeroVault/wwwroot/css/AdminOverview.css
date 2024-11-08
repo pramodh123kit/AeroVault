@@ -1,0 +1,245 @@
+﻿@keyframes load {
+    0% {
+        opacity:0;
+        overflow:hidden;
+        transform:translateY(90px);
+    }
+    100% {
+        overflow:auto;
+    }
+}
+@keyframes load2 {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+    }
+}
+
+.ActivityO {
+    animation: load2;
+    animation-duration: 3s;
+}
+.Cards {
+    margin-left:-1.7%;
+    width:102.5%;
+    animation: load2;
+    animation-duration: 3s;
+    display: flex; /* Enable flexbox to arrange items in a row */
+    justify-content: flex-start; /* Align items to the start (optional) */
+    gap: 0%; /* Adjust this value to control spacing between cards */
+}
+
+.Card {
+    position: relative; /* Set the Card as a positioning context */
+    width: 100%; /* Set a specific width for the Card */
+    height: 100%; /* Set a specific height for the Card */
+    overflow: hidden; /* Hide overflow to ensure text doesn't go outside */
+}
+
+    .Card img {
+        width: 100%; /* Set the image to fill the Card */
+        height: 100%; /* Maintain aspect ratio */
+    }
+.admin-main-content h1 {
+    font-family: Arial;
+    font-weight: bold;
+    color: black;
+    margin-left: 0%;
+    font-size: 25px;
+}
+.Card h1 {
+    position: absolute; /* Position the text absolutely within the Card */
+    top: 50%; /* Center vertically */
+    left: 23%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust for half of the text size */
+    color: white; /* Change text color for better visibility */
+    text-align: center; /* Center align text */
+    margin: 0; /* Remove default margin */
+    font-size: 30px; /* Adjust font size as needed */
+    z-index: 1; /* Ensure text is above the image */
+}
+.pieChart {
+    background-color:white; 
+    margin-left:-225%;
+    margin-top:-20%;
+    transform:scale(0.85);
+}
+.BarChart {
+    background-color: white;
+    margin-left: -225%;
+    margin-top: 10%;
+    transform: scale(1);
+}
+.outerPieChartsContainer {
+    height:340px;
+    background-color:white;
+    width: 50%;
+    margin: 2px auto;
+    margin-left:0%;
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.header2 {
+    padding-bottom:11px;
+    border-bottom: 2px solid #003366;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.header2 h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+    .dropdown select {
+        padding: 5px 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+.contentInfo {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    margin-left:70%;
+}
+
+.legend {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.legend-color {
+    width: 20px;
+    height: 10px;
+    margin-right: 10px;
+}
+
+.legend-text {
+    font-size: 14px;
+}
+
+.stats {
+    margin-top:-5%;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #003366;
+    padding-top: 20px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+    .stat-item h3 {
+        margin: 0;
+        font-size: 24px;
+        color: #003366;
+    }
+
+    .stat-item p {
+        margin: 0;
+        font-size: 14px;
+        color: #666;
+    }
+
+.outerBarChartsContainer {
+    height: 340px;
+    background-color: white;
+    width: 50%;
+    margin: 2px auto;
+    margin-left: 0%;
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.charts-container {
+    animation:load2;
+    animation-duration:3s;
+
+
+    display: flex; /* Use flexbox to arrange child elements in a row */
+    justify-content: space-between; /* Distribute space between child elements */
+}
+.outerPieChartsContainer,
+.outerBarChartsContainer {
+    animation:load;
+    animation-duration:1s;
+    width: 48%; /* Adjust width to fit both containers side by side */
+}
+.myChart2 {
+    width: 500px; /* Set width to 100% of its parent container */
+    height: 200px; /* Set a fixed height */
+}
+
+@media (max-width: 768px) {
+    .Cards {
+        display: flex; /* Enable flexbox */
+        flex-wrap: wrap; /* Allow items to wrap to the next line */
+        justify-content: space-between; /* Space items evenly */
+        width: 100%; /* Full width */
+    }
+
+    .Card {
+        margin-left:-2%;
+        margin-right:-6%;
+        height: 150px; /* Set a fixed height for cards */
+        width: 50%; /* Set width to 48% to allow two cards side by side */
+        margin-bottom: 20px; /* Space between cards */
+    }
+        .Card h1 {
+            position: absolute; /* Position the text absolutely within the Card */
+            top: 50%; /* Center vertically */
+            left: 35%; /* Center horizontally */
+            transform: translate(-50%, -50%); /* Adjust for half of the text size */
+            color: white; /* Change text color for better visibility */
+            text-align: center; /* Center align text */
+            margin: 0; /* Remove default margin */
+            font-size: 30px; /* Adjust font size as needed */
+            z-index: 1; /* Ensure text is above the image */
+        }
+
+    .charts-container {
+        flex-direction: column; /* Stack charts vertically */
+    }
+
+    .outerPieChartsContainer,
+    .outerBarChartsContainer {
+        width: 100%; /* Full width for charts */
+        margin-bottom:10%;
+        height:400px;
+    }
+    .myChart2 {
+        width: 125%; /* Set width to 100% of its parent container */
+        height: 100%; /* Set a fixed height */
+    }
+    .stats {
+        margin-top: 5%;
+    }
+    .contentInfo {
+        margin-top:10%;
+    }
+    .legend {
+        margin-left:30%;
+    }
+}

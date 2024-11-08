@@ -1,0 +1,115 @@
+﻿<html>
+<head>
+    <link rel="stylesheet" href=~/css/AdminSystems.css />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="admin-main-content">
+
+        <div class="sidebar2">
+            <h2>
+                Select a System to manage
+            </h2>
+            <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search System" type="text" />
+            <ul id="systemList">
+                <li>
+                    <a href="#">
+                        <i class="fas fa-folder">
+                        </i>
+                        AeroProcure
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-folder">
+                        </i>
+                        Flight Tracking
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-folder">
+                        </i>
+                        Flight Dispatch
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-folder">
+                        </i>
+                        Operational Control
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-folder">
+                        </i>
+                        Crew Scheduling
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-folder">
+                        </i>
+                        Maintenance Tracking
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-folder">
+                        </i>
+                        Flight Planning
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-folder">
+                        </i>
+                        Aircraft Monitoring
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-folder">
+                        </i>
+                        Flight Dispatch
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-folder">
+                        </i>
+                        AeroProcure
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-folder">
+                        </i>
+                        Crew Scheduling
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        function filterSystems() {
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById('systemSearch');
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("systemList");
+            li = ul.getElementsByTagName('li');
+
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

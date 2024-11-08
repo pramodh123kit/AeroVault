@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/AdminLayout.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <img src="~/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" class="logo" />
+            <div class="profile-info" style="margin-top:0px">
+                <img src="~/Assets/AdminProf.svg" alt="Profile Picture">
+                <span class="name">Pramodh Lihinikaduwa</span>
+            </div>
+            <ul class="menu">
+        <li class="nav-item">
+                    <a href="javascript:void(0);" onclick="loadContent('_Overview', 'Overview')" class="nav-link">
+                        <img src="~/Assets/overview-icon.svg" alt="Overview Icon" class="sidebar-icon" />
+                        Overview
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" onclick="loadContent('_Upload', 'Upload')" class="nav-link">
+                        <img src="~/Assets/upload-icon.svg" alt="Upload Icon" class="sidebar-icon" />
+                        Upload
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" onclick="loadContent('_Systems', 'Manage')" class="nav-link">
+                        <img src="~/Assets/systems-icon.svg" alt="Systems Icon" class="sidebar-icon" />
+                        Systems
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" onclick="loadContent('_Departments', 'Manage')" class="nav-link">
+                        <img src="~/Assets/departments-icon.svg" alt="Departments Icon" class="sidebar-icon" />
+                        Departments
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" onclick="loadContent('_Divisions', 'Manage')" class="nav-link">
+                        <img src="~/Assets/divisions-icon.svg" alt="Divisions Icon" class="sidebar-icon" />
+                        Divisions
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" onclick="loadContent('_Review', 'Review')" class="nav-link">
+                        <img src="~/Assets/review-icon.svg" alt="Review Icon" class="sidebar-icon" />
+                        Review
+                    </a>
+                </li> 
+
+
+
+
+                @* <li class="nav-item">
+                    <a href="javascript:void(0);" data-view="_Overview" data-title="Overview" class="nav-link">
+                        <img src="~/Assets/overview-icon.svg" alt="Overview Icon" class="sidebar-icon" /> Overview
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" data-view="_Upload" data-title="Upload" class="nav-link">
+                        <img src="~/Assets/upload-icon.svg" alt="Upload Icon" class="sidebar-icon" /> Upload
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" data-view="_Systems" data-title="Manage" class="nav-link">
+                        <img src="~/Assets/systems-icon.svg" alt="Systems Icon" class="sidebar-icon" /> Systems
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" data-view="_Departments" data-title="Manage" class="nav-link">
+                        <img src="~/Assets/departments-icon.svg" alt="Departments Icon" class="sidebar-icon" /> Departments
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" data-view="_Divisions" data-title="Manage" class="nav-link">
+                        <img src="~/Assets/divisions-icon.svg" alt="Divisions Icon" class="sidebar-icon" /> Divisions
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" data-view="_Review" data-title="Review" class="nav-link">
+                        <img src="~/Assets/review-icon.svg" alt="Review Icon" class="sidebar-icon" /> Review
+                    </a>
+                </li> *@
+
+
+
+
+
+
+            </ul>
+            <img src="~/Assets/admin-sidebar-SLA-logo.svg" alt="Sri Lankan IT Systems Logo" class="footer-logo" />
+            @* <img src="~/Assets/admin-sidebar-peacock.svg" alt="Sri Lankan brand background" class="sidebar-background" /> *@
+        </div>
+
+        <div class="overlay" id="overlay"></div>
+
+        <div class="content">
+            <div class="header">
+                <div style="display: flex; align-items: center;">
+                    <img src="~/Assets/admin-sidebar-collapse.svg" alt="sidebar-collapse-icon" id="sidebar-toggle" />
+                    <h1 class="page-title-name">Overview</h1>
+                </div>
+                <img src="~/Assets/LogoutIcon.svg" alt="Logout-icon" />
+            </div>
+
+            <div class="main-content" id="main-content">
+                @RenderBody()
+            </div>
+            <footer class="footer-section">
+                <div class="footer-content">
+                    <img src="~/Assets/copyright-icon.svg" alt="Copyright Icon" class="copyright-icon">
+                    <span>2024 Sri Lankan IT Systems. All Rights Reserved.</span>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+          // Sidebar toggle functionality
+        document.getElementById('sidebar-toggle').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('sidebar-visible');
+            document.getElementById('overlay').classList.toggle('overlay-visible');
+        });
+
+        document.getElementById('overlay').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.remove('sidebar-visible');
+            this.classList.remove('overlay-visible');
+        });
+
+
+        // Hide sidebar and overlay when overlay is clicked
+        overlay.addEventListener('click', function () {
+            sidebar.classList.remove('sidebar-visible');
+            overlay.classList.remove('overlay-visible');
+            content.classList.add('full-width'); // Reset content width when sidebar is hidden
+        });
+
+
+
+
+        function loadContent(viewName, pageTitle) {
+            // Update the page title
+            document.querySelector('.page-title-name').textContent = pageTitle;
+
+            // Ajax call to load the content
+            $.ajax({
+                url: '@Url.Action("LoadView", "Admin")',
+                type: 'GET',
+                data: { viewName: viewName },
+                success: function (result) {
+                    $('#main-content').html(result);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading content:", error);
+                    $('#main-content').html('<p class="text-danger">Failed to load content. Please try again later.</p>');
+                }
+            });
+        }
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const sidebarToggle = document.getElementById("sidebar-toggle");
+            const sidebar = document.getElementById("sidebar");
+          
+
+            sidebarToggle.addEventListener("click", function () {
+                sidebar.classList.toggle("hidden");
+            });
+
+        });
+
+
+
+
+
+    </script>
+</body>
+</html>
