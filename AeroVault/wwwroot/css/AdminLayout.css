@@ -264,6 +264,7 @@ body {
 
     .sidebar-visible {
         transform: translateX(0);
+        opacity: 1;
     }
 
     .overlay {
@@ -342,3 +343,6 @@ body {
     width: 307px;
     height: 500px;
 }
+
+
+
