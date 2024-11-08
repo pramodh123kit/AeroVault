@@ -24,19 +24,122 @@
             </div> 
         </div>
         <h1 class="ActivityO">Activity Overview</h1>
+
+        <div class="charts-container">
+            <div class="outerPieChartsContainer">
+                <div class="header2">
+                    <h2>Recent Activity</h2>
+                    <div class="dropdown">
+                        <select>
+                            <option>Viewing Period: Last Month</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="contentInfo">
+                    <div class="pieChart">
+                        <canvas id="myChart" class="myChart"></canvas>
+                    </div>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #CE1D1D;"></div>
+                            <div class="legend-text">Systems Added</div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #C9AA22;"></div>
+                            <div class="legend-text">Videos Uploaded</div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #FF6333;"></div>
+                            <div class="legend-text">Documents Uploaded</div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #2E8D58;"></div>
+                            <div class="legend-text">Departments Added</div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #36A2EB;"></div>
+                            <div class="legend-text">Divisions Added</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <h3>253</h3>
+                        <p>Docs</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>142</h3>
+                        <p>Videos</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>56</h3>
+                        <p>Systems</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>0</h3>
+                        <p>Depts.</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>0</h3>
+                        <p>Divisions</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="outerBarChartsContainer">
+                <div class="header2">
+                    <h2>Logged In Staff</h2>
+                    <div class="dropdown">
+                        <select>
+                            <option>Sep 1 - Oct 1</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="contentInfo">
+                    <div class="BarChart">
+                        <canvas id="myChart2" class="myChart2"></canvas>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
         
-        <div class="outerPieChartsContainer">
+        @* <div class="outerPieChartsContainer">
             <div class="outerPieChart">
                 <div class="pieChart">
                     <canvas id="myChart" class="myChart"></canvas>
+                </div>
+
+                <div class="containerForInfo">
+                    <div class="itemInPie">
+                        <div class="number">253</div>
+                        <div class="label">Docs</div>
+                    </div>
+                    <div class="itemInPie">
+                        <div class="number">142</div>
+                        <div class="label">Videos</div>
+                    </div>
+                    <div class="itemInPie">
+                        <div class="number">56</div>
+                        <div class="label">Systems</div>
+                    </div>
+                    <div class="itemInPie">
+                        <div class="number">0</div>
+                        <div class="label">Depts.</div>
+                    </div>
+                    <div class="itemInPie">
+                        <div class="number">0</div>
+                        <div class="label">Divisions</div>
+                    </div>
                 </div>
             </div>
             <div class="outerPieChart">
                 <div class="pieChart">
                     <canvas id="myChart2" class="myChart"></canvas>
                 </div>
+
             </div>
-        </div>
+        </div> *@
     </div>
 </body>
 <script src="~/js/AdminOverview.js"></script>
