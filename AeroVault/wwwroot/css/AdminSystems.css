@@ -4,3 +4,39 @@
     width: 100%;
     border-radius: 10px;
 }
+
+.sidebar2 {
+    width: 300px;
+    background-color: #fff;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+    .sidebar2 h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .sidebar2 input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .sidebar2 ul {
+        list-style: none;
+        padding: 0;
+    }
+
+        .sidebar2 ul li {
+            margin-bottom: 20px; /* Increased gap between items */
+        }
+
+            .sidebar2 ul li a {
+                text-decoration: none;
+                color: #007bff;
+                font-size: 16px;
+            }

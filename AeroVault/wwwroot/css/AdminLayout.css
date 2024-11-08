@@ -54,12 +54,18 @@ body {
 
 .sidebar .logo {
     font-weight: bold;
-    padding: 20px;
+    padding: 10px;
+    margin-left:5px;
+    padding-top:10px;
+    padding-bottom:4px;
+    width:200px;
 }
 
 .sidebar .menu {
     list-style: none;
-    padding: 20px;
+    padding: 10px;
+    padding-left: 10px;
+    padding-right:10px;
 }
 
     .sidebar .menu li {
@@ -98,7 +104,7 @@ body {
     justify-content: space-between;
     align-items: center;
     background: linear-gradient(90deg, #06182C 0%, #05448B 100%);
-    padding: 20px;
+    padding: 10px;
 }
 
     .header h1 {
@@ -126,8 +132,7 @@ body {
 .main-content {
     height: 100%;
     margin: 10px;
-    margin-left: 20px;
-    margin-right: 20px;
+
 }
 
 /* Sidebar Toggle States */
@@ -201,8 +206,6 @@ body {
 
     .main-content {
         margin: 10px;
-        margin-left: 10px;
-        margin-right: 10px;
     }
 }
 
@@ -229,7 +232,7 @@ body {
 
 /* Sidebar */
 .sidebar {
-    width: 307px; /* Fixed width for consistent size on all screen sizes */
+    width: 280px; /* Fixed width for consistent size on all screen sizes */
     background-color: #06182C;
     font-size: 20px;
     position: relative;
@@ -257,7 +260,7 @@ body {
         left: 0;
         top: 0;
         height: 100%;
-        width: 307px; /* Maintain the fixed width */
+        width: 280px; /* Maintain the fixed width */
         transform: translateX(-100%);
         z-index: 1000;
     }
@@ -301,14 +304,13 @@ body {
     width: 100%;
     border-top: 1px solid #ABB5C7;
     border-bottom: 1px solid #ABB5C7;
-    margin-top: 10px;
     padding: 10px 0;
     display: flex; /* Add this line */
     align-items: center; /* Aligns items vertically */
 }
 
     .sidebar .profile-info img {
-        margin-left: 20px;
+        margin-left: 10px;
         margin-right: 10px;
     }
 
@@ -335,14 +337,6 @@ body {
     .content.full-width {
         width: 100%;
     }
-
-
-
-
-.sidebar-background {
-    width: 307px;
-    height: 500px;
-}
 
 
 
