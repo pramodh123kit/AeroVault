@@ -14,7 +14,7 @@
                 <span class="name">Pramodh Lihinikaduwa</span>
             </div>
             <ul class="menu">
-                <li class="nav-item">
+        <li class="nav-item">
                     <a href="javascript:void(0);" onclick="loadContent('_Overview', 'Overview')" class="nav-link">
                         <img src="~/Assets/overview-icon.svg" alt="Overview Icon" class="sidebar-icon" />
                         Overview
@@ -49,7 +49,47 @@
                         <img src="~/Assets/review-icon.svg" alt="Review Icon" class="sidebar-icon" />
                         Review
                     </a>
+                </li> 
+
+
+
+
+                @* <li class="nav-item">
+                    <a href="javascript:void(0);" data-view="_Overview" data-title="Overview" class="nav-link">
+                        <img src="~/Assets/overview-icon.svg" alt="Overview Icon" class="sidebar-icon" /> Overview
+                    </a>
                 </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" data-view="_Upload" data-title="Upload" class="nav-link">
+                        <img src="~/Assets/upload-icon.svg" alt="Upload Icon" class="sidebar-icon" /> Upload
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" data-view="_Systems" data-title="Manage" class="nav-link">
+                        <img src="~/Assets/systems-icon.svg" alt="Systems Icon" class="sidebar-icon" /> Systems
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" data-view="_Departments" data-title="Manage" class="nav-link">
+                        <img src="~/Assets/departments-icon.svg" alt="Departments Icon" class="sidebar-icon" /> Departments
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" data-view="_Divisions" data-title="Manage" class="nav-link">
+                        <img src="~/Assets/divisions-icon.svg" alt="Divisions Icon" class="sidebar-icon" /> Divisions
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" data-view="_Review" data-title="Review" class="nav-link">
+                        <img src="~/Assets/review-icon.svg" alt="Review Icon" class="sidebar-icon" /> Review
+                    </a>
+                </li> *@
+
+
+
+
+
+
             </ul>
             <img src="~/Assets/admin-sidebar-SLA-logo.svg" alt="Sri Lankan IT Systems Logo" class="footer-logo" />
             @* <img src="~/Assets/admin-sidebar-peacock.svg" alt="Sri Lankan brand background" class="sidebar-background" /> *@
@@ -80,39 +120,17 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        function loadContent(viewName) {
-            $.ajax({
-                url: '@Url.Action("LoadView", "Admin")',
-                type: 'GET',
-                data: { viewName: viewName },
-                success: function (result) {
-                    $('#main-content').html(result);
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error loading content:", error);
-                    $('#main-content').html('<p class="text-danger">Failed to load content. Please try again later.</p>');
-                }
-            });
-        }
-
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        const sidebarToggle = document.getElementById('sidebar-toggle');
-        const content = document.querySelector('.content');
-
-        // Add event listener to toggle sidebar visibility and content width
-        sidebarToggle.addEventListener('click', function () {
-            // Toggle sidebar visibility (show/hide)
-            sidebar.classList.toggle('sidebar-visible');
-            overlay.classList.toggle('overlay-visible');
-
-            // Adjust content width depending on the sidebar visibility
-            if (sidebar.classList.contains('sidebar-visible')) {
-                content.classList.remove('full-width');
-            } else {
-                content.classList.add('full-width');
-            }
+          // Sidebar toggle functionality
+        document.getElementById('sidebar-toggle').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('sidebar-visible');
+            document.getElementById('overlay').classList.toggle('overlay-visible');
         });
+
+        document.getElementById('overlay').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.remove('sidebar-visible');
+            this.classList.remove('overlay-visible');
+        });
+
 
         // Hide sidebar and overlay when overlay is clicked
         overlay.addEventListener('click', function () {
@@ -120,6 +138,9 @@
             overlay.classList.remove('overlay-visible');
             content.classList.add('full-width'); // Reset content width when sidebar is hidden
         });
+
+
+
 
         function loadContent(viewName, pageTitle) {
             // Update the page title
@@ -139,6 +160,23 @@
                 }
             });
         }
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const sidebarToggle = document.getElementById("sidebar-toggle");
+            const sidebar = document.getElementById("sidebar");
+          
+
+            sidebarToggle.addEventListener("click", function () {
+                sidebar.classList.toggle("hidden");
+
+            });
+
+        });
+
+
+
 
 
     </script>
