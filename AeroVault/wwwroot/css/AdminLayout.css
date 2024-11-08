@@ -134,9 +134,7 @@ body {
     margin: 10px;
 
 }
-#main-content {
-    height: 10vh;
-}
+
 
 /* Sidebar Toggle States */
 .sidebar.visible {
