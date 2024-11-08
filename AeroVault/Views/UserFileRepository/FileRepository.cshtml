@@ -8,11 +8,176 @@
 <head>
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/FileRepository.css" />
+    <link rel="stylesheet" href="https://localhost:7074/lib/bootstrap/dist/css/bootstrap.css">
 </head>
 <body>
     <img src="~/Assets/banner-new.svg" alt="Banner" class="user-banner" />
-    <div class="main-container">
-        <h1>File Repository Page</h1>
+
+    <div class="col-lg-12 main-container">
+        <div class="row">
+            <!-- Left Side -->
+            <div class="col-lg-3 left-section" style="position: relative; min-height: 70vh;">
+
+                <div class=" col-lg-6 col-md-6 col-sm-4 mb-2 dropdown-container">
+
+                    <label for="department-select">Select Department</label>
+                    <div class="dep-dropdown">
+                        <input type="text" id="search-department" placeholder="Search Department" onfocus="showDepartmentList()" onkeyup="filterDepartments()">
+                        <div id="department-list">
+                            <div data-value="all" onclick="selectDepartment(this)">All</div>
+                            <div data-value="human-resource" onclick="selectDepartment(this)">Human Resource</div>
+                            <div data-value="information-technology" onclick="selectDepartment(this)">Information Technology</div>
+                            <div data-value="flight-operations" onclick="selectDepartment(this)">Flight Operations</div>
+                            <div data-value="safety-security" onclick="selectDepartment(this)">Safety and Security</div>
+                            <div data-value="customer-service" onclick="selectDepartment(this)">Customer Service</div>
+                            <div data-value="engineering" onclick="selectDepartment(this)">Engineering</div>
+                            <div data-value="legal" onclick="selectDepartment(this)">Legal</div>
+                            <div data-value="procurement" onclick="selectDepartment(this)">Procurement</div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="search-container ">
+                    <img class="search-icon" src="~/Assets/Search.svg" alt="Search Icon" />
+                    <input type="text" id="system-search" placeholder="Search System" onkeyup="filterUploads()">
+                </div>
+                <div class="scrollable-upload-list" id="upload-list-container">
+                    <div class="upload-list">
+                        <div class="upload-item">
+                            <div class="upload-name-all">All Uploads</div>
+                            <div class="upload-info">
+                                <span class="upload-video">Videos: <b>12</b></span>
+                                <span class="upload-doc">Docs: <b>12</b></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="upload-list-new">
+                        <div class="upload-item">
+                            <div class="upload-name-all">
+                                AeroDocs
+                                <img class="systemIcon" src="~/Assets/systemIcon.svg" alt="System Icon" />
+                            </div>
+                            <div class="upload-info">
+                                <span class="upload-video">Videos: <b>12</b></span>
+                                <span class="upload-doc">Docs: <b>12</b></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="upload-list-new">
+                        <div class="upload-item">
+                            <div class="upload-name-all">
+                                Charika
+                                <img class="systemIcon" src="~/Assets/systemIcon.svg" alt="System Icon" />
+                            </div>
+                            <div class="upload-info">
+                                <span class="upload-video">Videos: <b>12</b></span>
+                                <span class="upload-doc">Docs: <b>12</b></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="upload-list-new">
+                        <div class="upload-item">
+                            <div class="upload-name-all">
+                                GovTra
+                                <img class="systemIcon" src="~/Assets/systemIcon.svg" alt="System Icon" />
+                            </div>
+                            <div class="upload-info">
+                                <span class="upload-video">Videos: <b>12</b></span>
+                                <span class="upload-doc">Docs: <b>12</b></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="upload-list-new">
+                        <div class="upload-item">
+                            <div class="upload-name-all">
+                                AeroLetters
+                                <img class="systemIcon" src="~/Assets/systemIcon.svg" alt="System Icon" />
+                            </div>
+                            <div class="upload-info">
+                                <span class="upload-video">Videos: <b>12</b></span>
+                                <span class="upload-doc">Docs: <b>12</b></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="upload-list-new">
+                        <div class="upload-item">
+                            <div class="upload-name-all">
+                                AeroLetters
+                                <img class="systemIcon" src="~/Assets/systemIcon.svg" alt="System Icon" />
+                            </div>
+                            <div class="upload-info">
+                                <span class="upload-video">Videos: <b>12</b></span>
+                                <span class="upload-doc">Docs: <b>12</b></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+             <div class="vertical-line" 
+                   style="position: absolute; top: 0; right: 0; bottom: 0; width: 2px; background-color: #ccc;">    
+             </div>
+            </div>
+
+
+            <!-- Right Side  -->
+            <div class="col-lg-9 content-section">
+                <!-- Header with Title and Image -->
+                <div class="row align-items-center mb-3">
+                    <div class="upload-title col-lg-6 col-md-6 col-sm-8">
+                        All Uploads (Recent 50)
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-4 d-flex justify-content-end">
+                        <img src="~/Assets/uploadsys.svg" alt="system" class="system-icon" />
+                    </div>
+                </div>
+
+                <!-- Container for Tabs and Content -->
+                <div class="content-container">
+                    <!-- Tab Navigation -->
+                    <div class="tab-container">
+                        <button class="tab-button active" onclick="showDocuments()">Documents (40)</button>
+                        <button class="tab-button" onclick="showVideos()">Videos (10)</button>
+                    </div>
+
+                    <!-- Filter Options -->
+                    <div class="filter-options">
+                        <select class="dropdown-filter">
+                            <option>All</option>
+                            <option>Read</option>
+                            <option>Unread</option>
+
+                        </select>
+                        <select class="dropdown-filter">
+                            <option>All Categories</option>
+                        </select>
+                        <div class="search-box">
+                           
+                            <input type="text"  placeholder="Search" />
+                          
+                        </div>
+
+                    </div>
+
+                    <!-- Document List (Example Content) -->
+                    <div class="item-list">
+                        <div class="item-info">
+                            <span class="item-title">1. FlisTA User Manual for Apple Version</span>
+                            <span class="item-meta">Training</span>
+                            <span class="item-date">Mar 26, 2024</span>
+                            <button class="action-button">View</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
+
+    <script src="~/js/FileRepository.js"></script>
 </body>
 </html>
+
