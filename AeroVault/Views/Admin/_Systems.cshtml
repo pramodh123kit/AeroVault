@@ -1,115 +1,418 @@
 ﻿<html>
 <head>
-    <link rel="stylesheet" href=~/css/AdminSystems.css />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/AdminSystems.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="admin-main-content">
-
-        <div class="sidebar2">
-            <h2>
-                Select a System to manage
+        <div class="header-container">
+            <h2 class="systems-header">
+                Select a System to Manage
             </h2>
-            <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search System" type="text" />
-            <ul id="systemList">
-                <li>
-                    <a href="#">
-                        <i class="fas fa-folder">
-                        </i>
-                        AeroProcure
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fas fa-folder">
-                        </i>
-                        Flight Tracking
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fas fa-folder">
-                        </i>
-                        Flight Dispatch
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fas fa-folder">
-                        </i>
-                        Operational Control
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fas fa-folder">
-                        </i>
-                        Crew Scheduling
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fas fa-folder">
-                        </i>
-                        Maintenance Tracking
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fas fa-folder">
-                        </i>
-                        Flight Planning
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fas fa-folder">
-                        </i>
-                        Aircraft Monitoring
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fas fa-folder">
-                        </i>
-                        Flight Dispatch
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fas fa-folder">
-                        </i>
-                        AeroProcure
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fas fa-folder">
-                        </i>
-                        Crew Scheduling
-                    </a>
-                </li>
-            </ul>
+            <button class="add-system-button">
+                <img src="~/Assets/add-icon.svg" alt="Add Icon" class="button-icon" />
+                Add New System
+            </button>
+        </div>
+
+
+    
+        <div class="sidebar-container">
+
+            <div class="sidebar2">
+                <div class="search-container">
+                    <img src="~/Assets/search-icon.svg" alt="Search Icon" />
+                    <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search System" type="text" />
+                </div>
+                <div class="scrollable-content">
+                <ul id="systemList">
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" class="folder-icon" />                       
+                            AeroProcure
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                     
+                            Flight Tracking
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                    
+                            Flight Dispatch
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                     
+                            Operational Control
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                   
+                            Crew Scheduling
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                      
+                            Maintenance Tracking
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                  
+                            Flight Planning
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                 
+                            Aircraft Monitoring
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                  
+                            Flight Dispatch
+                        </a>
+                    </li>
+                      <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                      
+                            Maintenance Tracking
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                  
+                            Flight Planning
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                 
+                            Aircraft Monitoring
+                        </a>
+                    </li>
+
+
+
+
+
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" class="folder-icon" />
+                            AeroProcure
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
+                            Flight Tracking
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
+                            Flight Dispatch
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
+                            Operational Control
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
+                            Crew Scheduling
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
+                            Maintenance Tracking
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
+                            Flight Planning
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
+                            Aircraft Monitoring
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
+                            Flight Dispatch
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
+                            Maintenance Tracking
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
+                            Flight Planning
+                        </a>
+                    </li>
+                     <li onclick="highlightSystem(this)">
+                        <a href="#">
+                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
+                            Aircraft Monitoring
+                        </a>
+                    </li>
+
+
+
+                </ul>
+                </div>
+            </div>
+            
+            <div class="image-container">
+                <img src="~/Assets/system-background-icon.svg" alt="System Background Image" />
+            </div>
+           
+
+            <div class="system-container" style="display: none;">
+                <div class="header-system-container">
+                    <div class="first-container">
+                        <h2 class="systems-name">System Name</h2>
+                        <div class="button-container">
+                            <button class="edit-system-button">
+                                <img src="~/Assets/system-details-edit-icon.svg" alt="Add Icon" class="button-icon" />
+                                Edit
+                            </button>
+                            <button class="delete-system-button">
+                                <img src="~/Assets/system-delete-icon.svg" alt="Add Icon" class="button-icon" />
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                    <div class="file-search-container">
+                        <img src="~/Assets/search-icon.svg" class="search-icon" alt="Search Icon" />
+                        <input id="SystemfileSearch" onkeyup="filterFiles()" placeholder="Search" type="text" class="file-search-input" />
+                    </div>
+                </div>
+
+
+
+
+                <div class="table-container">
+                    <div class="scrollable-tbody">
+                        <table class="file-table">
+                            <colgroup>
+                                <col style="width: 60%;">
+                                <col style="width: 30%;">
+                                <col style="width: 10%;">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>File name</th>
+                                    <th>File Category</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon"/> Maintenance Procedure Overview</td>
+                                    <td>Training</td>
+                                    <td>
+                                        <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
+                                        <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="~/Assets/system-doc-icon.svg" alt="Document Icon" class="file-icon" /> Aircraft Maintenance Checklist</td>
+                                    <td>Technical</td>
+                                    <td>
+                                        <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
+                                        <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
+                                    <td>Training</td>
+                                    <td>
+                                        <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
+                                        <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon"/> Maintenance Procedure Overview</td>
+                                    <td>Training</td>
+                                    <td>
+                                        <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
+                                        <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="~/Assets/system-doc-icon.svg" alt="Document Icon" class="file-icon" /> Aircraft Maintenance Checklist</td>
+                                    <td>Technical</td>
+                                    <td>
+                                        <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
+                                        <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
+                                    <td>Training</td>
+                                    <td>
+                                        <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
+                                        <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
+                                    </td>
+                                </tr>
+                                 <tr>
+                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon"/> Maintenance Procedure Overview</td>
+                                    <td>Training</td>
+                                    <td>
+                                        <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
+                                        <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="~/Assets/system-doc-icon.svg" alt="Document Icon" class="file-icon" /> Aircraft Maintenance Checklist</td>
+                                    <td>Technical</td>
+                                    <td>
+                                        <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
+                                        <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
+                                    <td>Training</td>
+                                    <td>
+                                        <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
+                                        <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
+                                    </td>
+                                </tr>
+                                 <tr>
+                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon"/> Maintenance Procedure Overview</td>
+                                    <td>Training</td>
+                                    <td>
+                                        <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
+                                        <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="~/Assets/system-doc-icon.svg" alt="Document Icon" class="file-icon" /> Aircraft Maintenance Checklist</td>
+                                    <td>Technical</td>
+                                    <td>
+                                        <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
+                                        <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
+                                    <td>Training</td>
+                                    <td>
+                                        <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
+                                        <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
+                                    <td>Training</td>
+                                    <td>
+                                        <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
+                                        <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="~/Assets/system-doc-icon.svg" alt="Document Icon" class="file-icon" /> Aircraft Maintenance Checklist</td>
+                                    <td>Technical</td>
+                                    <td>
+                                        <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
+                                        <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
+                                    <td>Training</td>
+                                    <td>
+                                        <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
+                                        <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
+                                    <td>Training</td>
+                                    <td>
+                                        <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
+                                        <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="~/Assets/system-doc-icon.svg" alt="Document Icon" class="file-icon" /> Aircraft Maintenance Checklist</td>
+                                    <td>Technical</td>
+                                    <td>
+                                        <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
+                                        <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
+                                    <td>Training</td>
+                                    <td>
+                                        <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
+                                        <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                       </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
         </div>
     </div>
-    <script>
-        function filterSystems() {
-            var input, filter, ul, li, a, i, txtValue;
-            input = document.getElementById('systemSearch');
-            filter = input.value.toUpperCase();
-            ul = document.getElementById("systemList");
-            li = ul.getElementsByTagName('li');
 
-            for (i = 0; i < li.length; i++) {
-                a = li[i].getElementsByTagName("a")[0];
-                txtValue = a.textContent || a.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    li[i].style.display = "";
-                } else {
-                    li[i].style.display = "none";
-                }
-            }
-        }
-    </script>
+    <!-- Overlay -->
+    <div id="dark-overlay" class="dark-overlay" style="display: none;"></div>
+    @Html.Partial("AdminSystemPopups/_AdminAddSystemPopup")
+
+    <div id="dark-overlay1" class="dark-overlay" style="display: none;"></div>
+    @Html.Partial("AdminSystemPopups/_AdminEditSystemPopup")
+
+    <div id="dark-overlay2" class="dark-overlay" style="display: none;"></div>
+    @Html.Partial("AdminSystemPopups/_AdminSystemDelete")
+
+    <div id="dark-overlay3" class="dark-overlay" style="display: none;"></div>
+    @Html.Partial("AdminSystemPopups/_AdminSystemSuccessfullyAdded")
+
+    <div id="dark-overlay4" class="dark-overlay" style="display: none;"></div>
+    @Html.Partial("AdminSystemPopups/_AdminFileDelete")
+
+    <div id="dark-overlay5" class="dark-overlay" style="display: none;"></div>
+    @Html.Partial("AdminSystemPopups/_AdminFileEdit")
+
+
+
+   
+
+
+
+
+
+    <script src="~/js/AdminSystemScripts.js"></script>
 </body>
 </html>
