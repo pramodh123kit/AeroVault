@@ -1,10 +1,376 @@
 ﻿<html>
-<head>
-    <link rel="stylesheet" href=~/css/AdminReview.css />
-</head>
-<body>
-    <div class="admin-main-content">
-        <h1>Review</h1>
+ <head>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+        .reviewcontainer {
+            display: flex;
+            height: 750%;
+        }
+        .reviewsidebar-reviewcontainer {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            background-color: #fff;
+            position: relative;
+        }
+        .reviewsidebar {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .reviewcontent {
+            flex-grow: 1;
+            background-color: #fff;
+            display: flex;
+            justify-reviewcontent: center;
+            align-items: center;
+            position: relative;
+            padding: 20px;
+        }
+        .ReviewReviewTabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            background-color: #e9f1fb;
+        }
+        .reviewtab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            background-color: #f5f5f5;
+        }
+        .reviewtab.active {
+            background-color: #fff;
+            border-top: 3px solid #007bff;
+            border-bottom: 1px solid #fff;
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .department-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .department-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .department-list li:hover, .department-list li.active {
+            background-color: #f5f5f5;
+        }
+        .reviewtitle {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px;
+            white-space: nowrap; /* Ensure the text stays on one line */
+            z-index: 1; /* Ensure the reviewtitle is in front */
+            background-color: #fff; /* Match the background color to avoid overlap */
+        }
+        .reviewdropdown {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 100%;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            width: 100%;
+            z-index: 1;
+        }
+        .reviewdropdown li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .reviewdropdown li:hover, .reviewdropdown li.active {
+            background-color: #e9f1fb;
+        }
+        .icon {
+            margin-right: 10px;
+            transition: transform 0.3s ease;
+        }
+        .icon.rotate {
+            transform: rotate(90deg);
+        }
+        /* Custom scrollbar styles */
+        .reviewsidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .reviewsidebar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .reviewsidebar::-webkit-scrollbar-thumb {
+            background-color: #007bff;
+            border-radius: 10px;
+            border: 2px solid #f1f1f1;
+        }
+  </style>
+  <script>
+   function showSystemView() {
+            document.getElementById('system-view').style.display = 'flex';
+            document.getElementById('staff-view').style.display = 'none';
+            document.getElementById('system-reviewtab').classList.add('active');
+            document.getElementById('staff-reviewtab').classList.remove('active');
+        }
+
+        function showStaffView() {
+            document.getElementById('system-view').style.display = 'none';
+            document.getElementById('staff-view').style.display = 'flex';
+            document.getElementById('system-reviewtab').classList.remove('active');
+            document.getElementById('staff-reviewtab').classList.add('active');
+        }
+
+        function filterDepartments() {
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById('searchInput');
+            filter = input.value.toUpperCase();
+            ul = document.getElementById('departmentList');
+            li = ul.getElementsByTagName('li');
+            for (i = 0; i < li.length; i++) {
+                a = li[i];
+                txtValue = a.textReviewContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+
+        function toggleReviewDropdown(event) {
+            var reviewdropdown = event.currentTarget.querySelector('.reviewdropdown');
+            var icon = event.currentTarget.querySelector('.icon');
+            var allReviewDropdowns = document.querySelectorAll('.reviewdropdown');
+            var allIcons = document.querySelectorAll('.icon');
+
+            allReviewDropdowns.forEach(function(dd) {
+                if (dd !== reviewdropdown) {
+                    dd.style.display = 'none';
+                }
+            });
+
+            allIcons.forEach(function(ic) {
+                if (ic !== icon) {
+                    ic.classList.remove('rotate');
+                }
+            });
+
+            if (reviewdropdown.style.display === 'block') {
+                reviewdropdown.style.display = 'none';
+                icon.classList.remove('rotate');
+            } else {
+                reviewdropdown.style.display = 'block';
+                icon.classList.add('rotate');
+            }
+        }
+
+        function loadReviewContent(url, department, system) {
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('system-view-reviewcontent').innerHTML = data;
+                })
+                .catch(error => console.error('Error loading reviewcontent:', error));
+
+            var departments = document.querySelectorAll('.department-list li');
+            departments.forEach(function(dept) {
+                dept.classList.remove('active');
+            });
+            department.classList.add('active');
+
+            var systems = department.querySelectorAll('.reviewdropdown li');
+            systems.forEach(function(sys) {
+                sys.classList.remove('active');
+            });
+            system.classList.add('active');
+        }
+  </script>
+ </head>
+ <body>
+  <div class="ReviewReviewTabs">
+   <div class="reviewtab active" id="system-reviewtab" onclick="showSystemView()">
+    System View
+   </div>
+   <div class="reviewtab" id="staff-reviewtab" onclick="showStaffView()">
+    Staff View
+   </div>
+  </div>
+  <div class="reviewcontainer" id="system-view">
+   <div class="reviewsidebar-reviewcontainer">
+    <div class="reviewtitle">
+     Select a Department to Review System Activity
     </div>
-</body>
+    <div class="reviewsidebar">
+     <div class="search-box">
+      <input id="searchInput" onkeyup="filterDepartments()" placeholder="Search Department" type="text"/>
+     </div>
+     <ul class="department-list" id="departmentList">
+      <li onclick="toggleReviewDropdown(event)">
+       <i class="fas fa-chevron-right icon"></i> Human Resources
+       <ul class="reviewdropdown">
+        <li onclick="loadReviewContent('../admin/humanr', this.parentElement.parentElement, this)">
+         System 1
+        </li>
+        <li onclick="loadReviewContent('human_resources_system2.html', this.parentElement.parentElement, this)">
+         System 2
+        </li>
+        <li onclick="loadReviewContent('human_resources_system3.html', this.parentElement.parentElement, this)">
+         System 3
+        </li>
+       </ul>
+      </li>
+      <li onclick="toggleReviewDropdown(event)">
+       <i class="fas fa-chevron-right icon"></i> Engineering &amp; Maintenance
+       <ul class="reviewdropdown">
+        <li onclick="loadReviewContent('engineering_systemA.html', this.parentElement.parentElement, this)">
+         System A
+        </li>
+        <li onclick="loadReviewContent('engineering_systemB.html', this.parentElement.parentElement, this)">
+         System B
+        </li>
+        <li onclick="loadReviewContent('engineering_systemC.html', this.parentElement.parentElement, this)">
+         System C
+        </li>
+       </ul>
+      </li>
+      <li onclick="toggleReviewDropdown(event)">
+       <i class="fas fa-chevron-right icon"></i> Information Technology
+       <ul class="reviewdropdown">
+        <li onclick="loadReviewContent('it_systemX.html', this.parentElement.parentElement, this)">
+         System X
+        </li>
+        <li onclick="loadReviewContent('it_systemY.html', this.parentElement.parentElement, this)">
+         System Y
+        </li>
+        <li onclick="loadReviewContent('it_systemZ.html', this.parentElement.parentElement, this)">
+         System Z
+        </li>
+       </ul>
+      </li>
+      <li onclick="toggleReviewDropdown(event)">
+       <i class="fas fa-chevron-right icon"></i> Ground Handling
+       <ul class="reviewdropdown">
+        <li onclick="loadReviewContent('ground_handling_systemAlpha.html', this.parentElement.parentElement, this)">
+         System Alpha
+        </li>
+        <li onclick="loadReviewContent('ground_handling_systemBeta.html', this.parentElement.parentElement, this)">
+         System Beta
+        </li>
+        <li onclick="loadReviewContent('ground_handling_systemGamma.html', this.parentElement.parentElement, this)">
+         System Gamma
+        </li>
+       </ul>
+      </li>
+      <li onclick="toggleReviewDropdown(event)">
+       <i class="fas fa-chevron-right icon"></i> Flight Operations
+       <ul class="reviewdropdown">
+        <li onclick="loadReviewContent('flight_operations_system1.html', this.parentElement.parentElement, this)">
+         System 1
+        </li>
+        <li onclick="loadReviewContent('flight_operations_system2.html', this.parentElement.parentElement, this)">
+         System 2
+        </li>
+        <li onclick="loadReviewContent('flight_operations_system3.html', this.parentElement.parentElement, this)">
+         System 3
+        </li>
+       </ul>
+      </li>
+      <li onclick="toggleReviewDropdown(event)">
+       <i class="fas fa-chevron-right icon"></i> Cabin Crew
+       <ul class="reviewdropdown">
+        <li onclick="loadReviewContent('cabin_crew_systemA.html', this.parentElement.parentElement, this)">
+         System A
+        </li>
+        <li onclick="loadReviewContent('cabin_crew_systemB.html', this.parentElement.parentElement, this)">
+         System B
+        </li>
+        <li onclick="loadReviewContent('cabin_crew_systemC.html', this.parentElement.parentElement, this)">
+         System C
+        </li>
+       </ul>
+      </li>
+      <li onclick="toggleReviewDropdown(event)">
+       <i class="fas fa-chevron-right icon"></i> Cargo Operations
+       <ul class="reviewdropdown">
+        <li onclick="loadReviewContent('cargo_operations_systemX.html', this.parentElement.parentElement, this)">
+         System X
+        </li>
+        <li onclick="loadReviewContent('cargo_operations_systemY.html', this.parentElement.parentElement, this)">
+         System Y
+        </li>
+        <li onclick="loadReviewContent('cargo_operations_systemZ.html', this.parentElement.parentElement, this)">
+         System Z
+        </li>
+       </ul>
+      </li>
+      <li onclick="toggleReviewDropdown(event)">
+       <i class="fas fa-chevron-right icon"></i> Customer Service
+       <ul class="reviewdropdown">
+        <li onclick="loadReviewContent('customer_service_systemAlpha.html', this.parentElement.parentElement, this)">
+         System Alpha
+        </li>
+        <li onclick="loadReviewContent('customer_service_systemBeta.html', this.parentElement.parentElement, this)">
+         System Beta
+        </li>
+        <li onclick="loadReviewContent('customer_service_systemGamma.html', this.parentElement.parentElement, this)">
+         System Gamma
+        </li>
+       </ul>
+      </li>
+      <li onclick="toggleReviewDropdown(event)">
+       <i class="fas fa-chevron-right icon"></i> Sales &amp; Marketing
+       <ul class="reviewdropdown">
+        <li onclick="loadReviewContent('sales_marketing_system1.html', this.parentElement.parentElement, this)">
+         System 1
+        </li>
+        <li onclick="loadReviewContent('sales_marketing_system2.html', this.parentElement.parentElement, this)">
+         System 2
+        </li>
+        <li onclick="loadReviewContent('sales_marketing_system3.html', this.parentElement.parentElement, this)">
+         System 3
+        </li>
+       </ul>
+      </li>
+      <li onclick="toggleReviewDropdown(event)">
+       <i class="fas fa-chevron-right icon"></i> Finance &amp; Accounting
+       <ul class="reviewdropdown">
+        <li onclick="loadReviewContent('finance_accounting_systemA.html', this.parentElement.parentElement, this)">
+         System A
+        </li>
+        <li onclick="loadReviewContent('finance_accounting_systemB.html', this.parentElement.parentElement, this)">
+         System B
+        </li>
+        <li onclick="loadReviewContent('finance_accounting_systemC.html', this.parentElement.parentElement, this)">
+         System C
+        </li>
+       </ul>
+      </li>
+     </ul>
+    </div>
+   </div>
+   <div class="reviewcontent" id="system-view-reviewcontent">
+    <h1>xD</h1>
+   </div>
+  </div>
+  <div class="reviewcontainer" id="staff-view" style="display: none;">
+   <div class="reviewcontent">
+    <div id="staff-view-reviewcontent">
+     <!-- Replace this with your desired reviewcontent for Staff View -->
+     <h2>Staff View ReviewContent</h2>
+     <p>This is the reviewcontent for the Staff View reviewtab.</p>
+    </div>
+   </div>
+  </div>
+ </body>
 </html>
