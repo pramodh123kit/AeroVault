@@ -11,7 +11,12 @@
     <link rel="stylesheet" href="https://localhost:7074/lib/bootstrap/dist/css/bootstrap.css">
 </head>
 <body>
-    <img src="~/Assets/banner-new.svg" alt="Banner" class="user-banner" />
+    <div class="banner-section">
+        <img src="~/Assets/banner-new4.svg" alt="Banner" class="user-banner" />
+        <div id="selected-department" class="banner-text"></div>
+    </div>
+   
+
 
     <div class="col-lg-12 main-container">
         <div class="row">
@@ -53,9 +58,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="upload-list-new">
+                    <div class="upload-list-new" id="AeroDocs" onclick="updateTooltipMessage('AeroDocs')">
                         <div class="upload-item">
-                            <div class="upload-name-all">
+                            <div class="upload-name-all name">
                                 AeroDocs
                                 <img class="systemIcon" src="~/Assets/systemIcon.svg" alt="System Icon" />
                             </div>
@@ -66,21 +71,21 @@
                         </div>
                     </div>
 
-                    <div class="upload-list-new">
+                    <div class="upload-list-new" id="Charika" onclick="updateTooltipMessage('Charika')">
                         <div class="upload-item">
-                            <div class="upload-name-all">
+                            <div class="upload-name-allname">
                                 Charika
                                 <img class="systemIcon" src="~/Assets/systemIcon.svg" alt="System Icon" />
                             </div>
                             <div class="upload-info">
-                                <span class="upload-video">Videos: <b>12</b></span>
+                                <span class="upload-video">Videos: <b>8</b></span>
                                 <span class="upload-doc">Docs: <b>12</b></span>
                             </div>
                         </div>
                     </div>
-                    <div class="upload-list-new">
+                    <div class="upload-list-new" id="GovTra" onclick="updateTooltipMessage('GovTra')">
                         <div class="upload-item">
-                            <div class="upload-name-all">
+                            <div class="upload-name-all name">
                                 GovTra
                                 <img class="systemIcon" src="~/Assets/systemIcon.svg" alt="System Icon" />
                             </div>
@@ -90,10 +95,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="upload-list-new">
+                    <div class="upload-list-new" id="AeroLetter" onclick="updateTooltipMessage('AeroLetter')">
                         <div class="upload-item">
-                            <div class="upload-name-all">
-                                AeroLetters
+                            <div class="upload-name-all name">
+                                AeroLetter
                                 <img class="systemIcon" src="~/Assets/systemIcon.svg" alt="System Icon" />
                             </div>
                             <div class="upload-info">
@@ -102,10 +107,34 @@
                             </div>
                         </div>
                     </div>
-                    <div class="upload-list-new">
+                    <div class="upload-list-new" id="EasyPass" onclick="updateTooltipMessage('EasyPass')">
                         <div class="upload-item">
-                            <div class="upload-name-all">
-                                AeroLetters
+                            <div class="upload-name-all name">
+                                EasyPass
+                                <img class="systemIcon" src="~/Assets/systemIcon.svg" alt="System Icon" />
+                            </div>
+                            <div class="upload-info">
+                                <span class="upload-video">Videos: <b>12</b></span>
+                                <span class="upload-doc">Docs: <b>12</b></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="upload-list-new" id="FIDS" onclick="updateTooltipMessage('FIDS')">
+                        <div class="upload-item">
+                            <div class="upload-name-all name">
+                                FIDS
+                                <img class="systemIcon" src="~/Assets/systemIcon.svg" alt="System Icon" />
+                            </div>
+                            <div class="upload-info">
+                                <span class="upload-video">Videos: <b>12</b></span>
+                                <span class="upload-doc">Docs: <b>12</b></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="upload-list-new" id="FlySmile" onclick="updateTooltipMessage('FlySmile')">
+                        <div class="upload-item">
+                            <div class="upload-name-all name">
+                                FlySmile
                                 <img class="systemIcon" src="~/Assets/systemIcon.svg" alt="System Icon" />
                             </div>
                             <div class="upload-info">
@@ -131,7 +160,7 @@
                         All Uploads (Recent 50)
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-4 d-flex justify-content-end">
-                        <img src="~/Assets/uploadsys.svg" alt="system" class="system-icon" />
+                        <img src="~/Assets/uploadsys.svg" alt="system" class="system-icon" onclick="toggleTooltip()" />
                     </div>
                 </div>
 
@@ -153,6 +182,8 @@
                         </select>
                         <select class="dropdown-filter">
                             <option>All Categories</option>
+                            <option>Training</option>
+                            <option>Technical</option>
                         </select>
                         <div class="search-box">
                            
@@ -163,14 +194,82 @@
                     </div>
 
                     <!-- Document List (Example Content) -->
-                    <div class="item-list">
-                        <div class="item-info">
-                            <span class="item-title">1. FlisTA User Manual for Apple Version</span>
-                            <span class="item-meta">Training</span>
-                            <span class="item-date">Mar 26, 2024</span>
-                            <button class="action-button">View</button>
+                    <div class="scrollable-item-list content-container">
+                        <div class="item-list">
+                            <div class="item-info">
+                                <img class="read-icon" src="~/Assets/readIcon.svg" alt="read Icon" />
+                                <span class="item-title">FlisTA User Manual for Apple Version</span>
+                                <span class="item-meta">Training</span>
+                                <span class="item-date">Mar 26, 2024</span>
+                                <button class="action-button">View</button>
+                            </div>
+                        </div>
+                        <div class="item-list">
+                            <div class="item-info">
+                                <img class="read-icon" src="~/Assets/unread.svg" alt="read Icon" />
+                                <span class="item-title">Uploaded File Name</span>
+                                <span class="item-meta">Training</span>
+                                <span class="item-date">Mar 26, 2024</span>
+                                <button class="action-button">View</button>
+                            </div>
+                        </div>
+                        <div class="item-list">
+                            <div class="item-info">
+                                <img class="read-icon" src="~/Assets/readIcon.svg" alt="read Icon" />
+                                <span class="item-title">FlisTA User Manual for Apple Version</span>
+                                <span class="item-meta">Training</span>
+                                <span class="item-date">Mar 26, 2024</span>
+                                <button class="action-button">View</button>
+                            </div>
+                        </div>
+                        <div class="item-list">
+                            <div class="item-info">
+                                <img class="read-icon" src="~/Assets/readIcon.svg" alt="read Icon" />
+                                <span class="item-title">Uploaded File Name</span>
+                                <span class="item-meta">Training</span>
+                                <span class="item-date">Mar 26, 2024</span>
+                                <button class="action-button">View</button>
+                            </div>
+                        </div>
+                        <div class="item-list">
+                            <div class="item-info">
+                                <img class="read-icon" src="~/Assets/readIcon.svg" alt="read Icon" />
+                                <span class="item-title">FlisTA User Manual for Apple Version</span>
+                                <span class="item-meta">Training</span>
+                                <span class="item-date">Mar 26, 2024</span>
+                                <button class="action-button">View</button>
+                            </div>
+                        </div>
+                        <div class="item-list">
+                            <div class="item-info">
+                                <img class="read-icon" src="~/Assets/readIcon.svg" alt="read Icon" />
+                                <span class="item-title">FlisTA User Manual for Apple Version</span>
+                                <span class="item-meta">Training</span>
+                                <span class="item-date">Mar 26, 2024</span>
+                                <button class="action-button">View</button>
+                            </div>
+                        </div>
+                        <div class="item-list">
+                            <div class="item-info">
+                                <img class="read-icon" src="~/Assets/readIcon.svg" alt="read Icon" />
+                                <span class="item-title">Uploaded File Name</span>
+                                <span class="item-meta">Technical</span>
+                                <span class="item-date">Mar 26, 2024</span>
+                                <button class="action-button">View</button>
+                            </div>
+                        </div>
+                        <div class="item-list">
+                            <div class="item-info">
+                                <img class="read-icon" src="~/Assets/readIcon.svg" alt="read Icon" />
+                                <span class="item-title">FlisTA User Manual for Apple Version</span>
+                                <span class="item-meta">Technical</span>
+                                <span class="item-date">Mar 26, 2024</span>
+                                <button class="action-button">View</button>
+                            </div>
                         </div>
                     </div>
+
+                    
                 </div>
             </div>
 

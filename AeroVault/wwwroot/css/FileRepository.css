@@ -1,6 +1,20 @@
-﻿.user-banner {
+﻿.banner-section {
+    position: relative;
     width: 100%;
+}
 
+.user-banner {
+    width: 100%;
+}
+
+.banner-text {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 }
 .dropdown-container {
     display: flex;
@@ -25,6 +39,7 @@
     box-sizing: border-box;
     border-radius:8px;
     border: 1px solid #00436C;
+    color:#00436C;
 }
 
 #department-list {
@@ -63,7 +78,7 @@
     left: 10px;
     top: 50%;
     transform: translateY(-50%);
-    pointer-events: none; 
+    pointer-events: none;
 }
 
 #system-search {
@@ -110,7 +125,14 @@
     display: flex;
     align-items: center;
 }
-
+.name {
+    font-size: 18px;
+    font-weight: 200;
+    margin-bottom: 2px;
+    font-family: Arial;
+    display: flex;
+    align-items: center;
+}
 
 .systemIcon {
     margin-left: 8px; 
@@ -137,11 +159,12 @@
 }
 
 .scrollable-upload-list {
-    max-height: 325px;
+    max-height: 350px;
     width: 100%;
     overflow-y: auto;
-    padding: 0;
-    margin-left:10px;
+    padding: 2px;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
     .scrollable-upload-list::-webkit-scrollbar {
@@ -155,7 +178,7 @@
 
 .left-section {
     position: relative;
-    min-height: 100vh; /* Ensures left-section takes up full height */
+    min-height: 100vh;
 }
 
 .vertical-line {
@@ -183,6 +206,7 @@
     border-radius: 8px;
     padding: 8px;
     background-color: white;
+    max-height:456px;
 }
 
 /* Tab styling */
@@ -255,36 +279,68 @@
 }
 
 .item-list {
-    padding: 10px;
-    border-top: 1px solid #ccc;
+    padding: 4px;
+    border-bottom: 1px solid #ccc;
 }
 
 .item-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin:5px;
+    
 }
 
 .item-title {
-    font-weight: bold;
+    font-weight: 400;
     flex-grow: 1; 
+    font-family:Arial;
+
 }
 
 .item-meta, .item-date {
     color: #6c757d;
     font-size: 14px;
-    margin-right: 10px; 
+    margin-right: 10px;
+    margin-left:25px;
 }
 
 .action-button {
     background-color: #00436C;
     color: #fff;
     border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
+    padding: 6px 16px;
+    border-radius: 14px;
     cursor: pointer;
+    font-size:14px;
+    margin-left:25px;
 }
 
     .action-button:hover {
         background-color: #00334f;
     }
+.scrollable-item-list {
+    max-height: 400px;
+    width: 100%;
+    overflow-y: auto;
+    padding: 0;
+    margin-left: 1px;
+    border: none;
+    max-height: 340px;
+}
+
+.scrollable-item-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scrollable-item-list::-webkit-scrollbar-thumb {
+    background-color: #00436C;
+    border-radius: 8px;
+}
+.read-icon {
+    width: 20px; /* Adjust the size as needed */
+    height: 20px;
+    margin-right: 5px; /* Space between icon and text */
+    vertical-align: middle;
+}
+
