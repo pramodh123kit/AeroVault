@@ -1,0 +1,34 @@
+﻿@page
+@model AeroVault.Views.Shared.AdminDepartmentPopups._AdminDeleteDepartmentPopupModel
+@{
+}
+
+<div class="modal-delete-system" id="deletedepartment-popup" style="display: none;">
+    <div class="modal-header-delete-system" style="display: flex; align-items: center;">
+        <h2 style="margin: 0; margin-bottom: 20px;display: inline-block;">Delete Engineering Division?</h2>
+        <img src="~/Assets/AdminSystemDeletePopupCloseIcon.svg" id="close-icon-dep2" style="margin-left: auto; cursor: pointer; vertical-align: middle; margin-top:-25px" />
+    </div>
+    <div>
+        <p>
+            Are you sure you want to delete this Division and all of its departments listed below permanently?
+        </p>
+        <div class="file-list">
+            <div class="file-item"> Maintenance Procedure Overview</div>
+            <div class="file-item"> Aircraft Maintenance Checklist</div>
+            <div class="file-item"> Maintenance Procedure Overview</div>
+            <div class="file-item"> Aircraft Maintenance Checklist</div>
+            <div class="file-item">Maintenance Procedure Overview</div>
+            <div class="file-item"> Aircraft Maintenance Checklist</div>
+            <div class="file-item"> Maintenance Procedure Overview</div>
+            <div class="file-item"> Aircraft Maintenance Checklist</div>
+            <div class="file-item">Maintenance Procedure Overview</div>
+            <div class="file-item">Aircraft Maintenance Checklist</div>
+            <div class="file-item"> Maintenance Procedure Overview</div>
+            <div class="file-item"> Aircraft Maintenance Checklist</div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="cancel-btn">No, Cancel</button>
+        <button class="delete-btn"><img src="~/Assets/system-delete-icon.svg" class="delete-icon-popup" /> Yes, I'm sure</button>
+    </div>
+</div>

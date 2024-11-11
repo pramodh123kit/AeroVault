@@ -1,0 +1,143 @@
+﻿@page
+@model AeroVault.Views.Shared.AdminSystemPopups._AdminEditSystemPopupModel
+@{
+}
+
+<!-- Edit System Popup -->
+<div id="editsystem-popup" class="addsystem-popup" style="display: none;">
+    <div class="add-system-container-popup">
+        <div class="add-system-header">
+            <div class="title">Edit System</div>
+            <img src="~/Assets/close-icon.svg" class="close-icon" id="close-icon1" />
+        </div>
+        <div class="add-system-content">
+            <div class="form-row">
+                <div class="form-group half-width">
+                    <label for="system-name">System Name</label>
+                    <input type="text" id="system-edit-name" class="system-edit-name" value="Flight Planning">
+                </div>
+                <div class="form-group half-width">
+                    <label for="description">Description</label>
+                    <textarea id="description">This system is used to manage flight operations within the IT department of Sri Lankan Airlines. It could be used to track flight schedules, manage bookings, handle passenger information, and more. It allows IT staff to efficiently manage and monitor the various aspects of flight operations.</textarea>
+                </div>
+            </div>
+            <div class="add-system-searchbar">
+                <div class="section-title">Select Departments According to Division</div>
+                <div class="file-search-container">
+                    <img src="~/Assets/search-icon.svg" class="search-icon" alt="Search Icon" />
+                    <input id="DepartmentsDivisionsSearch1" onkeyup="filterDepartmentsDivisions1()" placeholder="Search" type="text" class="file-search-input" />
+                </div>
+            </div>
+            <div class="division-container">
+                <div class="division">
+                    <div class="division-header">
+                        <div>
+                            <i class="fas fa-chevron-right division-name"></i>
+                            <span class="division-name">Aviation College</span>
+                        </div>
+                        <span class="selected-count"></span>
+                    </div>
+                    <div class="division-content">
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" class="select-all"> Select All</label>
+                            <label><input type="checkbox" class="department"> Department 1</label>
+                            <label><input type="checkbox" class="department"> Department 2</label>
+                            <label><input type="checkbox" class="department"> Department 3</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="division">
+                    <div class="division-header">
+                        <div>
+                            <i class="fas fa-chevron-right division-name"></i>
+                            <span class="division-name">Cargo</span>
+                        </div>
+                        <span class="selected-count"></span>
+                    </div>
+                    <div class="division-content">
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" class="select-all"> Select All</label>
+                            <label><input type="checkbox" class="department"> Cargo Operations</label>
+                            <label><input type="checkbox" class="department"> Cargo Sales</label>
+                            <label><input type="checkbox" class="department"> Cargo Customer Service</label>
+                            <label><input type="checkbox" class="department"> Cargo Network Planning</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="division">
+                    <div class="division-header">
+                        <div>
+                            <i class="fas fa-chevron-right division-name"></i>
+                            <span class="division-name">Commercial Operations</span>
+                        </div>
+                        <span class="selected-count"></span>
+                    </div>
+                    <div class="division-content">
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" class="select-all"> Select All</label>
+                            <label><input type="checkbox" class="department"> Department 1</label>
+                            <label><input type="checkbox" class="department"> Department 2</label>
+                            <label><input type="checkbox" class="department"> Department 3</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="division">
+                    <div class="division-header">
+                        <div>
+                            <i class="fas fa-chevron-right division-name"></i>
+                            <span class="division-name">Corporate Communications</span>
+                        </div>
+                        <span class="selected-count"></span>
+                    </div>
+                    <div class="division-content">
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" class="select-all"> Select All</label>
+                            <label><input type="checkbox" class="department"> Department 1</label>
+                            <label><input type="checkbox" class="department"> Department 2</label>
+                            <label><input type="checkbox" class="department"> Department 3</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="division">
+                    <div class="division-header">
+                        <div>
+                            <i class="fas fa-chevron-right division-name"></i>
+                            <span class="division-name">Commercial Operations</span>
+                        </div>
+                        <span class="selected-count"></span>
+                    </div>
+                    <div class="division-content">
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" class="select-all"> Select All</label>
+                            <label><input type="checkbox" class="department"> Department 1</label>
+                            <label><input type="checkbox" class="department"> Department 2</label>
+                            <label><input type="checkbox" class="department"> Department 3</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="division">
+                    <div class="division-header">
+                        <div>
+                            <i class="fas fa-chevron-right division-name"></i>
+                            <span class="division-name">Corporate Communications</span>
+                        </div>
+                        <span class="selected-count"></span>
+                    </div>
+                    <div class="division-content">
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" class="select-all"> Select All</label>
+                            <label><input type="checkbox" class="department"> Department 1</label>
+                            <label><input type="checkbox" class="department"> Department 2</label>
+                            <label><input type="checkbox" class="department"> Department 3</label>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more division items as needed -->
+            </div>
+        </div>
+        <div class="footer">
+            <button class="reset-btn">Reset</button>
+            <button class="save-btn">Save Changes</button>
+        </div>
+    </div>
+</div>
