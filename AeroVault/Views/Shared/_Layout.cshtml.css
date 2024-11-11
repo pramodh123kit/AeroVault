@@ -7,6 +7,14 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+
 a {
   color: #0077cc;
   padding:0;
@@ -82,13 +90,18 @@ button.accept-policy {
 }
 
 
-.footer-section {
+
+
+/*.footer-section {
+    background-color: #063468;
+    text-align: end;
+    padding: 10px;
+    color: #ffffff;
+    font-size: 14px;
+    height: 30px;
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 35px; 
-    background-color: #063468;
-    padding: 0 25px;
 }
 
 .footer-content {
@@ -97,6 +110,26 @@ button.accept-policy {
     justify-content: flex-end; 
     color: white;
     height: 100%; 
+    gap: 8px;
+}*/
+
+.footer-section {
+    background-color: #063468;
+    text-align: end;
+    padding: 10px;
+    color: #ffffff;
+    font-size: 14px;
+    height: 30px;
+    width: 100%;
+}
+
+
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: white;
+    height: 100%;
     gap: 8px;
 }
 

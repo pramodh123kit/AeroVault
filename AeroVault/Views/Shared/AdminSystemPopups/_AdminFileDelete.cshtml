@@ -1,0 +1,25 @@
+﻿@page
+@model AeroVault.Views.Shared.AdminSystemPopups._AdminFileDeleteModel
+@{
+}
+
+
+
+    <div class="modal-notification" id="deletefile-popup" style="display: none;">
+        <div class="file-delete-notification">
+            <div class="icon">
+                <img src="~/Assets/file-delete-confirm-icon.svg" alt="Alternate Text" />
+            </div>
+            <div class="message">
+            Are you sure you want to delete this file permanantly?
+            </div>
+        <div class="modal-footer footer-file-delete">
+            <button class="cancel-btn file-cancel">No, Cancel</button>
+            <button class="delete-btn file-cancel"><img src="~/Assets/system-delete-icon.svg" class="delete-icon-popup" /> Yes, I'm sure</button>
+        </div>
+            <div class="close">
+                <img src="~/Assets/AdminSystemDeletePopupCloseIcon.svg" alt="Alternate Text" id="close-icon4" />
+            </div>
+        </div>
+
+    </div>

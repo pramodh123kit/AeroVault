@@ -14,7 +14,7 @@
                 <span class="name">Pramodh Lihinikaduwa</span>
             </div>
             <ul class="menu">
-        <li class="nav-item">
+                @*  <li class="nav-item">
                     <a href="javascript:void(0);" onclick="loadContent('_Overview', 'Overview')" class="nav-link">
                         <img src="~/Assets/overview-icon.svg" alt="Overview Icon" class="sidebar-icon" />
                         Overview
@@ -49,41 +49,61 @@
                         <img src="~/Assets/review-icon.svg" alt="Review Icon" class="sidebar-icon" />
                         Review
                     </a>
-                </li> 
+                </li>  *@
 
 
 
 
-                @* <li class="nav-item">
-                    <a href="javascript:void(0);" data-view="_Overview" data-title="Overview" class="nav-link">
-                        <img src="~/Assets/overview-icon.svg" alt="Overview Icon" class="sidebar-icon" /> Overview
+
+
+
+                <li class="nav-item">
+                    <a href="javascript:void(0);" onclick="loadContent('_Overview', 'Overview')" class="nav-link">
+                        <img src="~/Assets/overview-icon.svg" alt="Overview Icon" class="sidebar-icon" />
+                        Overview
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void(0);" data-view="_Upload" data-title="Upload" class="nav-link">
-                        <img src="~/Assets/upload-icon.svg" alt="Upload Icon" class="sidebar-icon" /> Upload
+                    <a href="javascript:void(0);" onclick="loadContent('_Upload', 'Upload')" class="nav-link">
+                        <img src="~/Assets/upload-icon.svg" alt="Upload Icon" class="sidebar-icon" />
+                        Upload
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void(0);" data-view="_Systems" data-title="Manage" class="nav-link">
-                        <img src="~/Assets/systems-icon.svg" alt="Systems Icon" class="sidebar-icon" /> Systems
+                    <a href="javascript:void(0);" id="manage-toggle" class="nav-link">
+                        <img src="~/Assets/manage-icon.svg" alt="Manage Icon" class="sidebar-icon" />
+                        Manage
+                        <span id="dropdown-icon" class="dropdown-icon">▼</span> <!-- Dropdown icon -->
                     </a>
+                    <ul class="sub-menu" id="manage-sub-menu">
+                        <li class="nav-item" style="margin-top:10px;">
+                            <a href="javascript:void(0);" onclick="loadContent('_Systems', 'Manage')" class="nav-link">
+                                <img src="~/Assets/systems-icon.svg" alt="Systems Icon" class="sidebar-icon" />
+                                Systems
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="javascript:void(0);" onclick="loadContent('_Departments', 'Manage')" class="nav-link">
+                                <img src="~/Assets/departments-icon.svg" alt="Departments Icon" class="sidebar-icon" />
+                                Departments
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="javascript:void(0);" onclick="loadContent('_Divisions', 'Manage')" class="nav-link">
+                                <img src="~/Assets/divisions-icon.svg" alt="Divisions Icon" class="sidebar-icon" />
+                                Divisions
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void(0);" data-view="_Departments" data-title="Manage" class="nav-link">
-                        <img src="~/Assets/departments-icon.svg" alt="Departments Icon" class="sidebar-icon" /> Departments
+                    <a href="javascript:void(0);" onclick="loadContent('_Review', 'Review')" class="nav-link">
+                        <img src="~/Assets/review-icon.svg" alt="Review Icon" class="sidebar-icon" />
+                        Review
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="javascript:void(0);" data-view="_Divisions" data-title="Manage" class="nav-link">
-                        <img src="~/Assets/divisions-icon.svg" alt="Divisions Icon" class="sidebar-icon" /> Divisions
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="javascript:void(0);" data-view="_Review" data-title="Review" class="nav-link">
-                        <img src="~/Assets/review-icon.svg" alt="Review Icon" class="sidebar-icon" /> Review
-                    </a>
-                </li> *@
+
+
 
 
 
@@ -91,8 +111,10 @@
 
 
             </ul>
-            <img src="~/Assets/admin-sidebar-SLA-logo.svg" alt="Sri Lankan IT Systems Logo" class="footer-logo" />
-            @* <img src="~/Assets/admin-sidebar-peacock.svg" alt="Sri Lankan brand background" class="sidebar-background" /> *@
+          
+            @* <img src="~/Assets/admin-sidebar-peacock.svg" alt="Sri Lankan IT Systems Logo" class="footer-logo  peacock-background" /> *@
+            <img src="~/Assets/admin-sidebar-SLA-logo.svg" alt="Sri Lankan Peacock brand" class="footer-logo" />
+            
         </div>
 
         <div class="overlay" id="overlay"></div>
@@ -109,6 +131,7 @@
             <div class="main-content" id="main-content">
                 @RenderBody()
             </div>
+
             <footer class="footer-section">
                 <div class="footer-content">
                     <img src="~/Assets/copyright-icon.svg" alt="Copyright Icon" class="copyright-icon">
@@ -167,14 +190,59 @@
             const sidebarToggle = document.getElementById("sidebar-toggle");
             const sidebar = document.getElementById("sidebar");
           
-
             sidebarToggle.addEventListener("click", function () {
                 sidebar.classList.toggle("hidden");
             });
-
         });
 
 
+              document.getElementById('manage-toggle').addEventListener('click', function () {
+            const subMenu = document.getElementById('manage-sub-menu');
+            const dropdownIcon = document.getElementById('dropdown-icon');
+
+            // Check if the sub-menu is currently visible
+        const isVisible = subMenu.classList.contains('visible');
+
+            // Toggle the max-height property and the visible class
+            if (!isVisible) {
+                subMenu.style.maxHeight = subMenu.scrollHeight + "px"; // Set to the height of the menu
+                subMenu.classList.add('visible'); // Add visible class
+            } else {
+                subMenu.style.maxHeight = null; // Collapse the menu
+                subMenu.classList.remove('visible'); // Remove visible class
+            }
+        });
+
+               // Function to handle nav link clicks
+        function handleNavLinkClick(event) {
+            // Remove active class from all nav links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+
+            // Add active class to the clicked link
+            event.currentTarget.classList.add('active');
+
+            // Check if the clicked link is a subheading under Manage
+            if (event.currentTarget.closest('#manage-sub-menu')) {
+                // Add active class to the Manage link
+                const manageLink = document.getElementById('manage-toggle');
+                manageLink.classList.add('active');
+            } else {
+                // If it's not a subheading, remove active class from Manage link
+                const manageLink = document.getElementById('manage-toggle');
+                manageLink.classList.remove('active');
+            }
+
+            // Call the loadContent function
+            const viewName = event.currentTarget.getAttribute('onclick').match(/'([^']+)'/)[1];
+            const pageTitle = event.currentTarget.textContent.trim();
+            loadContent(viewName, pageTitle);
+        }
+
+        // Attach click event listeners to nav links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', handleNavLinkClick);
+        });
 
 
 

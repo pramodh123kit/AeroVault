@@ -4,6 +4,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: Arial;
+    
 }
 
 body {
@@ -28,7 +29,7 @@ body {
 }
 
     .sidebar .profile-info span {
-        font-size: 20px;
+        font-size: 16px;
         padding: 10px 0;
         margin-bottom: 10px;
         color: #C2C2C2;
@@ -50,22 +51,25 @@ body {
 
 .sidebar-icon {
     margin-right: 10px;
+    width: 20px;
 }
 
 .sidebar .logo {
     font-weight: bold;
     padding: 10px;
-    margin-left:5px;
-    padding-top:10px;
-    padding-bottom:4px;
-    width:200px;
+    margin-left: 5px;
+    padding-top: 10px;
+    padding-bottom: 4px;
+    width: 165px;
+    margin-bottom: 1px;
 }
 
 .sidebar .menu {
     list-style: none;
     padding: 10px;
     padding-left: 10px;
-    padding-right:10px;
+    padding-right: 10px;
+    z-index:100;
 }
 
     .sidebar .menu li {
@@ -108,7 +112,7 @@ body {
 }
 
     .header h1 {
-        font-size: 30px;
+        font-size: 24px;
         margin-left: 20px;
         color: #ffffff;
         font-weight: bold;
@@ -125,17 +129,20 @@ body {
     text-align: end;
     padding: 10px;
     color: #ffffff;
-    margin-top: auto;
-    height: 35px;
+    font-size:14px;
+    height: 30px;
 }
 
 .main-content {
-    height:100%;
-    margin: 10px;
 
+    margin: 10px;
+    flex: 1; /* This allows the main content to take up available space */
 }
 
-
+.copyright-icon {
+    width:15px;
+    margin-bottom:-2px;
+}
 /* Sidebar Toggle States */
 .sidebar.visible {
     transform: translateX(0);
@@ -207,7 +214,10 @@ body {
 
     .main-content {
         margin: 10px;
+        flex: 1; /* This allows the main content to take up available space */
     }
+
+
 }
 
 
@@ -233,11 +243,12 @@ body {
 
 /* Sidebar */
 .sidebar {
-    width: 280px; /* Fixed width for consistent size on all screen sizes */
+    width: 250px; /* Fixed width for consistent size on all screen sizes */
     background-color: #06182C;
-    font-size: 20px;
+    font-size: 16px;
     position: relative;
     transition: transform 0.3s ease;
+    z-index:10;
 }
 
 .footer-logo {
@@ -245,13 +256,27 @@ body {
     bottom: 20px; /* Adjust as needed */
     left: 50%;
     transform: translateX(-50%);
-    width: 80%; /* Adjust size as needed */
-    padding-bottom: 10px;
+    width: 100%; /* Adjust size as needed */
+    z-index: 1
+    /*    padding-bottom: 10px;*/
+}
+.peacock-background {
+    position: absolute; /* Position it absolutely */
+
+    bottom: 0; /* Align to the bottom */
+
+    left: 0; /* Align to the left */
+
+    width: 100%; /* Full width */
+
+    z-index: 0; /* Ensure it's behind the sidebar */
 }
 
 
 #sidebar-toggle {
     cursor: pointer;
+    width:20px;
+    margin-top:2px;
 }
 
 /* Responsive adjustments */
@@ -261,7 +286,7 @@ body {
         left: 0;
         top: 0;
         height: 100%;
-        width: 280px; /* Maintain the fixed width */
+        width: 250px; /* Maintain the fixed width */
         transform: translateX(-100%);
         z-index: 1000;
     }
@@ -295,10 +320,7 @@ body {
         width: 100%;
     }
 
-    .header h1.page-title-name {
-        width: 100%;
-        text-align: center;
-    }
+   
 }
 
 .sidebar .profile-info {
@@ -316,7 +338,7 @@ body {
     }
 
     .sidebar .profile-info span {
-        font-size: 20px;
+        font-size: 16px;
         color: #C2C2C2;
         margin: 0; /* Remove any default margin */
     }
@@ -333,6 +355,7 @@ body {
 .content {
     flex: 1;
     transition: width 0.3s ease;
+    min-height: 100vh; /* Ensures full height */
 }
 
     .content.full-width {
@@ -342,4 +365,32 @@ body {
 
 
 
-    
+.sub-menu {
+    max-height: 0; /* Start collapsed */
+    padding-left: 20px; /* Indent sub-menu items */
+    transition: max-height 0.3s ease, padding 0.3s ease; /* Smooth transition */
+    overflow: hidden; /* Hide overflow */
+    z-index: 100;
+}
+
+    .sub-menu.visible {
+        max-height: 500px; /* Set a max height that is greater than the total height of the sub-menu items */
+        padding-left: 20px; /* Keep the padding for visible state */
+    }
+
+.dropdown-icon {
+    margin-left: 45%; /* Space between text and icon */
+    transition: transform 0.3s ease; /* Smooth rotation */
+}
+
+/* Rotate the icon when the submenu is visible */
+.sub-menu.visible ~ .dropdown-icon {
+    transform: rotate(180deg); /* Rotate icon */
+}
+
+
+.sidebar .menu li a.active {
+    background-color: #C9E0FF; /* Match hover background */
+
+    color: black; /* Match hover text color */
+}
