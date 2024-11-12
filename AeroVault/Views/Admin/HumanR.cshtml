@@ -1,4 +1,131 @@
 ﻿@{
-    ViewData["Title"] = "HumanR";
-    ViewData["HideNavBar"] = true;
+    Layout = null; // This will prevent any layout from being applied
 }
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        margin: 0; /* Removes default body margin */
+        padding: 0; /* Removes default body padding */
+    }
+
+    .Human_header {
+        background-color: #f2f2f2;
+        padding: 10px;
+        border-bottom: 2px solid #ccc;
+    }
+
+    .heading {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .Human_searchBar {
+        margin-top: 10px;
+    }
+
+        .Human_searchBar input {
+            padding: 5px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+    .Human_table_container {
+        margin-top: 20px;
+        overflow-x: auto;
+    }
+
+    .humanTable {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .humanTable th, .humanTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .humanTable th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .humanTable tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .humanTable tr:hover {
+            background-color: #f1f1f1;
+        }
+
+    .icon {
+        margin-right: 5px;
+    }
+</style>
+
+<div class="Human_header">
+    <div class="heading">Human Resources System 1</div>
+    <div class="Human_searchBar">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" onkeyup="searchFiles()" placeholder="Search">
+    </div>
+</div>
+<div class="Human_table_container">
+    <table id="Human_FileTable" class="humanTable">
+        <thead>
+            <tr>
+                <th>File Name</th>
+                <th>Category</th>
+                <th>Read by</th>
+                <th>Pending by</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><i class="fas fa-file icon"></i> File 1</td>
+                <td>Category 1</td>
+                <td class="read-by"><i class="fas fa-eye"></i> 154</td>
+                <td class="pending-by"><i class="fas fa-hourglass-half"></i> 233</td>
+            </tr>
+            <tr>
+                <td><i class="fas fa-file icon"></i> File 2</td>
+                <td>Category 2</td>
+                <td class="read-by"><i class="fas fa-eye"></i> 154</td>
+                <td class="pending-by"><i class="fas fa-hourglass-half"></i> 233</td>
+            </tr>
+            <!-- Add more rows as needed -->
+        </tbody>
+    </table>
+</div>
+
+
+
+<script>
+    function searchFiles() {
+        var input, filter, table, tr, td, i, j, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toLowerCase();
+        table = document.getElementById("Human_FileTable");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 1; i < tr.length; i++) {
+            tr[i].style.display = "none";
+            td = tr[i].getElementsByTagName("td");
+            for (j = 0; j < td.length; j++) {
+                if (td[j]) {
+                    txtValue = td[j].textContent || td[j].innerText;
+                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                        break;
+                    }
+                }
+            }
+        }
+    }
+</script>
