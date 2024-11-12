@@ -1,6 +1,42 @@
 ﻿.admin-main-content {
-    background-color: #fff;
+    background-color: #ffffff;
     height: 100%;
     width: 100%;
     border-radius:10px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between; 
+}
+
+h2 {
+    font-size: 22px;      
+    color: black;          
+    font-family: Arial;
+    
+}
+    
+.upload-btn {
+    align-items: center;
+    background-color: #318D56;
+    color: white;
+    border: none;
+    width: 15%;
+    height: 6%;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: Arial;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    /*position: absolute;*/
+    right: 3%; 
+    font-weight: bold;
+}
+
+.upload-btn svg {
+    margin-right: 3%;
+    fill: #ffffff;
+}
+
+.upload-btn:hover {
+    background-color: #22613b;
 }
