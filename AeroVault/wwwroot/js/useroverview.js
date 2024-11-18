@@ -1,6 +1,6 @@
 // userOverview.js
 document.addEventListener('DOMContentLoaded', function() {
-    // Function to calculate percentage
+    
     function calculateReadPercentage(readFiles, totalFiles) {
         return Math.round((readFiles / totalFiles) * 100);
     }
