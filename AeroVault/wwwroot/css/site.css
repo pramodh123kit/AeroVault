@@ -12,3 +12,15 @@ body,html {
     padding: 0px 25px;
 }
 
+.user-sidebar-toggle {
+    cursor: pointer;
+    width: 20px;
+    display: none;
+}
+
+@media (max-width: 576px) {
+    .user-sidebar-toggle {
+        display: block; /* Show when the media query is triggered */
+    }
+}
+
