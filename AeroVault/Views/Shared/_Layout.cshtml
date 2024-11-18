@@ -10,22 +10,20 @@
     <link rel="stylesheet" href="~/AeroVault.styles.css" asp-append-version="true" />
 </head>
 <body class="d-flex flex-column min-vh-100">
+
+
     <header>
+
         @if (ViewData["HideNavbar"] == null || !(bool)ViewData["HideNavbar"])
         {
             @if (ViewData["CustomNavbar"] != null && (bool)ViewData["CustomNavbar"])
             {
-                <!-- Updated CustomNavbar section -->
-                <nav class="navbar navbar-expand-sm navbar-dark bg-primary user-navbar" style="height:46px;">
+                <nav class="navbar navbar-expand-sm navbar-dark bg-primary user-navbar">
                     <div class="container-fluid">
                         <a class="navbar-brand d-flex align-items-center">
                             <img src="~/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" width="165px" class="d-inline-block align-top">
                         </a>
-
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-
+                        <img src="~/Assets/admin-sidebar-collapse.svg" alt="sidebar-collapse-icon" id="user-sidebar-toggle" class="user-sidebar-toggle" />
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav centered-links">
                                 <li class="nav-item">
@@ -34,47 +32,21 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link @(ViewData["IsDashboardActive"] == null || !(bool)ViewData["IsDashboardActive"] ? "text-white fw-bold" : "text-white-50")"
-                                       asp-area="" asp-controller="UserFileRepository" asp-action="FileRepository" style="font-size:20px;">File Repository</a>
+                                       asp-area="" asp-controller="UserFileRepository" asp-action="FileRepository">File Repository</a>
                                 </li>
                             </ul>
                             <div class="navbar-icons d-flex align-items-center">
-                                <img src="~/Assets/UserProfilePic.svg" alt="User Icon" width="30" height="30" class="rounded-circle" style="cursor:pointer;">
+                                <img src="~/Assets/UserProfilePic.svg" alt="User  Icon" width="30" height="30" class="rounded-circle" style="cursor:pointer;">
                                 <img src="~/Assets/Line.svg" class="line-seperator" alt="Line separator" style="width:1px; margin-left:15px;" />
                                 <img src="~/Assets/LogoutIcon.svg" alt="Logout Icon" class="logout-icon" style="width:20px; cursor:pointer; margin-left:15px;" />
                             </div>
                         </div>
                     </div>
                 </nav>
-           
-            }
-            else
-            {
-                <!-- Default Navbar if CustomNavbar is false -->
-                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                    <div class="container-fluid">
-                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AeroVault</a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                            <ul class="navbar-nav flex-grow-1">
-                                <li class="nav-item">
-                                    <a class="nav-link @(ViewData["IsDashboardActive"] != null && (bool)ViewData["IsDashboardActive"] ? "text-white fw-bold" : "")"
-                                       asp-area="" asp-controller="UserOverview" asp-action="UserPageOverview">Dashboard</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link @(ViewData["IsDashboardActive"] == null || !(bool)ViewData["IsDashboardActive"] ? "text-white fw-bold" : "")"
-                                       asp-area="" asp-controller="UserFileRepository" asp-action="FileRepository">File Repository</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
             }
         }
-
     </header>
+
 
     <main role="main" class="flex-grow-1">
         @RenderBody()
@@ -96,6 +68,8 @@
     <div id="dark-overlay6" class="dark-overlay6" style="display: none;"></div>
     @Html.Partial("UserPopups/_UserProfilePopup")
 
+    <div id="dark-overlay7" class="dark-overlay" style="display: none;"></div>
+    @Html.Partial("UserPopups/_UserSidebar")
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -145,7 +119,30 @@
 
         document.getElementById('dark-overlay6').onclick = fileEditClosePopup2;
         document.getElementById('close-icon6').onclick = fileEditClosePopup2;
-      
+
+
+
+
+
+        function fileEditopenPopup3() {
+            document.getElementById('dark-overlay7').style.display = 'block';
+            document.getElementById('editfile-popup7').style.display = 'block';
+        }
+
+        function fileEditClosePopup3() {
+            document.getElementById('dark-overlay7').style.display = 'none';
+            document.getElementById('editfile-popup7').style.display = 'none';
+        }
+
+
+
+        document.querySelectorAll(".user-sidebar-toggle").forEach(function (icon) {
+            icon.onclick = fileEditopenPopup3;
+        });
+
+        document.getElementById('dark-overlay7').onclick = fileEditClosePopup3;
+        document.getElementById('close-logout7').onclick = fileEditClosePopup3;
+
 
 
     </script>
