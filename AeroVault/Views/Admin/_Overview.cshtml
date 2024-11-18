@@ -7,37 +7,48 @@
     <div class="admin-main-content">
         <div class="Cards">
             <div class="Card">
-                <img src="~/Assets/department.svg" />
-                <h1>105</h1>
+                <img src="~/Assets/overview-dep-card1.png" />
+                <h1 class="card-header">Departments</h1>
+                <h1 class="card-count">105</h1>
             </div>
             <div class="Card">
-                <img src="~/Assets/Systems.svg" />
-                <h1>140</h1>
+                <img src="~/Assets/overview-sys-card1.png" />
+                <h1 class="card-header">Systems</h1>
+                <h1 class="card-count">140</h1>
             </div>
             <div class="Card">
-                <img src="~/Assets/documents.svg" />
-                <h1>750</h1>
+                <img src="~/Assets/overview-doc-card1.png" />
+                <h1 class="card-header">Documents</h1>
+                <h1 class="card-count">750</h1>
             </div>
             <div class="Card">
-                <img src="~/Assets/Videos.svg" />
-                <h1>750</h1>
+                <img src="~/Assets/overview-vid-card1.png" />
+                <h1 class="card-header">Videos</h1>
+                <h1 class="card-count">750</h1>
             </div> 
         </div>
         <h1 class="ActivityO">Activity Overview</h1>
 
         <div class="charts-container">
             <div class="outerPieChartsContainer">
-                <div class="header2">
+                <div class="header2 header-pie">
                     <h2>Recent Activity</h2>
+                   
                     <div class="dropdown">
-                        <select>
-                            <option>Viewing Period: Last Month</option>
-                        </select>
+                        <p class="dropdown-label" style="display:inline-block">Viewing Period:</p>
+                        <div class="dropdown-container">
+                            <select class="dropdown-select">
+                                <option>Last Month</option>
+                                <option>Last Week</option>
+                                <option>Yesterday</option>
+                            </select>
+                            <span class="dropdown-icon">▼</span>
+                        </div>
                     </div>
                 </div>
                 <div class="contentInfo">
                     <div class="pieChart">
-                        <canvas id="myChart" class="myChart"></canvas>
+                        <canvas id="myChart" class="myChart" width="180px" height="180px"></canvas>
                     </div>
                     <div class="legend">
                         <div class="legend-item">
@@ -62,42 +73,48 @@
                         </div>
                     </div>
                 </div>
-                <div class="stats">
+
+                <div class="stats-container">
                     <div class="stat-item">
-                        <h3>253</h3>
-                        <p>Docs</p>
+                        <p class="stat-number">253</p>
+                        <p class="stat-label">Docs</p>
                     </div>
+                    <div class="separator"></div>
                     <div class="stat-item">
-                        <h3>142</h3>
-                        <p>Videos</p>
+                        <p class="stat-number">142</p>
+                        <p class="stat-label">Videos</p>
                     </div>
+                    <div class="separator"></div>
                     <div class="stat-item">
-                        <h3>56</h3>
-                        <p>Systems</p>
+                        <p class="stat-number">56</p>
+                        <p class="stat-label">Systems</p>
                     </div>
+                    <div class="separator"></div>
                     <div class="stat-item">
-                        <h3>0</h3>
-                        <p>Depts.</p>
+                        <p class="stat-number">0</p>
+                        <p class="stat-label">Depts.</p>
                     </div>
+                    <div class="separator"></div>
                     <div class="stat-item">
-                        <h3>0</h3>
-                        <p>Divisions</p>
+                        <p class="stat-number">0</p>
+                        <p class="stat-label">Divisions</p>
                     </div>
                 </div>
+
+
+
+
+
             </div>
 
             <div class="outerBarChartsContainer">
-                <div class="header2">
+                <div class="header2 barchart-header">
                     <h2>Logged In Staff</h2>
-                    <div class="dropdown">
-                        <select>
-                            <option>Sep 1 - Oct 1</option>
-                        </select>
-                    </div>
+                    <p>Sep 1  - Oct 1 </p>
                 </div>
-                <div class="contentInfo">
+                <div class="contentInfo barchart-contentInfo">
                     <div class="BarChart">
-                        <canvas id="myChart2" class="myChart2"></canvas>
+                        <canvas id="myChart2" class="myChart2" style="display: block; box-sizing: border-box;"></canvas>
                     </div>
                 </div>
                 

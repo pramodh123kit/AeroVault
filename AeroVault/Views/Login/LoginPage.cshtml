@@ -10,6 +10,7 @@
         AeroVault - Login Page
     </title>
     <link rel="stylesheet" href=~/css/Login.css />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 </head>
 <body>
@@ -25,9 +26,9 @@
                 </div>
                 <form id="form" asp-area="" asp-controller="UserOverview" asp-action="UserPageOverview" method="get">
 
-                    <input id="username" placeholder="Staff ID" type="text" class="errorinput" />
+                    <input id="username" placeholder="Staff ID" type="text" class="errorinput" autocomplete="off" value=""/>
                     <div id="error"></div>
-                    <input id="password" placeholder="Password" type="password" class="errorinput" />
+                    <input id="password" placeholder="Password" type="password" class="errorinput" autocomplete="off" value="" />
                     <div id="error2"></div>
 
                     <button type="submit" id="submit">

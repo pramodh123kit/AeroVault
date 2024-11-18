@@ -1,0 +1,241 @@
+﻿<html>
+<head>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+    <style>
+        .custom-form-group {
+            margin-bottom: 0px;
+            width: 300px;
+            margin-top: 30px;
+        }
+
+        .custom-dropdown {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .custom-dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            min-width: 100%;
+            border: 1px solid #6D6D6D;
+            border-top: none;
+            border-bottom-right-radius: 10px;
+            border-bottom-left-radius: 10px;
+            z-index: 1;
+        }
+
+        .custom-dropdown-list {
+            height: 150px;
+            overflow-y: scroll;
+        }
+
+            .custom-dropdown-list::-webkit-scrollbar {
+                width: 10px;
+                background-color: #fff;
+            }
+
+            .custom-dropdown-list::-webkit-scrollbar-thumb {
+                background-color: #135176;
+                border-radius: 100px;
+                height: 20px;
+            }
+
+            .custom-dropdown-list div {
+                padding: 8px 16px;
+                cursor: pointer;
+            }
+
+                .custom-dropdown-list div:hover {
+                    background-color: #BBDCF9;
+                }
+
+            .custom-dropdown-list .active {
+                font-weight: bold;
+            }
+
+        .custom-dropdown-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border: 1px solid #6D6D6D;
+            border-bottom: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+            .custom-dropdown-toggle i {
+                margin-left: 10px;
+                transition: transform 0.3s;
+            }
+
+            .custom-dropdown-toggle.open i {
+                transform: rotate(180deg);
+            }
+
+        .custom-selector {
+            border: 1px solid #6D6D6D;
+            border-radius: 10px;
+        }
+
+        .custom-search-container {
+            display: flex;
+            border-bottom: 1px solid #938C8C;
+            margin: 20px;
+            margin-top: 0px;
+        }
+
+            .custom-search-container img {
+                color: #999;
+                margin-right: 5px;
+                font-size: 20px;
+                margin-left: 5px;
+            }
+
+            .custom-search-container input {
+                border: none;
+                color: #000;
+                font-size: 16px;
+                outline: none;
+                flex: 1;
+                padding: 5px;
+            }
+
+        #custom-search-input {
+            margin-left: 0px;
+            border: none;
+        }
+
+        .custom-dropdown-toggle::after {
+            content: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="custom-form-group">
+        <label class="custom-label" for="custom-selector">Select Option</label>
+        <div class="custom-dropdown">
+            <div class="custom-dropdown-toggle custom-selector" onclick="toggleCustomDropdown()">
+                <span id="selected-option">Information Technology</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="custom-dropdown-content">
+                <div class="custom-search-container">
+                    <img src="~/Assets/search-icon.svg" alt="Search Icon" />
+                    <input type="text" id="custom-search-input" placeholder="Search Option" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
+                </div>
+                <div class="custom-dropdown-list">
+                    <div onclick="selectCustomOption(this)" class="active">Information Technology</div>
+                    <div onclick="selectCustomOption(this)">Human Resource</div>
+                    <div onclick="selectCustomOption(this)">Flight Operations</div>
+                    <div onclick="selectCustomOption(this)">Safety and Security</div>
+                    <div onclick="selectCustomOption(this)">Finance</div>
+                    <div onclick="selectCustomOption(this)">Marketing</div>
+                    <div onclick="selectCustomOption(this)">Customer Service</div>
+                    <div onclick="selectCustomOption(this)">Logistics</div>
+                    <div onclick="selectCustomOption(this)">Procurement</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleCustomDropdown() {
+            var dropdownContent = document.querySelector('.custom-dropdown-content');
+            var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
+            var selector = document.querySelector('.custom-selector');
+
+            if (dropdownContent.style.display === 'block') {
+                dropdownContent.style.display = 'none';
+                dropdownToggle.classList.remove('open');
+
+                selector.style.borderBottomLeftRadius = '10px';
+                selector.style.borderBottomRightRadius = '10px';
+                selector.style.borderBottom = '1px solid #6D6D6D';
+            } else {
+                dropdownContent.style.display = 'block';
+                dropdownToggle.classList.add('open');
+
+                selector.style.borderBottomLeftRadius = '0';
+                selector.style.borderBottomRightRadius = '0';
+                selector.style.borderBottom = 'none';
+                document.getElementById('custom-search-input').value = '';
+                showAllCustomOptions();
+            }
+        }
+
+        function filterCustomOptions() {
+            var input, filter, div, i, txtValue;
+            input = document.getElementById('custom-search-input');
+            filter = input.value.toUpperCase();
+            div = document.querySelectorAll('.custom-dropdown-list div');
+            for (i = 0; i < div.length; i++) {
+                txtValue = div[i].textContent || div[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    div[i].style.display = "";
+                } else {
+                    div[i].style.display = "none";
+                }
+            }
+        }
+
+        function selectCustomOption(element) {
+            var selectedOption = element.textContent || element.innerText;
+            document.getElementById('selected-option').textContent = selectedOption;
+            document.querySelector('.custom-dropdown-content').style.display = 'none';
+            document.querySelector('.custom-dropdown-toggle').classList.remove('open');
+
+            var selector = document.querySelector('.custom-selector');
+            selector.style.borderBottomLeftRadius = '10px';
+            selector.style.borderBottomRightRadius = '10px';
+            selector.style.borderBottom = '1px solid #6D6D6D';
+
+            var divs = document.querySelectorAll('.custom-dropdown-list div');
+            divs.forEach(function (div) {
+                div.classList.remove('active');
+            });
+            element.classList.add('active');
+        }
+
+        function showAllCustomOptions() {
+            var divs = document.querySelectorAll('.custom-dropdown-list div');
+            divs.forEach(function (div) {
+                div.style.display = "";
+            });
+        }
+
+        document.getElementById('custom-search-input').addEventListener('blur', function () {
+            const selector = document.querySelector('.custom-selector');
+
+            selector.style.borderBottomLeftRadius = '10px';
+            selector.style.borderBottomRightRadius = '10px';
+
+            selector.style.border = '1px solid #6D6D6D';
+        });
+
+        window.onclick = function (event) {
+            const dropdownContent = document.querySelector('.custom-dropdown-content');
+            const selector = document.querySelector('.custom-selector');
+
+            if (!event.target.matches('.custom-dropdown-toggle') && !event.target.matches('.custom-dropdown-toggle *') && !event.target.matches('#custom-search-input')) {
+
+                if (dropdownContent.style.display === 'block') {
+                    dropdownContent.style.display = 'none';
+                    document.getElementById('custom-search-input').value = '';
+                    filterCustomOptions();
+                    document.querySelector('.custom-dropdown-toggle').classList.remove('open');
+
+                    selector.style.borderBottomLeftRadius = '10px';
+                    selector.style.borderBottomRightRadius = '10px';
+                    selector.style.borderBottom = '1px solid #6D6D6D';
+                }
+            }
+        };
+    </script>
+</body>
+</html>

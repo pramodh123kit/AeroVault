@@ -8,5 +8,9 @@ namespace AeroVault.Controllers
         {
             return View();
         }
+        public IActionResult testing()
+        {
+            return View();
+        }
     }
 }
