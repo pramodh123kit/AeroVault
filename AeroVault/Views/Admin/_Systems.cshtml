@@ -6,7 +6,7 @@
 <body>
     <div class="admin-main-content">
         <div class="header-container">
-            <h2 class="systems-header">
+            <h2 class="systems-header" id="systems-header">
                 Select a System to Manage
             </h2>
             <button class="add-system-button">
@@ -14,7 +14,6 @@
                 Add New System
             </button>
         </div>
-
 
     
         <div class="sidebar-container">
@@ -24,7 +23,8 @@
                     <img src="~/Assets/search-icon.svg" alt="Search Icon" />
                     <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search System" type="text" />
                 </div>
-                <div class="scrollable-content">
+                <div class="scrollable-content scrollable-content-list">
+                    <div id="systemListContainer">
                 <ul id="systemList">
                      <li onclick="highlightSystem(this)">
                         <a href="#">
@@ -179,19 +179,49 @@
 
 
                 </ul>
+
+                        <div class="custom-form-group">
+                            <h2 class="systems-header systems-header-label">
+                                Select a System to Manage
+                            </h2>
+                            <div class="custom-dropdown">
+                                <div class="custom-dropdown-toggle custom-selector" onclick="toggleCustomDropdown(event)">
+                                    <span id="selected-option" style="color:#333333;">Information Technology</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="custom-dropdown-content">
+                                    <div class="custom-search-container">
+                                        <img src="~/Assets/search-icon.svg" alt="Search Icon" />
+                                        <input type="text" id="custom-search-input" placeholder="Search Option" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
+                                    </div>
+                                    <div class="custom-dropdown-list">
+                                        <div onclick="selectCustomOption(this)" class="active">Information Technology</div>
+                                        <div onclick="selectCustomOption(this)">Human Resource</div>
+                                        <div onclick="selectCustomOption(this)">Flight Operations</div>
+                                        <div onclick="selectCustomOption(this)">Safety and Security</div>
+                                        <div onclick="selectCustomOption(this)">Finance</div>
+                                        <div onclick="selectCustomOption(this)">Marketing</div>
+                                        <div onclick="selectCustomOption(this)">Customer Service</div>
+                                        <div onclick="selectCustomOption(this)">Logistics</div>
+                                        <div onclick="selectCustomOption(this)">Procurement</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 </div>
             </div>
-            
+           
+ 
+        </div>
             <div class="image-container">
                 <img src="~/Assets/system-background-icon.svg" alt="System Background Image" />
             </div>
-           
 
             <div class="system-container" style="display: none;">
                 <div class="header-system-container">
                     <div class="first-container">
                         <h2 class="systems-name">System Name</h2>
-                        <div class="button-container">
+                        <div class="button-container" style="margin-top:0px;">
                             <button class="edit-system-button">
                                 <img src="~/Assets/system-details-edit-icon.svg" alt="Add Icon" class="button-icon" />
                                 Edit
@@ -207,8 +237,6 @@
                         <input id="SystemfileSearch" onkeyup="filterFiles()" placeholder="Search" type="text" class="file-search-input" />
                     </div>
                 </div>
-
-
 
 
                 <div class="table-container">
@@ -228,7 +256,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon"/> Maintenance Procedure Overview</td>
+                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
                                     <td>Training</td>
                                     <td>
                                         <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
@@ -252,7 +280,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon"/> Maintenance Procedure Overview</td>
+                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
                                     <td>Training</td>
                                     <td>
                                         <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
@@ -275,8 +303,8 @@
                                         <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
                                     </td>
                                 </tr>
-                                 <tr>
-                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon"/> Maintenance Procedure Overview</td>
+                                <tr>
+                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
                                     <td>Training</td>
                                     <td>
                                         <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
@@ -299,8 +327,8 @@
                                         <img src="~/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
                                     </td>
                                 </tr>
-                                 <tr>
-                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon"/> Maintenance Procedure Overview</td>
+                                <tr>
+                                    <td><img src="~/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
                                     <td>Training</td>
                                     <td>
                                         <img src="~/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
@@ -372,18 +400,11 @@
                                     </td>
                                 </tr>
                             </tbody>
-                       </table>
+                        </table>
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
-
-        </div>
+    </div>
     </div>
 
     <!-- Overlay -->
@@ -406,13 +427,121 @@
     @Html.Partial("AdminSystemPopups/_AdminFileEdit")
 
 
-
-   
-
-
-
-
-
     <script src="~/js/AdminSystemScripts.js"></script>
+
+    <script>
+        function toggleCustomDropdown(event) {
+            event.stopPropagation(); 
+            var dropdownContent = document.querySelector('.custom-dropdown-content');
+            var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
+            var selector = document.querySelector('.custom-selector');
+
+            if (dropdownContent.style.display === 'block') {
+                dropdownContent.style.display = 'none';
+                dropdownToggle.classList.remove('open');
+                selector.style.borderBottomLeftRadius = '10px';
+                selector.style.borderBottomRightRadius = '10px';
+                selector.style.borderBottom = '1px solid #6D6D6D';
+            } else {
+                dropdownContent.style.display = 'block';
+                dropdownToggle.classList.add('open');
+                selector.style.borderBottomLeftRadius = '0';
+                selector.style.borderBottomRightRadius = '0';
+                selector.style.borderBottom = 'none';
+                document.getElementById('custom-search-input').value = '';
+                showAllCustomOptions();
+            }
+        }
+
+        function filterCustomOptions() {
+            var input = document.getElementById('custom-search-input');
+            var filter = input.value.toUpperCase();
+            var divs = document.querySelectorAll('.custom-dropdown-list div');
+
+            divs.forEach(function (div) {
+                var txtValue = div.textContent || div.innerText;
+                div.style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? '' : 'none';
+            });
+        }
+
+        function selectCustomOption(element) {
+            var selectedOption = element.textContent || element.innerText;
+            document.getElementById('selected-option').textContent = selectedOption;
+            document.querySelector('.custom-dropdown-content').style.display = 'none';
+            document.querySelector('.custom-dropdown-toggle').classList.remove('open');
+
+            var selector = document.querySelector('.custom-selector');
+            selector.style.borderBottomLeftRadius = '10px';
+            selector.style.borderBottomRightRadius = '10px';
+            selector.style.borderBottom = '1px solid #6D6D6D';
+
+            var divs = document.querySelectorAll('.custom-dropdown-list div');
+            divs.forEach(div => div.classList.remove('active'));
+            element.classList.add('active');
+
+            document.querySelector('.systems-name').innerText = selectedOption; 
+
+            document.querySelector('.image-container').style.display = 'none'; 
+            document.querySelector('.system-container').style.display = 'block'; 
+        }
+
+        function showAllCustomOptions() {
+            var divs = document.querySelectorAll('.custom-dropdown-list div');
+            divs.forEach(div => div.style.display = "");
+        }
+            
+        window.addEventListener('click', function (event) {
+            var dropdownContent = document.querySelector('.custom-dropdown-content');
+            var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
+            var selector = document.querySelector('.custom-selector');
+
+            if (!dropdownToggle.contains(event.target) && dropdownContent.style.display === 'block') {
+                dropdownContent.style.display = 'none';
+                dropdownToggle.classList.remove('open');
+                selector.style.borderBottomLeftRadius = '10px';
+                selector.style.borderBottomRightRadius = '10px';
+                selector.style.borderBottom = '1px solid #6D6D6D';
+            }
+        });
+
+        
+        function populateCustomDropdown() {
+            var dropdownList = document.querySelector('.custom-dropdown-list');
+
+            dropdownList.innerHTML = '';
+
+            var systemListItems = document.querySelectorAll('#systemList li');
+
+            systemListItems.forEach(function (item) {
+                var systemName = item.innerText.trim();
+
+                console.log("Adding system name to dropdown:", systemName); 
+
+                var dropdownItem = document.createElement('div');
+                dropdownItem.textContent = systemName;
+
+                dropdownItem.onclick = function () {
+                    selectCustomOption(dropdownItem);
+                };
+
+                dropdownList.appendChild(dropdownItem);
+            });
+
+            if (dropdownList.children.length === 0) {
+                console.log("No items found to populate the dropdown."); 
+            }
+        }
+
+        window.addEventListener('load', function () {
+
+            console.log("Window loaded, populating dropdown..."); 
+
+            populateCustomDropdown(); 
+
+        });
+       
+
+
+    </script>
 </body>
 </html>

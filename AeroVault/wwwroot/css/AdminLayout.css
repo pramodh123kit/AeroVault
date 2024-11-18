@@ -1,5 +1,4 @@
-﻿/* General Styling */
-* {
+﻿* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -10,13 +9,13 @@
 body {
     background-color: #E3F1FD;
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .container {
     display: flex;
     width: 100%;
-    height: 100%;
+   
 }
 
 /* Sidebar */
@@ -74,6 +73,8 @@ body {
 
     .sidebar .menu li {
         margin-bottom: 15px;
+        z-index: 100;
+        position: sticky;
     }
 
         .sidebar .menu li a {
@@ -83,17 +84,47 @@ body {
             align-items: center;
             padding: 8px;
             border-radius: 5px;
+            z-index: 100;
         }
 
             .sidebar .menu li a.active {
                 background-color: #5a7b9f;
                 color: #ffffff;
+                z-index: 100;
             }
 
             .sidebar .menu li a:hover {
-                background-color: #C9E0FF;
+                background-color: #AEC3DE;
                 color: black;
+                z-index: 100;
             }
+
+
+
+.nav-link:hover img {
+    opacity: 0; 
+}
+
+.nav-link:hover img[data-original] {
+    opacity: 1;
+}
+
+.profile-info {
+    cursor:pointer;
+}
+
+.profile-details {
+    max-height: 0;
+    overflow: hidden; 
+    transition: max-height 0.3s ease, padding 0.3s ease; 
+    padding: 0 10px; 
+}
+
+    .profile-details.visible {
+        max-height: 200px; 
+        padding: 10px 10px;
+        display:block;
+    }
 
 /* Main Content */
 .content {
@@ -134,16 +165,15 @@ body {
 }
 
 .main-content {
-
     margin: 10px;
-    flex: 1; /* This allows the main content to take up available space */
+    flex: 1; 
 }
 
 .copyright-icon {
     width:15px;
     margin-bottom:-2px;
 }
-/* Sidebar Toggle States */
+
 .sidebar.visible {
     transform: translateX(0);
 }
@@ -162,7 +192,6 @@ body {
     background: rgba(0, 0, 0, 0.6);
     z-index: 5;
     opacity: 0;
-    /*    transition: opacity 0.3s ease;*/
 }
 
     .overlay.active {
@@ -170,14 +199,14 @@ body {
         opacity: 1;
     }
 
-/* Responsive Adjustments: Hide Sidebar on Tablet Size */
+/* Responsive Adjustments */
 @media (max-width: 1024px) {
     .sidebar {
         position: fixed;
         left: 0;
         top: 0;
         height: 100%;
-        width: 16%; /* Fixed width for consistency */
+        width: 16%;
         transform: translateX(-100%);
         z-index: 10;
     }
@@ -198,9 +227,9 @@ body {
             pointer-events: all;
         }
 
-    /* Adjust main content to full width when sidebar is hidden */
     .content {
         width: 100%;
+        transition: transform 0.3s ease;
     }
 
     .header h1 {
@@ -213,15 +242,13 @@ body {
     }
 
     .main-content {
+      
         margin: 10px;
-        flex: 1; /* This allows the main content to take up available space */
+/*        background-color:white;*/
+        flex: 1; 
     }
-
-
 }
 
-
-/* General Styling */
 * {
     margin: 0;
     padding: 0;
@@ -229,21 +256,14 @@ body {
     font-family: Arial;
 }
 
-body {
-    background-color: #E3F1FD;
-    display: flex;
-    height: 100vh;
-}
-
 .container {
     display: flex;
     width: 100%;
-    height: 100%;
 }
 
 /* Sidebar */
 .sidebar {
-    width: 250px; /* Fixed width for consistent size on all screen sizes */
+    width: 250px;
     background-color: #06182C;
     font-size: 16px;
     position: relative;
@@ -253,25 +273,17 @@ body {
 
 .footer-logo {
     position: absolute;
-    bottom: 20px; /* Adjust as needed */
+    bottom: 20px; 
     left: 50%;
     transform: translateX(-50%);
-    width: 100%; /* Adjust size as needed */
+    width: 100%; 
     z-index: 1
-    /*    padding-bottom: 10px;*/
 }
-.peacock-background {
-    position: absolute; /* Position it absolutely */
-
-    bottom: 0; /* Align to the bottom */
-
-    left: 0; /* Align to the left */
-
-    width: 100%; /* Full width */
-
-    z-index: 0; /* Ensure it's behind the sidebar */
+.peacock-background {   
+    bottom: 0;  
+    width: 100%;
+    z-index: 0;
 }
-
 
 #sidebar-toggle {
     cursor: pointer;
@@ -286,7 +298,7 @@ body {
         left: 0;
         top: 0;
         height: 100%;
-        width: 250px; /* Maintain the fixed width */
+        width: 250px; 
         transform: translateX(-100%);
         z-index: 1000;
     }
@@ -315,12 +327,9 @@ body {
         pointer-events: all;
     }
 
-    /* Adjust content width when sidebar is hidden */
     .content {
         width: 100%;
-    }
-
-   
+    }   
 }
 
 .sidebar .profile-info {
@@ -328,8 +337,8 @@ body {
     border-top: 1px solid #ABB5C7;
     border-bottom: 1px solid #ABB5C7;
     padding: 10px 0;
-    display: flex; /* Add this line */
-    align-items: center; /* Aligns items vertically */
+    display: flex; 
+    align-items: center;
 }
 
     .sidebar .profile-info img {
@@ -340,57 +349,73 @@ body {
     .sidebar .profile-info span {
         font-size: 16px;
         color: #C2C2C2;
-        margin: 0; /* Remove any default margin */
+        margin: 0; 
     }
-
-
-
 
 .sidebar.hidden {
     transform: translateX(-100%);
-    position: absolute; /* Keeps the sidebar off-canvas */
+    position: absolute; 
 }
 
-/* Content expands to full width when sidebar is hidden */
 .content {
     flex: 1;
     transition: width 0.3s ease;
-    min-height: 100vh; /* Ensures full height */
 }
 
     .content.full-width {
         width: 100%;
     }
 
-
-
-
 .sub-menu {
-    max-height: 0; /* Start collapsed */
-    padding-left: 20px; /* Indent sub-menu items */
-    transition: max-height 0.3s ease, padding 0.3s ease; /* Smooth transition */
-    overflow: hidden; /* Hide overflow */
+    max-height: 0; 
+    padding-left: 20px;
+    transition: max-height 0.3s ease, padding 0.3s ease; 
+    overflow: hidden; 
     z-index: 100;
 }
+    .sub-menu li {  
+       list-style-type: none;
+    }
 
     .sub-menu.visible {
-        max-height: 500px; /* Set a max height that is greater than the total height of the sub-menu items */
-        padding-left: 20px; /* Keep the padding for visible state */
+        max-height: 500px; 
+        padding-left: 20px; 
     }
 
 .dropdown-icon {
-    margin-left: 45%; /* Space between text and icon */
-    transition: transform 0.3s ease; /* Smooth rotation */
+    margin-left: 50%;
+    font-size:16px;
+    transition: transform 0.3s ease; 
 }
 
-/* Rotate the icon when the submenu is visible */
-.sub-menu.visible ~ .dropdown-icon {
-    transform: rotate(180deg); /* Rotate icon */
-}
-
+    .dropdown-icon.rotate {
+        transform: rotate(180deg); 
+    }
 
 .sidebar .menu li a.active {
-    background-color: #C9E0FF; /* Match hover background */
+    background-color: #C9E0FF;
+    color: black;
+}
 
-    color: black; /* Match hover text color */
+.nav-link.active {
+    color: black;
+}
+    .nav-link.active img {
+        filter: brightness(0); 
+    }
+
+.logout-icon {
+    width:20px;
+    cursor:pointer;
+}
+
+.dark-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); 
+    z-index: 1000; 
+    display: none;
 }

@@ -1,4 +1,6 @@
-﻿const ctx = document.getElementById('myChart').getContext('2d');
+﻿function initializeCharts() {
+
+const ctx = document.getElementById('myChart').getContext('2d');
 const ctx2 = document.getElementById('myChart2').getContext('2d');
 
 
@@ -27,6 +29,11 @@ var gradient6 = ctx.createLinearGradient(0, 0, 800, 400);
 gradient6.addColorStop(0, '#053C7A'); // Start color orange
 gradient6.addColorStop(1, '#052850'); // End color
 
+var gradient7 = ctx2.createLinearGradient(0, 0, 800, 0); 
+gradient7.addColorStop(0, 'rgba(5, 60, 122, 0.90)'); 
+gradient7.addColorStop(1, 'rgba(5, 40, 80, 0.90)'); 
+
+
 var dataset = [{
     label: 'Total ',
     data: [12, 19, 10, 20, 10],
@@ -38,8 +45,15 @@ var dataset2 = [{
     label: 'Logged In Staff  ',
     data: [120, 190, 100, 200, 100],
     borderWidth: 0,
-    backgroundColor: [gradient6], // Segment colors
-    hoverBackgroundColor: ['#36A2EB'] // Hover colors
+    backgroundColor: [gradient7], // Segment colors
+    hoverBackgroundColor: ['#36A2EB'], // Hover colors
+    barThickness: 70,
+    borderRadius: {
+        topLeft: 10,
+        topRight: 10,
+        bottomLeft: 0,
+        bottomRight: 0
+    }
 }];
 new Chart(ctx, {
 
@@ -83,13 +97,16 @@ new Chart(ctx2, {
             },
             tooltip: {
                 bodyFont: {
-                    size: 12 // Change this to your desired font size
+                    size: 16 // Change this to your desired font size
                 },
                 titleFont: {
-                    size: 15 // Change this to your desired title font size
+                    size: 16 // Change this to your desired title font size
                 }
             }
 
         }
     }
 });
+}
+
+initializeCharts();

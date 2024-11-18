@@ -16,10 +16,10 @@
             @if (ViewData["CustomNavbar"] != null && (bool)ViewData["CustomNavbar"])
             {
                 <!-- Updated CustomNavbar section -->
-                <nav class="navbar navbar-expand-sm navbar-dark bg-primary user-navbar">
+                <nav class="navbar navbar-expand-sm navbar-dark bg-primary user-navbar" style="height:46px;">
                     <div class="container-fluid">
-                        <a class="navbar-brand d-flex align-items-center" href="#">
-                            <img src="~/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" width="80%" height="80%" class="d-inline-block align-top">
+                        <a class="navbar-brand d-flex align-items-center">
+                            <img src="~/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" width="165px" class="d-inline-block align-top">
                         </a>
 
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,20 +34,18 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link @(ViewData["IsDashboardActive"] == null || !(bool)ViewData["IsDashboardActive"] ? "text-white fw-bold" : "text-white-50")"
-                                       asp-area="" asp-controller="UserFileRepository" asp-action="FileRepository">File Repository</a>
+                                       asp-area="" asp-controller="UserFileRepository" asp-action="FileRepository" style="font-size:20px;">File Repository</a>
                                 </li>
                             </ul>
                             <div class="navbar-icons d-flex align-items-center">
-                                <img src="~/Assets/UserProfilePic.svg" alt="User Icon" width="33" height="33" class="rounded-circle">
-                                <img src="~/Assets/Line.svg" class="line-seperator" alt="Line separator" />
-                                <a class="logout-icon" asp-area="" asp-controller="UserFileRepository" asp-action="FileRepository">
-                                    <img src="~/Assets/LogoutIcon.svg" alt="Logout Icon" width="32" height="30" style="cursor:none" />
-                                </a>
+                                <img src="~/Assets/UserProfilePic.svg" alt="User Icon" width="30" height="30" class="rounded-circle" style="cursor:pointer;">
+                                <img src="~/Assets/Line.svg" class="line-seperator" alt="Line separator" style="width:1px; margin-left:15px;" />
+                                <img src="~/Assets/LogoutIcon.svg" alt="Logout Icon" class="logout-icon" style="width:20px; cursor:pointer; margin-left:15px;" />
                             </div>
                         </div>
                     </div>
                 </nav>
-                <!-- End of updated CustomNavbar section -->
+           
             }
             else
             {
@@ -91,58 +89,66 @@
             </div>
         </footer>
     }
+
+    <div id="dark-overlay5" class="dark-overlay" style="display: none;"></div>
+    @Html.Partial("UserPopups/_UserLogoutPopup")
+
+    <div id="dark-overlay6" class="dark-overlay6" style="display: none;"></div>
+    @Html.Partial("UserPopups/_UserProfilePopup")
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+
+        
+        function fileEditopenPopup() {
+            document.getElementById('dark-overlay5').style.display = 'block';
+            document.getElementById('editfile-popup5').style.display = 'block';
+        }
+
+        function fileEditClosePopup() {
+            document.getElementById('dark-overlay5').style.display = 'none';
+            document.getElementById('editfile-popup5').style.display = 'none';
+        }
+
+
+
+        document.querySelectorAll(".logout-icon").forEach(function (icon) {
+            icon.onclick = fileEditopenPopup;
+        });
+
+         document.getElementById('dark-overlay5').onclick = fileEditClosePopup;
+         document.getElementById('close-logout').onclick = fileEditClosePopup;
+
+
+
+
+
+
+        function fileEditopenPopup2() {
+            document.getElementById('dark-overlay6').style.display = 'block';
+            document.getElementById('editfile-popup6').style.display = 'block';            
+        }
+
+        function fileEditClosePopup2() {
+            document.getElementById('dark-overlay6').style.display = 'none';
+            document.getElementById('editfile-popup6').style.display = 'none';            
+        }
+
+
+
+        document.querySelectorAll(".rounded-circle").forEach(function (icon) {
+            icon.onclick = fileEditopenPopup2;
+        });
+
+        document.getElementById('dark-overlay6').onclick = fileEditClosePopup2;
+        document.getElementById('close-icon6').onclick = fileEditClosePopup2;
+      
+
+
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-
-
-
-
-
-
-
-
-@*     @if (ViewData["UserHeader"] != null && (bool)ViewData["UserHeader"])
-    {
-        <div class="main-container p-0">
-            <main role="main">
-                @RenderBody()
-            </main>
-        </div>
-    }
-    else if (ViewData["HideNavbar"] == null || !(bool)ViewData["HideNavbar"])
-    {
-        <div class="main-container">
-            <main role="main">
-                @RenderBody()
-            </main>
-        </div>
-    }
-    else
-    {
-        <div class="main-container p-0">
-            <main role="main">
-                @RenderBody()
-            </main>
-        </div>
-    }
-
-    @if (ViewData["HideNavbar"] == null || !(bool)ViewData["HideNavbar"])
-    {
-        <footer class="footer-section">
-            <div class="footer-content">
-                <img src="~/Assets/copyright-icon.svg" alt="Copyright Icon" class="copyright-icon">
-                <span>2024 Sri Lankan IT Systems. All Rights Reserved.</span>
-            </div>
-        </footer>
-    }
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
-</html>
- *@
