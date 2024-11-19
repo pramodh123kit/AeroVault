@@ -2,130 +2,259 @@
     Layout = null; // This will prevent any layout from being applied
 }
 
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-    }
-
-    body {
-        margin: 0; /* Removes default body margin */
-        padding: 0; /* Removes default body padding */
-    }
-
-    .Human_header {
-        background-color: #f2f2f2;
-        padding: 10px;
-        border-bottom: 2px solid #ccc;
-    }
-
-    .heading {
-        font-size: 24px;
-        font-weight: bold;
-    }
-
-    .Human_searchBar {
-        margin-top: 10px;
-    }
-
-        .Human_searchBar input {
-            padding: 5px;
-            width: 200px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            background-color: white;
+            color: black;
+            font-family: Arial, sans-serif;
         }
 
-    .Human_table_container {
-        margin-top: 20px;
-        overflow-x: auto;
-    }
+        .header-container-unique {
+            margin-top:5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
 
-    .humanTable {
-        width: 100%;
-        border-collapse: collapse;
-    }
+        .header-unique {
+            font-size: 24px;
+            color: black;
+        }
 
-        .humanTable th, .humanTable td {
-            border: 1px solid #ddd;
-            padding: 8px;
+        .search-bar-unique {
+            text-align: right;
+        }
+
+            .search-bar-unique input {
+                background-color: white;
+                border: none;
+                border-bottom: 1px solid black;
+                color: black;
+                padding: 5px;
+            }
+
+        .table-container-unique {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
             text-align: left;
         }
 
-        .humanTable th {
-            background-color: #4CAF50;
-            color: white;
+        th {
+            background-color: #d3d3d3;
+            color: black;
         }
 
-        .humanTable tr:nth-child(even) {
-            background-color: #f9f9f9;
+        td {
+            border-bottom: 1px solid #333;
         }
 
-        .humanTable tr:hover {
-            background-color: #f1f1f1;
+        .icon-unique {
+            margin-right: 10px;
         }
 
-    .icon {
-        margin-right: 5px;
-    }
-</style>
+        .read-by-unique {
+            color: green;
+            cursor: pointer;
+            position: relative;
+            text-decoration: underline;
+            text-decoration-color: green;
+        }
 
-<div class="Human_header">
-    <div class="heading">Human Resources System 1</div>
-    <div class="Human_searchBar">
-        <i class="fas fa-search"></i>
-        <input type="text" id="searchInput" onkeyup="searchFiles()" placeholder="Search">
-    </div>
-</div>
-<div class="Human_table_container">
-    <table id="Human_FileTable" class="humanTable">
-        <thead>
-            <tr>
-                <th>File Name</th>
-                <th>Category</th>
-                <th>Read by</th>
-                <th>Pending by</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><i class="fas fa-file icon"></i> File 1</td>
-                <td>Category 1</td>
-                <td class="read-by"><i class="fas fa-eye"></i> 154</td>
-                <td class="pending-by"><i class="fas fa-hourglass-half"></i> 233</td>
-            </tr>
-            <tr>
-                <td><i class="fas fa-file icon"></i> File 2</td>
-                <td>Category 2</td>
-                <td class="read-by"><i class="fas fa-eye"></i> 154</td>
-                <td class="pending-by"><i class="fas fa-hourglass-half"></i> 233</td>
-            </tr>
-            <!-- Add more rows as needed -->
-        </tbody>
-    </table>
-</div>
-
-
-
-<script>
-    function searchFiles() {
-        var input, filter, table, tr, td, i, j, txtValue;
-        input = document.getElementById("searchInput");
-        filter = input.value.toLowerCase();
-        table = document.getElementById("Human_FileTable");
-        tr = table.getElementsByTagName("tr");
-
-        for (i = 1; i < tr.length; i++) {
-            tr[i].style.display = "none";
-            td = tr[i].getElementsByTagName("td");
-            for (j = 0; j < td.length; j++) {
-                if (td[j]) {
-                    txtValue = td[j].textContent || td[j].innerText;
-                    if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                        break;
-                    }
-                }
+            .read-by-unique .clickable-icon-unique {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: none;
             }
+
+            .read-by-unique:hover .clickable-icon-unique {
+                display: block;
+            }
+
+        .pending-by-unique {
+            color: red;
+            cursor: pointer;
+            position: relative;
+            text-decoration: underline;
+            text-decoration-color: red;
         }
-    }
-</script>
+
+            .pending-by-unique .clickable-icon-unique {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: none;
+            }
+
+            .pending-by-unique:hover .clickable-icon-unique {
+                display: block;
+            }
+
+        .modal-unique {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content-unique {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close-unique {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close-unique:hover,
+            .close-unique:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+    </style>
+    <script src="~/js/adminReview.js" defer></script>
+</head>
+<body>
+    <div class="header-container-unique">
+        <div class="header-unique">
+            Fight Operations / TechFleet System
+        </div>
+        <div class="search-bar-unique">
+            <i class="fas fa-search"></i> <input type="text" id="searchInputUnique" placeholder="Search" onkeyup="searchTableUnique()">
+        </div>
+    </div>
+    <div class="table-container-unique">
+        <table id="fileTableUnique">
+            <thead>
+                <tr>
+                    <th>File Name</th>
+                    <th>Category</th>
+                    <th>Read by</th>
+                    <th>Pending by</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><i class="fas fa-file icon-unique"></i> Document1.pdf</td>
+                    <td>Reports</td>
+                    <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique" onclick="openReadModalUnique()"></span></td>
+                    <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-file icon-unique"></i> Document2.pdf</td>
+                    <td>Invoices</td>
+                    <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique" onclick="openReadModalUnique()"></span></td>
+                    <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-file icon-unique"></i> Document3.pdf</td>
+                    <td>Contracts</td>
+                    <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique" onclick="openReadModalUnique()"></span></td>
+                    <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-video icon-unique"></i> Video1.mp4</td>
+                    <td>Training</td>
+                    <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique" onclick="openReadModalUnique()"></span></td>
+                    <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-file icon-unique"></i> Document4.pdf</td>
+                    <td>Reports</td>
+                    <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique" onclick="openReadModalUnique()"></span></td>
+                    <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-video icon-unique"></i> Video2.mp4</td>
+                    <td>Meetings</td>
+                    <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique" onclick="openReadModalUnique()"></span></td>
+                    <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-file icon-unique"></i> Document5.pdf</td>
+                    <td>Invoices</td>
+                    <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique" onclick="openReadModalUnique()"></span></td>
+                    <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-video icon-unique"></i> Video3.mp4</td>
+                    <td>Training</td>
+                    <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique" onclick="openReadModalUnique()"></span></td>
+                    <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-file icon-unique"></i> Document6.pdf</td>
+                    <td>Contracts</td>
+                    <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique" onclick="openReadModalUnique()"></span></td>
+                    <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-video icon-unique"></i> Video4.mp4</td>
+                    <td>Meetings</td>
+                    <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique" onclick="openReadModalUnique()"></span></td>
+                    <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-file icon-unique"></i> Document7.pdf</td>
+                    <td>Reports</td>
+                    <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique" onclick="openReadModalUnique()"></span></td>
+                    <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                </tr>
+                <tr>
+                    <td><i class="fas fa-video icon-unique"></i> Video5.mp4</td>
+                    <td>Training</td>
+                    <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique" onclick="openReadModalUnique()"></span></td>
+                    <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="readModalUnique" class="modal-unique">
+        <div class="modal-content-unique">
+            <span class="close-unique" onclick="closeReadModalUnique()">&times;</span>
+            <p>Customizable content for read by goes here.</p>
+        </div>
+    </div>
+
+    <div id="pendingModalUnique" class="modal-unique">
+        <div class="modal-content-unique">
+            <span class="close-unique" onclick="closePendingModalUnique()">&times;</span>
+            <p>Customizable content for pending by goes here.</p>
+        </div>
+    </div>
+
+</body>
+</html>
