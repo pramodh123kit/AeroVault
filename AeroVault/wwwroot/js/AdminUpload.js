@@ -12,5 +12,6 @@ document.querySelectorAll(".upload-btn").forEach(function (icon) {
     icon.onclick = fileEditopenPopup8;
 });
 
-document.getElementById('dark-overlay8').onclick = fileEditClosePopup8;
+// document.getElementById('dark-overlay8').onclick = fileEditClosePopup8;
 document.getElementById('close-logout8').onclick = fileEditClosePopup8;
+
