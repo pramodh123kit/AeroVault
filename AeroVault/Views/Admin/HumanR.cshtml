@@ -6,7 +6,85 @@
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
+        .readUsers-container {
+            border-radius:1%;
+            margin-left:30%;
+            width: 60%;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .readUsers-header {
+            background-color: #004b8d;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .readUsers-header h1 {
+                font-size: 18px;
+                margin: 0;
+            }
+
+            .readUsers-header .readUsers-close {
+                font-size: 18px;
+                cursor: pointer;
+            }
+
+        .readUsers-title {
+            padding: 15px 20px;
+        }
+
+            .readUsers-title h2 {
+                font-size: 16px;
+                margin: 0;
+            }
+
+        .readUsers-search-bar {
+            padding: 10px 20px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+            .readUsers-search-bar input {
+                width: 300px;
+                padding: 8px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+
+        .readUsers-table-container {
+            padding: 0 20px 20px 20px;
+            min-height:400px;
+            max-height:400px;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+
+
         body {
+            margin:0;
+            padding:0;
             background-color: white;
             color: black;
             font-family: Arial, sans-serif;
@@ -143,6 +221,82 @@
                 text-decoration: none;
                 cursor: pointer;
             }
+
+
+        .pendingUsers-container {
+            border-radius:1%;
+            margin-left: 30%;
+            width: 60%;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .pendingUsers-header {
+            background-color: #004b8d;
+            color: white;
+            padding: 10px 20px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .pendingUsers-header h1 {
+                font-size: 18px;
+                margin: 0;
+            }
+
+            .pendingUsers-header .pendingUsers-close {
+                font-size: 20px;
+                cursor: pointer;
+            }
+
+        .pendingUsers-title {
+            padding: 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .pendingUsers-searchBar {
+            padding: 0 20px 20px 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+            .pendingUsers-searchBar input {
+                padding: 10px;
+                border: none;
+                border-bottom: 1px solid #ccc;
+                margin-left: 10px;
+                width: 25%;
+            }
+
+        .pendingUsers-tableContainer {
+            padding: 0 20px 20px 20px;
+            min-height: 400px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            cursor: pointer;
+        }
     </style>
     <script src="~/js/adminReview.js" defer></script>
 </head>
@@ -243,16 +397,158 @@
     </div>
 
     <div id="readModalUnique" class="modal-unique">
-        <div class="modal-content-unique">
-            <span class="close-unique" onclick="closeReadModalUnique()">&times;</span>
-            <p>Customizable content for read by goes here.</p>
-        </div>
+            <div class="readUsers-container">
+                <div class="readUsers-header">
+                    <h1>Flight Operations / TechFleet</h1>
+                    <span class="close-unique" onclick="closeReadModalUnique()">&times;</span>
+                </div>
+                <div class="readUsers-title">
+                    <h2>Read Users - System Integration Manual for TechFleet.pdf</h2>
+                </div>
+                <div class="readUsers-search-bar">
+                    <input type="text" id="readUsers-searchInput" onkeyup="searchTable()" placeholder="Search by Staff ID">
+                </div>
+                <div class="readUsers-table-container">
+                    <table id="readUsers-dataTable">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable(0)">Staff ID</th>
+                                <th onclick="sortTable(1)">Staff Name</th>
+                                <th onclick="sortTable(2)">Viewed Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>IN1957</td>
+                                <td>Pramodh Lihinikaduwa</td>
+                                <td>Jan 04,2023</td>
+                            </tr>
+                            <tr>
+                                <td>IN1955</td>
+                                <td>Rusith Manorathna</td>
+                                <td>Mar 26,2024</td>
+                            </tr>
+                            <tr>
+                                <td>IN1957</td>
+                                <td>Pramodh Lihinikaduwa</td>
+                                <td>Jan 04,2023</td>
+                            </tr>
+                            <tr>
+                                <td>IN1955</td>
+                                <td>Rusith Manorathna</td>
+                                <td>Mar 26,2024</td>
+                            </tr>
+                            <tr>
+                                <td>IN1957</td>
+                                <td>Pramodh Lihinikaduwa</td>
+                                <td>Jan 04,2023</td>
+                            </tr>
+                            <tr>
+                                <td>IN1955</td>
+                                <td>Rusith Manorathna</td>
+                                <td>Mar 26,2024</td>
+                            </tr>
+                            <tr>
+                                <td>IN1957</td>
+                                <td>Pramodh Lihinikaduwa</td>
+                                <td>Jan 04,2023</td>
+                            </tr>
+                            <tr>
+                                <td>IN1955</td>
+                                <td>Rusith Manorathna</td>
+                                <td>Mar 26,2024</td>
+                            </tr>
+                            <tr>
+                                <td>IN1957</td>
+                                <td>Pramodh Lihinikaduwa</td>
+                                <td>Jan 04,2023</td>
+                            </tr>
+                            <tr>
+                                <td>IN1955</td>
+                                <td>Rusith Manorathna</td>
+                                <td>Mar 26,2024</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
     </div>
 
     <div id="pendingModalUnique" class="modal-unique">
-        <div class="modal-content-unique">
-            <span class="close-unique" onclick="closePendingModalUnique()">&times;</span>
-            <p>Customizable content for pending by goes here.</p>
+        <div class="pendingUsers-container">
+            <div class="pendingUsers-header">
+                <h1>Flight Operations / TechFleet</h1>
+                <span class="close-unique" onclick="closePendingModalUnique()">&times;</span>
+            </div>
+            <div class="pendingUsers-title">
+                Pending Users - System Integration Manual for TechFleet.pdf
+            </div>
+            <div class="pendingUsers-searchBar">
+                <input type="text" id="pendingUsersSearchInput" onkeyup="pendingUsersSearchTable()" placeholder="Search by Staff ID or Name">
+            </div>
+            <div class="pendingUsers-tableContainer">
+                <table id="pendingUsersTable">
+                    <thead>
+                        <tr>
+                            <th onclick="pendingUsersSortTable(0)">Staff ID</th>
+                            <th onclick="pendingUsersSortTable(1)">Staff Name</th>
+                            <th onclick="pendingUsersSortTable(2)">Viewed Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>IN1957</td>
+                            <td>Pramodh Lihinikaduwa</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>IN1955</td>
+                            <td>Rusith Manorathna</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>IN1957</td>
+                            <td>Pramodh Lihinikaduwa</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>IN1955</td>
+                            <td>Rusith Manorathna</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>IN1957</td>
+                            <td>Pramodh Lihinikaduwa</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>IN1955</td>
+                            <td>Rusith Manorathna</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>IN1957</td>
+                            <td>Pramodh Lihinikaduwa</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>IN1955</td>
+                            <td>Rusith Manorathna</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>IN1957</td>
+                            <td>Pramodh Lihinikaduwa</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>IN1955</td>
+                            <td>Rusith Manorathna</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
