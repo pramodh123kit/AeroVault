@@ -23,7 +23,9 @@
                         <a class="navbar-brand d-flex align-items-center">
                             <img src="~/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" width="165px" class="d-inline-block align-top">
                         </a>
-                        <img src="~/Assets/admin-sidebar-collapse.svg" alt="sidebar-collapse-icon" id="user-sidebar-toggle" class="user-sidebar-toggle" />
+                        <img src="~/Assets/LogoutIcon.svg" class="logout-icon2" alt="Logout-icon" />
+                        <img src="~/Assets/admin-sidebar-collapse.svg" alt="sidebar-collapse-icon" id="user-sidebar-toggle" class="user-sidebar-toggle" />                      
+
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav centered-links">
                                 <li class="nav-item">
@@ -101,6 +103,40 @@
 
 
 
+
+
+        function fileEditopenPopup5() {
+            document.getElementById('dark-overlay5').style.display = 'block';
+            document.getElementById('editfile-popup5').style.display = 'block';
+        }
+
+        function fileEditClosePopup5() {
+            document.getElementById('dark-overlay5').style.display = 'none';
+            document.getElementById('editfile-popup5').style.display = 'none';
+        }
+
+
+
+        document.querySelectorAll(".logout-icon2").forEach(function (icon) {
+            icon.onclick = fileEditopenPopup5;
+        });
+
+        document.getElementById('dark-overlay5').onclick = fileEditClosePopup5;
+        document.getElementById('close-logout').onclick = fileEditClosePopup5;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         function fileEditopenPopup2() {
             document.getElementById('dark-overlay6').style.display = 'block';
             document.getElementById('editfile-popup6').style.display = 'block';            
@@ -124,6 +160,8 @@
 
 
 
+
+
         function fileEditopenPopup3() {
             document.getElementById('dark-overlay7').style.display = 'block';
             document.getElementById('editfile-popup7').style.display = 'block';
@@ -134,17 +172,21 @@
             document.getElementById('editfile-popup7').style.display = 'none';
         }
 
-
-
         document.querySelectorAll(".user-sidebar-toggle").forEach(function (icon) {
             icon.onclick = fileEditopenPopup3;
         });
 
         document.getElementById('dark-overlay7').onclick = fileEditClosePopup3;
-        document.getElementById('close-logout7').onclick = fileEditClosePopup3;
 
+        function checkScreenSize() {
+            if (window.innerWidth > 576) {
+                fileEditClosePopup3();
+            }
+        }
 
+        window.addEventListener('resize', checkScreenSize);
 
+        checkScreenSize();      
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

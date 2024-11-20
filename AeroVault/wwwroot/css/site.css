@@ -18,9 +18,18 @@ body,html {
     display: none;
 }
 
+.logout-icon2 {
+    display: none;
+    cursor: pointer;
+    margin-left:45%;
+}
+
 @media (max-width: 576px) {
     .user-sidebar-toggle {
-        display: block; /* Show when the media query is triggered */
+        display: block;
+    }
+    .logout-icon2 {
+        display: block;
     }
 }
 

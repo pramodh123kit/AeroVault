@@ -200,6 +200,13 @@ body {
     }
 
 /* Responsive Adjustments */
+
+@media (max-width: 375px) {
+    .footer-section {
+        font-size: 11px;
+    }
+}
+
 @media (max-width: 1024px) {
     .sidebar {
         position: fixed;

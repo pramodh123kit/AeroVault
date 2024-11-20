@@ -13,12 +13,7 @@
    
 }
 
-.banner-content {
-    position: absolute;
-    left: 50px;
-    transform: translateY(-85%);
-    color: white;
-}
+
 
 .banner-content h1 {
     font-size: 2rem;
@@ -53,22 +48,35 @@
 /* Progress Section */
 .progress-section {
     background: white;
-    padding: 2rem;
+    padding: 1rem;
+    padding-right: 20px;
+    height: 380px;
+    border: 1px solid #BDBDBD;
+    padding-left: 20px;
+    margin-top: 20px;
     border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+
+
+
 
 .chart-container {
     position: relative;
-    height: 300px;
+    height: 180px; 
+    width: 180px; 
     margin-top: 1rem;
+
 }
 
 .progress-section h3,
 .recent-files h3 {
     position: relative;
+    font-size:18px;
+    font-weight:bold;
     padding-bottom: 10px;
-    margin-bottom: 20px;
+/*    margin-bottom: 20px;*/
 }
 
 .progress-section h3::after,
@@ -83,7 +91,6 @@
     border-radius: 2px;
 }
 
-/* Add these styles to UserOverview.css */
 .chart-legend {
     margin-top: 20px;
     display: flex;
@@ -98,7 +105,7 @@
 }
 
 .legend-color {
-    width: 12px;
+    width: 40px;
     height: 12px;
     border-radius: 2px;
 }
@@ -119,7 +126,8 @@
     font-size: 2.5rem;
     font-weight: bold;
     margin: 1rem 0;
-    color: white;
+
+    color: black;   
 
 }
 
@@ -135,18 +143,11 @@
    
 }
 
-/* Recent Files */
-.recent-files {
-    background: white;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
 
 .file-item {
     display: flex;
     align-items: center;
-    padding: 1rem;
+    padding: 10px;
     border-bottom: 1px solid #eee;
 }
 
@@ -177,31 +178,412 @@
     font-size: 0.9rem;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 992px) {
-    .banner-content h1 {
-        font-size: 2rem;
-    }
-    
-    .stats-cards {
-        margin-top: 2rem;
-    }
-    
-    .stat-card {
-        margin-bottom: 1rem;
-    }
+/* Banner Styles */
+.banner-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
 }
 
-@media (max-width: 768px) {
-    .banner-content {
-        left: 20px;
-    }
-    
+.user-banner {
+    width: 100%;
+}
+
+
+
+
+
+
+
     .banner-content h1 {
-        font-size: 1.8rem;
+        font-size: 2rem;
+        margin-left:25px;
+        padding-top:10px;
+        margin-bottom:0px;
     }
+
+.banner-content p {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-left: 25px;
+    margin-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 0px;
+}
+
+
+
+
+.banner-content {
+    /*    background-color: red;*/
+    width: 100%;
+/*    height: 200px;*/
+    color: white;
+    background-image: url('../Assets/banner-new4.svg'); /* Replace with the actual path to your image */
+
+    background-size: cover; /* Ensures the image covers the entire div */
+
+    background-position: center; /* Centers the image */
+
+    background-repeat: no-repeat;
+/*    padding:20px;*/
+}
+
+
+
+
+
+.main-container {
+    display: flex;
+    margin-top: 10px;
+}
+
+.user-info-card {
+    background: linear-gradient(135deg, #0C4D7E 40%, #ffffff 100%);
+    color: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding-bottom: 15px;
+}
+
+.stats-cards {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.recent-files {
+    background: white;
+    padding: 1rem;
+    padding-right: 20px;
+    padding-left: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+    height: 380px;
+    border: 1px solid #BDBDBD;
+    margin-top: 20px;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    padding-top:20px;
+    padding-bottom:20px;
+    border-bottom: 1px solid #eee;
+}
+
+.file-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 1rem;
+}
+
+.file-info {
+    flex-grow: 1;
+    margin-right: 1rem;
+}
+
+.file-name {
+    display: block;
+    font-weight: 500;
+}
+
+.system-name {
+    display: block;
+    font-size: 0.9rem;
+    color: #666;
+    margin-right:10%;
+}
+
+.file-date {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.Card .card-count {
+    position: absolute;
+    bottom: 0;
+    color: white;
+    text-align: left;
+    margin: 10px;
+    font-size: 40px;
+    z-index: 1;
+}
+
+.card-header {
+    top: 2%;
+    position: absolute;
+    color: white;
+    font-size: 20px;
+    font-weight: normal;
+    z-index: 1;
+}
+
+.Cards {
+    /*    animation: load2;*/
+    animation-duration: 3s;
+    display: flex;
+    padding: 0px;
+    gap: 5%;
+}
+
+.Card {
+    position: relative;
+    width: 30%;
+  
+    overflow: hidden;
+}
+
+    .Card img {
+        width: 100%;
+        height: 100%;
+    }
+
+
+.left-column {
+    width: 49%;
+    display: flex;    
+    flex-direction: column;
+    height:100%;
+/*    border: 1px solid black;*/
+}
+
+.right-column {
+    width: 49%;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+/*    border: 1px solid black;*/
+}
+
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+
+    .left-column {
+        width:100%;
+    }
+    .right-column {
+        margin-top: 10%;
+        width: 100%;
+        margin-bottom: 4%;
+    }
+    .Cards {
+        display:block;
+    }
+    .Card {
+        width:80%;
+        margin:0 auto;
+        margin-bottom:30px;
+    }
+}
+.main-container {
+    overflow:hidden;
+    justify-content:space-between;
+}
+
+
+.file-list {
+    height: 300px;
+    overflow-y: scroll;
+}
+
+.file-list::-webkit-scrollbar {
+    width: 10px;
+    background-color: #fff;
+}
+
+.file-list::-webkit-scrollbar-thumb {
+    background-color: #135176;
+    border-radius: 100px;
+    height: 20px;
+}
+
+.chart-wrapper {
+    display: flex; /* Use flexbox to align items side by side */
+    align-items: center; /* Center items vertically */
+    width:80%;
+    margin:0 auto;
+}
+
+.chart-container {
+    position: relative;
+    /*    height: 230px;
+    width: 230px; */
+    height: 100%;
+/*    width: 100%;*/
+    margin-right: 40px; /* Add some space between the chart and the legend */
+}
+
+.chart-legend {
+    display: flex;
+    flex-direction: column; /* Stack legend items vertically */
+    justify-content: center; /* Center items vertically */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.custom-form-group {
+    margin-bottom: 0px;
+    width: 100%;
     
-    .user-info-card {
-        margin-bottom: 1rem;
+}
+
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+/*    margin-top: 10px;*/
+}
+
+.custom-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 100%;
+    border: 1px solid #6D6D6D;
+    border-top: none;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 1;
+}
+
+.custom-dropdown-list {
+    height: 150px;
+    overflow-y: scroll;
+}
+
+    .custom-dropdown-list::-webkit-scrollbar {
+        width: 10px;
+        background-color: #fff;
     }
+
+    .custom-dropdown-list::-webkit-scrollbar-thumb {
+        background-color: #135176;
+        border-radius: 100px;
+        height: 20px;
+    }
+
+    .custom-dropdown-list div {
+        padding: 8px 16px;
+        cursor: pointer;
+    }
+
+        .custom-dropdown-list div:hover {
+            background-color: #BBDCF9;
+        }
+
+    .custom-dropdown-list .active {
+        font-weight: bold;
+    }
+
+.custom-dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #6D6D6D;
+    border-bottom: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    .custom-dropdown-toggle i {
+        margin-left: 10px;
+        transition: transform 0.3s;
+    }
+
+    .custom-dropdown-toggle.open i {
+        transform: rotate(180deg);
+    }
+
+.custom-selector {
+    border: 1px solid #6D6D6D;
+    border-radius: 10px;
+}
+
+.custom-search-container {
+    display: flex;
+    border-bottom: 1px solid #938C8C;
+    margin: 20px;
+    margin-top: 0px;
+}
+
+    .custom-search-container img {
+        color: #999;
+        margin-right: 5px;
+        font-size: 20px;
+        margin-left: 5px;
+    }
+
+    .custom-search-container input {
+        border: none;
+        color: #000;
+        font-size: 16px;
+        outline: none;
+        flex: 1;
+        padding: 5px;
+    }
+
+#custom-search-input {
+    margin-left: 0px;
+    border: none;
+}
+
+.custom-dropdown-toggle::after {
+    content: none;
 }
