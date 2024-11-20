@@ -2,6 +2,9 @@
     position: relative;
     width: 100%;
 }
+body {
+    overflow: hidden;
+}
 
 .user-banner {
     width: 100%;
@@ -125,6 +128,14 @@
     display: flex;
     align-items: center;
 }
+.upload-name-all-upload {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 2px;
+    font-family: Arial;
+    display: flex;
+    align-items: center;
+}
 .name {
     font-size: 18px;
     font-weight: 200;
@@ -227,6 +238,9 @@
     width:220px;
 }
 
+.video-btn {
+    margin-left: 1.5rem;
+}
     .tab-button.active {
         background-color: #d3d3d3;
         color: #00436C;
@@ -237,8 +251,16 @@
         background-color: #e6e6e6;
     }
 
+
+
 /* Filter Options */
 .filter-options {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.filter-options-video {
     display: flex;
     gap: 10px;
     margin-top: 10px;
@@ -253,13 +275,6 @@
     width:220px;
 }
 
-
-.search-box {
-    display: flex;
-    align-items: center;
-    position: relative;
-}
-
 .search-icon-new {
     position: absolute;
     left: 10px; 
@@ -271,12 +286,22 @@
 }
 
 .search-box input {
-    padding-left: 30px; 
-    padding: 6px 6px; 
+    padding-left: 30px;
+    padding: 6px 6px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width: 620px;
+    width: 630px;
 }
+
+.dropdown-filter {
+    margin-bottom: 10px;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+}
+
 
 .item-list {
     padding: 4px;
@@ -326,7 +351,7 @@
     padding: 0;
     margin-left: 1px;
     border: none;
-    max-height: 340px;
+    max-height: 320px;
 }
 
 .scrollable-item-list::-webkit-scrollbar {
@@ -337,10 +362,121 @@
     background-color: #00436C;
     border-radius: 8px;
 }
+
 .read-icon {
-    width: 20px; /* Adjust the size as needed */
+    width: 20px; 
     height: 20px;
-    margin-right: 5px; /* Space between icon and text */
+    margin-right: 5px; 
     vertical-align: middle;
 }
 
+.unread-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+.system-icon {
+    cursor: pointer;
+}
+
+
+.tooltipMessages{
+    border-radius:10px;
+    padding:20px;
+}
+
+
+.name {
+    position: relative; /* Ensure the tooltip is positioned relative to the parent container */
+    display: inline-block;
+}
+
+.tooltip-des {
+    display: none; /* Initially hide the tooltip */
+    position: absolute;
+    top: 100%; /* Position the tooltip below the icon */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333; /* Dark background for the tooltip */
+    color: #fff; /* White text */
+    padding: 8px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    white-space: normal;
+    z-index: 1000;
+    max-width: 350px;
+    word-wrap: break-word;
+    text-align: left;
+    margin-top: 0;
+    margin-left: 1rem;
+}
+
+.systemIcon:hover + .tooltip-des {
+    display: block; /* Show the tooltip when hovering over the icon */
+}
+
+
+.tooltip-box {
+    display: none;
+    position: absolute;
+    margin-top: 1rem;
+    right: 2rem;
+    background-color: #333;
+    color: #fff;
+    padding: 8px;
+    border-radius: 8px;
+    max-width: 280px;
+    z-index: 1000;
+}
+
+.close-btn {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 5px;
+    font-size: 16px;
+    color: #fff;
+}
+/* Hide the pop-up by default */
+.popup-image-container {
+    display: none; /* Hidden by default */
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+}
+
+/* Pop-up content box */
+.popup-content {
+    position: relative;
+    margin: 2% auto;
+    padding: 20px;
+    width: 50%;
+    background: #fff;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Close button */
+.close-button {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Responsive image inside the pop-up */
+.pdf-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+.hidden {
+    display: none;
+}
