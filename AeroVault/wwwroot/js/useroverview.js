@@ -1,6 +1,5 @@
-// userOverview.js
-document.addEventListener('DOMContentLoaded', function() {
-    
+document.addEventListener('DOMContentLoaded', function () {
+
     function calculateReadPercentage(readFiles, totalFiles) {
         return Math.round((readFiles / totalFiles) * 100);
     }
@@ -28,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
             cutout: '70%',
             plugins: {
                 legend: {
-                    display: false
+                    display: false // Disable the default legend
                 },
                 tooltip: {
                     enabled: false
@@ -42,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
             afterDraw: (chart) => {
                 const { ctx, chartArea: { width, height } } = chart;
                 ctx.save();
-                
+
                 const centerX = width / 2;
                 const centerY = height / 2;
 
@@ -64,82 +63,166 @@ document.addEventListener('DOMContentLoaded', function() {
         }]
     });
 
-    // Add legend below chart
-    const legend = `
-        <div class="chart-legend">
-            <div class="legend-item">
-                <span class="legend-color" style="background: #2a5298;"></span>
-                <span class="legend-text">Read File Count: ${readFileCount}</span>
-            </div>
-            <div class="legend-item">
-                <span class="legend-color" style="background: #f5f5f5;"></span>
-                <span class="legend-text">Pending File Count: ${totalFiles - readFileCount}</span>
-            </div>
-        </div>
-    `;
-    
-    const chartContainer = document.querySelector('.chart-container');
-    chartContainer.insertAdjacentHTML('afterend', legend);
+    // Set legend text
+    document.getElementById('readCount').textContent = readFileCount;
+    document.getElementById('pendingCount').textContent = totalFiles - readFileCount;
 
     // Function to update chart
-    window.updateChart = function(newReadCount, newTotalFiles) {
+    window.updateChart = function (newReadCount, newTotalFiles) {
         const newReadPercentage = calculateReadPercentage(newReadCount, newTotalFiles);
         progressChart.data.datasets[0].data = [newReadPercentage, 100 - newReadPercentage];
         progressChart.update();
 
         // Update legend text
-        document.querySelectorAll('.legend-text')[0].textContent = `Read File Count: ${newReadCount}`;
-        document.querySelectorAll('.legend-text')[1].textContent = `Pending File Count: ${newTotalFiles - newReadCount}`;
+        document.getElementById('readCount').textContent = newReadCount;
+        document.getElementById('pendingCount').textContent = newTotalFiles - newReadCount;
     };
-
-    // Your existing recent files code remains here
-    const recentFiles = [
-        {
-            name: 'Aircraft Maintenance Checklist',
-            system: 'Charika',
-            date: 'Mar 4, 2024'
-        },
-
-        {
-            name: 'EasyPass System Instructions',
-            system: 'EasyPass',
-            date: 'Mar 20, 2024'
-        },
-
-        {
-            name: 'Aircraft Maintenance Checklist',
-            system: 'Charika',
-            date: 'Mar 11, 2024'
-        },
-
-        {
-            name: 'EasyPass System Instructions',
-            system: 'EasyPass',
-            date: 'Mar 01, 2024'
-        },
-
-        {
-            name: 'Aircraft Maintenance Checklist',
-            system: 'Charika',
-            date: 'Mar 21, 2024'
-        },
-
-
-        // ... rest of your recent files
-    ];
-
-    const fileList = document.querySelector('.file-list');
-    recentFiles.forEach(file => {
-        const fileItem = document.createElement('div');
-        fileItem.className = 'file-item';
-        fileItem.innerHTML = `
-            <img src="/Assets/file-icon.svg" alt="File" class="file-icon">
-            <div class="file-info">
-                <span class="file-name">${file.name}</span>
-                <span class="system-name">${file.system}</span>
-            </div>
-            <span class="file-date">${file.date}</span>
-        `;
-        fileList.appendChild(fileItem);
-    });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function toggleCustomDropdown() {
+    var dropdownContent = document.querySelector('.custom-dropdown-content');
+    var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
+    var selector = document.querySelector('.custom-selector');
+
+    if (dropdownContent.style.display === 'block') {
+        dropdownContent.style.display = 'none';
+        dropdownToggle.classList.remove('open');
+
+        selector.style.borderBottomLeftRadius = '10px';
+        selector.style.borderBottomRightRadius = '10px';
+        selector.style.borderBottom = '1px solid #6D6D6D';
+    } else {
+        dropdownContent.style.display = 'block';
+        dropdownToggle.classList.add('open');
+
+        selector.style.borderBottomLeftRadius = '0';
+        selector.style.borderBottomRightRadius = '0';
+        selector.style.borderBottom = 'none';
+        document.getElementById('custom-search-input').value = '';
+        showAllCustomOptions();
+    }
+}
+
+function filterCustomOptions() {
+    var input, filter, div, i, txtValue;
+    input = document.getElementById('custom-search-input');
+    filter = input.value.toUpperCase();
+    div = document.querySelectorAll('.custom-dropdown-list div');
+    for (i = 0; i < div.length; i++) {
+        txtValue = div[i].textContent || div[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            div[i].style.display = "";
+        } else {
+            div[i].style.display = "none";
+        }
+    }
+}
+
+function selectCustomOption(element) {
+    var selectedOption = element.textContent || element.innerText;
+    document.getElementById('selected-option').textContent = selectedOption;
+    document.querySelector('.custom-dropdown-content').style.display = 'none';
+    document.querySelector('.custom-dropdown-toggle').classList.remove('open');
+
+    var selector = document.querySelector('.custom-selector');
+    selector.style.borderBottomLeftRadius = '10px';
+    selector.style.borderBottomRightRadius = '10px';
+    selector.style.borderBottom = '1px solid #6D6D6D';
+
+    var divs = document.querySelectorAll('.custom-dropdown-list div');
+    divs.forEach(function (div) {
+        div.classList.remove('active');
+    });
+    element.classList.add('active');
+}
+
+function showAllCustomOptions() {
+    var divs = document.querySelectorAll('.custom-dropdown-list div');
+    divs.forEach(function (div) {
+        div.style.display = "";
+    });
+}
+
+document.getElementById('custom-search-input').addEventListener('blur', function () {
+    const selector = document.querySelector('.custom-selector');
+
+    selector.style.borderBottomLeftRadius = '10px';
+    selector.style.borderBottomRightRadius = '10px';
+
+    selector.style.border = '1px solid #6D6D6D';
+});
+
+window.onclick = function (event) {
+    const dropdownContent = document.querySelector('.custom-dropdown-content');
+    const selector = document.querySelector('.custom-selector');
+
+    if (!event.target.matches('.custom-dropdown-toggle') && !event.target.matches('.custom-dropdown-toggle *') && !event.target.matches('#custom-search-input')) {
+
+        if (dropdownContent.style.display === 'block') {
+            dropdownContent.style.display = 'none';
+            document.getElementById('custom-search-input').value = '';
+            filterCustomOptions();
+            document.querySelector('.custom-dropdown-toggle').classList.remove('open');
+
+            selector.style.borderBottomLeftRadius = '10px';
+            selector.style.borderBottomRightRadius = '10px';
+            selector.style.borderBottom = '1px solid #6D6D6D';
+        }
+    }
+};

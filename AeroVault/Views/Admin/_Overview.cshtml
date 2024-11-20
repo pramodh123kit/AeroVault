@@ -1,6 +1,7 @@
 ﻿<html>
 <head>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href=~/css/AdminOverview.css />
 </head>
 <body>
@@ -36,13 +37,22 @@
                    
                     <div class="dropdown">
                         <p class="dropdown-label" style="display:inline-block">Viewing Period:</p>
-                        <div class="dropdown-container">
-                            <select class="dropdown-select">
-                                <option>Last Month</option>
-                                <option>Last Week</option>
-                                <option>Yesterday</option>
-                            </select>
-                            <span class="dropdown-icon">▼</span>
+                        <div class="custom-form-group">
+                            <div class="custom-dropdown">
+                                <div class="custom-dropdown-toggle custom-selector" onclick="toggleCustomDropdown()">
+                                    <span id="selected-option">All Time</span>
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                                <div class="custom-dropdown-content">                                  
+                                    <div class="custom-dropdown-list">
+                                        <div onclick="selectCustomOption(this)" class="active">All Time</div>
+                                        <div onclick="selectCustomOption(this)">Last Month</div>
+                                        <div onclick="selectCustomOption(this)">Last 3 Months</div>
+                                        <div onclick="selectCustomOption(this)">Last 6 Months</div>
+                                        <div onclick="selectCustomOption(this)">Last Year</div>                                   
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -120,44 +130,60 @@
                 
             </div>
         </div>
-        
-        @* <div class="outerPieChartsContainer">
-            <div class="outerPieChart">
-                <div class="pieChart">
-                    <canvas id="myChart" class="myChart"></canvas>
-                </div>
-
-                <div class="containerForInfo">
-                    <div class="itemInPie">
-                        <div class="number">253</div>
-                        <div class="label">Docs</div>
-                    </div>
-                    <div class="itemInPie">
-                        <div class="number">142</div>
-                        <div class="label">Videos</div>
-                    </div>
-                    <div class="itemInPie">
-                        <div class="number">56</div>
-                        <div class="label">Systems</div>
-                    </div>
-                    <div class="itemInPie">
-                        <div class="number">0</div>
-                        <div class="label">Depts.</div>
-                    </div>
-                    <div class="itemInPie">
-                        <div class="number">0</div>
-                        <div class="label">Divisions</div>
-                    </div>
-                </div>
-            </div>
-            <div class="outerPieChart">
-                <div class="pieChart">
-                    <canvas id="myChart2" class="myChart"></canvas>
-                </div>
-
-            </div>
-        </div> *@
     </div>
 </body>
 <script src="~/js/AdminOverview.js"></script>
+<script>
+    function toggleCustomDropdown() {
+        var dropdownContent = document.querySelector('.custom-dropdown-content');
+        var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
+        var selector = document.querySelector('.custom-selector');
+
+        if (dropdownContent.style.display === 'block') {
+            dropdownContent.style.display = 'none';
+            dropdownToggle.classList.remove('open');
+
+            selector.style.borderBottomLeftRadius = '10px';
+            selector.style.borderBottomRightRadius = '10px';
+            selector.style.borderBottom = '1px solid #6D6D6D';
+        } else {
+            dropdownContent.style.display = 'block';
+            dropdownToggle.classList.add('open');
+
+            selector.style.borderBottomLeftRadius = '0';
+            selector.style.borderBottomRightRadius = '0';
+            selector.style.borderBottom = 'none';
+            document.getElementById('custom-search-input').value = '';
+            showAllCustomOptions();
+        }
+    }
+
+
+    function selectCustomOption(element) {
+        var selectedOption = element.textContent || element.innerText;
+        document.getElementById('selected-option').textContent = selectedOption;
+        document.querySelector('.custom-dropdown-content').style.display = 'none';
+        document.querySelector('.custom-dropdown-toggle').classList.remove('open');
+
+        var selector = document.querySelector('.custom-selector');
+        selector.style.borderBottomLeftRadius = '10px';
+        selector.style.borderBottomRightRadius = '10px';
+        selector.style.borderBottom = '1px solid #6D6D6D';
+
+        var divs = document.querySelectorAll('.custom-dropdown-list div');
+        divs.forEach(function (div) {
+            div.classList.remove('active');
+        });
+        element.classList.add('active');
+    }
+
+    function showAllCustomOptions() {
+        var divs = document.querySelectorAll('.custom-dropdown-list div');
+        divs.forEach(function (div) {
+            div.style.display = "";
+        });
+    }
+
+
+</script>
 </html>

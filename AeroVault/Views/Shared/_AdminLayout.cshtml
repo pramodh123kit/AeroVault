@@ -262,6 +262,79 @@
 
         document.getElementById('dark-overlay6').onclick = fileEditClosePopup;
         document.getElementById('close-logout').onclick = fileEditClosePopup;
+
+
+
+        document.getElementById('sidebar-toggle').addEventListener('click', function () {
+
+            const sidebar = document.getElementById('sidebar');
+
+            const overlay = document.getElementById('overlay');
+
+
+            // Toggle sidebar visibility
+
+            sidebar.classList.toggle('sidebar-visible');
+
+
+            // If the sidebar is visible, show the overlay; otherwise, hide it
+
+            if (sidebar.classList.contains('sidebar-visible')) {
+
+                overlay.classList.add('overlay-visible');
+
+            } else {
+
+                overlay.classList.remove('overlay-visible');
+
+            }
+
+        });
+
+
+        // Hide sidebar and overlay when overlay is clicked
+
+        document.getElementById('overlay').addEventListener('click', function () {
+
+            const sidebar = document.getElementById('sidebar');
+
+            const overlay = document.getElementById('overlay');
+
+            sidebar.classList.remove('sidebar-visible');
+
+            overlay.classList.remove('overlay-visible');
+
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const sidebarToggle = document.getElementById("sidebar-toggle");
+
+            const sidebar = document.getElementById("sidebar");
+
+
+            sidebarToggle.addEventListener("click", function () {
+
+                if (window.innerWidth < 1024) {
+
+                    sidebar.classList.toggle("sidebar-visible");
+
+                    const overlay = document.getElementById('overlay');
+
+                    if (sidebar.classList.contains('sidebar-visible')) {
+
+                        overlay.classList.add('overlay-visible');
+
+                    } else {
+
+                        overlay.classList.remove('overlay-visible');
+
+                    }
+
+                }
+
+            });
+
+        });
     </script>
 </body>
 </html>
