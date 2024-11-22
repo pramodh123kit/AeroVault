@@ -1,42 +1,274 @@
-﻿.admin-main-content {
+﻿/* Main Container */
+.admin-main-content {
     background-color: #ffffff;
-    height: 100%;
+    min-height: 100vh;
     width: 100%;
-    border-radius:10px;
+    border-radius: 10px;
     padding: 20px;
     display: flex;
-    justify-content: space-between; 
+    flex-direction: column;
+
+}
+
+/* Header Styles */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: -5px;
 }
 
 h2 {
-    font-size: 22px;      
-    color: black;          
+    font-size: 18px;
+    color: black;
     font-family: Arial;
-    
-}
-    
-.upload-btn {
-    align-items: center;
-    background-color: #318D56;
-    color: white;
-    border: none;
-    width: 15%;
-    height: 6%;
-    border-radius: 10px;
-    cursor: pointer;
-    font-family: Arial;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-    position: absolute;
-    right: 3%; 
-    font-weight: bold;
+    margin: 0;
 }
 
-.upload-btn svg {
-    margin-right: 3%;
-    fill: #ffffff;
+.upload-btn {
+    padding: 8px 16px;
+    font-size: 18px;
+    border-radius: 10px;
+    width: 190px;
+    background: #318d56;
+    font-weight: bold;
+    color: white;
+    border: none;
+    cursor: pointer;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .upload-btn:hover {
     background-color: #22613b;
+}
+
+.upload-btn-icn {
+    width: 20px;
+    height: 20px;
+}
+
+/* Filters Section */
+.filters-section {
+    margin-bottom: 20px;
+}
+
+.filters-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.dropdown-group {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.dropdown-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.dropdown-wrapper label {
+    font-size: 14px;
+    color: #666;
+}
+
+.filter-dropdown {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    min-width: 200px;
+    height: 40px;
+    background: white;
+}
+
+/* Search Container */
+.file-search-container {
+    position: relative;
+    min-width: 250px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.file-search-input {
+    padding: 8px 12px 8px 40px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    height: 40px;
+}
+
+/* Table Styles */
+.table-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    max-height: 90vh; 
+    overflow-y: auto;
+}
+
+.scrollable-tbody {
+    overflow-y: auto;
+    overflow-x: auto;
+    max-height: calc(100vh - 300px);
+}
+
+.file-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1000px; /* Ensures horizontal scroll on smaller screens */
+}
+
+.file-table th {
+    background: #D8D8D8;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: #000000;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.file-table td {
+    padding: 8px 16px;
+    border-bottom: 1px solid #ddd;
+    color: #000000;
+}
+
+.file-icon {
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.view-icon {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+}
+
+/* Department Cell Styles */
+.department-cell {
+    cursor: pointer;
+    color: #318d56;
+    text-decoration: underline;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    gap: 10px;
+    background: white;
+   
+}
+
+.pagination-btn {
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: white;
+    cursor: pointer;
+}
+
+.pagination-btn:hover {
+    background: #f5f5f5;
+}
+
+.page-numbers {
+    display: flex;
+    gap: 5px;
+}
+
+.page-number {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.page-number.active {
+    background: #318d56;
+    color: white;
+}
+
+/* Department Popup */
+.department-popup {
+    display: none;
+    position: absolute;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.department-popup ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.department-popup li {
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.department-popup li:hover {
+    background: #f5f5f5;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .upload-btn {
+        width: 100%;
+    }
+
+    .filters-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .dropdown-group {
+        flex-direction: column;
+    }
+
+    .dropdown-wrapper {
+        width: 100%;
+    }
+
+    .filter-dropdown {
+        width: 100%;
+    }
+
+    .file-search-container {
+        width: 100%;
+    }
+
+    .scrollable-tbody {
+        max-height: calc(100vh - 450px);
+    }
 }
