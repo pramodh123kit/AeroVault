@@ -73,14 +73,14 @@
             margin: 0;
         }
         .department-list li {
-            padding: 10px 0;
+            padding: 20px;
             border-bottom: 1px solid #ddd;
             cursor: pointer;
             position: relative;
             display: flex;
             align-items: center;
         }
-        .department-list li:hover, .department-list li.active {
+        .department-list li.active {
             background-color: #A4D2F9;
             font-weight:bold;
         }
@@ -88,6 +88,15 @@
             font-size: 18px;
             font-weight: bold;
             margin: 20px;
+            white-space: nowrap; /* Ensure the text stays on one line */
+            z-index: 1; /* Ensure the reviewtitle is in front */
+            background-color: #fff; /* Match the background color to avoid overlap */
+        }
+
+        .reviewtitle2 {
+            margin-top:1.2%;
+            font-size: 18px;
+            font-weight: bold;
             white-space: nowrap; /* Ensure the text stays on one line */
             z-index: 1; /* Ensure the reviewtitle is in front */
             background-color: #fff; /* Match the background color to avoid overlap */
@@ -128,6 +137,163 @@
             background-color: #007bff;
             border-radius: 10px;
             border: 2px solid #f1f1f1;
+        }
+
+        .staffView-container {
+            width:100%;
+            background-color: #F3F3F3;
+            padding-top: 8%;
+            text-align: center;
+        }
+        .staffView-container img {
+            width:50%;
+            margin-left:50%;
+            margin-top:9%;
+        }
+
+        .staffView-title {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .staffView-search-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+            .staffView-search-box input[type="text"] {
+                width: 300px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px 0 0 5px;
+                font-size: 16px;
+            }
+
+            .staffView-search-box button {
+                padding: 10px 20px;
+                border: none;
+                background-color: #005580;
+                color: white;
+                font-size: 16px;
+                border-radius: 0 5px 5px 0;
+                cursor: pointer;
+            }
+
+                .staffView-search-box button:hover {
+                    background-color: #004466;
+                }
+
+        .search-container {
+            margin-left:5%;
+            transform:scale(0.9);
+            display: flex;
+            align-items: center;
+        }
+
+            .search-container input[type="text"] {
+                width: 300px;
+                padding: 10px;
+                border: none;
+                border-bottom: 1px solid #ccc;
+                font-size: 16px;
+                outline: none;
+            }
+
+                .search-container input[type="text"]::placeholder {
+                    color: #aaa;
+                }
+
+            .search-container button {
+                padding: 10px 20px;
+                background-color: #004a6e;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+                margin-left: 10px;
+            }
+
+                .search-container button:hover {
+                    background-color: #003a56;
+                }
+
+        .staffViewDropdown-status-container {
+            margin-left:10%;
+            width:100%;
+            margin-top:-1%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .staffViewDropdown-status-label {
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #333333;
+        }
+
+        .staffViewDropdown-status-select {
+            width:75%;
+            font-size: 14px;
+            padding: 5px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            color: #333333;
+        }
+
+        .staffViewSidebar {
+            height: 100%; /* Ensure sidebar takes full height */
+            border-right: 1px solid #ccc;
+            padding: 20px;
+            overflow-y: auto; /* Allow scrolling within the sidebar */
+        }
+
+        .search-box-staff {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+            .search-box-staff input {
+                width: 100%;
+                padding: 10px;
+                border: none;
+                border-bottom: 1px solid #ccc;
+                font-size: 14px;
+                color: #aaa;
+            }
+
+            .search-box-staff i {
+                margin-right: 10px;
+                color: #aaa;
+            }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #003366;
+        }
+
+            .menu-item i {
+                margin-right: 10px;
+            }
+
+        .staffViewContent {
+            height:100%;
+            width:100%;
+            background-image:url(../../wwwroot/Assets/PCpic.svg);
+            background-size:cover;
+        }
+
+        .staffcontentLayout {
+            display: flex; /* Use flexbox to arrange sidebar and content */
+            height: 500%; /* Ensure it takes full height of the parent */
+            overflow: hidden; /* Prevent overflow */
         }
   </style>
   <script src="~/js/adminReview.js" defer></script>
@@ -300,11 +466,116 @@
   </div>
   <div class="reviewcontainer" id="staff-view" style="display: none;">
    <div class="reviewcontent">
-    <div id="staff-view-reviewcontent">
-     <!-- Replace this with your desired reviewcontent for Staff View -->
-     <h2>Staff View ReviewContent</h2>
-     <p>This is the reviewcontent for the Staff View reviewtab.</p>
-    </div>
+        <div id="staff-view-reviewcontent">
+         <!-- Replace this with your desired reviewcontent for Staff View -->
+                    <div class="staffView-container">
+                        <h1 class="staffView-title">Enter Name/ Staff ID to Review Individual Activity</h1>
+                        <div class="staffView-search-box">
+                            <input type="text" id="staffViewSearchInput" placeholder="Search by Name or Staff ID">
+                            <button onclick="staffViewPerformSearch()">Search</button>
+                        </div>
+                        <img src="~/Assets/StaffViewBottom.png" />
+                    </div>
+        </div>
+
+            <div class="staffAfterSearch" id="staffAfterSearch" style="display:none;">
+                <div class="reviewtitle2">
+                    Select a system to Review Individual Activity
+                </div>
+                <div class="search-container">
+                    <input type="text" placeholder="IN1957">
+                    <button>Search</button>
+                </div>
+                <div class="staffViewDropdown-status-container">
+                    <label for="staffViewDropdown-status" class="staffViewDropdown-status-label">Status</label>
+                    <select id="staffViewDropdown-status" class="staffViewDropdown-status-select">
+                        <option value="all">All</option>
+                        <option value="pending">Pending</option>
+                        <option value="read">Read</option>
+                    </select>
+                </div>
+
+        </div>
+            <div class="staffcontentLayout" id="staffcontentLayout" style="display:none;">
+                <div class="staffViewSidebar">
+                    <div class="search-box-staff">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInputStaff" onkeyup="filterStaffViewSidebar()" placeholder="Search System">
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-folder"></i>
+                        <span>AeroProcure</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-folder"></i>
+                        <span>Flight Tracking</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-folder"></i>
+                        <span>Flight Dispatch</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-folder"></i>
+                        <span>Operational Control</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-folder"></i>
+                        <span>Crew Scheduling</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-folder"></i>
+                        <span>Maintenance Tracking</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-folder"></i>
+                        <span>Flight Planning</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-folder"></i>
+                        <span>Aircraft Monitoring</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-folder"></i>
+                        <span>Flight Dispatch</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-folder"></i>
+                        <span>Weather Monitoring</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-folder"></i>
+                        <span>Passenger Services</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-folder"></i>
+                        <span>Cargo Management</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-folder"></i>
+                        <span>Security Control</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-folder"></i>
+                        <span>Ground Handling</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-folder"></i>
+                        <span>Fuel Management</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-folder"></i>
+                        <span>Flight Safety</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-folder"></i>
+                        <span>Emergency Response</span>
+                    </div>
+
+                </div>
+                <div class="staffViewContent">
+                    <h1>hell o owlrld</h1>
+                </div>
+            </div>
    </div>
   </div>
  </body>

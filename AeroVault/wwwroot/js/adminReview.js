@@ -10,6 +10,9 @@ function showStaffView() {
     document.getElementById('staff-view').style.display = 'flex';
     document.getElementById('system-reviewtab').classList.remove('active');
     document.getElementById('staff-reviewtab').classList.add('active');
+    document.getElementById('staff-view-reviewcontent').style.display = 'flex';
+    document.getElementById('staffAfterSearch').style.display = 'none';
+    document.getElementById('staffcontentLayout').style.display = 'none';
 }
 
 function filterDepartments() {
@@ -256,6 +259,30 @@ function pendingUsersSortTable(n) {
                 dir = "desc";
                 switching = true;
             }
+        }
+    }
+}
+
+function staffViewPerformSearch() {
+    document.getElementById('system-view').style.display = 'none';
+    document.getElementById('staff-view').style.display = 'flex';
+    document.getElementById('staffAfterSearch').style.display = 'flex';
+    document.getElementById('staffcontentLayout').style.display = 'flex';
+    document.getElementById('staff-view-reviewcontent').style.display = 'none';
+}
+
+function filterStaffViewSidebar() {
+    var input, filter, menuItems, i, txtValue;
+    input = document.getElementById('searchInputStaff');
+    filter = input.value.toLowerCase();
+    menuItems = document.getElementsByClassName('menu-item');
+
+    for (i = 0; i < menuItems.length; i++) {
+        txtValue = menuItems[i].textContent || menuItems[i].innerText;
+        if (txtValue.toLowerCase().indexOf(filter) > -1) {
+            menuItems[i].style.display = "";
+        } else {
+            menuItems[i].style.display = "none";
         }
     }
 }
