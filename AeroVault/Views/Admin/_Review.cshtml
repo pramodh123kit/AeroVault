@@ -247,11 +247,23 @@
         .staffViewSidebar {
             width:30%;
             height: 100%; /* Ensure sidebar takes full height */
-            border-right: 1px solid #ccc;
             padding: 20px;
             overflow-y: auto; /* Allow scrolling within the sidebar */
         }
 
+            .staffViewSidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+            .staffViewSidebar::-webkit-scrollbar-track {
+            background: #fff;
+        }
+
+            .staffViewSidebar::-webkit-scrollbar-thumb {
+            background-color: #007bff;
+            border-radius: 10px;
+            border: 2px solid #f1f1f1;
+        }
         .search-box-staff {
             display: flex;
             align-items: center;
@@ -423,6 +435,20 @@
             border: 1px solid #ddd; /* Optional: Add a border for better visibility */
             border-radius: 4px; /* Optional: Add rounded corners */
             background-color: #fff; /* Optional: Set a background color */
+        }
+
+            .table-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+            .table-container::-webkit-scrollbar-track {
+            background: #fff;
+        }
+
+            .table-container::-webkit-scrollbar-thumb {
+            background-color: #007bff;
+            border-radius: 10px;
+            border: 2px solid #f1f1f1;
         }
 
         table {
