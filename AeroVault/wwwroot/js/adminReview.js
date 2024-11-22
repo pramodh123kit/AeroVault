@@ -286,3 +286,71 @@ function filterStaffViewSidebar() {
         }
     }
 }
+
+function staffViewDropdown() {
+    var cardBody = document.getElementById('staff-card-body');
+    var dropdownIcon = document.getElementById('staff-dropdown-icon');
+    if (cardBody.style.maxHeight === '0px' || cardBody.style.maxHeight === '') {
+        cardBody.style.maxHeight = cardBody.scrollHeight + "5px";
+        cardBody.style.borderTop = '2px solid #ddd'; /* Increased border size */
+        cardBody.style.padding = '20px'; /* Increased padding */
+        dropdownIcon.classList.remove('fa-chevron-down');
+        dropdownIcon.classList.add('fa-chevron-up');
+    } else {
+        cardBody.style.maxHeight = '0px';
+        cardBody.style.borderTop = 'none';
+        cardBody.style.padding = '0 0px'; /* Reset padding */
+        dropdownIcon.classList.remove('fa-chevron-up');
+        dropdownIcon.classList.add('fa-chevron-down');
+    }
+}
+
+// Initialize the card body to be collapsed
+document.addEventListener('DOMContentLoaded', function () {
+    var cardBody = document.getElementById('staff-card-body');
+    cardBody.style.maxHeight = '0px';
+    cardBody.style.borderTop = 'none';
+    cardBody.style.padding = '0 20px'; /* Initial padding */
+});
+
+function filterStaffViewTable() {
+    var input, filter, table, tr, td, i, j, txtValue;
+    input = document.getElementById("staffSearchInput");
+    filter = input.value.toLowerCase();
+    table = document.querySelector("table");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 1; i < tr.length; i++) {
+        tr[i].style.display = "none";
+        td = tr[i].getElementsByTagName("td");
+        for (j = 0; j < td.length; j++) {
+            if (td[j]) {
+                txtValue = td[j].textContent || td[j].innerText;
+                if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                    break;
+                }
+            }
+        }
+    }
+}
+
+function showFlightPlanningTable() {
+    // Hide other content if necessary
+    document.querySelector('.tableChanger').style.display = 'block'; // Show the table
+}
+
+// Function to handle menu item clicks
+function staffViewActive(event) {
+    // Remove active class from all menu items
+    const menuItems = document.querySelectorAll('.menu-item');
+    menuItems.forEach(item => {
+        item.classList.remove('active');
+    });
+
+    // Add active class to the clicked menu item
+    event.currentTarget.classList.add('active');
+
+    // Call the function to show the corresponding table or content
+    showFlightPlanningTable();
+}

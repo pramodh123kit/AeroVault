@@ -245,6 +245,7 @@
         }
 
         .staffViewSidebar {
+            width:30%;
             height: 100%; /* Ensure sidebar takes full height */
             border-right: 1px solid #ccc;
             padding: 20px;
@@ -272,15 +273,23 @@
             }
 
         .menu-item {
+            border-bottom: 1px solid #000;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
+            padding-top:20px;
+            padding-bottom:20px;
             font-size: 16px;
-            color: #003366;
+            color: #000;
         }
 
             .menu-item i {
                 margin-right: 10px;
+            }
+
+            .menu-item.active {
+                background-color: #A4D2F9;
+                font-weight: bold;
             }
 
         .staffViewContent {
@@ -297,6 +306,156 @@
             display: flex; /* Use flexbox to arrange sidebar and content */
             height: 500%; /* Ensure it takes full height of the parent */
             overflow: hidden; /* Prevent overflow */
+        }
+
+        .staff-card {
+            margin-left:3%;
+            margin-top:3%;
+            background: linear-gradient(89deg, #FFF 0.61%, #F4F0F0 99.91%);
+            border-radius: 10px;
+            width: 90%;
+            padding: 20px 20px 0px 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .staff-card-header {
+            display: flex;
+            align-items: center;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .staff-card-header-left {
+            display: flex;
+            align-items: center;
+        }
+
+            .staff-card-header-left i {
+                font-size: 24px;
+                margin-right: 10px;
+            }
+
+            .staff-card-header-left .name {
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            .staff-card-header-left .id {
+                font-size: 14px;
+                color: #666;
+                margin-left: 5px;
+            }
+
+        .staff-card-header-right {
+            display: flex;
+            align-items: center;
+        }
+
+            .staff-card-header-right i {
+                font-size: 16px;
+                color: #666;
+            }
+
+        .staff-card-body {
+            display: flex;
+            justify-content: space-between;
+            transition: max-height 0.3s ease, border-top 0.3s ease, padding 0.3s ease;
+            overflow: hidden;
+            max-height: 0;
+            border-top: 2px solid #ddd; /* Increased border size */
+            padding: 0 20px; /* Initial padding */
+        }
+
+            .staff-card-body .left,
+            .staff-card-body .right {
+                display: flex;
+                flex-direction: column;
+            }
+
+                .staff-card-body .left i,
+                .staff-card-body .right i {
+                    margin-right: 10px;
+                }
+
+                .staff-card-body .left .item,
+                .staff-card-body .right .item {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 10px;
+                }
+
+                    .staff-card-body .right .item:last-child {
+                        margin-bottom: 0;
+                    }
+
+        .staff-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .staff-search-container {
+            display: flex;
+            align-items: center;
+        }
+
+            .staff-search-container input {
+                padding: 5px;
+                font-size: 14px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                margin-left: 5px;
+            }
+
+        .table-container {
+            max-height:350px;
+            overflow-y: auto; /* Enable vertical scrolling */
+            margin-top: 10px;
+            border: 1px solid #ddd; /* Optional: Add a border for better visibility */
+            border-radius: 4px; /* Optional: Add rounded corners */
+            background-color: #fff; /* Optional: Set a background color */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            color: red;
+        }
+
+        .status-read {
+            color: green;
+        }
+
+        .icon {
+            margin-right: 5px;
+        }
+
+        .tableChanger {
+            position:relative;
+            padding:20px;
         }
   </style>
   <script src="~/js/adminReview.js" defer></script>
@@ -505,84 +664,185 @@
                         <i class="fas fa-search"></i>
                         <input type="text" id="searchInputStaff" onkeyup="filterStaffViewSidebar()" placeholder="Search System">
                     </div>
-                    <div class="menu-item">
+                    <div class="menu-item" onclick="staffViewActive(event)">
                         <i class="fas fa-folder"></i>
                         <span>AeroProcure</span>
                     </div>
-                    <div class="menu-item">
+                    <div class="menu-item" onclick="staffViewActive(event)">
                         <i class="fas fa-folder"></i>
                         <span>Flight Tracking</span>
                     </div>
-                    <div class="menu-item">
+                    <div class="menu-item" onclick="staffViewActive(event)">
                         <i class="fas fa-folder"></i>
                         <span>Flight Dispatch</span>
                     </div>
-                    <div class="menu-item">
+                    <div class="menu-item" onclick="staffViewActive(event)">
                         <i class="fas fa-folder"></i>
                         <span>Operational Control</span>
                     </div>
-                    <div class="menu-item">
+                    <div class="menu-item" onclick="staffViewActive(event)">
                         <i class="fas fa-folder"></i>
                         <span>Crew Scheduling</span>
                     </div>
-                    <div class="menu-item">
+                    <div class="menu-item" onclick="staffViewActive(event)">
                         <i class="fas fa-folder"></i>
                         <span>Maintenance Tracking</span>
                     </div>
-                    <div class="menu-item">
+                    <div class="menu-item" onclick="staffViewActive(event)">
                         <i class="fas fa-folder"></i>
                         <span>Flight Planning</span>
                     </div>
-                    <div class="menu-item">
+                    <div class="menu-item" onclick="staffViewActive(event)">
                         <i class="fas fa-folder"></i>
                         <span>Aircraft Monitoring</span>
                     </div>
-                    <div class="menu-item">
+                    <div class="menu-item" onclick="staffViewActive(event)">
                         <i class="fas fa-folder"></i>
                         <span>Flight Dispatch</span>
                     </div>
-                    <div class="menu-item">
+                    <div class="menu-item" onclick="staffViewActive(event)">
                         <i class="fas fa-folder"></i>
                         <span>Weather Monitoring</span>
                     </div>
-                    <div class="menu-item">
+                    <div class="menu-item" onclick="staffViewActive(event)">
                         <i class="fas fa-folder"></i>
                         <span>Passenger Services</span>
                     </div>
-                    <div class="menu-item">
+                    <div class="menu-item" onclick="staffViewActive(event)">
                         <i class="fas fa-folder"></i>
                         <span>Cargo Management</span>
                     </div>
-                    <div class="menu-item">
+                    <div class="menu-item" onclick="staffViewActive(event)">
                         <i class="fas fa-folder"></i>
                         <span>Security Control</span>
                     </div>
-                    <div class="menu-item">
+                    <div class="menu-item" onclick="staffViewActive(event)">
                         <i class="fas fa-folder"></i>
                         <span>Ground Handling</span>
                     </div>
-                    <div class="menu-item">
+                    <div class="menu-item" onclick="staffViewActive(event)">
                         <i class="fas fa-folder"></i>
                         <span>Fuel Management</span>
                     </div>
-                    <div class="menu-item">
+                    <div class="menu-item" onclick="staffViewActive(event)">
                         <i class="fas fa-folder"></i>
                         <span>Flight Safety</span>
                     </div>
-                    <div class="menu-item">
+                    <div class="menu-item" onclick="staffViewActive(event)">
                         <i class="fas fa-folder"></i>
                         <span>Emergency Response</span>
                     </div>
 
                 </div>
                 <div class="staffViewContent">
-                    
-                    <h1>hell o owlrld</h1>
+                    <div class="staff-card">
+                        <div class="staff-card-header" onclick="staffViewDropdown()">
+                            <div class="staff-card-header-left">
+                                <i class="fas fa-user-circle"></i>
+                                <div class="name">Pramodh Lihinikaduwa</div>
+                                <div class="id">- IN1957</div>
+                            </div>
+                            <div class="staff-card-header-right">
+                                <i class="fas fa-chevron-down" id="staff-dropdown-icon"></i>
+                            </div>
+                        </div>
+                        <div class="staff-card-body" id="staff-card-body">
+                            <div class="left">
+                                <div class="item">
+                                    <i class="fas fa-building"></i>
+                                    <div>Information Technology Department</div>
+                                </div>
+                                <div class="item">
+                                    <i class="fas fa-briefcase"></i>
+                                    <div>On the Job Trainee</div>
+                                </div>
+                            </div>
+                            <div class="right">
+                                <div class="item">
+                                    <i class="fas fa-envelope"></i>
+                                    <div>bhanuka.lihinikaduwa@srilanakan.com</div>
+                                </div>
+                                <div class="item">
+                                    <i class="fas fa-phone"></i>
+                                    <div>+94743 23 1979</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tableChanger" style="display:none;">
+                        <div class="staff-header">
+                            <h1>Flight Planning</h1>
+                            <div class="staff-search-container">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="staffSearchInput" onkeyup="filterStaffViewTable()" placeholder="Search">
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>File Name</th>
+                                        <th>Category</th>
+                                        <th>Viewed date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><i class="fas fa-file-alt icon"></i>Operational Control System Overview</td>
+                                        <td>Technical</td>
+                                        <td>-</td>
+                                        <td class="status-pending">Pending</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fas fa-play-circle icon"></i>Flight Schedule Optimization Techniques</td>
+                                        <td>Training</td>
+                                        <td>Mar 20,2024</td>
+                                        <td class="status-read">Read</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fas fa-play-circle icon"></i>Best Practices for Operational Control</td>
+                                        <td>Technical</td>
+                                        <td>-</td>
+                                        <td class="status-pending">Pending</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fas fa-file-alt icon"></i>Real-time Flight Operations Monitoring</td>
+                                        <td>Training</td>
+                                        <td>Feb 05,2024</td>
+                                        <td class="status-read">Read</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fas fa-file-alt icon"></i>System Integration with Flight Management</td>
+                                        <td>Technical</td>
+                                        <td>-</td>
+                                        <td class="status-pending">Pending</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fas fa-play-circle icon"></i>Webinar: Enhancing Efficiency</td>
+                                        <td>Training</td>
+                                        <td>Mar 18,2024</td>
+                                        <td class="status-read">Read</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fas fa-file-alt icon"></i>Real-time Flight Operations Monitoring</td>
+                                        <td>Technical</td>
+                                        <td>-</td>
+                                        <td class="status-pending">Pending</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="fas fa-play-circle icon"></i>Flight Schedule Optimization Techniques</td>
+                                        <td>Training</td>
+                                        <td>Mar 20,2024</td>
+                                        <td class="status-read">Read</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
 
-
-
-                    <img src="~/Assets/PCpic.svg" />
+                    <img src="~/Assets/PCpic.svg" style="position:relative;" />
                 </div>
             </div>
    </div>
