@@ -3,125 +3,50 @@
 @{
 }
 
+<html>
 
-<style>
-    .modal-notification-edit8 {
-        background-color: white;
-        border-radius: 8px;
-        width: 850px;
-        overflow: hidden;
-        position: fixed;
-        top: 45%;
-        left: 48%;
-        transform: translate(-50%, -50%);
-        z-index: 1001;
+<head>
+    <link rel="stylesheet" href=~/css/Adminuploadpopup.css />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-    }
+</head>
 
-
-
-    .modal-header8 {
-        background-color: #00436C;
-        height: 40px;
-        margin-top: -2px;
-
-        color: white;
-        position: relative;
-        border: none;
-    }
-
-    .modal-header8 h2 {
-        margin: 0;
-        font-size: 18px;
-        color: white;
-    }
+<body>
+    <div class="upload-popup-edit8" id="editfile-popup8" style="display: none;">
+        <div class="popup-header8">
+            <h2>Upload Files</h2>
+            <img src="~/Assets/close-icon.svg" class="close-btn8" alt="Cancel Icon" id="close-logout8"
+                style="cursor:pointer;">
+        </div>
 
 
-    .modal-body8 {
-        padding: 0px;
-        padding-top: 15px;
-        text-align: center;
-        border-bottom: 1px solid #BCBBBB;
-        width: 90%;
-        margin: 0 auto;
-        margin-top: 1px;
-
-    }
-
-    .modal-body8 h2 {
-        font-weight: bold;
-        font-size: 32px;
-    }
-
-
-    .modal-footer8 {
-        display: flex;
-        justify-content: center;
-        padding: 0px;
-        border: none;
-        margin-bottom: 15px;
-        margin-right: 20px;
-    }
-
-    .modal-footer8 button {
-        background-color: #00436C;
-        border: none;
-        border-radius: 10px;
-        color: white;
-        cursor: pointer;
-        font-size: 16px;
-        width: 120px;
-        padding: 5px 18px;
-    }
-
-    .modal-footer8 button.reset-btn8 {
-        background-color: transparent;
-        border: none;
-        color: black;
-    }
-
-    .modal-footer8 button+button {
-        margin-left: 5px;
-    }
-
-    .save-btn8 {
-        margin: 0px;
-
-    }
-
-    .reset-btn8 {
-        margin: 0px;
-    }
-</style>
-
-
-<div class="modal-notification-edit8" id="editfile-popup8" style="display: none;">
-
-    <div class="modal-header8" style="height:10px; padding:0;">
+        <div class="uploadpop-up-container">
+        <div class="uploadpop-up-sidebar">
+            <div class="steps-container">
+                <div class="step step-1 active">
+                    <div class="number">1</div>
+                    <div class="text">Select Department</div>
+                </div>
+                <div class="step step-2">
+                    <div class="number">2</div>
+                    <div class="text">Select System</div>
+                </div>
+                <div class="step step-3">
+                    <div class="number">3</div>
+                    <div class="text">Select Category</div>
+                </div>
+                <div class="step step-4">
+                    <div class="number">4</div>
+                    <div class="text">Upload</div>
+                </div>
+            </div>
+        </div>
+        <div class="uploadpop-up-content">
+            <!-- Content will be dynamically updated here -->
+        </div>
     </div>
-
-    <div class="modal-body8">
-
-        <h2 class="admin-logout-header" style="margin-bottom:8px" ;>Confirm Logout</h2>
-
     </div>
-    <p style="text-align:center; margin-top:20px; margin-bottom:20px;">Are you sure you want to log out?</p>
+    <script src="~/js/Adminuploadpopup.js"></script>
+</body>
 
-    <div class="modal-footer8">
-
-        <button class="reset-btn8" id="close-logout8">Cancel</button>
-
-        <button type="button" class="save-btn8" onclick="logout()" style="height:34px">Logout</button>
-    </div>
-
-</div>
-
-<script>
-
-    function logout() {
-
-        window.location.href = '@Url.Action("LoginPage", "Login")';
-
-    }
-
-</script>
+</html>

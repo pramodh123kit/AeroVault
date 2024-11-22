@@ -1,0 +1,246 @@
+/* Base popup styles */
+.upload-popup-edit8 {
+    background-color: white;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 850px;
+    height: 90vh;
+    max-height: 550px;
+    overflow: hidden;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .popup-header8 {
+    background-color: #00436c;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 10px 10px 0 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .popup-header8 h2 {
+    font-size: clamp(16px, 2.5vw, 18px);
+    color: white;
+    margin: 0;
+  }
+  
+  .close-btn8 {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+  
+  /* Container and layout */
+  .uploadpop-up-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 50px);
+    overflow: hidden;
+  }
+  
+  .uploadpop-up-sidebar {
+    background-color: #f0f0f0;
+    padding: 15px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .steps-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    gap: 10px;
+  }
+  
+  /* Step indicators */
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    flex: 1;
+ 
+  }
+  
+  .step .number {
+    width: 30px;
+    height: 30px;
+    background-color: #dce6e5;
+    color: #9ba5a4;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    font-size: 16px;
+  }
+  
+  .step .text {
+    color: #999;
+    font-size: clamp(12px, 1.5vw, 16px);
+    text-align: center;
+  }
+  
+  .step.active .number {
+    background-color: #00436c;
+    border: 3px solid #4992ff;
+    color: white;
+  }
+  
+  .step.completed .number {
+    background-color: #00436c;
+    color: white;
+  }
+  
+  .step.active .text {
+    color: #333;
+    font-weight: bold;
+  }
+  
+  /* Content area */
+  .uploadpop-up-content {
+    flex: 1;
+    padding: 15px;
+    background-color: white;
+    overflow-y: auto;
+  }
+  
+  /* Form elements */
+  .search-box input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  
+  .button-container button {
+    padding: 8px 20px;
+    font-size: 14px;
+  }
+  
+  /* Upload area */
+  .upload-area {
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .selected-files {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 15px;
+  }
+  
+  /* Responsive breakpoints */
+  @media (max-width: 767px) {
+    .upload-popup-edit8 {
+      width: 95%;
+      height: 95vh;
+      max-height: none;
+    }
+  
+    .steps-container {
+      gap: 5px;
+    }
+  
+    .step .text {
+      font-size: 12px;
+    }
+  
+    .step .number {
+      width: 30px;
+      height: 30px;
+      font-size: 12px;
+    }
+  
+    .button-container {
+      flex-wrap: wrap;
+    }
+  
+    .button-container button {
+      flex: 1;
+      min-width: 120px;
+      margin: 5px;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .uploadpop-up-container {
+      flex-direction: row;
+    }
+  
+    .uploadpop-up-sidebar {
+      width: 250px;
+      max-width: 30%;
+    }
+  
+    .steps-container {
+      flex-direction: column;
+      gap: 80px;
+    }
+  
+    .step {
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: 15px;
+    }
+  
+    .step::after {
+      content: "";
+      position: absolute;
+      left: 13px;
+      top: 38px;
+      width: 3.5px;
+      height: 70px;
+      background-color: #dce6e5;
+    }
+  
+    .step.active::after {
+      background-color: #00436c;
+    }
+  
+    .step.completed::after {
+      background-color: #00436c;
+    }
+  
+    .step:last-child::after {
+      display: none;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .upload-popup-edit8 {
+      max-width: 850px;
+      max-height: 550px;
+    }
+  
+    .step .text {
+      font-size: 16px;
+    }
+  
+    .step .number {
+      width: 30px;
+      height: 30px;
+    }
+  }
