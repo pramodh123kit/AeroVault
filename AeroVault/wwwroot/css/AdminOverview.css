@@ -18,68 +18,73 @@
 }
 
 .ActivityO {
-    animation: load2;
+/*    animation: load2;*/
     animation-duration: 3s;
+    margin-top:20px;
+    margin-bottom:10px;
 }
 .Cards {
-    margin-left:-1.7%;
-    width:102.5%;
-    animation: load2;
+
+/*    animation: load2;*/
     animation-duration: 3s;
-    display: flex; /* Enable flexbox to arrange items in a row */
-    justify-content: flex-start; /* Align items to the start (optional) */
-    gap: 0%; /* Adjust this value to control spacing between cards */
+    display: flex; 
+    justify-content: flex-start; 
+    gap: 1%; 
 }
 
 .Card {
-    position: relative; /* Set the Card as a positioning context */
-    width: 100%; /* Set a specific width for the Card */
-    height: 100%; /* Set a specific height for the Card */
-    overflow: hidden; /* Hide overflow to ensure text doesn't go outside */
+    position: relative;
+    width: 30%; 
+    height: 10%; 
+    overflow: hidden; 
 }
 
     .Card img {
-        width: 100%; /* Set the image to fill the Card */
-        height: 100%; /* Maintain aspect ratio */
+        width: 100%; 
+        height: 100%; 
     }
 .admin-main-content h1 {
     font-family: Arial;
-    font-weight: bold;
-    color: black;
     margin-left: 0%;
-    font-size: 25px;
+    font-size: 22px;
 }
-.Card h1 {
-    position: absolute; /* Position the text absolutely within the Card */
-    top: 50%; /* Center vertically */
-    left: 23%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Adjust for half of the text size */
-    color: white; /* Change text color for better visibility */
-    text-align: center; /* Center align text */
-    margin: 0; /* Remove default margin */
-    font-size: 30px; /* Adjust font size as needed */
-    z-index: 1; /* Ensure text is above the image */
+.Card .card-count {
+    position: absolute; 
+    bottom:0;
+    color: white; 
+    text-align:left;
+    margin: 10px; 
+    font-size: 60px; 
+    z-index: 1; 
 }
+
+.card-header {
+    top: 2%;
+    position: absolute;   
+    color: white;
+    padding: 10px;
+    font-size: 40px;
+    font-weight: normal;
+    z-index: 1;
+}
+
 .pieChart {
-    background-color:white; 
-    margin-left:-225%;
-    margin-top:-20%;
-    transform:scale(0.85);
-}
-.BarChart {
     background-color: white;
     margin-left: -225%;
-    margin-top: 10%;
-    transform: scale(1);
+    margin-top: -10%;
+    width: 180px; 
+
+    height: 180px;
 }
+
 .outerPieChartsContainer {
-    height:340px;
     background-color:white;
     width: 50%;
     margin: 2px auto;
     margin-left:0%;
     border: 1px solid #ddd;
     padding: 20px;
+    padding-top: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -90,8 +95,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
+
+
+.header-pie {
+    padding-bottom:5px;
+}
+
 .header2 h2 {
     margin: 0;
     font-size: 18px;
@@ -101,14 +112,20 @@
 .dropdown {
     position: relative;
     display: inline-block;
+
 }
 
     .dropdown select {
         padding: 5px 10px;
-        font-size: 14px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+        font-size: 16px;
+        color:#00436C;
+        border: 1px solid #00436C;
+        border-radius: 5px;
     }
+
+        .dropdown select option {
+            color:#000;
+        }
 
 .contentInfo {
     display: flex;
@@ -130,7 +147,7 @@
 }
 
 .legend-color {
-    width: 20px;
+    width: 30px;
     height: 10px;
     margin-right: 10px;
 }
@@ -140,27 +157,14 @@
 }
 
 .stats {
-    margin-top:-5%;
     display: flex;
     justify-content: space-between;
-    border-top: 1px solid #003366;
-    padding-top: 20px;
-}
-
-.stat-item {
-    text-align: center;
 }
 
     .stat-item h3 {
         margin: 0;
         font-size: 24px;
         color: #003366;
-    }
-
-    .stat-item p {
-        margin: 0;
-        font-size: 14px;
-        color: #666;
     }
 
 .outerBarChartsContainer {
@@ -174,72 +178,404 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .charts-container {
-    animation:load2;
-    animation-duration:3s;
-
-
-    display: flex; /* Use flexbox to arrange child elements in a row */
-    justify-content: space-between; /* Distribute space between child elements */
+/*    animation: load2;*/
+    animation-duration: 3s;
+    gap: 1%;  
+    display: flex; 
+    justify-content: space-between; 
 }
 .outerPieChartsContainer,
 .outerBarChartsContainer {
-    animation:load;
+/*    animation:load;*/
     animation-duration:1s;
-    width: 48%; /* Adjust width to fit both containers side by side */
-}
-.myChart2 {
-    width: 500px; /* Set width to 100% of its parent container */
-    height: 200px; /* Set a fixed height */
+    border-radius:10px;
+    width: 50%; 
+    height:345px;     
 }
 
+.barchart-header {
+    margin-bottom:0;
+}
+
+.stats-container {
+    display: flex;
+    align-items: center;
+    background: white;
+    width: 100%;
+    border-radius: 8px;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.stat-item {
+    text-align: center;
+    margin: 0 10px;
+    flex: 1;
+}
+
+.stat-number {
+    font-size: 30px;
+    font-weight: bold;
+    color: #1E4979;
+    margin: 0;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: gray;
+    margin: 0;
+}
+
+.separator {
+    width: 1px;
+    height: 40px;
+    background-color: #00436C;
+}
+
+.dropdown {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    font-family: Arial, sans-serif;
+}
+
+.dropdown-label {
+    font-size: 16px;
+    color: #333;
+    margin: 0;
+}
+
+.dropdown-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 200px;
+    border-radius: 4px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.dropdown-select {
+    appearance: none; 
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    padding: 8px 32px 8px 12px; 
+    color: #333;
+    width: 100%; 
+    cursor: pointer;
+}
+
+    .dropdown-select:focus {
+        outline: none;
+    }
+
+/*.dropdown-icon {
+    position: absolute;
+    right: 10px;
+    font-size: 16px;
+    color: #ABB5C7;
+    pointer-events: none;
+    transition: transform 0.3s ease;
+}*/
+
+/*    .dropdown-icon:hover {
+        color:#000;
+    }
+
+.dropdown-container:has(select:focus) .dropdown-icon {
+    transform: rotate(180deg);
+}*/
+
+.dropdown-select option {
+    padding: 8px;
+}
+
+.BarChart {
+    background-color: white;
+    margin-left: 0;
+    margin-top: 10%;
+    width: 100%;
+}
+
+.myChart2 {
+    width: 100% !important; 
+    margin-top:-40px;
+    height: 260px !important; 
+    display: block; 
+}
+
+#myChart {
+    width: 180px !important;
+    height: 180px !important;
+}
+
+.barchart-contentInfo {
+    margin-left:0;
+}
+
+
 @media (max-width: 768px) {
+
+    .header2 {
+        margin-bottom:10px;
+    }
+        .BarChart {
+        width: 100% !important;
+        height: 100% !important;
+        margin-top:50px;
+    }
+  
+    .ActivityO {
+        margin-left: 20px;
+    }
+    .Card .card-count {
+        font-size: 40px;
+    }
+    .Card .card-header {
+        font-size:17px;
+    }
+        .pieChart {
+        margin-top: 0px;
+    }
     .Cards {
-        display: flex; /* Enable flexbox */
-        flex-wrap: wrap; /* Allow items to wrap to the next line */
-        justify-content: space-between; /* Space items evenly */
-        width: 100%; /* Full width */
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        width:100%;
+        margin: 0 auto;
+        column-gap:20px;
+        margin-bottom:40px;
+/*        margin-top:20px;*/
+    }
+    .outerBarChartsContainer,
+    .outerPieChartsContainer {
+        margin: 0 auto;
+    }
+
+    .outerBarChartsContainer {
+        margin: 20px auto;
+    }
+
+    .myChart2 {
+        width: 100% !important; 
+        height: 250px !important; 
     }
 
     .Card {
-        margin-left:-2%;
-        margin-right:-6%;
-        height: 150px; /* Set a fixed height for cards */
-        width: 50%; /* Set width to 48% to allow two cards side by side */
-        margin-bottom: 20px; /* Space between cards */
+        width: 100%;
+        height: auto;     
     }
-        .Card h1 {
-            position: absolute; /* Position the text absolutely within the Card */
-            top: 50%; /* Center vertically */
-            left: 35%; /* Center horizontally */
-            transform: translate(-50%, -50%); /* Adjust for half of the text size */
-            color: white; /* Change text color for better visibility */
-            text-align: center; /* Center align text */
-            margin: 0; /* Remove default margin */
-            font-size: 30px; /* Adjust font size as needed */
-            z-index: 1; /* Ensure text is above the image */
-        }
+
+    .admin-main-content {
+        padding:20px;
+    }
+
+    .admin-main-content .ActivityO {
+        font-size: 20px;
+        margin-left: 1%;
+        margin-top: 20px;
+    }
+
+    .pieChart, .BarChart {    
+        margin-left: 0;
+    }
+
+    .outerPieChartsContainer, .outerBarChartsContainer {
+        width: 100%;
+    }
 
     .charts-container {
-        flex-direction: column; /* Stack charts vertically */
+        flex-direction: column;
     }
 
-    .outerPieChartsContainer,
-    .outerBarChartsContainer {
-        width: 100%; /* Full width for charts */
-        margin-bottom:10%;
-        height:400px;
-    }
-    .myChart2 {
-        width: 125%; /* Set width to 100% of its parent container */
-        height: 100%; /* Set a fixed height */
-    }
-    .stats {
-        margin-top: 5%;
-    }
     .contentInfo {
-        margin-top:10%;
+        margin-left:0;
     }
+ 
     .legend {
-        margin-left:30%;
+        margin-right: 0;
     }
+
+    .stats-container {     
+        align-items: center;
+    }
+
+    .stat-item {
+        margin: 10px 0; 
+    }
+
+    .dropdown-container {
+        width: 100%; 
+    }
+
+    .dropdown-label {
+        font-size: 14px; 
+    }
+
+    .dropdown-select {
+        font-size: 14px; 
+    }   
+}
+
+/* For devices with a max width of 480px (phones) */
+
+@media (max-width: 480px) {
+
+    .header2 {
+        margin-bottom: 10px;
+    }
+    #myChart {
+        width: 180px !important; 
+        height: 180px !important;
+    }
+
+    .Cards {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-main-content h1 {
+        font-size: 18px; 
+    }
+
+    .Card .card-count {
+        font-size: 40px; 
+    }
+
+    .card-header {
+        font-size: 30px;
+    }
+
+    .legend-text {
+        font-size: 12px;
+    }
+
+    .stat-number {
+        font-size: 24px;
+    }
+
+    .stat-label {
+        font-size: 12px; 
+    }
+
+    .separator {
+        height: 20px;
+    }
+
+    .header2 h2 {
+        font-size: 16px; 
+    }      
+}
+
+
+
+.custom-form-group {
+    margin-bottom: 0px;
+/*    width: 300px;*/
+}
+
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+   
+    
+}
+
+.custom-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 100%;
+    border: 1px solid #6D6D6D;
+    border-top: none;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 1;
+}
+
+.custom-dropdown-list {
+    height: 150px;
+    overflow-y: scroll;
+}
+
+    .custom-dropdown-list::-webkit-scrollbar {
+        width: 10px;
+        background-color: #fff;
+    }
+
+    .custom-dropdown-list::-webkit-scrollbar-thumb {
+        background-color: #135176;
+        border-radius: 100px;
+        height: 20px;
+    }
+
+    .custom-dropdown-list div {
+        padding: 8px 16px;
+        cursor: pointer;
+    }
+
+        .custom-dropdown-list div:hover {
+            background-color: #BBDCF9;
+        }
+
+    .custom-dropdown-list .active {
+        font-weight: bold;
+    }
+
+.custom-dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #6D6D6D;
+    border-bottom: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    .custom-dropdown-toggle i {
+        margin-left: 10px;
+        transition: transform 0.3s;
+    }
+
+    .custom-dropdown-toggle.open i {
+        transform: rotate(180deg);
+    }
+
+.custom-selector {
+    border: 1px solid #6D6D6D;
+    border-radius: 10px;
+}
+
+.custom-search-container {
+    display: flex;
+    border-bottom: 1px solid #938C8C;
+    margin: 20px;
+    margin-top: 0px;
+}
+
+    .custom-search-container img {
+        color: #999;
+        margin-right: 5px;
+        font-size: 20px;
+        margin-left: 5px;
+    }
+
+    .custom-search-container input {
+        border: none;
+        color: #000;
+        font-size: 16px;
+        outline: none;
+        flex: 1;
+        padding: 5px;
+    }
+
+#custom-search-input {
+    margin-left: 0px;
+    border: none;
+}
+
+.custom-dropdown-toggle::after {
+    content: none;
 }

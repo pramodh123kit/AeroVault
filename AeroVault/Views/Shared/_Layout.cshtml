@@ -10,21 +10,21 @@
     <link rel="stylesheet" href="~/AeroVault.styles.css" asp-append-version="true" />
 </head>
 <body class="d-flex flex-column min-vh-100">
+
+
     <header>
+
         @if (ViewData["HideNavbar"] == null || !(bool)ViewData["HideNavbar"])
         {
             @if (ViewData["CustomNavbar"] != null && (bool)ViewData["CustomNavbar"])
             {
-                <!-- Updated CustomNavbar section -->
                 <nav class="navbar navbar-expand-sm navbar-dark bg-primary user-navbar">
                     <div class="container-fluid">
-                        <a class="navbar-brand d-flex align-items-center" href="#">
-                            <img src="~/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" width="80%" height="80%" class="d-inline-block align-top">
+                        <a class="navbar-brand d-flex align-items-center">
+                            <img src="~/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" width="165px" class="d-inline-block align-top">
                         </a>
-
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
+                        <img src="~/Assets/LogoutIcon.svg" class="logout-icon2" alt="Logout-icon" />
+                        <img src="~/Assets/admin-sidebar-collapse.svg" alt="sidebar-collapse-icon" id="user-sidebar-toggle" class="user-sidebar-toggle" />                      
 
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav centered-links">
@@ -38,45 +38,17 @@
                                 </li>
                             </ul>
                             <div class="navbar-icons d-flex align-items-center">
-                                <img src="~/Assets/UserProfilePic.svg" alt="User Icon" width="33" height="33" class="rounded-circle">
-                                <img src="~/Assets/Line.svg" class="line-seperator" alt="Line separator" />
-                                <a class="logout-icon" asp-area="" asp-controller="UserFileRepository" asp-action="FileRepository">
-                                    <img src="~/Assets/LogoutIcon.svg" alt="Logout Icon" width="32" height="30" style="cursor:none" />
-                                </a>
+                                <img src="~/Assets/UserProfilePic.svg" alt="User  Icon" width="30" height="30" class="rounded-circle" style="cursor:pointer;">
+                                <img src="~/Assets/Line.svg" class="line-seperator" alt="Line separator" style="width:1px; margin-left:15px;" />
+                                <img src="~/Assets/LogoutIcon.svg" alt="Logout Icon" class="logout-icon" style="width:20px; cursor:pointer; margin-left:15px;" />
                             </div>
-                        </div>
-                    </div>
-                </nav>
-                <!-- End of updated CustomNavbar section -->
-            }
-            else
-            {
-                <!-- Default Navbar if CustomNavbar is false -->
-                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                    <div class="container-fluid">
-                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AeroVault</a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                            <ul class="navbar-nav flex-grow-1">
-                                <li class="nav-item">
-                                    <a class="nav-link @(ViewData["IsDashboardActive"] != null && (bool)ViewData["IsDashboardActive"] ? "text-white fw-bold" : "")"
-                                       asp-area="" asp-controller="UserOverview" asp-action="UserPageOverview">Dashboard</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link @(ViewData["IsDashboardActive"] == null || !(bool)ViewData["IsDashboardActive"] ? "text-white fw-bold" : "")"
-                                       asp-area="" asp-controller="UserFileRepository" asp-action="FileRepository">File Repository</a>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </nav>
             }
         }
-
     </header>
+
 
     <main role="main" class="flex-grow-1">
         @RenderBody()
@@ -91,58 +63,131 @@
             </div>
         </footer>
     }
+
+    <div id="dark-overlay5" class="dark-overlay" style="display: none;"></div>
+    @Html.Partial("UserPopups/_UserLogoutPopup")
+
+    <div id="dark-overlay6" class="dark-overlay6" style="display: none;"></div>
+    @Html.Partial("UserPopups/_UserProfilePopup")
+
+    <div id="dark-overlay7" class="dark-overlay" style="display: none;"></div>
+    @Html.Partial("UserPopups/_UserSidebar")
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+
+        
+        function fileEditopenPopup() {
+            document.getElementById('dark-overlay5').style.display = 'block';
+            document.getElementById('editfile-popup5').style.display = 'block';
+        }
+
+        function fileEditClosePopup() {
+            document.getElementById('dark-overlay5').style.display = 'none';
+            document.getElementById('editfile-popup5').style.display = 'none';
+        }
+
+
+
+        document.querySelectorAll(".logout-icon").forEach(function (icon) {
+            icon.onclick = fileEditopenPopup;
+        });
+
+         document.getElementById('dark-overlay5').onclick = fileEditClosePopup;
+         document.getElementById('close-logout').onclick = fileEditClosePopup;
+
+
+
+
+
+
+
+
+        function fileEditopenPopup5() {
+            document.getElementById('dark-overlay5').style.display = 'block';
+            document.getElementById('editfile-popup5').style.display = 'block';
+        }
+
+        function fileEditClosePopup5() {
+            document.getElementById('dark-overlay5').style.display = 'none';
+            document.getElementById('editfile-popup5').style.display = 'none';
+        }
+
+
+
+        document.querySelectorAll(".logout-icon2").forEach(function (icon) {
+            icon.onclick = fileEditopenPopup5;
+        });
+
+        document.getElementById('dark-overlay5').onclick = fileEditClosePopup5;
+        document.getElementById('close-logout').onclick = fileEditClosePopup5;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function fileEditopenPopup2() {
+            document.getElementById('dark-overlay6').style.display = 'block';
+            document.getElementById('editfile-popup6').style.display = 'block';            
+        }
+
+        function fileEditClosePopup2() {
+            document.getElementById('dark-overlay6').style.display = 'none';
+            document.getElementById('editfile-popup6').style.display = 'none';            
+        }
+
+
+
+        document.querySelectorAll(".rounded-circle").forEach(function (icon) {
+            icon.onclick = fileEditopenPopup2;
+        });
+
+        document.getElementById('dark-overlay6').onclick = fileEditClosePopup2;
+        document.getElementById('close-icon6').onclick = fileEditClosePopup2;
+
+
+
+
+
+
+
+        function fileEditopenPopup3() {
+            document.getElementById('dark-overlay7').style.display = 'block';
+            document.getElementById('editfile-popup7').style.display = 'block';
+        }
+
+        function fileEditClosePopup3() {
+            document.getElementById('dark-overlay7').style.display = 'none';
+            document.getElementById('editfile-popup7').style.display = 'none';
+        }
+
+        document.querySelectorAll(".user-sidebar-toggle").forEach(function (icon) {
+            icon.onclick = fileEditopenPopup3;
+        });
+
+        document.getElementById('dark-overlay7').onclick = fileEditClosePopup3;
+
+        function checkScreenSize() {
+            if (window.innerWidth > 576) {
+                fileEditClosePopup3();
+            }
+        }
+
+        window.addEventListener('resize', checkScreenSize);
+
+        checkScreenSize();      
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-
-
-
-
-
-
-
-
-@*     @if (ViewData["UserHeader"] != null && (bool)ViewData["UserHeader"])
-    {
-        <div class="main-container p-0">
-            <main role="main">
-                @RenderBody()
-            </main>
-        </div>
-    }
-    else if (ViewData["HideNavbar"] == null || !(bool)ViewData["HideNavbar"])
-    {
-        <div class="main-container">
-            <main role="main">
-                @RenderBody()
-            </main>
-        </div>
-    }
-    else
-    {
-        <div class="main-container p-0">
-            <main role="main">
-                @RenderBody()
-            </main>
-        </div>
-    }
-
-    @if (ViewData["HideNavbar"] == null || !(bool)ViewData["HideNavbar"])
-    {
-        <footer class="footer-section">
-            <div class="footer-content">
-                <img src="~/Assets/copyright-icon.svg" alt="Copyright Icon" class="copyright-icon">
-                <span>2024 Sri Lankan IT Systems. All Rights Reserved.</span>
-            </div>
-        </footer>
-    }
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
-</html>
- *@

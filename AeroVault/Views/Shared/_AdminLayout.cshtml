@@ -8,124 +8,76 @@
 <body>
     <div class="container">
         <div class="sidebar" id="sidebar">
+            <img src="~/Assets/admin-sidebar-peacock1.svg" alt="Sri Lankan IT Systems Logo" class="footer-logo  peacock-background" />
             <img src="~/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" class="logo" />
             <div class="profile-info" style="margin-top:0px">
                 <img src="~/Assets/AdminProf.svg" alt="Profile Picture">
                 <span class="name">Pramodh Lihinikaduwa</span>
             </div>
+            <div class="profile-details" style="display: none;">
+                <p>Additional information about Pramodh Lihinikaduwa.</p>
+                <p>Contact: pramodh@example.com</p>
+                <p>Role: Administrator</p>
+            </div>
             <ul class="menu">
-                @*  <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('_Overview', 'Overview')" class="nav-link">
-                        <img src="~/Assets/overview-icon.svg" alt="Overview Icon" class="sidebar-icon" />
+                <li class="nav-item">
+                    <a href="javascript:void(0);" onclick="loadContent('_Overview', 'Overview')" class="nav-link" data-icon="/Assets/overview-icon1.svg">
+                        <img src="/Assets/overview-icon.svg" alt="Overview Icon" class="sidebar-icon" />
                         Overview
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('_Upload', 'Upload')" class="nav-link">
+                    <a href="javascript:void(0);" onclick="loadContent('_Upload', 'Upload')" class="nav-link" data-icon="/Assets/upload-icon1.svg">
                         <img src="~/Assets/upload-icon.svg" alt="Upload Icon" class="sidebar-icon" />
                         Upload
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('_Systems', 'Manage')" class="nav-link">
-                        <img src="~/Assets/systems-icon.svg" alt="Systems Icon" class="sidebar-icon" />
-                        Systems
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('_Departments', 'Manage')" class="nav-link">
-                        <img src="~/Assets/departments-icon.svg" alt="Departments Icon" class="sidebar-icon" />
-                        Departments
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('_Divisions', 'Manage')" class="nav-link">
-                        <img src="~/Assets/divisions-icon.svg" alt="Divisions Icon" class="sidebar-icon" />
-                        Divisions
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('_Review', 'Review')" class="nav-link">
-                        <img src="~/Assets/review-icon.svg" alt="Review Icon" class="sidebar-icon" />
-                        Review
-                    </a>
-                </li>  *@
-
-
-
-
-
-
-
-                <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('_Overview', 'Overview')" class="nav-link">
-                        <img src="~/Assets/overview-icon.svg" alt="Overview Icon" class="sidebar-icon" />
-                        Overview
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('_Upload', 'Upload')" class="nav-link">
-                        <img src="~/Assets/upload-icon.svg" alt="Upload Icon" class="sidebar-icon" />
-                        Upload
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="javascript:void(0);" id="manage-toggle" class="nav-link">
+                    <a href="javascript:void(0);" id="manage-toggle" class="nav-link" data-icon="/Assets/manage-icon1.svg">
                         <img src="~/Assets/manage-icon.svg" alt="Manage Icon" class="sidebar-icon" />
                         Manage
-                        <span id="dropdown-icon" class="dropdown-icon">▼</span> <!-- Dropdown icon -->
+                        <span id="dropdown-icon" class="dropdown-icon">▼</span>
                     </a>
                     <ul class="sub-menu" id="manage-sub-menu">
                         <li class="nav-item" style="margin-top:10px;">
-                            <a href="javascript:void(0);" onclick="loadContent('_Systems', 'Manage')" class="nav-link">
+                            <a href="javascript:void(0);" onclick="loadContent('_Systems', 'Manage')" class="nav-link" data-icon="/Assets/systems-icon1.svg">
                                 <img src="~/Assets/systems-icon.svg" alt="Systems Icon" class="sidebar-icon" />
                                 Systems
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="javascript:void(0);" onclick="loadContent('_Departments', 'Manage')" class="nav-link">
+                            <a href="javascript:void(0);" onclick="loadContent('_Departments', 'Manage')" class="nav-link" data-icon="/Assets/departments-icon1.svg">
                                 <img src="~/Assets/departments-icon.svg" alt="Departments Icon" class="sidebar-icon" />
                                 Departments
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="javascript:void(0);" onclick="loadContent('_Divisions', 'Manage')" class="nav-link">
-                                <img src="~/Assets/divisions-icon.svg" alt="Divisions Icon" class="sidebar-icon" />
+                        <li class="nav-item" style="margin-bottom:0px;">
+                            <a href="javascript:void(0);" onclick="loadContent('_Divisions', 'Manage')" class="nav-link" data-icon="/Assets/divisions-sidebar-icon1.svg">
+                                <img src="~/Assets/divisions-sidebar-icon.svg" alt="Divisions Icon" class="sidebar-icon" />
                                 Divisions
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('_Review', 'Review')" class="nav-link">
+                    <a href="javascript:void(0);" onclick="loadContent('_Review', 'Review')" class="nav-link" data-icon="/Assets/review-icon1.svg">
                         <img src="~/Assets/review-icon.svg" alt="Review Icon" class="sidebar-icon" />
                         Review
                     </a>
                 </li>
-
-
-
-
-
-
-
-
             </ul>
-          
-            @* <img src="~/Assets/admin-sidebar-peacock.svg" alt="Sri Lankan IT Systems Logo" class="footer-logo  peacock-background" /> *@
             <img src="~/Assets/admin-sidebar-SLA-logo.svg" alt="Sri Lankan Peacock brand" class="footer-logo" />
-            
         </div>
 
         <div class="overlay" id="overlay"></div>
 
-        <div class="content">
+        <div class="content" style="height: auto;">
             <div class="header">
                 <div style="display: flex; align-items: center;">
                     <img src="~/Assets/admin-sidebar-collapse.svg" alt="sidebar-collapse-icon" id="sidebar-toggle" />
                     <h1 class="page-title-name">Overview</h1>
                 </div>
-                <img src="~/Assets/LogoutIcon.svg" alt="Logout-icon" />
+                <img src="~/Assets/LogoutIcon.svg" class="logout-icon" alt="Logout-icon" />
             </div>
 
             <div class="main-content" id="main-content">
@@ -141,9 +93,13 @@
         </div>
     </div>
 
+
+    <div id="dark-overlay6" class="dark-overlay" style="display: none;"></div>
+    @Html.Partial("AdminPopups/_AdminLogoutPopup")
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-          // Sidebar toggle functionality
         document.getElementById('sidebar-toggle').addEventListener('click', function () {
             document.getElementById('sidebar').classList.toggle('sidebar-visible');
             document.getElementById('overlay').classList.toggle('overlay-visible');
@@ -154,22 +110,9 @@
             this.classList.remove('overlay-visible');
         });
 
-
-        // Hide sidebar and overlay when overlay is clicked
-        overlay.addEventListener('click', function () {
-            sidebar.classList.remove('sidebar-visible');
-            overlay.classList.remove('overlay-visible');
-            content.classList.add('full-width'); // Reset content width when sidebar is hidden
-        });
-
-
-
-
         function loadContent(viewName, pageTitle) {
-            // Update the page title
             document.querySelector('.page-title-name').textContent = pageTitle;
 
-            // Ajax call to load the content
             $.ajax({
                 url: '@Url.Action("LoadView", "Admin")',
                 type: 'GET',
@@ -184,68 +127,214 @@
             });
         }
 
-
-
         document.addEventListener("DOMContentLoaded", function () {
             const sidebarToggle = document.getElementById("sidebar-toggle");
             const sidebar = document.getElementById("sidebar");
-          
-            sidebarToggle.addEventListener("click", function () {
-                sidebar.classList.toggle("hidden");
+            const dropdownIcon = document.getElementById('dropdown-icon'); 
+
+            const profileInfo = document.querySelector('.profile-info');
+            const originalContent = profileInfo.innerHTML; 
+           const newContent = `
+
+    <div class="profile-info" style="margin-top:0px; border:none; display: flex; flex-direction: column; align-items: center; padding-top:0px; padding-bottom:0px;">
+
+        <img src="/Assets/AdminProf.svg" alt="New Profile Picture" style="width: 50px; height: 50px; margin-bottom: 10px; padding-top:0px;">
+
+        <span class="name" style="padding: 5px 0;">IN1957</span>
+
+        <span class="name" style="padding: 5px 0;">Pramodh Lihinikaduwa</span>
+
+        <span class="name" style="padding-bottom:0px">Information Technology</span>
+
+    </div>
+
+`;           
+            profileInfo.addEventListener('click', function () {
+                if (profileInfo.innerHTML === originalContent) {
+                    profileInfo.innerHTML = newContent;
+                } else {
+                    profileInfo.innerHTML = originalContent; 
+                }
             });
-        });
 
+            sidebarToggle.addEventListener("click", function () {
+                if (window.innerWidth >= 1024) {
+                    sidebar.classList.toggle("hidden");
+                } else {
+                    sidebar.classList.remove("hidden");
+                }
+            });
 
-              document.getElementById('manage-toggle').addEventListener('click', function () {
-            const subMenu = document.getElementById('manage-sub-menu');
-            const dropdownIcon = document.getElementById('dropdown-icon');
+            document.getElementById('manage-toggle').addEventListener('click', function () {
+                const subMenu = document.getElementById('manage-sub-menu');
+                const isVisible = subMenu.classList.contains('visible');
 
-            // Check if the sub-menu is currently visible
-        const isVisible = subMenu.classList.contains('visible');
+                if (!isVisible) {
+                    subMenu.style.maxHeight = subMenu.scrollHeight + "px"; 
+                    subMenu.classList.add('visible'); 
+                    dropdownIcon.classList.add('rotate');
+                } else {
+                    subMenu.style.maxHeight = null; 
+                    subMenu.classList.remove('visible'); 
+                    dropdownIcon.classList.remove('rotate'); 
+                }
+            });
 
-            // Toggle the max-height property and the visible class
-            if (!isVisible) {
-                subMenu.style.maxHeight = subMenu.scrollHeight + "px"; // Set to the height of the menu
-                subMenu.classList.add('visible'); // Add visible class
-            } else {
-                subMenu.style.maxHeight = null; // Collapse the menu
-                subMenu.classList.remove('visible'); // Remove visible class
-            }
-        });
+            function handleNavLinkClick(event) {
+                const navLinks = document.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    const icon = link.querySelector('img');
+                    if (icon) {
+                        icon.src = icon.getAttribute('data-original');
+                    }
+                });
 
-               // Function to handle nav link clicks
-        function handleNavLinkClick(event) {
-            // Remove active class from all nav links
-            const navLinks = document.querySelectorAll('.nav-link');
-            navLinks.forEach(link => link.classList.remove('active'));
+                event.currentTarget.classList.add('active');
 
-            // Add active class to the clicked link
+                const clickedIcon = event.currentTarget.querySelector('img');
+                const newIconSrc = event.currentTarget.getAttribute('data-icon');
+                if (clickedIcon) {
+                    clickedIcon.src = newIconSrc;
+                }
+
             event.currentTarget.classList.add('active');
 
-            // Check if the clicked link is a subheading under Manage
             if (event.currentTarget.closest('#manage-sub-menu')) {
-                // Add active class to the Manage link
                 const manageLink = document.getElementById('manage-toggle');
                 manageLink.classList.add('active');
             } else {
-                // If it's not a subheading, remove active class from Manage link
                 const manageLink = document.getElementById('manage-toggle');
                 manageLink.classList.remove('active');
             }
+                const viewName = event.currentTarget.getAttribute('onclick').match(/'([^']+)'/)[1];
+                const pageTitle = event.currentTarget.textContent.trim();
+                loadContent(viewName, pageTitle);
 
-            // Call the loadContent function
-            const viewName = event.currentTarget.getAttribute('onclick').match(/'([^']+)'/)[1];
-            const pageTitle = event.currentTarget.textContent.trim();
-            loadContent(viewName, pageTitle);
+                if (window.innerWidth < 1024) {
+
+                    document.getElementById('sidebar').classList.remove('sidebar-visible');
+
+                    document.getElementById('overlay').classList.remove('overlay-visible');
+
+                }
+            }
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', handleNavLinkClick);
+
+                const icon = link.querySelector('img');
+                if (icon) {
+                    icon.setAttribute('data-original', icon.src); 
+                }
+
+                link.addEventListener('mouseover', function () {
+                    const hoverIcon = this.getAttribute('data-icon');
+                    if (icon && hoverIcon) {
+                        icon.src = hoverIcon; 
+                    }
+                });
+
+                link.addEventListener('mouseout', function () {
+                    if (!link.classList.contains('active')) {
+                        const originalIcon = icon.getAttribute('data-original'); 
+                        if (icon) {
+                            icon.src = originalIcon; 
+                        }
+                    }
+                });
+            });
+        });
+
+        function fileEditopenPopup() {
+            document.getElementById('dark-overlay6').style.display = 'block';
+            document.getElementById('editfile-popup2').style.display = 'block';
         }
 
-        // Attach click event listeners to nav links
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', handleNavLinkClick);
+        function fileEditClosePopup() {
+            document.getElementById('dark-overlay6').style.display = 'none';
+            document.getElementById('editfile-popup2').style.display = 'none';
+        }
+
+        document.querySelectorAll(".logout-icon").forEach(function (icon) {
+            icon.onclick = fileEditopenPopup;
+        });
+
+        document.getElementById('dark-overlay6').onclick = fileEditClosePopup;
+        document.getElementById('close-logout').onclick = fileEditClosePopup;
+
+
+
+        document.getElementById('sidebar-toggle').addEventListener('click', function () {
+
+            const sidebar = document.getElementById('sidebar');
+
+            const overlay = document.getElementById('overlay');
+
+
+            // Toggle sidebar visibility
+
+            sidebar.classList.toggle('sidebar-visible');
+
+
+            // If the sidebar is visible, show the overlay; otherwise, hide it
+
+            if (sidebar.classList.contains('sidebar-visible')) {
+
+                overlay.classList.add('overlay-visible');
+
+            } else {
+
+                overlay.classList.remove('overlay-visible');
+
+            }
+
         });
 
 
+        // Hide sidebar and overlay when overlay is clicked
 
+        document.getElementById('overlay').addEventListener('click', function () {
+
+            const sidebar = document.getElementById('sidebar');
+
+            const overlay = document.getElementById('overlay');
+
+            sidebar.classList.remove('sidebar-visible');
+
+            overlay.classList.remove('overlay-visible');
+
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const sidebarToggle = document.getElementById("sidebar-toggle");
+
+            const sidebar = document.getElementById("sidebar");
+
+
+            sidebarToggle.addEventListener("click", function () {
+
+                if (window.innerWidth < 1024) {
+
+                    sidebar.classList.toggle("sidebar-visible");
+
+                    const overlay = document.getElementById('overlay');
+
+                    if (sidebar.classList.contains('sidebar-visible')) {
+
+                        overlay.classList.add('overlay-visible');
+
+                    } else {
+
+                        overlay.classList.remove('overlay-visible');
+
+                    }
+
+                }
+
+            });
+
+        });
     </script>
 </body>
 </html>

@@ -4,7 +4,21 @@
 </head>
 <body>
     <div class="admin-main-content">
-        <h1>Upload</h1>
+        <h2>Upload History</h2>
+        <button class="upload-btn">
+            <svg xmlns="~/wwwroot/Assets/Uploadbtn.png" width="1%" height="1%">
+            </svg>
+            Upload Files
+        </button>
     </div>
+
+
+
+
+
+    <div id="dark-overlay8" class="dark-overlay" style="display: none;"></div>
+    @Html.Partial("AdminUploadPopups/_AdminUploadPopup")
+
+    <script src="~/js/AdminUpload.js"></script>
 </body>
 </html>

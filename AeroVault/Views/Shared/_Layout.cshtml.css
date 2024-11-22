@@ -12,8 +12,27 @@ body {
     flex-direction: column;
     min-height: 100vh;
 }
+.dark-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); 
+    z-index: 1000; 
+    display: none; 
+}
 
-
+.dark-overlay6 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  
+    z-index: 1000; 
+    display: none; 
+}
 
 a {
   color: #0077cc;
@@ -22,6 +41,11 @@ a {
 
 .container-fluid {
     padding:0;
+}
+
+.logout-icon {
+    width: 10px;
+    cursor: pointer;
 }
 
 .btn-primary {
@@ -52,12 +76,10 @@ button.accept-policy {
   line-height: inherit;
 }
 
-
-
 .user-navbar {
     background: linear-gradient(90deg, #06182C, #05448B);
     padding: 0px 25px;
-    height:54px;
+    height:43px;    
 }
 
 .navbar-brand {
@@ -75,8 +97,7 @@ button.accept-policy {
 .navbar-icons {
     display: flex;
     align-items: center;
-    justify-content: space-between; 
-    width: 7%; 
+    justify-content: space-between;  
 }
 
 .navbar-brand span {
@@ -88,31 +109,6 @@ button.accept-policy {
     color: red;
     padding: 0;
 }
-
-
-
-
-/*.footer-section {
-    background-color: #063468;
-    text-align: end;
-    padding: 10px;
-    color: #ffffff;
-    font-size: 14px;
-    height: 30px;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
-
-.footer-content {
-    display: flex;
-    align-items: center; 
-    justify-content: flex-end; 
-    color: white;
-    height: 100%; 
-    gap: 8px;
-}*/
-
 .footer-section {
     background-color: #063468;
     text-align: end;
@@ -122,7 +118,6 @@ button.accept-policy {
     height: 30px;
     width: 100%;
 }
-
 
 .footer-content {
     display: flex;
@@ -137,7 +132,6 @@ button.accept-policy {
     width: 16px; 
     height: 16px;
 }
-
 
 .line-seperator {
     width:0px;
@@ -164,3 +158,32 @@ button.accept-policy {
     font-weight: normal;
     color: #ffffff8c !important;
 }
+
+.nav-link {
+    padding-top:0px;
+    padding-bottom:0px;
+    font-size:24px;
+}
+
+.user-navbar {
+    padding: 0 15px;
+}
+
+.navbar-nav .nav-item {
+    text-align:left;
+}
+
+.centered-links {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.navbar-nav {
+    flex-direction: row;
+}
+
+    .navbar-nav .nav-item {
+        text-align: center;
+    }

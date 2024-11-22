@@ -30,6 +30,7 @@ namespace AeroVault
                 name: "default",
                 pattern: "{controller=Admin}/{action=Index}/{id?}");
 
+
             app.Run();
         }
     }

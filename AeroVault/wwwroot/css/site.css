@@ -12,3 +12,24 @@ body,html {
     padding: 0px 25px;
 }
 
+.user-sidebar-toggle {
+    cursor: pointer;
+    width: 20px;
+    display: none;
+}
+
+.logout-icon2 {
+    display: none;
+    cursor: pointer;
+    margin-left:45%;
+}
+
+@media (max-width: 576px) {
+    .user-sidebar-toggle {
+        display: block;
+    }
+    .logout-icon2 {
+        display: block;
+    }
+}
+
