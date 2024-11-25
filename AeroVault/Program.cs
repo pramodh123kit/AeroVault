@@ -28,7 +28,7 @@ namespace AeroVault
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Admin}/{action=Index}/{id?}");
+                pattern: "{controller=UserFileRepository}/{action=FileRepository}/{id?}");
 
 
             app.Run();
