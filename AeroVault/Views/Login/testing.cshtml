@@ -4,20 +4,20 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
     <style>
-        .custom-form-group {
+        .status-form-group {
             margin-bottom: 0px;
             width: 300px;
             margin-top: 30px;
         }
 
-        .custom-dropdown {
+        .status-dropdown {
             position: relative;
             display: inline-block;
             width: 100%;
             margin-top: 10px;
         }
 
-        .custom-dropdown-content {
+        .status-dropdown-content {
             display: none;
             position: absolute;
             background-color: #fff;
@@ -29,36 +29,36 @@
             z-index: 1;
         }
 
-        .custom-dropdown-list {
+        .status-dropdown-list {
             height: 150px;
             overflow-y: scroll;
         }
 
-            .custom-dropdown-list::-webkit-scrollbar {
+            .status-dropdown-list::-webkit-scrollbar {
                 width: 10px;
                 background-color: #fff;
             }
 
-            .custom-dropdown-list::-webkit-scrollbar-thumb {
+            .status-dropdown-list::-webkit-scrollbar-thumb {
                 background-color: #135176;
                 border-radius: 100px;
                 height: 20px;
             }
 
-            .custom-dropdown-list div {
+            .status-dropdown-list div {
                 padding: 8px 16px;
                 cursor: pointer;
             }
 
-                .custom-dropdown-list div:hover {
+                .status-dropdown-list div:hover {
                     background-color: #BBDCF9;
                 }
 
-            .custom-dropdown-list .active {
+            .status-dropdown-list .active {
                 font-weight: bold;
             }
 
-        .custom-dropdown-toggle {
+        .status-dropdown-toggle {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -69,35 +69,35 @@
             cursor: pointer;
         }
 
-            .custom-dropdown-toggle i {
+            .status-dropdown-toggle i {
                 margin-left: 10px;
                 transition: transform 0.3s;
             }
 
-            .custom-dropdown-toggle.open i {
+            .status-dropdown-toggle.open i {
                 transform: rotate(180deg);
             }
 
-        .custom-selector {
+        .status-selector {
             border: 1px solid #6D6D6D;
             border-radius: 10px;
         }
 
-        .custom-search-container {
+        .status-search-container {
             display: flex;
             border-bottom: 1px solid #938C8C;
             margin: 20px;
             margin-top: 0px;
         }
 
-            .custom-search-container img {
+            .status-search-container img {
                 color: #999;
                 margin-right: 5px;
                 font-size: 20px;
                 margin-left: 5px;
             }
 
-            .custom-search-container input {
+            .status-search-container input {
                 border: none;
                 color: #000;
                 font-size: 16px;
@@ -106,49 +106,52 @@
                 padding: 5px;
             }
 
-        #custom-search-input {
+        #status-search-input {
             margin-left: 0px;
             border: none;
         }
 
-        .custom-dropdown-toggle::after {
+        .status-dropdown-toggle::after {
             content: none;
         }
     </style>
 </head>
 <body>
-    <div class="custom-form-group">
-        <label class="custom-label" for="custom-selector">Select Option</label>
-        <div class="custom-dropdown">
-            <div class="custom-dropdown-toggle custom-selector" onclick="toggleCustomDropdown()">
-                <span id="selected-option">Information Technology</span>
+    <div class="status-form-group">
+        <label class="status-label" for="status-selector">Select Status</label>
+        <div class="status-dropdown">
+            <div class="status-dropdown-toggle status-selector" onclick="toggleStatusDropdown()">
+                <span id="selected-status">Information Technology</span>
                 <i class="fas fa-chevron-down"></i>
             </div>
-            <div class="custom-dropdown-content">
-                <div class="custom-search-container">
+            <div class="status-dropdown-content">
+                <div class="status-search-container">
                     <img src="~/Assets/search-icon.svg" alt="Search Icon" />
-                    <input type="text" id="custom-search-input" placeholder="Search Option" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
+                    <input type="text" id="status-search-input" placeholder="Search Status" onkeyup="filterStatusOptions()" onclick="event.stopPropagation()">
                 </div>
-                <div class="custom-dropdown-list">
-                    <div onclick="selectCustomOption(this)" class="active">Information Technology</div>
-                    <div onclick="selectCustomOption(this)">Human Resource</div>
-                    <div onclick="selectCustomOption(this)">Flight Operations</div>
-                    <div onclick="selectCustomOption(this)">Safety and Security</div>
-                    <div onclick="selectCustomOption(this)">Finance</div>
-                    <div onclick="selectCustomOption(this)">Marketing</div>
-                    <div onclick="selectCustomOption(this)">Customer Service</div>
-                    <div onclick="selectCustomOption(this)">Logistics</div>
-                    <div onclick="selectCustomOption(this)">Procurement</div>
+                <div class="status-dropdown-list">
+                    <div onclick="selectStatusOption(this)" class="active">Information Technology</div>
+                    <div onclick="selectStatusOption(this)">Human Resource</div>
+                    <div onclick="selectStatusOption(this)">Flight Operations</div>
+                    <div onclick="selectStatusOption(this)">Safety and Security</div>
+                    <div onclick="selectStatusOption(this)">Finance</div>
+                    <div onclick="selectStatusOption(this)">Marketing</div>
+                    <div onclick="selectStatusOption(this)">Customer Service</div>
+                    <div onclick="selectStatusOption(this)">Logistics</div>
+                    <div onclick="selectStatusOption(this)">Procurement</div>
                 </div>
             </div>
         </div>
     </div>
 
+
+    <iframe src="~/Assets/FliSTA User Manual for Apple version.pdf" width="600" height="800" stlye="margin-left:200px;"></iframe>
+
     <script>
-        function toggleCustomDropdown() {
-            var dropdownContent = document.querySelector('.custom-dropdown-content');
-            var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
-            var selector = document.querySelector('.custom-selector');
+        function toggleStatusDropdown() {
+            var dropdownContent = document.querySelector('.status-dropdown-content');
+            var dropdownToggle = document.querySelector('.status-dropdown-toggle');
+            var selector = document.querySelector('.status-selector');
 
             if (dropdownContent.style.display === 'block') {
                 dropdownContent.style.display = 'none';
@@ -164,16 +167,16 @@
                 selector.style.borderBottomLeftRadius = '0';
                 selector.style.borderBottomRightRadius = '0';
                 selector.style.borderBottom = 'none';
-                document.getElementById('custom-search-input').value = '';
-                showAllCustomOptions();
+                document.getElementById('status-search-input').value = '';
+                showAllStatusOptions();
             }
         }
 
-        function filterCustomOptions() {
+        function filterStatusOptions() {
             var input, filter, div, i, txtValue;
-            input = document.getElementById('custom-search-input');
+            input = document.getElementById('status-search-input');
             filter = input.value.toUpperCase();
-            div = document.querySelectorAll('.custom-dropdown-list div');
+            div = document.querySelectorAll('.status-dropdown-list div');
             for (i = 0; i < div.length; i++) {
                 txtValue = div[i].textContent || div[i].innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -184,33 +187,33 @@
             }
         }
 
-        function selectCustomOption(element) {
-            var selectedOption = element.textContent || element.innerText;
-            document.getElementById('selected-option').textContent = selectedOption;
-            document.querySelector('.custom-dropdown-content').style.display = 'none';
-            document.querySelector('.custom-dropdown-toggle').classList.remove('open');
+        function selectStatusOption(element) {
+            var selectedStatus = element.textContent || element.innerText;
+            document.getElementById('selected-status').textContent = selectedStatus;
+            document.querySelector('.status-dropdown-content').style.display = 'none';
+            document.querySelector('.status-dropdown-toggle').classList.remove('open');
 
-            var selector = document.querySelector('.custom-selector');
+            var selector = document.querySelector('.status-selector');
             selector.style.borderBottomLeftRadius = '10px';
             selector.style.borderBottomRightRadius = '10px';
             selector.style.borderBottom = '1px solid #6D6D6D';
 
-            var divs = document.querySelectorAll('.custom-dropdown-list div');
+            var divs = document.querySelectorAll('.status-dropdown-list div');
             divs.forEach(function (div) {
                 div.classList.remove('active');
             });
             element.classList.add('active');
         }
 
-        function showAllCustomOptions() {
-            var divs = document.querySelectorAll('.custom-dropdown-list div');
+        function showAllStatusOptions() {
+            var divs = document.querySelectorAll('.status-dropdown-list div');
             divs.forEach(function (div) {
                 div.style.display = "";
             });
         }
 
-        document.getElementById('custom-search-input').addEventListener('blur', function () {
-            const selector = document.querySelector('.custom-selector');
+        document.getElementById('status-search-input').addEventListener('blur', function () {
+            const selector = document.querySelector('.status-selector');
 
             selector.style.borderBottomLeftRadius = '10px';
             selector.style.borderBottomRightRadius = '10px';
@@ -219,16 +222,16 @@
         });
 
         window.onclick = function (event) {
-            const dropdownContent = document.querySelector('.custom-dropdown-content');
-            const selector = document.querySelector('.custom-selector');
+            const dropdownContent = document.querySelector('.status-dropdown-content');
+            const selector = document.querySelector('.status-selector');
 
-            if (!event.target.matches('.custom-dropdown-toggle') && !event.target.matches('.custom-dropdown-toggle *') && !event.target.matches('#custom-search-input')) {
+            if (!event.target.matches('.status-dropdown-toggle') && !event.target.matches('.status-dropdown-toggle *') && !event.target.matches('#status-search-input')) {
 
                 if (dropdownContent.style.display === 'block') {
                     dropdownContent.style.display = 'none';
-                    document.getElementById('custom-search-input').value = '';
-                    filterCustomOptions();
-                    document.querySelector('.custom-dropdown-toggle').classList.remove('open');
+                    document.getElementById('status-search-input').value = '';
+                    filterStatusOptions();
+                    document.querySelector('.status-dropdown-toggle').classList.remove('open');
 
                     selector.style.borderBottomLeftRadius = '10px';
                     selector.style.borderBottomRightRadius = '10px';

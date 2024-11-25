@@ -10,6 +10,8 @@ body,html {
 
 .main-container {
     padding: 0px 25px;
+    display: flex;
+    margin-top: 10px;
 }
 
 .user-sidebar-toggle {
@@ -22,6 +24,10 @@ body,html {
     display: none;
     cursor: pointer;
     margin-left:45%;
+}
+
+.custom-dropdown-toggle {
+    border-bottom: #00436C;
 }
 
 @media (max-width: 576px) {

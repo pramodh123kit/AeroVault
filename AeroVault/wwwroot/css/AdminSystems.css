@@ -76,16 +76,34 @@
     overflow-y: scroll;
 }
 
-.scrollable-content::-webkit-scrollbar {
-    width: 10px;
-    background-color: #fff;
+
+
+
+.scrollable-content {
+    /* For Firefox */
+    scrollbar-width: thin; /* Options: auto, thin */
+    scrollbar-color: #00436C transparent; /* thumb color, track color */
 }
 
-    .scrollable-content::-webkit-scrollbar-thumb {
-        background-color: #135176;
-        border-radius: 100px;
-        height: 20px;
+    /* WebKit Browsers (Chrome, Safari) */
+    .scrollable-content::-webkit-scrollbar {
+        width: 8px; /* Width of the scrollbar */
     }
+
+    .scrollable-content::-webkit-scrollbar-thumb {
+        background-color: #00436C; /* Color of the scrollbar thumb */
+        border-radius: 10px; /* Rounded corners */
+    }
+
+    .scrollable-content::-webkit-scrollbar-track {
+        background: transparent; /* No background for the track */
+    }
+
+
+
+
+
+
 
         .systems-header {
             font-size: 22px;
@@ -375,16 +393,35 @@
     overflow-y: auto; 
    
 }
+
+
+.scrollable-tbody {
+    /* For Firefox */
+    scrollbar-width: thin; /* Options: auto, thin */
+    scrollbar-color: #00436C transparent; /* thumb color, track color */
+}
+
+    /* WebKit Browsers (Chrome, Safari) */
     .scrollable-tbody::-webkit-scrollbar {
-        width: 10px;
-        background-color: #fff;
+        width: 8px; /* Width of the scrollbar */
     }
 
     .scrollable-tbody::-webkit-scrollbar-thumb {
-        background-color: #135176;
-        border-radius: 100px;
-        height: 20px;
+        background-color: #00436C; /* Color of the scrollbar thumb */
+        border-radius: 10px; /* Rounded corners */
     }
+
+    .scrollable-tbody::-webkit-scrollbar-track {
+        background: transparent; /* No background for the track */
+    }
+
+
+
+
+
+
+
+
 
 .dark-overlay {
     position: fixed;
@@ -493,16 +530,30 @@
     overflow-y: auto;
 }
 
+.form-group textarea {
+    /* For Firefox */
+    scrollbar-width: thin; /* Options: auto, thin */
+    scrollbar-color: #00436C transparent; /* thumb color, track color */
+}
+
+    /* WebKit Browsers (Chrome, Safari) */
     .form-group textarea::-webkit-scrollbar {
-        width: 10px;
-        background-color: #fff;
+        width: 8px; /* Width of the scrollbar */
     }
 
     .form-group textarea::-webkit-scrollbar-thumb {
-        background-color: #135176;
-        border-radius: 100px;
-        height: 20px;
+        background-color: #00436C; /* Color of the scrollbar thumb */
+        border-radius: 10px; /* Rounded corners */
     }
+
+    .form-group textarea::-webkit-scrollbar-track {
+        background: transparent; /* No background for the track */
+    }
+
+
+
+
+
 
 .form-group.half-width {
     width: 48%;
@@ -519,16 +570,28 @@
     overflow-y: auto;
 }
 
+.division-container {
+    /* For Firefox */
+    scrollbar-width: thin; /* Options: auto, thin */
+    scrollbar-color: #00436C transparent; /* thumb color, track color */
+}
+
+    /* WebKit Browsers (Chrome, Safari) */
     .division-container::-webkit-scrollbar {
-        width: 10px;
-        background-color: #fff;
+        width: 8px; /* Width of the scrollbar */
     }
 
     .division-container::-webkit-scrollbar-thumb {
-        background-color: #135176;
-        border-radius: 100px;
-        height: 20px;
+        background-color: #00436C; /* Color of the scrollbar thumb */
+        border-radius: 10px; /* Rounded corners */
     }
+
+    .division-container::-webkit-scrollbar-track {
+        background: transparent; /* No background for the track */
+    }
+
+
+
 
 .division {
     border-radius: 10px;
@@ -776,16 +839,32 @@ margin-top:-5px;
     overflow-y: auto; 
 }
 
+.file-list {
+    /* For Firefox */
+    scrollbar-width: thin; /* Options: auto, thin */
+    scrollbar-color: #821414 transparent; /* thumb color, track color */
+}
+
+    /* WebKit Browsers (Chrome, Safari) */
     .file-list::-webkit-scrollbar {
-        width: 10px;
-        background-color: #fff;
+        width: 8px; /* Width of the scrollbar */
     }
 
     .file-list::-webkit-scrollbar-thumb {
-        background-color: #821414;
-        border-radius: 100px;
-        height: 1px;
+        background-color: #821414; /* Color of the scrollbar thumb */
+        border-radius: 10px; /* Rounded corners */
     }
+
+    .file-list::-webkit-scrollbar-track {
+        background: transparent; /* No background for the track */
+    }
+
+
+
+
+
+
+
 
 .modal-header-delete-system {
     font-size:16px;
@@ -1242,7 +1321,7 @@ width:50%;
 
     .scrollable-content-list {
         height: auto;
-        overflow-y: scroll;
+        overflow-y: hidden;
     }
 
     .custom-form-group {
@@ -1338,16 +1417,38 @@ width:50%;
     overflow-y: scroll;
 }
 
+
+
+
+
+
+
+.custom-dropdown-list {
+    /* For Firefox */
+    scrollbar-width: thin; /* Options: auto, thin */
+    scrollbar-color: #00436C transparent; /* thumb color, track color */
+}
+
+    /* WebKit Browsers (Chrome, Safari) */
     .custom-dropdown-list::-webkit-scrollbar {
-        width: 10px;
-        background-color: #fff;
+        width: 8px; /* Width of the scrollbar */
     }
 
     .custom-dropdown-list::-webkit-scrollbar-thumb {
-        background-color: #135176;
-        border-radius: 100px;
-        height: 20px;
+        background-color: #00436C; /* Color of the scrollbar thumb */
+        border-radius: 10px; /* Rounded corners */
     }
+
+    .custom-dropdown-list::-webkit-scrollbar-track {
+        background: transparent; /* No background for the track */
+    }
+
+
+
+
+
+
+
 
     .custom-dropdown-list div {
         padding: 8px 16px;
@@ -1515,16 +1616,35 @@ input[type="text"] {
     overflow-y: scroll;
 }
 
+.dropdown-list {
+    /* For Firefox */
+    scrollbar-width: thin; /* Options: auto, thin */
+    scrollbar-color: #00436C transparent; /* thumb color, track color */
+}
+
+    /* WebKit Browsers (Chrome, Safari) */
     .dropdown-list::-webkit-scrollbar {
-        width: 10px;
-        background-color: #fff;
+        width: 8px; /* Width of the scrollbar */
     }
 
     .dropdown-list::-webkit-scrollbar-thumb {
-        background-color: #135176;
-        border-radius: 100px;
-        height: 20px;
+        background-color: #00436C; /* Color of the scrollbar thumb */
+        border-radius: 10px; /* Rounded corners */
     }
+
+    .dropdown-list::-webkit-scrollbar-track {
+        background: transparent; /* No background for the track */
+    }
+
+
+
+
+
+
+
+
+
+
 
     .dropdown-list div {
         padding: 8px 16px;
