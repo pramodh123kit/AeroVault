@@ -87,8 +87,10 @@ function goToStep(step) {
                <p>Drag and drop files here or</p>
                <button>Browse Files</button>
            </div>
+             <p>Selected files</p>
             <div class="selected-files">
-               <p>No files selected</p>
+
+
             </div>
               <div class="button-container">
                   <button class="back-button" onclick="goToStep(3)"><i class="fas fa-chevron-left"></i> Back</button>
