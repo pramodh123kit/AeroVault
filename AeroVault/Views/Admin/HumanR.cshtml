@@ -5,321 +5,33 @@
 <html>
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <style>
-        .readUsers-container {
-            border-radius:1%;
-            margin-left:30%;
-            width: 60%;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
+    <link href="~/css/HumanR.css" rel="stylesheet" />
 
-        .readUsers-header {
-            background-color: #004b8d;
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-            .readUsers-header h1 {
-                font-size: 18px;
-                margin: 0;
-            }
-
-            .readUsers-header .readUsers-close {
-                font-size: 18px;
-                cursor: pointer;
-            }
-
-        .readUsers-title {
-            padding: 15px 20px;
-        }
-
-            .readUsers-title h2 {
-                font-size: 16px;
-                margin: 0;
-            }
-
-        .readUsers-search-bar {
-            padding: 10px 20px;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-            .readUsers-search-bar input {
-                width: 300px;
-                padding: 8px;
-                border: 1px solid #ddd;
-                border-radius: 4px;
-            }
-
-        .readUsers-table-container {
-            padding: 0 20px 20px 20px;
-            min-height:400px;
-            max-height:400px;
-            overflow-y: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-
-
-        body {
-            margin:0;
-            padding:0;
-            background-color: white;
-            color: black;
-            font-family: Arial, sans-serif;
-        }
-
-        .header-container-unique {
-            margin-top:5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-        }
-
-        .header-unique {
-            font-size: 24px;
-            color: black;
-        }
-
-        .search-bar-unique {
-            text-align: right;
-        }
-
-            .search-bar-unique input {
-                background-color: white;
-                border: none;
-                border-bottom: 1px solid black;
-                color: black;
-                padding: 5px;
-            }
-
-        .table-container-unique {
-            max-height: 400px;
-            overflow-y: auto;
-            border: 1px solid #333;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #d3d3d3;
-            color: black;
-        }
-
-        td {
-            border-bottom: 1px solid #333;
-        }
-
-        .icon-unique {
-            margin-right: 10px;
-        }
-
-        .read-by-unique {
-            color: green;
-            cursor: pointer;
-            position: relative;
-            text-decoration: underline;
-            text-decoration-color: green;
-        }
-
-            .read-by-unique .clickable-icon-unique {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                display: none;
-            }
-
-            .read-by-unique:hover .clickable-icon-unique {
-                display: block;
-            }
-
-        .pending-by-unique {
-            color: red;
-            cursor: pointer;
-            position: relative;
-            text-decoration: underline;
-            text-decoration-color: red;
-        }
-
-            .pending-by-unique .clickable-icon-unique {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                display: none;
-            }
-
-            .pending-by-unique:hover .clickable-icon-unique {
-                display: block;
-            }
-
-        .modal-unique {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.4);
-            padding-top: 60px;
-        }
-
-        .modal-content-unique {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-
-        .close-unique {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-            .close-unique:hover,
-            .close-unique:focus {
-                color: black;
-                text-decoration: none;
-                cursor: pointer;
-            }
-
-
-        .pendingUsers-container {
-            border-radius:1%;
-            margin-left: 30%;
-            width: 60%;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .pendingUsers-header {
-            background-color: #004b8d;
-            color: white;
-            padding: 10px 20px;
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-            .pendingUsers-header h1 {
-                font-size: 18px;
-                margin: 0;
-            }
-
-            .pendingUsers-header .pendingUsers-close {
-                font-size: 20px;
-                cursor: pointer;
-            }
-
-        .pendingUsers-title {
-            padding: 20px;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .pendingUsers-searchBar {
-            padding: 0 20px 20px 20px;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-        }
-
-            .pendingUsers-searchBar input {
-                padding: 10px;
-                border: none;
-                border-bottom: 1px solid #ccc;
-                margin-left: 10px;
-                width: 25%;
-            }
-
-        .pendingUsers-tableContainer {
-            padding: 0 20px 20px 20px;
-            min-height: 400px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
     <script src="~/js/adminReview.js" defer></script>
 </head>
 <body>
     <div class="header-container-unique">
         <div class="header-unique">
-            Fight Operations / TechFleet System
+            <b>Fight Operations/ </b>TechFleet System
         </div>
         <div class="search-bar-unique">
-            <i class="fas fa-search"></i> <input type="text" id="searchInputUnique" placeholder="Search" onkeyup="searchTableUnique()">
+            <img src="~/Assets/search-icon.svg" alt="Search Icon" />
+            <input type="text" id="searchInputUnique" placeholder="Search Department" onkeyup="searchTableUnique()" />
         </div>
+
     </div>
     <div class="table-container-unique">
         <table id="fileTableUnique">
-            <thead>
+            
                 <tr>
                     <th>File Name</th>
                     <th>Category</th>
                     <th>Read by</th>
                     <th>Pending by</th>
                 </tr>
-            </thead>
+           
             <tbody>
+                
                 <tr>
                     <td><i class="fas fa-file icon-unique"></i> Document1.pdf</td>
                     <td>Reports</td>
@@ -394,6 +106,7 @@
                 </tr>
             </tbody>
         </table>
+
     </div>
 
     <div id="readModalUnique" class="modal-unique">
