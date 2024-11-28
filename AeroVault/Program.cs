@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using AeroVault.Models; // Add this line
 namespace AeroVault
 {
     public class Program
@@ -5,6 +7,11 @@ namespace AeroVault
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+
+                options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
