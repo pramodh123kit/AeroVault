@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using AeroVault.Models; // Add this line
+
 namespace AeroVault
 {
     public class Program
@@ -8,10 +9,9 @@ namespace AeroVault
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Configure the DbContext with Oracle connection
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-
                 options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -19,10 +19,13 @@ namespace AeroVault
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment())
             {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseDeveloperExceptionPage(); // Show detailed error pages in development
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error"); // Handle errors in production
                 app.UseHsts();
             }
 
@@ -36,7 +39,6 @@ namespace AeroVault
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Admin}/{action=Index}/{id?}");
-
 
             app.Run();
         }
