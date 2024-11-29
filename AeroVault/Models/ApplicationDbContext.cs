@@ -9,6 +9,9 @@ namespace AeroVault.Models
             : base(options)
         {
         }
+        public DbSet<SystemModel> Systems { get; set; }
+        public DbSet<DivisionModel> Divisions { get; set; }
+
 
         // Method to test the database connection
         public async Task<bool> TestConnectionAsync()

@@ -1,4 +1,7 @@
-﻿<html>
+﻿@model List<AeroVault.Models.SystemModel>
+
+
+<html>
 <head>
     <link rel="stylesheet" href="~/css/AdminSystems.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
@@ -25,160 +28,24 @@
                 </div>
                 <div class="scrollable-content scrollable-content-list">
                     <div id="systemListContainer">
-                <ul id="systemList">
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" class="folder-icon" />                       
-                            AeroProcure
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                     
-                            Flight Tracking
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                    
-                            Flight Dispatch
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                     
-                            Operational Control
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                   
-                            Crew Scheduling
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                      
-                            Maintenance Tracking
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                  
-                            Flight Planning
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                 
-                            Aircraft Monitoring
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                  
-                            Flight Dispatch
-                        </a>
-                    </li>
-                      <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                      
-                            Maintenance Tracking
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                  
-                            Flight Planning
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                 
-                            Aircraft Monitoring
-                        </a>
-                    </li>
-
-
-
-
-
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" class="folder-icon" />
-                            AeroProcure
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Flight Tracking
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Flight Dispatch
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Operational Control
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Crew Scheduling
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Maintenance Tracking
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Flight Planning
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Aircraft Monitoring
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Flight Dispatch
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Maintenance Tracking
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Flight Planning
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Aircraft Monitoring
-                        </a>
-                    </li>
-
-
-
-                </ul>
+                        <ul id="systemList">
+                            @if (Model == null || !Model.Any())
+                            {
+                                <li>No systems available.</li>
+                            }
+                            else
+                            {
+                                @foreach (var system in Model)
+                                {
+                                    <li onclick="highlightSystem(this)">
+                                        <a href="#">
+                                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" class="folder-icon" />
+                                            @system.SystemName
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        </ul>
 
                         <div class="custom-form-group">
                             <h2 class="systems-header systems-header-label">
@@ -408,24 +275,25 @@
     </div>
 
     <!-- Overlay -->
+    <!-- Overlay for popups -->
+
     <div id="dark-overlay" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminSystemPopups/_AdminAddSystemPopup")
+    @Html.Partial("AdminSystemPopups/_AdminAddSystemPopup", new AeroVault.Views.Shared.AdminSystemPopups._AdminAddSystemPopupModel())
 
     <div id="dark-overlay1" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminSystemPopups/_AdminEditSystemPopup")
+    @Html.Partial("AdminSystemPopups/_AdminEditSystemPopup", new AeroVault.Views.Shared.AdminSystemPopups._AdminEditSystemPopupModel())
 
     <div id="dark-overlay2" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminSystemPopups/_AdminSystemDelete")
+    @Html.Partial("AdminSystemPopups/_AdminSystemDelete", new AeroVault.Views.Shared.AdminSystemPopups._AdminSystemDeleteModel())
 
     <div id="dark-overlay3" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminSystemPopups/_AdminSystemSuccessfullyAdded")
+    @Html.Partial("AdminSystemPopups/_AdminSystemSuccessfullyAdded", new AeroVault.Views.Shared.AdminSystemPopups._AdminSystemSuccessfullyAddedModel())
 
     <div id="dark-overlay4" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminSystemPopups/_AdminFileDelete")
+    @Html.Partial("AdminSystemPopups/_AdminFileDelete", new AeroVault.Views.Shared.AdminSystemPopups._AdminFileDeleteModel())
 
     <div id="dark-overlay5" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminSystemPopups/_AdminFileEdit")
-
+    @Html.Partial("AdminSystemPopups/_AdminFileEdit", new AeroVault.Views.Shared.AdminSystemPopups._AdminFileEditModel())
 
     <script src="~/js/AdminSystemScripts.js"></script>
 

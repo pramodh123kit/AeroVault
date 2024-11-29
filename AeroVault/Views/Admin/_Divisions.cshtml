@@ -1,4 +1,6 @@
-﻿<html>
+﻿@model List<AeroVault.Models.DivisionModel>
+
+<html>
 <head>
     <link rel="stylesheet" href="~/css/AdminSystems.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
@@ -26,96 +28,21 @@
                 <div class="scrollable-content scrollable-content-list">
                     <div id="systemListContainer">
                         <ul id="systemList">
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Aviation College
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Cargo
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Commercial Operations
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Corporate Communications
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Corporate Quality
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Corporate Safety
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Engineering
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Engineering
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Finance
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Flight Operations
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Group Assurance Advisory Services
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Human Resources
-                                </a>
-                            </li>
-
-
-
-
-
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Information Technology
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Logistics & Administration
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Marketing
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Security Operations
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Service Delivery
-                                </a>
-                            </li>
+                            @if (Model == null || !Model.Any())
+                            {
+                                <li>No Divisions available.</li>
+                            }
+                            else
+                            {
+                                @foreach (var division in Model)
+                                {
+                                    <li onclick="highlightSystem(this); setDivisionName('@division.DivisionName')" class="department-li">
+                                        <a href="#">
+                                            @division.DivisionName
+                                        </a>
+                                    </li>
+                                }
+                            }
                         </ul>
 
                         <div class="custom-form-group">
@@ -161,7 +88,7 @@
                     <h2 class="systems-name">System Name</h2>
                     <div class="form-group div-secondary-container">
                         <label class="label" for="department-name">Division Name</label>
-                        <input class="depname-input" type="text" id="department-name" value="Cargo Operations" style="border-radius:10px; font-size:16px; border:1px solid #6D6D6D;">
+                        <input class="depname-input" type="text" id="department-name" value="" style="border-radius:10px; font-size:16px; border:1px solid #6D6D6D;">
                     </div>
                     
                     <div class="button-container">
@@ -184,16 +111,22 @@
 
 
     <!-- Overlay -->
-     <div id="dark-overlay-dep1" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminDivisionPopups/_AdminAddDivisionPopup")
+    <div id="dark-overlay-dep1" class="dark-overlay" style="display: none;"></div>
+    @Html.Partial("AdminDivisionPopups/_AdminAddDivisionPopup", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminAddDepartmentPopupModel())
 
     <div id="dark-overlay-dep2" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminDivisionPopups/_AdminDeleteDivisionPopup")
+    @Html.Partial("AdminDivisionPopups/_AdminDeleteDivisionPopup", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDeleteDepartmentPopupModel())
 
     <div id="dark-overlay-dep3" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminDivisionPopups/_AdminDivisionAdded")
+    @Html.Partial("AdminDivisionPopups/_AdminDivisionAdded", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDepartmentAddedModel())
 
     <script src="~/js/AdminDivisionScripts.js"></script>
+
+    <script>
+        function setDivisionName(divisionName) {
+            document.getElementById('department-name').value = divisionName;
+        }
+    </script>
 
 </body>
 </html>
