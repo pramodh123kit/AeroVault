@@ -44,7 +44,7 @@
 .uploadpop-up-container {
   display: flex;
   flex-direction: column;
-  height: calc(100% - 50px);
+  height: calc(100% - 0px);
   overflow: hidden;
 }
 
@@ -127,23 +127,105 @@
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  margin-top: 15px;
+  margin-top: 20px;
 }
 
 .button-container button {
   padding: 8px 20px;
   font-size: 14px;
+  border-radius: 10px;
+  border: 1px solid #585858;
+  cursor: pointer;
+  background-color: #ffffff;
 }
+
+.button-container button:hover {
+  background-color: #eaeaea;
+}
+
+/* selected files */
+
+.selected-files ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.selected-files li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.selected-files li:last-child {
+  border-bottom: none;
+}
+
+.selected-files li .file-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.selected-files li .file-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.selected-files li .file-remove i {
+  color: #ff4d4d;
+  font-size: 16px;
+}
+
+.selected-files li .file-remove i:hover {
+  color: #ff0000;
+}
+
+
 
 /* Upload area */
 .upload-area {
   border: 2px dashed #ccc;
   border-radius: 5px;
-  padding: 50px;
+  padding: 40px;
   text-align: center;
   margin-top: 15px;
   margin-bottom: 15px;
 }
+
+.upload-label p {
+  margin: 10px 0; 
+}
+
+.next-button.upload-final-button {
+  background-color: #318D56;
+  border-radius: 10px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 10px 20px; /* Optional: adjust padding for button size */
+}
+
+.next-button.upload-final-button:hover {
+  background-color: #22613b;
+}
+
+.upload-label button {
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  border: 1px solid #585858;
+  
+ 
+}
+
+
 
 .selected-files {
   border: 2px solid #ccc;
@@ -153,10 +235,32 @@
   height: 150px;
 }
 
-.p {
-  margin-top: 15px;
 
+
+.selected-files {
+  height: 150px;
+  overflow-y: scroll;
 }
+
+.selected-files {
+  /* For Firefox */
+  scrollbar-width: thin; /* Options: auto, thin */
+  scrollbar-color: #00436C transparent; /* thumb color, track color */
+}
+
+  /* WebKit Browsers (Chrome, Safari) */
+  .selected-files::-webkit-scrollbar {
+      width: 8px; /* Width of the scrollbar */
+  }
+
+  .selected-files::-webkit-scrollbar-thumb {
+      background-color: #00436C; /* Color of the scrollbar thumb */
+      border-radius: 10px; /* Rounded corners */
+  }
+
+  .selected-files::-webkit-scrollbar-track {
+      background: transparent;
+  }
 
 /* Responsive breakpoints */
 @media (max-width: 767px) {
@@ -188,6 +292,7 @@
     flex: 1;
     min-width: 120px;
     margin: 5px;
+    border-radius: 10px;
   }
 }
 
