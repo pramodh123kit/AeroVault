@@ -4,32 +4,32 @@ var selectedDepartments = [];
 var selectedSystem = null;
 var selectedCategory = null;
 
-function validateStep(currentStep) {
-    switch(currentStep) {
-        case 1:
-            // Validate department selection
-            selectedDepartments = Array.from(document.querySelectorAll('.department-list input[type="checkbox"]:checked'))
-                .map(checkbox => checkbox.value);
-            return selectedDepartments.length > 0;
+// function validateStep(currentStep) {
+//     switch(currentStep) {
+//         case 1:
+//             // Validate department selection
+//             selectedDepartments = Array.from(document.querySelectorAll('.department-list input[type="checkbox"]:checked'))
+//                 .map(checkbox => checkbox.value);
+//             return selectedDepartments.length > 0;
         
-        case 2:
-            // Validate system selection
-            selectedSystem = document.querySelector('input[name="system"]:checked');
-            return selectedSystem !== null;
+//         case 2:
+//             // Validate system selection
+//             selectedSystem = document.querySelector('input[name="system"]:checked');
+//             return selectedSystem !== null;
         
-        case 3:
-            // Validate category selection
-            selectedCategory = document.querySelector('input[name="category"]:checked');
-            return selectedCategory !== null;
+//         case 3:
+//             // Validate category selection
+//             selectedCategory = document.querySelector('input[name="category"]:checked');
+//             return selectedCategory !== null;
         
-        case 4:
-            // Validate file selection
-            return selectedFiles.length > 0;
+//         case 4:
+//             // Validate file selection
+//             return selectedFiles.length > 0;
         
-        default:
-            return false;
-    }
-}
+//         default:
+//             return false;
+//     }
+// }
 
 function goToStep(step) {
     // Validate previous step before proceeding
