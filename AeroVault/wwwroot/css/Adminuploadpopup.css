@@ -168,6 +168,10 @@
   flex-direction: column;
 }
 
+.file-info span:nth-child(2) {
+  color: rgb(141, 141, 141);
+}
+
 .selected-files li .file-remove {
   background: none;
   border: none;
@@ -317,6 +321,8 @@
     gap: 15px;
   }
 
+
+
   .step::after {
     content: "";
     position: absolute;
@@ -324,11 +330,13 @@
     top: 38px;
     width: 3.5px;
     height: 70px;
-    background-color: #dce6e5;
-  }
+    background-color: #dce6e5; /* Default unactive stroke color */
+    transition: background-color 0.3s ease;
+}
+
 
   .step.active::after {
-    background-color: #00436c;
+    background-color: #dce6e5;
   }
 
   .step.completed::after {
