@@ -1,4 +1,6 @@
-﻿<html>
+﻿@model AeroVault.Controllers.DepartmentViewModel
+
+<html>
 <head>
     <link rel="stylesheet" href="~/css/AdminSystems.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
@@ -9,16 +11,13 @@
             <h2 class="systems-header" id="systems-header">
                 Select a Department to Manage
             </h2>
-            <button class="add-system-button add-dep-button">
+            <button class="add-system-button add-dep-button" onclick="openAddDepartmentPopup()">
                 <img src="~/Assets/add-icon.svg" alt="Add Icon" class="button-icon" />
                 Add New Department
             </button>
         </div>
 
-
-
         <div class="sidebar-container">
-
             <div class="sidebar2">
                 <div class="search-container">
                     <img src="~/Assets/search-icon.svg" alt="Search Icon" />
@@ -27,134 +26,25 @@
                 <div class="scrollable-content scrollable-content-list">
                     <div id="systemListContainer">
                         <ul id="systemList">
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Human Resources
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Engineering & Maintenance
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Finance & Accounting
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Sales & Marketing
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Customer Service
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Cargo Operations
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Cabin Crew
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Flight Operations
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Ground Handling
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Information Technology
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Human Resources
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Sales & Marketing
-                                </a>
-                            </li>
+                            @if (Model.Departments == null || !Model.Departments.Any())
+                            {
+                                <li>No Departments available.</li>
+                            }
+                            else
+                            {
+                                @foreach (var department in Model.Departments)
+                                {
+                                    <li onclick="highlightSystem(this)"
+                                        data-department-id="@department.DepartmentID"
+                                        data-department-name="@department.DepartmentName"
+                                        data-division-id="@department.DivisionID"
+                                        data-division-name="@department.Division.DivisionName">
 
+                                        @department.DepartmentName
 
-
-
-
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Information Technology
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Sales & Marketing
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Ground Handling
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Cabin Crew
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Ground Handling
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Finance & Accounting
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Customer Service
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Ground Handling
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Flight Dispatch
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Human Resources
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Customer Service
-                                </a>
-                            </li>
-                            <li onclick="highlightSystem(this)" class="department-li">
-                                <a href="#">
-                                    Information Technology
-                                </a>
-                            </li>
-
-
-
+                                    </li>
+                                }
+                            }
                         </ul>
 
                         <div class="custom-form-group">
@@ -163,7 +53,7 @@
                             </h2>
                             <div class="custom-dropdown">
                                 <div class="custom-dropdown-toggle custom-selector" onclick="toggleCustomDropdown(event)">
-                                    <span id="selected-option" style="color:#333333;">Information Technology</span>
+                                    <span id="selected-option" style="color:#333333;">Select a department</span>
                                     <i class="fas fa-chevron-down"></i>
                                 </div>
                                 <div class="custom-dropdown-content" style="position:sticky">
@@ -172,41 +62,40 @@
                                         <input type="text" id="custom-search-input" placeholder="Search Option" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
                                     </div>
                                     <div class="custom-dropdown-list">
-                                        <div onclick="selectCustomOption(this)" class="active">Information Technology</div>
-                                        <div onclick="selectCustomOption(this)">Human Resource</div>
-                                        <div onclick="selectCustomOption(this)">Sales & Marketing</div>
-                                        <div onclick="selectCustomOption(this)">Customer Service</div>
-                                        <div onclick="selectCustomOption(this)">Cabin Crew</div>
-                                        <div onclick="selectCustomOption(this)">Flight Operations</div>
-                                        <div onclick="selectCustomOption(this)">Ground Handling</div>
-                                        <div onclick="selectCustomOption(this)">Finance & Accounting</div>
-                                        <div onclick="selectCustomOption(this)">Engineering & Maintenance</div>
+                                        @foreach (var department in Model.Departments)
+                                        {
+                                            <div onclick="selectCustomOption(this); highlightSystem(this)"
+                                                 data-department-id="@department.DepartmentID"
+                                                 data-department-name="@department.DepartmentName"
+                                                 data-division-id="@department.DivisionID"
+                                                 data-division-name="@department.Division.DivisionName">
+                                                @department.DepartmentName
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="image-container">
                 <img src="~/Assets/departments-background-icon.svg" alt="Departments Background Image" />
             </div>
-
 
             <div class="system-container dep-second-container" style="display: none;">
                 <div class="dep-inner-container">
                     <h2 class="edit-del-instruc">Edit or Delete Department</h2>
                     <h2 class="systems-name">System Name</h2>
                     <div class="form-group div-secondary-container">
-                        
                         <label class="label" for="department-name">Department Name</label>
-                        <input class="depname-input" type="text" id="department-name" value="Cargo Operations" style="border-radius:10px; font-size:16px; border:1px solid #6D6D6D;">
+                        <input class="depname-input" type="text" id="department-name" value="" style="border-radius:10px; font-size:16px; border:1px solid #6D6D6D;">
                     </div>
+
                     <div class="form-group second-input div-secondary-container">
                         <label class="label" for="division">Division</label>
                         <div class="dropdown">
-                            <div class="dropdown-toggle division-selector " onclick="toggleDropdown()">
+                            <div class="dropdown-toggle division-selector" onclick="toggleDropdown()">
                                 <span id="selected-division">Information Technology</span>
                                 <i class="fas fa-chevron-down"></i>
                             </div>
@@ -216,24 +105,23 @@
                                     <input type="text" id="search-division" placeholder="Search Division" onkeyup="filterDivisions()" onclick="event.stopPropagation()">
                                 </div>
                                 <div class="dropdown-list">
-                                    <div onclick="selectDivision(this)" class="selected">Information Technology</div>
-                                    <div onclick="selectDivision(this)">Human Resource</div>
-                                    <div onclick="selectDivision(this)">Flight Operations</div>
-                                    <div onclick="selectDivision(this)">Safety and Security</div>
-                                    <div onclick="selectDivision(this)">Finance</div>
-                                    <div onclick="selectDivision(this)">Marketing</div>
-                                    <div onclick="selectDivision(this)">Customer Service</div>
-                                    <div onclick="selectDivision(this)">Logistics</div>
-                                    <div onclick="selectDivision(this)">Procurement</div>
+                                    <!-- Assuming server-side rendering for divisions -->
+                                    @foreach (var division in Model.Divisions)
+                                    {
+                                        <div onclick="selectDivision(this)" data-division-id="@division.DivisionID">
+                                            @division.DivisionName
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="button-container">
                         <button class="reset-changes">
                             Reset
                         </button>
-                        <button class="edit-system-button">
+                        <button class="edit-system-button" onclick="saveChanges()">
                             Save Changes
                         </button>
                         <button class="delete-system-button delete-dep-button">
@@ -247,18 +135,388 @@
     </div>
 
 
+    <div id="overlay-edit-dep" class="overlay-edit-dep">
+        <div id="successPopup" class="popup">
+            <button class="popup-close" onclick="closeSuccessPopup()">&times;</button>
+
+            <div class="popup-content">
+                <img src="~/Assets/system-added-successfully.svg" alt="Alternate Text" />
+                <h2 class="edit-success-dep">Department was Successfully Edited</h2>
+            </div>
+        </div>
+    </div>
 
     <!-- Overlay -->
     <div id="dark-overlay-dep1" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminDepartmentPopups/_AdminAddDepartmentPopup")
+    @Html.Partial("AdminDepartmentPopups/_AdminAddDepartmentPopup", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminAddDepartmentPopupModel())
 
     <div id="dark-overlay-dep2" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminDepartmentPopups/_AdminDeleteDepartmentPopup")
+    @Html.Partial("AdminDepartmentPopups/_AdminDeleteDepartmentPopup", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDeleteDepartmentPopupModel())
 
     <div id="dark-overlay-dep3" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminDepartmentPopups/_AdminDepartmentAdded")
+    @Html.Partial("AdminDepartmentPopups/_AdminDepartmentAdded", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDepartmentAddedModel())
 
     <script src="~/js/AdminDepartmentScripts.js"></script>
+    <script>
 
+                function checkForChanges() {
+
+            const departmentNameInput = document.getElementById('department-name');
+
+            const selectedDivision = document.querySelector('.division-selector');
+
+            const saveChangesButton = document.querySelector('.edit-system-button');
+
+
+            // Get the original values
+
+            const originalName = originalDepartmentName;
+
+            const originalDivision = originalDivisionName;
+
+
+            // Get current values
+
+            const currentName = departmentNameInput.value.trim();
+
+            const currentDivision = selectedDivision.querySelector('span').innerText.trim();
+
+
+            // Check if there are any changes
+
+            const hasChanges = currentName !== originalName || currentDivision !== originalDivision;
+
+
+            if (hasChanges) {
+
+                // Enable the button
+
+                saveChangesButton.style.backgroundColor = '#00436C';  // Active blue color
+
+                saveChangesButton.style.cursor = 'pointer';
+
+                saveChangesButton.disabled = false;
+
+            } else {
+
+                // Disable the button
+
+                saveChangesButton.style.backgroundColor = '#6c757d';  // Disabled gray color
+
+                saveChangesButton.style.cursor = 'not-allowed';
+
+                saveChangesButton.disabled = true;
+
+            }
+
+        }
+
+        document.getElementById('department-name').addEventListener('input', checkForChanges);
+
+
+        // Add event listener to division selector
+
+        document.querySelector('.division-selector').addEventListener('click', function() {
+
+            // Use a small delay to ensure the division is updated
+
+            setTimeout(checkForChanges, 100);
+
+        });
+
+
+
+        function saveChanges() {
+
+            const saveChangesButton = document.querySelector('.edit-system-button');
+
+
+
+            // Check if the button is disabled
+
+            if (saveChangesButton.disabled) {
+
+                return;  // Do nothing if the button is disabled
+
+            }
+
+
+            // Rest of your existing saveChanges logic...
+
+            const selectedDepartment = document.querySelector('#systemList li[style*="background-color: rgb(187, 220, 249)"]');
+
+
+            if (!selectedDepartment) {
+
+                alert("Please select a department first.");
+
+                return;
+
+            }
+
+
+            const departmentId = selectedDepartment.getAttribute('data-department-id');
+
+            const departmentName = document.getElementById('department-name').value.trim();
+
+            const divisionId = document.querySelector('.division-selector').getAttribute('data-division-id');
+
+
+
+            // Get the selected division name
+
+            const selectedDivisionName = document.getElementById('selected-division').innerText.trim();
+
+
+            // Validate input fields
+
+            if (!departmentId) {
+
+                alert("Department ID is missing.");
+
+                return;
+
+            }
+
+
+            if (!departmentName) {
+
+                alert("Department name cannot be empty.");
+
+                return;
+
+            }
+
+
+            if (!divisionId) {
+
+                alert("Please select a division.");
+
+                return;
+
+            }
+
+
+            fetch('/Admin/UpdateDepartment', {
+
+                method: 'PUT',
+
+                headers: {
+
+                    'Content-Type': 'application/json'
+
+                },
+
+                body: JSON.stringify({
+
+                    departmentId: parseInt(departmentId),
+
+                    departmentName: departmentName,
+
+                    divisionId: parseInt(divisionId)
+
+                })
+
+            })
+
+            .then(response => {
+
+                if (!response.ok) {
+
+                    return response.text().then(errorText => {
+
+                        throw new Error(errorText);
+
+                    });
+
+                }
+
+                return response.json();
+
+            })
+
+                .then(data => {
+
+            // Update the data attributes of the selected department
+
+            selectedDepartment.setAttribute('data-department-name', departmentName);
+
+            selectedDepartment.setAttribute('data-division-id', divisionId);
+
+            selectedDepartment.setAttribute('data-division-name', selectedDivisionName);
+
+
+            // Update the text of the department
+
+            selectedDepartment.textContent = departmentName;
+
+
+            // Update the custom dropdown list
+
+            const customDropdownList = document.querySelector('.custom-dropdown-list');
+
+            const customDropdownItems = customDropdownList.querySelectorAll('div');
+
+
+            customDropdownItems.forEach(item => {
+
+                if (item.getAttribute('data-department-id') === departmentId.toString()) {
+
+                    // Update the department name in the custom dropdown
+
+                    item.textContent = departmentName;
+
+                    item.setAttribute('data-department-name', departmentName);
+
+                    item.setAttribute('data-division-id', divisionId);
+
+                    item.setAttribute('data-division-name', selectedDivisionName);
+
+                }
+
+            });
+
+
+            // Clear the custom search input
+
+            const customSearchInput = document.getElementById('custom-search-input');
+
+            if (customSearchInput) {
+
+                customSearchInput.value = ''; // Clear the input
+
+                filterCustomOptions(); // Refresh the list to show all items
+
+            }
+                    const selectedOptionSpan = document.getElementById('selected-option');
+
+        if (selectedOptionSpan) {
+
+            selectedOptionSpan.textContent = departmentName;
+
+            selectedOptionSpan.style.color = '#333333';
+
+        }
+
+            // Update the systems name h2 element
+
+            const systemsNameElement = document.querySelector('.systems-name');
+
+            if (systemsNameElement) {
+
+                systemsNameElement.textContent = departmentName;
+
+            }
+
+
+            // Update original values for reset functionality
+
+            originalDepartmentName = departmentName;
+
+            originalDivisionName = selectedDivisionName;
+
+
+            // Disable the save changes button after successful update
+
+            checkForChanges();
+
+
+            // Call the success popup instead of alert
+
+            showSuccessPopup();
+
+        })
+
+            .catch(error => {
+
+                console.error('Error:', error);
+
+                alert("Error: " + error.message);
+
+            });
+
+        }
+
+        function updateDepartmentLists(newDepartmentName, departmentId, divisionId) {
+            // Update the main system list
+            const mainSystemList = document.getElementById('systemList');
+            const mainListItem = mainSystemList.querySelector(`li[data-department-id="${departmentId}"]`);
+
+            if (mainListItem) {
+                // Update the text content directly
+                mainListItem.textContent = newDepartmentName;
+
+                // Update data attributes
+                mainListItem.setAttribute('data-department-name', newDepartmentName);
+                mainListItem.setAttribute('data-division-id', divisionId);
+            }
+
+            // Update the custom dropdown list
+            const customDropdownList = document.querySelector('.custom-dropdown-list');
+            const customDropdownItems = customDropdownList.querySelectorAll('div');
+
+            customDropdownItems.forEach(item => {
+                if (item.getAttribute('data-division-id') === departmentId.toString()) {
+                    // Update the department name in the custom dropdown
+                    item.textContent = newDepartmentName;
+                    item.setAttribute('data-division-id', divisionId);
+                }
+            });
+        }
+
+
+
+        document.querySelector('.reset-changes').addEventListener('click', function () {
+            // Reset department name input to original value
+            document.getElementById('department-name').value = originalDepartmentName;
+
+            // Reset division name
+            document.getElementById('selected-division').innerText = originalDivisionName;
+
+            // Update division selector span if it exists
+            const divisionSelectorSpan = document.querySelector('.division-selector span');
+            if (divisionSelectorSpan) {
+                divisionSelectorSpan.innerText = originalDivisionName;
+            }
+
+            // Disable the Save Changes button
+            const saveChangesButton = document.querySelector('.edit-system-button');
+            saveChangesButton.style.backgroundColor = '#6c757d';  // Disabled gray color
+            saveChangesButton.style.cursor = 'not-allowed';
+            saveChangesButton.disabled = true;
+        });
+
+
+
+        function showSuccessPopup() {
+            const overlay = document.getElementById('overlay-edit-dep');
+            const popup = document.getElementById('successPopup');
+
+            // Show overlay and popup
+            overlay.classList.add('show');
+
+        }
+
+        function closeSuccessPopup() {
+            const overlay = document.getElementById('overlay-edit-dep');
+            overlay.classList.remove('show');
+        }
+
+        // Optional: Add a click event to close the popup if needed
+        document.getElementById('overlay-edit-dep').addEventListener('click', function(event) {
+            // Only close if clicking directly on the overlay (not the popup)
+            if (event.target === this) {
+                closeSuccessPopup();
+            }
+        });
+
+
+        document.getElementById('overlay-edit-dep').addEventListener('click', function(event) {
+            // Only close if clicking directly on the overlay (not the popup)
+            if (event.target === this) {
+                this.classList.remove('show');
+            }
+        });
+    </script>
 </body>
 </html>

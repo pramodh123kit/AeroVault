@@ -8,6 +8,6 @@ namespace AeroVault.Models
         public int SystemID { get; set; }
         public string SystemName { get; set; }
         public string Description { get; set; }
-        public int DivisionID { get; set; }
+        public int DepartmentID { get; set; }
     }
 }

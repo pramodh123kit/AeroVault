@@ -18,7 +18,7 @@
             </button>
         </div>
 
-    
+
         <div class="sidebar-container">
 
             <div class="sidebar2">
@@ -63,23 +63,22 @@
                                     </div>
                                     <div class="custom-dropdown-list">
                                         <div onclick="selectCustomOption(this)" class="active">Information Technology</div>
-                                        <div onclick="selectCustomOption(this)">Human Resource</div>
-                                        <div onclick="selectCustomOption(this)">Flight Operations</div>
-                                        <div onclick="selectCustomOption(this)">Safety and Security</div>
-                                        <div onclick="selectCustomOption(this)">Finance</div>
-                                        <div onclick="selectCustomOption(this)">Marketing</div>
-                                        <div onclick="selectCustomOption(this)">Customer Service</div>
-                                        <div onclick="selectCustomOption(this)">Logistics</div>
-                                        <div onclick="selectCustomOption(this)">Procurement</div>
+                                        
+                                        @foreach (var system in Model)
+                                        {
+                                            <div onclick="selectCustomOption(this)">
+                                                @system.SystemName
+                                            </div>                                           
+                                        }
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
+
+
             </div>
-           
- 
-        </div>
             <div class="image-container">
                 <img src="~/Assets/system-background-icon.svg" alt="System Background Image" />
             </div>
@@ -271,7 +270,7 @@
                     </div>
                 </div>
             </div>
-    </div>
+        </div>
     </div>
 
     <!-- Overlay -->
@@ -299,7 +298,7 @@
 
     <script>
         function toggleCustomDropdown(event) {
-            event.stopPropagation(); 
+            event.stopPropagation();
             var dropdownContent = document.querySelector('.custom-dropdown-content');
             var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
             var selector = document.querySelector('.custom-selector');
@@ -347,17 +346,17 @@
             divs.forEach(div => div.classList.remove('active'));
             element.classList.add('active');
 
-            document.querySelector('.systems-name').innerText = selectedOption; 
+            document.querySelector('.systems-name').innerText = selectedOption;
 
-            document.querySelector('.image-container').style.display = 'none'; 
-            document.querySelector('.system-container').style.display = 'block'; 
+            document.querySelector('.image-container').style.display = 'none';
+            document.querySelector('.system-container').style.display = 'block';
         }
 
         function showAllCustomOptions() {
             var divs = document.querySelectorAll('.custom-dropdown-list div');
             divs.forEach(div => div.style.display = "");
         }
-            
+
         window.addEventListener('click', function (event) {
             var dropdownContent = document.querySelector('.custom-dropdown-content');
             var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
@@ -372,7 +371,7 @@
             }
         });
 
-        
+
         function populateCustomDropdown() {
             var dropdownList = document.querySelector('.custom-dropdown-list');
 
@@ -383,7 +382,7 @@
             systemListItems.forEach(function (item) {
                 var systemName = item.innerText.trim();
 
-                console.log("Adding system name to dropdown:", systemName); 
+                console.log("Adding system name to dropdown:", systemName);
 
                 var dropdownItem = document.createElement('div');
                 dropdownItem.textContent = systemName;
@@ -396,19 +395,25 @@
             });
 
             if (dropdownList.children.length === 0) {
-                console.log("No items found to populate the dropdown."); 
+                console.log("No items found to populate the dropdown.");
             }
         }
 
         window.addEventListener('load', function () {
 
-            console.log("Window loaded, populating dropdown..."); 
+            console.log("Window loaded, populating dropdown...");
 
-            populateCustomDropdown(); 
+            populateCustomDropdown();
 
         });
-       
 
+        document.querySelector('.add-system-button').addEventListener('click', function() {
+
+            document.getElementById('addsystem-popup').style.display = 'block';
+
+            loadDivisions(); // Call to load divisions when the popup is opened
+
+        });
 
     </script>
 </body>
