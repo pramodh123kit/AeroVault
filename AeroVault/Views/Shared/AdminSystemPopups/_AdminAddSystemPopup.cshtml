@@ -1,10 +1,10 @@
 ﻿@page
 @model AeroVault.Views.Shared.AdminSystemPopups._AdminAddSystemPopupModel
-@{
-}
+@Html.AntiForgeryToken()
+
 
 <div id="addsystem-popup" class="addsystem-popup" style="display: none;">
-    <div class="add-system-container-popup" style="margin: 30px auto;">
+    <div class="add-system-container-popup">
         <div class="add-system-header">
             <div class="title">Add System</div>
             <img src="~/Assets/close-icon.svg" class="close-icon" id="close-icon" />
@@ -13,11 +13,11 @@
             <div class="form-row">
                 <div class="form-group half-width">
                     <label for="system-name">System Name</label>
-                    <input type="text" id="system-name" placeholder="New System Name" style="width:100%;">
+                    <input type="text" id="system-name" placeholder="New System Name" class="full-width">
                 </div>
                 <div class="form-group half-width">
                     <label for="description">Description</label>
-                    <textarea id="description" placeholder="Description Comes Here"></textarea>
+                    <textarea id="description" placeholder="Description Comes Here" class="full-width"></textarea>
                 </div>
             </div>
             <div class="add-system-searchbar">
@@ -27,110 +27,8 @@
                     <input id="DepartmentsDivisionsSearch" onkeyup="filterDepartmentsDivisions()" placeholder="Search" type="text" class="file-search-input" />
                 </div>
             </div>
-            <div class="division-container">
-                <div class="division">
-                    <div class="division-header">
-                        <div>
-                            <i class="fas fa-chevron-right division-name"></i>
-                            <span class="division-name">Aviation College</span>
-                        </div>
-                        <span class="selected-count"></span>
-                    </div>
-                    <div class="division-content">
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" class="select-all"> Select All</label>
-                            <label><input type="checkbox" class="department"> Department 1</label>
-                            <label><input type="checkbox" class="department"> Department 2</label>
-                            <label><input type="checkbox" class="department"> Department 3</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="division">
-                    <div class="division-header">
-                        <div>
-                            <i class="fas fa-chevron-right division-name"></i>
-                            <span class="division-name">Cargo</span>
-                        </div>
-                        <span class="selected-count"></span>
-                    </div>
-                    <div class="division-content">
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" class="select-all"> Select All</label>
-                            <label><input type="checkbox" class="department"> Cargo Operations</label>
-                            <label><input type="checkbox" class="department"> Cargo Sales</label>
-                            <label><input type="checkbox" class="department"> Cargo Customer Service</label>
-                            <label><input type="checkbox" class="department"> Cargo Network Planning</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="division">
-                    <div class="division-header">
-                        <div>
-                            <i class="fas fa-chevron-right division-name"></i>
-                            <span class="division-name">Commercial Operations</span>
-                        </div>
-                        <span class="selected-count"></span>
-                    </div>
-                    <div class="division-content">
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" class="select-all"> Select All</label>
-                            <label><input type="checkbox" class="department"> Department 1</label>
-                            <label><input type="checkbox" class="department"> Department 2</label>
-                            <label><input type="checkbox" class="department"> Department 3</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="division">
-                    <div class="division-header">
-                        <div>
-                            <i class="fas fa-chevron-right division-name"></i>
-                            <span class="division-name">Corporate Communications</span>
-                        </div>
-                        <span class="selected-count"></span>
-                    </div>
-                    <div class="division-content">
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" class="select-all"> Select All</label>
-                            <label><input type="checkbox" class="department"> Department 1</label>
-                            <label><input type="checkbox" class="department"> Department 2</label>
-                            <label><input type="checkbox" class="department"> Department 3</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="division">
-                    <div class="division-header">
-                        <div>
-                            <i class="fas fa-chevron-right division-name"></i>
-                            <span class="division-name">Commercial Operations</span>
-                        </div>
-                        <span class="selected-count"></span>
-                    </div>
-                    <div class="division-content">
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" class="select-all"> Select All</label>
-                            <label><input type="checkbox" class="department"> Department 1</label>
-                            <label><input type="checkbox" class="department"> Department 2</label>
-                            <label><input type="checkbox" class="department"> Department 3</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="division">
-                    <div class="division-header">
-                        <div>
-                            <i class="fas fa-chevron-right division-name"></i>
-                            <span class="division-name">Corporate Communications</span>
-                        </div>
-                        <span class="selected-count"></span>
-                    </div>
-                    <div class="division-content">
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" class="select-all"> Select All</label>
-                            <label><input type="checkbox" class="department"> Department 1</label>
-                            <label><input type="checkbox" class="department"> Department 2</label>
-                            <label><input type="checkbox" class="department"> Department 3</label>
-                        </div>
-                    </div>
-                </div>
+            <div class="division-container" id="division-container">
+                <!-- Dynamic content will be added here -->
             </div>
         </div>
         <div class="footer">
@@ -138,3 +36,86 @@
         </div>
     </div>
 </div>
+
+<script>
+
+        async function loadDivisions() {
+        try {
+            const tokenElement = document.querySelector('input[name="__RequestVerificationToken"]');
+            const csrfToken = tokenElement ? tokenElement.value : '';
+
+            const response = await fetch('/Admin/GetDivisionsForPopup', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(csrfToken && { 'X-CSRF-TOKEN': csrfToken })
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const divisions = await response.json();
+            const divisionContainer = document.getElementById('division-container');
+
+            if (!divisionContainer) {
+                console.error("Error: division-container element not found.");
+                return;
+            }
+
+            divisionContainer.innerHTML = ''; // Clear previous content
+
+            if (Array.isArray(divisions)) {
+                divisions.forEach(division => {
+                    const divisionDiv = document.createElement('div');
+                    divisionDiv.classList.add('division');
+
+                    const header = `
+                        <div class="division-header">
+                            <div>
+                                <i class="fas fa-chevron-right"></i>
+                                <span class="division-name">${division.DivisionName}</span>
+                            </div>
+                            <span class="selected-count"></span>
+                        </div>
+                        <div class="division-content">
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" class="select-all"> Select All</label>
+                            </div>
+                        </div>
+                    `;
+
+                    divisionDiv.innerHTML = header;
+
+                    // Check if Departments is defined and is an array
+                    if (Array.isArray(division.Departments) && division.Departments.length > 0) {
+                        division.Departments.forEach(department => {
+                            const label = document.createElement('label');
+                            label.innerHTML = `
+                                <input type="checkbox" class="department" value="${department.DepartmentID}">
+                                ${department.DepartmentName}
+                            `;
+                            divisionDiv.querySelector('.checkbox-group').appendChild(label);
+                        });
+                    } else {
+                        // If there are no departments, you can show a message or simply skip
+                        const noDepartmentsLabel = document.createElement('label');
+                        noDepartmentsLabel.textContent = "No departments available.";
+                        divisionDiv.querySelector('.checkbox-group').appendChild(noDepartmentsLabel);
+                    }
+
+                    divisionContainer.appendChild(divisionDiv);
+                });
+            } else {
+                console.error("Expected divisions to be an array, but got:", divisions);
+            }
+        } catch (error) {
+            console.error("Error loading divisions:", error);
+        }
+    }
+
+        document.addEventListener('DOMContentLoaded', function() {
+        loadDivisions();
+    });
+
+</script>

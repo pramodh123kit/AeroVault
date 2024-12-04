@@ -1,10 +1,4 @@
-﻿@page
-
-@model AeroVault.Views.Shared.AdminDepartmentPopups._AdminAddDepartmentPopupModel
-
-@{
-
-}
+﻿@model AeroVault.Views.Shared.AdminDepartmentPopups._AdminAddDepartmentPopupModel
 
 <div class="modal-notification-edit" id="adddepartment-popup" style="display: none;">
     <div class="modal-header">
@@ -15,32 +9,39 @@
     <div class="modal-body">
         <p>Enter department name, select division to add this department</p>
         <div class="add-dep-form-popup">
-            <label for="new-department-name">Department Name</label>
-            <input type="text" id="new-department-name" placeholder="New Department Name">
+            <div style="display: flex; align-items: center;">
+                <label for="new-department-name">Department Name</label>
+                <span id="department-name-error" style="color: red; margin-left: 10px; margin-bottom: 5px; display: none;">Please enter a department name</span>
+            </div>
+
+
+            <input type="text" id="new-department-name" placeholder="New Department Name" />
         </div>
 
         <div class="unique-form-group unique-add-dep-popup-dropdown">
-            <label class="unique-label" for="unique-selector">Select Option</label>
+           
+            <div style="display: flex; align-items: center;">
+                <label class="unique-label" for="unique-selector">Select Division</label>
+                <span id="division-error" style="color: red; margin-left: 10px; margin-bottom: 5px; display: none;">Please select a division</span>
+            </div>
             <div class="unique-dropdown">
                 <div class="unique-dropdown-toggle unique-selector" onclick="toggleUniqueDropdown()">
-                    <span id="unique-selected-option">Information Technology</span>
+                    <span id="unique-selected-option">Select a Division</span>
                     <i class="fas fa-chevron-down"></i>
                 </div>
+
                 <div class="unique-dropdown-content">
                     <div class="unique-search-container">
                         <img src="~/Assets/search-icon.svg" alt="Search Icon" />
-                        <input type="text" id="unique-search-input" placeholder="Search Option" onkeyup="filterUniqueOptions()" onclick="event.stopPropagation()">
+                        <input type="text" id="unique-search-input" placeholder="Search Division" onkeyup="filterUniqueOptions()" onclick="event.stopPropagation()">
                     </div>
-                    <div class="unique-dropdown-list">
-                        <div onclick="selectUniqueOption(this)" class="active">Information Technology</div>
-                        <div onclick="selectUniqueOption(this)">Human Resource</div>
-                        <div onclick="selectUniqueOption(this)">Flight Operations</div>
-                        <div onclick="selectUniqueOption(this)">Safety and Security</div>
-                        <div onclick="selectUniqueOption(this)">Finance</div>
-                        <div onclick="selectUniqueOption(this)">Marketing</div>
-                        <div onclick="selectUniqueOption(this)">Customer Service</div>
-                        <div onclick="selectUniqueOption(this)">Logistics</div>
-                        <div onclick="selectUniqueOption(this)">Procurement</div>
+                    <div class="unique-dropdown-list" id="division-dropdown-list">
+                        @foreach (var division in ViewData["Divisions"] as List<AeroVault.Models.DivisionModel>)
+                        {
+                            <div onclick="selectUniqueOption(this)" data-division-id="@division.DivisionID">
+                                @division.DivisionName
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -48,9 +49,249 @@
     </div>
 
     <div class="modal-footer">
-        <button class="save-btn add-new-dep-popup-btn">Add New Department</button>
+        <button class="save-btn add-new-dep-popup-btn" id="add-department-btn">Add New Department</button>
     </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#add-department-btn').on('click', function() {
+        var departmentName = $('#new-department-name').val().trim();
+        var selectedDivisionId = $('.unique-dropdown-list .active').data('division-id');
+        var selectedDivisionName = $('.unique-dropdown-list .active').text().trim();
+
+            // Reset error messages
+            $('#department-name-error').hide();
+            $('#division-error').hide();
+
+            let hasError = false;
+
+            // Check for department name
+            if (!departmentName) {
+                $('#department-name-error').show();
+                hasError = true;
+            }
+
+            // Check for selected division
+            if (!selectedDivisionId) {
+                $('#division-error').show();
+                hasError = true;
+            }
+
+            // If there are errors, do not proceed
+        if (hasError) {
+
+            // Optionally, you can add visual indication for the button
+
+            $('#add-department-btn').prop('disabled', true);
+
+            return;
+
+        }
+
+            // If no errors, proceed with AJAX request
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("AddDepartment", "Admin")',
+                data: {
+                    departmentName: departmentName,
+                    divisionId: selectedDivisionId
+                },
+                    success: function(response) {
+                        // Close the add department popup
+                        $('#adddepartment-popup').hide();
+
+                        // Reset input fields
+                        $('#new-department-name').val('');
+                        $('#unique-selected-option').text('Select a Division');
+                        $('#add-department-btn').prop('disabled', true);
+
+                        // Dynamically add the new department to the system list
+                        const newListItem = `
+                            <li onclick="highlightSystem(this)"
+                                data-department-id="${response.departmentId}"
+                                data-department-name="${response.departmentName}"
+                                data-division-id="${response.divisionId}"
+                                data-division-name="${response.divisionName}">
+                                ${response.departmentName}
+                            </li>
+                        `;
+
+                        // Add to system list
+                        if ($('#systemList li:first').text() === 'No Departments available.') {
+                            $('#systemList').empty(); // Remove 'No Departments available' message
+                        }
+                        $('#systemList').append(newListItem);
+
+                        // Dynamically add to custom dropdown list
+                        const newDropdownItem = `
+                            <div onclick="selectCustomOption(this); highlightSystem(this)"
+                                 data-department-id="${response.departmentId}"
+                                 data-department-name="${response.departmentName}"
+                                 data-division-id="${response.divisionId}"
+                                 data-division-name="${response.divisionName}">
+                                ${response.departmentName}
+                            </div>
+                        `;
+                        $('.custom-dropdown-list').append(newDropdownItem);
+
+                        // Show notification popup
+                        $('#notification-popup2').show();
+                        $('#dark-overlay-dep3').show();
+                    },
+                    error: function(xhr, status, error) {
+                        // Check for specific error message about duplicate department
+                        if (xhr.status === 400) {
+                            // Show the error message in the department name error span
+                            $('#department-name-error')
+                                .text('Department name already in use')
+                                .show();
+                        } else {
+                            // For other types of errors
+                            console.log("An error occurred: " + xhr.responseText);
+                        }
+                    }
+            });
+        });
+    });
+
+        document.getElementById('new-department-name').addEventListener('input', function() {
+        // Hide department name error when user starts typing
+        if (this.value.trim()) {
+            document.getElementById('department-name-error').style.display = 'none';
+        }
+
+        // Enable/disable button based on inputs
+        const departmentName = this.value.trim();
+        const selectedDivision = document.getElementById('unique-selected-option').innerText;
+        const addButton = document.getElementById('add-department-btn');
+
+        addButton.disabled = !(departmentName && selectedDivision !== 'Select a Division');
+    });
+
+
+    document.querySelector('.unique-dropdown-list').addEventListener('click', function() {
+        // Hide division error when a division is selected
+        const selectedDivision = document.getElementById('unique-selected-option').innerText;
+        if (selectedDivision !== 'Select a Division') {
+            document.getElementById('division-error').style.display = 'none';
+        }
+
+        // Enable/disable button based on inputs
+        const departmentName = document.getElementById('new-department-name').value.trim();
+        const addButton = document.getElementById('add-department-btn');
+
+        addButton.disabled = !(departmentName && selectedDivision !== 'Select a Division');
+    });
+
+
+    function selectUniqueOption(element) {
+        var selectedOption = element.textContent || element.innerText;
+        document.getElementById('unique-selected-option').textContent = selectedOption;
+        document.querySelector('.unique-dropdown-content').style.display = 'none';
+        document.querySelector('.unique-dropdown-toggle').classList.remove('open');
+
+        // Hide division error when a division is selected
+        document.getElementById('division-error').style.display = 'none';
+
+        // Enable/disable button based on inputs
+        const departmentName = document.getElementById('new-department-name').value.trim();
+        const addButton = document.getElementById('add-department-btn');
+
+        addButton.disabled = !(departmentName && selectedOption !== 'Select a Division');
+
+        var divs = document.querySelectorAll('.unique-dropdown-list div');
+        divs.forEach(function(div) {
+            div.classList.remove('active');
+        });
+        element.classList.add('active');
+    }
+
+    function toggleUniqueDropdown() {
+        var dropdownContent = document.querySelector('.unique-dropdown-content');
+        var dropdownToggle = document.querySelector('.unique-dropdown-toggle');
+
+        if (dropdownContent.style.display === 'block') {
+            dropdownContent.style.display = 'none';
+            dropdownToggle.classList.remove('open');
+        } else {
+            dropdownContent.style.display = 'block';
+            dropdownToggle.classList.add('open');
+        }
+    }
+
+    function filterUniqueOptions() {
+        var input, filter, div, i, txtValue;
+        input = document.getElementById('unique-search-input');
+        filter = input.value.toUpperCase();
+        div = document.querySelectorAll('.unique-dropdown-list div');
+
+        for (i = 0; i < div.length; i++) {
+            txtValue = div[i].textContent || div[i].innerText;
+            div[i].style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? "" : "none";
+        }
+    }
+
+    document.getElementById('close-icon-dep1').onclick = function() {
+        resetForm();
+        document.getElementById('adddepartment-popup').style.display = 'none'; 
+    };
+
+    function resetForm() {
+        document.getElementById('new-department-name').value = '';
+        document.getElementById('unique-selected-option').innerText = 'Select a Division';
+        document.getElementById('add-department-btn').disabled = true;
+
+        // Reset error messages
+        document.getElementById('department-name-error').style.display = 'none';
+        document.getElementById('division-error').style.display = 'none';
+    }
+
+        function loadDepartments() {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetAllDepartments", "Admin")',
+            success: function (departments) {
+                $('#systemList').empty();
+                $('.custom-dropdown-list').empty();
+
+                if (departments.length === 0) {
+                    $('#systemList').append('<li>No Departments available.</li>');
+                    $('.custom-dropdown-list').append('<div>No Departments available.</div>');
+                } else {
+                    departments.forEach(function (department) {
+                        $('#systemList').append(
+                            `<li onclick="highlightSystem(this); setDepartmentName('${department.departmentName}')"
+                                class="department-li"
+                                data-division-id="${department.divisionID}"
+                                data-division-name="${department.divisionName}">
+                                <a href="#">${department.departmentName}</a>
+                            </li>`
+                        );
+
+                        $('.custom-dropdown-list').append(
+                            `<div onclick="selectCustomOption(this); setDepartmentName('${department.departmentName}')"
+                                 data-division-id="${department.divisionID}"
+                                 data-division-name="${department.divisionName}">
+                                ${department.departmentName}
+                            </div>`
+                        );
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error loading departments:", xhr.responseText);
+
+                // Optional: Show an error message to the user
+                $('#systemList').empty();
+                $('.custom-dropdown-list').empty();
+                $('#systemList').append('<li>Failed to load departments. Please try again.</li>');
+                $('.custom-dropdown-list').append('<div>Failed to load departments. Please try again.</div>');
+            }
+        });
+    }
+</script>
 
 <style>
     .modal-footer {
@@ -101,17 +342,6 @@
         overflow-y: scroll;
     }
 
-        .unique-dropdown-list::-webkit-scrollbar {
-            width: 10px;
-            background-color: #fff;
-        }
-
-        .unique-dropdown-list::-webkit-scrollbar-thumb {
-            background-color: #135176;
-            border-radius: 100px;
-            height: 20px;
-        }
-
         .unique-dropdown-list div {
             padding: 8px 16px;
             cursor: pointer;
@@ -136,11 +366,6 @@
         cursor: pointer;
     }
 
-        .unique-dropdown-toggle i {
-            margin-left: 10px;
-            transition: transform 0.3s;
-        }
-
         .unique-dropdown-toggle.open i {
             transform: rotate(180deg);
         }
@@ -160,7 +385,7 @@
         .unique-search-container img {
             color: #999;
             margin-right: 5px;
-            font-size: 20px;
+            font -size: 20px;
             margin-left: 5px;
         }
 
@@ -183,95 +408,6 @@
     }
 
     #unique-search-input {
-        margin-bottom:0;
+        margin-bottom: 0;
     }
-    </style>
-
-<script>
-    function toggleUniqueDropdown() {
-        var dropdownContent = document.querySelector('.unique-dropdown-content');
-        var dropdownToggle = document.querySelector('.unique-dropdown-toggle');
-        var selector = document.querySelector('.unique-selector');
-
-        if (dropdownContent.style.display === 'block') {
-            dropdownContent.style.display = 'none';
-            dropdownToggle.classList.remove('open');
-
-            selector.style.borderBottomLeftRadius = '10px';
-            selector.style.borderBottomRightRadius = '10px';
-            selector.style.borderBottom = '1px solid #6D6D6D';
-        } else {
-            dropdownContent.style.display = 'block';
-            dropdownToggle.classList.add('open');
-
-            selector.style.borderBottomLeftRadius = '0';
-            selector.style.borderBottomRightRadius = '0';
-            selector.style.borderBottom = 'none';
-            document.getElementById('unique-search-input').value = '';
-            showAllUniqueOptions();
-        }
-    }
-
-    function filterUniqueOptions() {
-        var input, filter, div, i, txtValue;
-        input = document.getElementById('unique-search-input');
-        filter = input.value.toUpperCase();
-        div = document.querySelectorAll('.unique-dropdown-list div');
-        for (i = 0; i < div.length; i++) {
-            txtValue = div[i].textContent || div[i].innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                div[i].style.display = "";
-            } else {
-                div[i].style.display = "none";
-            }
-        }
-    }
-
-    function selectUniqueOption(element) {
-        var selectedOption = element.textContent || element.innerText;
-        document.getElementById('unique-selected-option').textContent = selectedOption;
-        document.querySelector('.unique-dropdown-content').style.display = 'none';
-        document.querySelector('.unique-dropdown-toggle').classList.remove('open');
-
-        var selector = document.querySelector('.unique-selector');
-        selector.style.borderBottomLeftRadius = '10px';
-        selector.style.borderBottomRightRadius = '10px';
-        selector.style.borderBottom = '1px solid #6D6D6D';
-
-        var divs = document.querySelectorAll('.unique-dropdown-list div');
-        divs.forEach(function (div) {
-            div.classList.remove('active');
-        });
-        element.classList.add('active');
-    }
-
-    function showAllUniqueOptions() {
-        var divs = document.querySelectorAll('.unique-dropdown-list div');
-        divs.forEach(function (div) {
-            div.style.display = "";
-        });
-    }
-
-    document.getElementById('unique-search-input').addEventListener('blur', function () {
-        const selector = document.querySelector('.unique-selector');
-
-        selector.style.borderBottomLeftRadius = '10px';
-        selector.style.borderBottomRightRadius = '10px';
-
-        selector.style.border = '1px solid #6D6D6D';
-    });
-
-    window.onclick = function (event) {
-        var dropdownContent = document.querySelector('.unique-dropdown-content');
-        var dropdownToggle = document.querySelector('.unique-dropdown-toggle');
-        var selector = document.querySelector('.unique-selector');
-
-        if (!dropdownToggle.contains(event.target) && !dropdownContent.contains(event.target) && dropdownContent.style.display === 'block') {
-            dropdownContent.style.display = 'none';
-            dropdownToggle.classList.remove('open');
-            selector.style.borderBottomLeftRadius = '10px';
-            selector.style.borderBottomRightRadius = '10px';
-            selector.style.borderBottom = '1px solid #6D6D6D';
-        }
-    };
-</script>
+</style>
