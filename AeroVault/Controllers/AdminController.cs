@@ -99,15 +99,6 @@ namespace AeroVault.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
         // SYSTEMS CONTROLLERS
 
         // method to read the systems
@@ -343,18 +334,6 @@ namespace AeroVault.Controllers
                 _ => Convert.ToInt32(value)
             };
         }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -837,7 +816,7 @@ namespace AeroVault.Controllers
                 }
 
                 // Use raw SQL to update the is_deleted column
-                string updateSql = "UPDATE C##AEROVAULT.DEPARTMENTS SET is_deleted = 1 WHERE DepartmentID = :DepartmentId";
+                string updateSql = "UPDATE C##AEROVAULT.  SET is_deleted = 1 WHERE DepartmentID = :DepartmentId";
 
                 using (var connection = new OracleConnection(_connectionString))
                 {
