@@ -53,16 +53,16 @@
                             </h2>
                             <div class="custom-dropdown">
                                 <div class="custom-dropdown-toggle custom-selector" onclick="toggleCustomDropdown(event)">
-                                    <span id="selected-option" style="color:#333333;">Information Technology</span>
+                                    <span id="selected-option" style="color:#333333;">Select a system</span>
                                     <i class="fas fa-chevron-down"></i>
                                 </div>
                                 <div class="custom-dropdown-content">
                                     <div class="custom-search-container">
                                         <img src="~/Assets/search-icon.svg" alt="Search Icon" />
-                                        <input type="text" id="custom-search-input" placeholder="Search Option" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
+                                        <input type="text" id="custom-search-input" placeholder="Search system" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
                                     </div>
                                     <div class="custom-dropdown-list">
-                                        <div onclick="selectCustomOption(this)" class="active">Information Technology</div>
+                                        <div onclick="selectCustomOption(this)">Information Technology</div>
                                         
                                         @foreach (var system in Model)
                                         {
@@ -382,7 +382,7 @@
             systemListItems.forEach(function (item) {
                 var systemName = item.innerText.trim();
 
-                console.log("Adding system name to dropdown:", systemName);
+            
 
                 var dropdownItem = document.createElement('div');
                 dropdownItem.textContent = systemName;
@@ -412,8 +412,11 @@
             document.getElementById('addsystem-popup').style.display = 'block';
 
             loadDivisions(); // Call to load divisions when the popup is opened
+            showAddSystemPopup()
 
         });
+
+        
 
     </script>
 </body>
