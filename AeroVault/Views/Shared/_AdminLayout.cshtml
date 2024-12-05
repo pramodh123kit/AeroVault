@@ -200,16 +200,22 @@
 
             event.currentTarget.classList.add('active');
 
-            if (event.currentTarget.closest('#manage-sub-menu')) {
-                const manageLink = document.getElementById('manage-toggle');
-                manageLink.classList.add('active');
-            } else {
-                const manageLink = document.getElementById('manage-toggle');
-                manageLink.classList.remove('active');
-            }
-                const viewName = event.currentTarget.getAttribute('onclick').match(/'([^']+)'/)[1];
-                const pageTitle = event.currentTarget.textContent.trim();
-                loadContent(viewName, pageTitle);
+                    if (event.currentTarget.closest('#manage-sub-menu')) {
+            const manageLink = document.getElementById('manage-toggle');
+            manageLink.classList.add('active');
+        } else {
+            const manageLink = document.getElementById('manage-toggle');
+            manageLink.classList.remove('active');
+        }
+
+        const onclickAttribute = event.currentTarget.getAttribute('onclick');
+        // if (onclickAttribute) {
+        //     const viewName = onclickAttribute.match(/'([^']+)'/)[1];
+        //     const pageTitle = event.currentTarget.textContent.trim();
+        //     loadContent(viewName, pageTitle);
+        // } else {
+        //     console.error("The 'onclick' attribute is missing on the clicked element.");
+        // }
 
                 if (window.innerWidth < 1024) {
 

@@ -2,9 +2,6 @@
 
 @model AeroVault.Views.Shared.AdminDepartmentPopups._AdminAddDepartmentPopupModel
 
-@{
-
-}
 
 <div class="modal-notification-edit" id="adddepartment-popup" style="display: none;">
     <div class="modal-header">
@@ -21,9 +18,61 @@
     </div>
 
     <div class="modal-footer">
-        <button class="save-btn add-new-dep-popup-btn">Add New Division</button>
+        <button id="add-new-division-btn" class="save-btn add-new-dep-popup-btn">Add New Division</button>
     </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function() {
+        $('#add-new-division-btn').on('click', function() {
+            var divisionName = $('#new-department-name').val();
+
+            if (!divisionName) {
+                alert("Please enter a division name.");
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("AddDivision", "Admin")',
+                data: { divisionName: divisionName },
+                success: function(response) {
+                    alert(response.message);
+                    $('#adddepartment-popup').hide();
+                    $('#new-department-name').val('');
+
+                    // Fetch the updated list of divisions
+                    $.ajax({
+                        type: 'GET',
+                        url: '@Url.Action("GetAllDivisions", "Admin")', 
+                        success: function(divisions) {
+                            $('#systemList').empty();
+                            if (divisions.length === 0) {
+                                $('#systemList').append('<li>No Divisions available.</li>');
+                            } else {
+
+                                $.each(divisions, function(index, division) {
+                                    $('#systemList').append('<li onclick="highlightSystem(this)" class="department-li"><a href="#">' + division.divisionName + '</a></li>');
+
+                                });
+                            }
+                        },
+
+                        error: function(xhr, status, error) {
+                            alert("An error occurred while fetching divisions: " + xhr.responseText);
+                        }
+                    });
+                },
+
+                error: function(xhr, status, error) {
+                    alert("An error occurred: " + xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
 
 <style>
     .modal-footer {

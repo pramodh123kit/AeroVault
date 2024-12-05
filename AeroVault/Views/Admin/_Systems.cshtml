@@ -1,4 +1,7 @@
-﻿<html>
+﻿@model List<AeroVault.Models.SystemModel>
+
+
+<html>
 <head>
     <link rel="stylesheet" href="~/css/AdminSystems.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
@@ -15,7 +18,7 @@
             </button>
         </div>
 
-    
+
         <div class="sidebar-container">
 
             <div class="sidebar2">
@@ -25,160 +28,24 @@
                 </div>
                 <div class="scrollable-content scrollable-content-list">
                     <div id="systemListContainer">
-                <ul id="systemList">
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" class="folder-icon" />                       
-                            AeroProcure
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                     
-                            Flight Tracking
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                    
-                            Flight Dispatch
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                     
-                            Operational Control
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                   
-                            Crew Scheduling
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                      
-                            Maintenance Tracking
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                  
-                            Flight Planning
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                 
-                            Aircraft Monitoring
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                  
-                            Flight Dispatch
-                        </a>
-                    </li>
-                      <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                      
-                            Maintenance Tracking
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                  
-                            Flight Planning
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />                 
-                            Aircraft Monitoring
-                        </a>
-                    </li>
-
-
-
-
-
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" class="folder-icon" />
-                            AeroProcure
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Flight Tracking
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Flight Dispatch
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Operational Control
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Crew Scheduling
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Maintenance Tracking
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Flight Planning
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Aircraft Monitoring
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Flight Dispatch
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Maintenance Tracking
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Flight Planning
-                        </a>
-                    </li>
-                     <li onclick="highlightSystem(this)">
-                        <a href="#">
-                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" />
-                            Aircraft Monitoring
-                        </a>
-                    </li>
-
-
-
-                </ul>
+                        <ul id="systemList">
+                            @if (Model == null || !Model.Any())
+                            {
+                                <li>No systems available.</li>
+                            }
+                            else
+                            {
+                                @foreach (var system in Model)
+                                {
+                                    <li onclick="highlightSystem(this)">
+                                        <a href="#">
+                                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" class="folder-icon" />
+                                            @system.SystemName
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        </ul>
 
                         <div class="custom-form-group">
                             <h2 class="systems-header systems-header-label">
@@ -186,33 +53,32 @@
                             </h2>
                             <div class="custom-dropdown">
                                 <div class="custom-dropdown-toggle custom-selector" onclick="toggleCustomDropdown(event)">
-                                    <span id="selected-option" style="color:#333333;">Information Technology</span>
+                                    <span id="selected-option" style="color:#333333;">Select a system</span>
                                     <i class="fas fa-chevron-down"></i>
                                 </div>
                                 <div class="custom-dropdown-content">
                                     <div class="custom-search-container">
                                         <img src="~/Assets/search-icon.svg" alt="Search Icon" />
-                                        <input type="text" id="custom-search-input" placeholder="Search Option" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
+                                        <input type="text" id="custom-search-input" placeholder="Search system" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
                                     </div>
                                     <div class="custom-dropdown-list">
-                                        <div onclick="selectCustomOption(this)" class="active">Information Technology</div>
-                                        <div onclick="selectCustomOption(this)">Human Resource</div>
-                                        <div onclick="selectCustomOption(this)">Flight Operations</div>
-                                        <div onclick="selectCustomOption(this)">Safety and Security</div>
-                                        <div onclick="selectCustomOption(this)">Finance</div>
-                                        <div onclick="selectCustomOption(this)">Marketing</div>
-                                        <div onclick="selectCustomOption(this)">Customer Service</div>
-                                        <div onclick="selectCustomOption(this)">Logistics</div>
-                                        <div onclick="selectCustomOption(this)">Procurement</div>
+                                        <div onclick="selectCustomOption(this)">Information Technology</div>
+                                        
+                                        @foreach (var system in Model)
+                                        {
+                                            <div onclick="selectCustomOption(this)">
+                                                @system.SystemName
+                                            </div>                                           
+                                        }
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
+
+
             </div>
-           
- 
-        </div>
             <div class="image-container">
                 <img src="~/Assets/system-background-icon.svg" alt="System Background Image" />
             </div>
@@ -404,34 +270,35 @@
                     </div>
                 </div>
             </div>
-    </div>
+        </div>
     </div>
 
     <!-- Overlay -->
+    <!-- Overlay for popups -->
+
     <div id="dark-overlay" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminSystemPopups/_AdminAddSystemPopup")
+    @Html.Partial("AdminSystemPopups/_AdminAddSystemPopup", new AeroVault.Views.Shared.AdminSystemPopups._AdminAddSystemPopupModel())
 
     <div id="dark-overlay1" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminSystemPopups/_AdminEditSystemPopup")
+    @Html.Partial("AdminSystemPopups/_AdminEditSystemPopup", new AeroVault.Views.Shared.AdminSystemPopups._AdminEditSystemPopupModel())
 
     <div id="dark-overlay2" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminSystemPopups/_AdminSystemDelete")
+    @Html.Partial("AdminSystemPopups/_AdminSystemDelete", new AeroVault.Views.Shared.AdminSystemPopups._AdminSystemDeleteModel())
 
     <div id="dark-overlay3" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminSystemPopups/_AdminSystemSuccessfullyAdded")
+    @Html.Partial("AdminSystemPopups/_AdminSystemSuccessfullyAdded", new AeroVault.Views.Shared.AdminSystemPopups._AdminSystemSuccessfullyAddedModel())
 
     <div id="dark-overlay4" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminSystemPopups/_AdminFileDelete")
+    @Html.Partial("AdminSystemPopups/_AdminFileDelete", new AeroVault.Views.Shared.AdminSystemPopups._AdminFileDeleteModel())
 
     <div id="dark-overlay5" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminSystemPopups/_AdminFileEdit")
-
+    @Html.Partial("AdminSystemPopups/_AdminFileEdit", new AeroVault.Views.Shared.AdminSystemPopups._AdminFileEditModel())
 
     <script src="~/js/AdminSystemScripts.js"></script>
 
     <script>
         function toggleCustomDropdown(event) {
-            event.stopPropagation(); 
+            event.stopPropagation();
             var dropdownContent = document.querySelector('.custom-dropdown-content');
             var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
             var selector = document.querySelector('.custom-selector');
@@ -479,17 +346,17 @@
             divs.forEach(div => div.classList.remove('active'));
             element.classList.add('active');
 
-            document.querySelector('.systems-name').innerText = selectedOption; 
+            document.querySelector('.systems-name').innerText = selectedOption;
 
-            document.querySelector('.image-container').style.display = 'none'; 
-            document.querySelector('.system-container').style.display = 'block'; 
+            document.querySelector('.image-container').style.display = 'none';
+            document.querySelector('.system-container').style.display = 'block';
         }
 
         function showAllCustomOptions() {
             var divs = document.querySelectorAll('.custom-dropdown-list div');
             divs.forEach(div => div.style.display = "");
         }
-            
+
         window.addEventListener('click', function (event) {
             var dropdownContent = document.querySelector('.custom-dropdown-content');
             var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
@@ -504,7 +371,7 @@
             }
         });
 
-        
+
         function populateCustomDropdown() {
             var dropdownList = document.querySelector('.custom-dropdown-list');
 
@@ -515,7 +382,7 @@
             systemListItems.forEach(function (item) {
                 var systemName = item.innerText.trim();
 
-                console.log("Adding system name to dropdown:", systemName); 
+            
 
                 var dropdownItem = document.createElement('div');
                 dropdownItem.textContent = systemName;
@@ -528,19 +395,28 @@
             });
 
             if (dropdownList.children.length === 0) {
-                console.log("No items found to populate the dropdown."); 
+                console.log("No items found to populate the dropdown.");
             }
         }
 
         window.addEventListener('load', function () {
 
-            console.log("Window loaded, populating dropdown..."); 
+            console.log("Window loaded, populating dropdown...");
 
-            populateCustomDropdown(); 
+            populateCustomDropdown();
 
         });
-       
 
+        document.querySelector('.add-system-button').addEventListener('click', function() {
+
+            document.getElementById('addsystem-popup').style.display = 'block';
+
+            loadDivisions(); // Call to load divisions when the popup is opened
+            showAddSystemPopup()
+
+        });
+
+        
 
     </script>
 </body>
