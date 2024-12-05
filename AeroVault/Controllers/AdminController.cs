@@ -98,15 +98,6 @@ namespace AeroVault.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
         // SYSTEMS CONTROLLERS
 
         // method to read the systems
@@ -114,18 +105,6 @@ namespace AeroVault.Controllers
         {
             return await _context.Set<SystemModel>().FromSqlRaw("SELECT * FROM C##AEROVAULT.SYSTEMS").ToListAsync();
         }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -487,7 +466,7 @@ namespace AeroVault.Controllers
                 }
 
                 // Use raw SQL to update the is_deleted column
-                string updateSql = "UPDATE C##AEROVAULT.DEPARTMENTS SET is_deleted = 1 WHERE DepartmentID = :DepartmentId";
+                string updateSql = "UPDATE C##AEROVAULT.  SET is_deleted = 1 WHERE DepartmentID = :DepartmentId";
 
                 using (var connection = new OracleConnection(_connectionString))
                 {
