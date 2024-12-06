@@ -143,8 +143,8 @@
   background-color: #eaeaea;
 }
 
-/* selected files */
 
+/* selected files */
 .selected-files ul {
   list-style-type: none;
   padding: 0;
@@ -188,24 +188,23 @@
   color: #ff0000;
 }
 
-
-
 /* Upload area */
 .upload-area {
   border: 2px dashed #ccc;
   border-radius: 5px;
-  padding: 40px;
+  height: 200px;
   text-align: center;
   margin-top: 15px;
   margin-bottom: 15px;
 }
 
 .upload-label p {
-  margin: 10px 0; 
+  margin: 10px 0;
 }
 
+
 .next-button.upload-final-button {
-  background-color: #318D56;
+  background-color: #318d56;
   border-radius: 10px;
   color: white;
   border: none;
@@ -225,11 +224,12 @@
   cursor: pointer;
   font-size: 14px;
   border: 1px solid #585858;
-  
- 
 }
 
+.step-content h2{
+    font-size: 16px;
 
+}
 
 .selected-files {
   border: 2px solid #ccc;
@@ -239,8 +239,6 @@
   height: 150px;
 }
 
-
-
 .selected-files {
   height: 150px;
   overflow-y: scroll;
@@ -249,22 +247,22 @@
 .selected-files {
   /* For Firefox */
   scrollbar-width: thin; /* Options: auto, thin */
-  scrollbar-color: #00436C transparent; /* thumb color, track color */
+  scrollbar-color: #00436c transparent; /* thumb color, track color */
 }
 
-  /* WebKit Browsers (Chrome, Safari) */
-  .selected-files::-webkit-scrollbar {
-      width: 8px; /* Width of the scrollbar */
-  }
+/* WebKit Browsers (Chrome, Safari) */
+.selected-files::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
 
-  .selected-files::-webkit-scrollbar-thumb {
-      background-color: #00436C; /* Color of the scrollbar thumb */
-      border-radius: 10px; /* Rounded corners */
-  }
+.selected-files::-webkit-scrollbar-thumb {
+  background-color: #00436c; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners */
+}
 
-  .selected-files::-webkit-scrollbar-track {
-      background: transparent;
-  }
+.selected-files::-webkit-scrollbar-track {
+  background: transparent;
+}
 
 /* Responsive breakpoints */
 @media (max-width: 767px) {
@@ -298,6 +296,10 @@
     margin: 5px;
     border-radius: 10px;
   }
+
+  .status-form-group {
+    width: 100%; /* Make dropdown full width on small screens */
+  }
 }
 
 @media (min-width: 768px) {
@@ -321,8 +323,6 @@
     gap: 15px;
   }
 
-
-
   .step::after {
     content: "";
     position: absolute;
@@ -332,8 +332,7 @@
     height: 70px;
     background-color: #dce6e5; /* Default unactive stroke color */
     transition: background-color 0.3s ease;
-}
-
+  }
 
   .step.active::after {
     background-color: #dce6e5;
@@ -362,4 +361,266 @@
     width: 30px;
     height: 30px;
   }
+}
+
+/* NEW CSS DROPDOWN SELECTIONS */
+
+.add-system-searchbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.file-search-container {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #938c8c;
+  width: 100%; /* Make search container full width */
+  margin-left: 0; /* Remove left margin for better alignment */
+  margin-bottom: 20px;
+}
+
+.search-icon {
+  color: #999;
+  margin-right: 5px;
+  width: 20px;
+  margin-left: 5px;
+}
+
+.file-search-input {
+  border: none;
+  color: #000;
+  font-size: 16px;
+  outline: none;
+  flex: 1;
+}
+
+.division-container {
+  margin-top: 15px;
+  height: 350px;
+  overflow-y: scroll;
+}
+
+/* For Firefox */
+.division-container {
+  scrollbar-width: thin; /* Options: auto, thin */
+  scrollbar-color: #00436c transparent; /* thumb color, track color */
+}
+
+/* WebKit Browsers (Chrome, Safari) */
+.division-container::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+.division-container::-webkit-scrollbar-thumb {
+  background-color: #00436c; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners */
+}
+
+.division-container::-webkit-scrollbar-track {
+  background: transparent; /* No background for the track */
+}
+
+.division {
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.division-header {
+  background-color: #e9e9ef;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  border-radius: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.division-header.active {
+  background-color: #d5ebfe;
+}
+
+.division-name {
+  margin-left: 10px;
+}
+
+.selected-count {
+  color: #063468;
+  margin-right: 10px;
+}
+
+.division-content {
+  display: none;
+  padding: 10px;
+  padding-bottom: 0px;
+}
+
+.division-content.active {
+  display: block;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.checkbox-group label {
+  margin-right: 20px;
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+/* SEARCHABLE DROPDOWN */
+
+.status-label{
+    font-weight: bold;
+
+}
+
+.category-image {
+    display: block; /* Ensures the image is treated as a block element */
+    margin: 20px auto; /* Centers the image and adds vertical spacing */
+    max-width: 100%; /* Ensures the image is responsive */
+    height: auto; /* Maintains aspect ratio */
+}
+
+.placeholder {
+  color: #999; /* Light gray to resemble typical placeholder styles */
+}
+
+#selected-status:not(.placeholder) {
+  color: #000; /* Normal text color */
+  font-style: normal;
+}
+
+.status-form-group {
+  margin-bottom: 0px;
+  width: 100%; /* Make dropdown full width */
+  margin-top: 10px;
+}
+
+.status-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.status-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  min-width: 100%;
+  border: 1px solid #6d6d6d;
+  border-top: none;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  z-index: 1;
+}
+
+.status-dropdown-list {
+  height: 150px;
+  overflow-y: scroll;
+}
+
+/* For Firefox */
+.status-dropdown-list {
+  scrollbar-width: thin; /* Options: auto, thin */
+  scrollbar-color: #00436c transparent; /* thumb color, track color */
+}
+
+/* WebKit Browsers (Chrome, Safari) */
+.status-dropdown-list::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+.status-dropdown-list::-webkit-scrollbar-thumb {
+  background-color: #00436c; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners */
+}
+
+.status-dropdown-list::-webkit-scrollbar-track {
+  background: transparent; /* No background for the track */
+}
+
+.status-dropdown-list div {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.status-dropdown-list div:hover {
+  background-color: #bbdcf9;
+}
+
+.status-dropdown-list .active {
+  font-weight: bold;
+}
+
+.status-dropdown-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid #6d6d6d;
+  border-bottom: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.status-dropdown-toggle i {
+  margin-left: 10px;
+  transition: transform 0.3s;
+}
+
+.status-dropdown-toggle.open i {
+  transform: rotate(180deg);
+}
+
+.status-selector {
+  border: 1px solid #6d6d6d;
+  border-radius: 10px;
+}
+
+.status-search-container {
+  display: flex;
+  border-bottom: 1px solid #938c8c;
+  margin: 20px;
+  margin-top: 0px;
+}
+
+.status-search-container img {
+  color: #999;
+  margin-right: 5px;
+  font-size: 20px;
+  margin-left: 5px;
+}
+
+.status-search-container input {
+  border: none;
+  color: #000;
+  font-size: 16px;
+  outline: none;
+  flex: 1;
+  padding: 5px;
+}
+
+#status-search-input {
+  margin-left: 0px;
+  border: none;
+}
+
+.status-dropdown-toggle::after {
+  content: none;
 }
