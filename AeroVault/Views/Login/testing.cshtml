@@ -1,4 +1,5 @@
 ﻿<html>
+
 <head>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
@@ -34,29 +35,29 @@
             overflow-y: scroll;
         }
 
-            .status-dropdown-list::-webkit-scrollbar {
-                width: 10px;
-                background-color: #fff;
-            }
+        .status-dropdown-list::-webkit-scrollbar {
+            width: 10px;
+            background-color: #fff;
+        }
 
-            .status-dropdown-list::-webkit-scrollbar-thumb {
-                background-color: #135176;
-                border-radius: 100px;
-                height: 20px;
-            }
+        .status-dropdown-list::-webkit-scrollbar-thumb {
+            background-color: #135176;
+            border-radius: 100px;
+            height: 20px;
+        }
 
-            .status-dropdown-list div {
-                padding: 8px 16px;
-                cursor: pointer;
-            }
+        .status-dropdown-list div {
+            padding: 8px 16px;
+            cursor: pointer;
+        }
 
-                .status-dropdown-list div:hover {
-                    background-color: #BBDCF9;
-                }
+        .status-dropdown-list div:hover {
+            background-color: #BBDCF9;
+        }
 
-            .status-dropdown-list .active {
-                font-weight: bold;
-            }
+        .status-dropdown-list .active {
+            font-weight: bold;
+        }
 
         .status-dropdown-toggle {
             display: flex;
@@ -69,14 +70,14 @@
             cursor: pointer;
         }
 
-            .status-dropdown-toggle i {
-                margin-left: 10px;
-                transition: transform 0.3s;
-            }
+        .status-dropdown-toggle i {
+            margin-left: 10px;
+            transition: transform 0.3s;
+        }
 
-            .status-dropdown-toggle.open i {
-                transform: rotate(180deg);
-            }
+        .status-dropdown-toggle.open i {
+            transform: rotate(180deg);
+        }
 
         .status-selector {
             border: 1px solid #6D6D6D;
@@ -90,21 +91,21 @@
             margin-top: 0px;
         }
 
-            .status-search-container img {
-                color: #999;
-                margin-right: 5px;
-                font-size: 20px;
-                margin-left: 5px;
-            }
+        .status-search-container img {
+            color: #999;
+            margin-right: 5px;
+            font-size: 20px;
+            margin-left: 5px;
+        }
 
-            .status-search-container input {
-                border: none;
-                color: #000;
-                font-size: 16px;
-                outline: none;
-                flex: 1;
-                padding: 5px;
-            }
+        .status-search-container input {
+            border: none;
+            color: #000;
+            font-size: 16px;
+            outline: none;
+            flex: 1;
+            padding: 5px;
+        }
 
         #status-search-input {
             margin-left: 0px;
@@ -116,6 +117,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="status-form-group">
         <label class="status-label" for="status-selector">Select Status</label>
@@ -127,7 +129,8 @@
             <div class="status-dropdown-content">
                 <div class="status-search-container">
                     <img src="~/Assets/search-icon.svg" alt="Search Icon" />
-                    <input type="text" id="status-search-input" placeholder="Search Status" onkeyup="filterStatusOptions()" onclick="event.stopPropagation()">
+                    <input type="text" id="status-search-input" placeholder="Search Status"
+                        onkeyup="filterStatusOptions()" onclick="event.stopPropagation()">
                 </div>
                 <div class="status-dropdown-list">
                     <div onclick="selectStatusOption(this)" class="active">Information Technology</div>
@@ -145,7 +148,6 @@
     </div>
 
 
-    <iframe src="~/Assets/FliSTA User Manual for Apple version.pdf" width="600" height="800" stlye="margin-left:200px;"></iframe>
 
     <script>
         function toggleStatusDropdown() {
@@ -241,4 +243,5 @@
         };
     </script>
 </body>
+
 </html>

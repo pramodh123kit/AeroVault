@@ -19,8 +19,8 @@
     margin-top: -5px;
 }
 
-h2 {
-    font-size: 18px;
+.header-container h2 {
+    font-size: 22px;
     color: black;
     font-family: Arial;
     margin: 0;
@@ -131,7 +131,7 @@ h2 {
 .file-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 1000px; /* Ensures horizontal scroll on smaller screens */
+    /* min-width: 1000px;  */
 }
 
 .file-table th {
