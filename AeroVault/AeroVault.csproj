@@ -7,6 +7,21 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Include="wwwroot\js\AdminDepartmentScripts.js" />
+	  <None Include="wwwroot\js\AdminDivisionScripts.js" />
+	  <None Include="wwwroot\js\AdminOverview.js" />
+	  <None Include="wwwroot\js\adminReview.js" />
+	  <None Include="wwwroot\js\AdminSystemScripts.js" />
+	  <None Include="wwwroot\js\AdminUpload.js" />
+	  <None Include="wwwroot\js\Adminuploadpopup.js" />
+	  <None Include="wwwroot\js\dashboard.js" />
+	  <None Include="wwwroot\js\FileRepository.js" />
+	  <None Include="wwwroot\js\Login.js" />
+	  <None Include="wwwroot\js\site.js" />
+	  <None Include="wwwroot\js\useroverview.js" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
