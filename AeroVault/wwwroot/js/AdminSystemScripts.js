@@ -69,7 +69,7 @@ function closePopup() {
 
 document.querySelector('.add-system-button').onclick = openPopup;
 document.getElementById('close-icon').onclick = closePopup;
-document.getElementById('dark-overlay').onclick = closePopup;
+//document.getElementById('dark-overlay').onclick = closePopup;
 
 
 
@@ -182,18 +182,30 @@ document.querySelectorAll('.department').forEach(departmentCheckbox => {
     });
 });
 
-function updateSelectedCount(division) {
-    const selectedCountElement = division.querySelector('.selected-count');
-    const departmentCheckboxes = division.querySelectorAll('.department');
+function updateSelectedCount(divisionDiv) {
+    const selectedCountElement = divisionDiv.querySelector('.selected-count');
+    const departmentCheckboxes = divisionDiv.querySelectorAll('.department');
     const selectedCount = Array.from(departmentCheckboxes).filter(checkbox => checkbox.checked).length;
-    selectedCountElement.textContent = selectedCount;
 
     selectedCountElement.textContent = selectedCount > 0 ? selectedCount : '';
 
-    if (selectedCount > 0) {
-        division.querySelector('.division-header').classList.add('selected');
+    const selectAllCheckbox = divisionDiv.querySelector('.select-all');
+    selectAllCheckbox.indeterminate = false;
+
+    if (selectedCount === departmentCheckboxes.length) {
+        selectAllCheckbox.checked = true;
+    } else if (selectedCount === 0) {
+        selectAllCheckbox.checked = false;
     } else {
-        division.querySelector('.division-header').classList.remove('selected');
+        selectAllCheckbox.indeterminate = true;
+    }
+
+    // Change the background color of the division header based on selection
+    const header = divisionDiv.querySelector('.division-header');
+    if (selectedCount > 0) {
+        header.style.backgroundColor = '#D5EBFE'; // Set background color
+    } else {
+        header.style.backgroundColor = ''; // Reset to default
     }
 }
 
@@ -249,20 +261,223 @@ function filterDepartmentsDivisions1() {
     });
 }
 
+async function addNewSystem() {
+    // 1. Validate System Name
+    const systemNameInput = document.getElementById('system-name');
+    const systemName = systemNameInput.value.trim();
 
-function addNewSystem() {
-    closePopup(); 
+    // Validation 1: Check if system name is empty
+    if (!systemName) {
+        showValidationError(systemNameInput, 'Please enter a System Name');
+        return;
+    }
 
-    var notificationPopup = document.getElementById('notification-popup');
-    var darkOverlay3 = document.getElementById('dark-overlay3');
+    // Validation 2: Check system name length
+    if (systemName.length < 3 || systemName.length > 100) {
+        showValidationError(systemNameInput, 'System name must be between 3 and 100 characters');
+        return;
+    }
+
+    // Validation 3: Check for valid characters (optional, but recommended)
+    const systemNameRegex = /^[a-zA-Z0-9\s\-_]+$/;
+    if (!systemNameRegex.test(systemName)) {
+        showValidationError(systemNameInput, 'System name can only contain letters, numbers, spaces, hyphens, and underscores');
+        return;
+    }
+
+    // Validate Description
+    const descriptionInput = document.getElementById('description');
+    const description = descriptionInput.value.trim();
+
+    // Validation 4: Check if description is empty
+    if (!description) {
+        showValidationError(descriptionInput, 'Please enter a Description');
+        return;
+    }
+
+    // Validation 5: Description length check
+    if (description.length < 10 || description.length > 500) {
+        showValidationError(descriptionInput, 'Description must be between 10 and 500 characters');
+        return;
+    }
+
+    // Collect selected departments
+    const selectedDepartments = [];
+    const divisions = document.querySelectorAll('.division');
+
+    divisions.forEach(division => {
+        const departmentCheckboxes = division.querySelectorAll('.department:checked');
+        departmentCheckboxes.forEach(checkbox => {
+            selectedDepartments.push(parseInt(checkbox.value));
+        });
+    });
+
+    // Validation 6: Check if departments are selected
+    if (selectedDepartments.length === 0) {
+        showCustomAlert('Please select at least one department');
+        return;
+    }
+
+    try {
+        // Validation 7: Check if system name already exists
+        const systemExistsResponse = await fetch('/Admin/CheckSystemExists', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('input[name="__RequestVerificationToken"]').value
+            },
+            body: JSON.stringify({ systemName: systemName })
+        });
+
+        const systemExistsResult = await systemExistsResponse.json();
+
+        if (systemExistsResult.exists) {
+            showValidationError(systemNameInput, 'A system with this name already exists');
+            return;
+        }
+
+        // If all validations pass, proceed with system creation
+        const systemData = {
+            SystemName: systemName,
+            Description: description,
+            DepartmentIds: selectedDepartments
+        };
+
+        // Send system creation request
+        const createSystemResponse = await fetch('/Admin/CreateSystem', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('input[name="__RequestVerificationToken"]').value
+            },
+            body: JSON.stringify(systemData)
+        });
+
+        // Check response
+        if (!createSystemResponse.ok) {
+            const errorData = await createSystemResponse.json();
+            throw new Error(errorData.message || 'Failed to create system');
+        }
+
+        const result = await createSystemResponse.json();
+
+        // Close the popup
+        document.getElementById('addsystem-popup').style.display = 'none';
+        document.getElementById('dark-overlay').style.display = 'none';
+
+
+        // Show success notification
+        showSuccessNotification('System created successfully!');
+
+        // Refresh systems list
+        await refreshSystemsList();
+
+    } catch (error) {
+        console.error('Error creating system:', error);
+        showCustomAlert(`Error: ${error.message}`);
+    }
+}
+
+// Helper function to show validation errors
+function showValidationError(inputElement, message) {
+    // Highlight the input field
+    //inputElement.style.border = '2px solid red';
+
+    // Create or update error message
+    let errorElement = inputElement.nextElementSibling;
+    if (!errorElement || !errorElement.classList.contains('validation-error')) {
+        errorElement = document.createElement('div');
+        errorElement.classList.add('validation-error');
+        inputElement.parentNode.insertBefore(errorElement, inputElement.nextSibling);
+    }
+    errorElement.textContent = message;
+    errorElement.style.color = 'red';
+    errorElement.style.fontSize = '0.8em';
+    errorElement.style.marginTop = '5px';
+
+    // Focus on the input
+    inputElement.focus();
+}
+
+// Helper function to show custom alerts
+function showCustomAlert(message) {
+    // Create alert container if it doesn't exist
+    let alertContainer = document.getElementById('custom-alert');
+    if (!alertContainer) {
+        alertContainer = document.createElement('div');
+        alertContainer.id = 'custom-alert';
+        alertContainer.style.position = 'fixed';
+        alertContainer.style.top = '20px';
+        alertContainer.style.left = '50%';
+        alertContainer.style.transform = 'translateX(-50%)';
+        alertContainer.style.backgroundColor = '#f44336';
+        alertContainer.style.color = 'white';
+        alertContainer.style.padding = '15px';
+        alertContainer.style.borderRadius = '5px';
+        alertContainer.style.zIndex = '1000';
+        document.body.appendChild(alertContainer);
+    }
+
+    // Set alert message
+    alertContainer.textContent = message;
+
+    // Show alert
+    alertContainer.style.display = 'block';
+
+    // Automatically hide after 3 seconds
+    setTimeout(() => {
+        alertContainer.style.display = 'none';
+    }, 3000);
+}
+
+// Helper function to show success notification
+function showSuccessNotification(message) {
+    const notificationPopup = document.getElementById('notification-popup');
+    const darkOverlay3 = document.getElementById('dark-overlay3');
 
     if (darkOverlay3 && notificationPopup) {
-        darkOverlay3.style.display = 'block'; 
-        notificationPopup.style.display = 'block'; 
+        // You might want to update the notification text
+        const notificationText = notificationPopup.querySelector('.notification-text');
+        if (notificationText) {
+            notificationText.textContent = message;
+        }
+
+        darkOverlay3.style.display = 'block';
+        notificationPopup.style.display = 'block';
     } else {
         console.error("Notification popup or overlay not found.");
     }
 }
+
+// Optional: Function to refresh systems list
+async function refreshSystemsList() {
+    try {
+        const response = await fetch('/Admin/GetAllSystems');
+        const systems = await response.json();
+
+        // Update the systems list in the UI
+        const systemList = document.getElementById('systemList');
+        systemList.innerHTML = ''; // Clear existing list
+
+        systems.forEach(system => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <a href="#">
+                    <img src="./Assets/folder-icon.svg" alt="Folder icon" class="folder-icon" />
+                    ${system.systemName}
+                </a>
+            `;
+            li.onclick = () => highlightSystem(li);
+            systemList.appendChild(li);
+        });
+
+        // Refresh the custom dropdown
+        populateCustomDropdown();
+    } catch (error) {
+        console.error('Error refreshing systems list:', error);
+    }
+}
+
 
 document.querySelector('.save-btn').onclick = addNewSystem;
 

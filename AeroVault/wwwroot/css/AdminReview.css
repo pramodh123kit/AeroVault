@@ -87,19 +87,16 @@
 
 
 
-..department-list {
+.department-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #000;
 }
 
-.department-list li {
-    padding: 22px 0 11px 0;
-    border-bottom: 1px solid #ddd;
-    cursor: pointer;
-    position: relative;
-    display: block; /* Ensure the list item takes up the full width */
-}
+    
 
     .department-list li i {
         margin-right: 5px;
@@ -107,42 +104,46 @@
         transition: transform 0.3s ease; /* Smooth icon rotation */
     }
     .department-list li.active {
-        background-color: #A4D2F9;
+        background-color: #DEF1FF;
         font-weight: 400;
         color: #000;
     }
-
+    .department-list > li {
+        padding: 22px 0 0 0;
+        border-bottom: 1px solid #ddd; /* Bottom border only for department-list items */
+        cursor: pointer;
+        position: relative;
+        display: block; 
+       
+    }
 
     .department-list li.open > i {
         transform: rotate(90deg);
+
     }
 
 .reviewdropdown {
-    display: none; 
-    list-style: none; 
-    padding: 0; 
+    display: none;
+    list-style: none;
+    padding: 0;
     margin: 0;
-    margin-top:12px;
-    background-color: #E9F3FB; 
- 
+    margin-top: 12px;
+   
 }
 
     .reviewdropdown li {
-        padding: 10px 20px; 
+        padding: 12px 30px; 
         font-size: 16px;
         font-family: Arial, sans-serif;
         color: #585656; 
         cursor: pointer;
     }
 
-        .reviewdropdown li:hover {
-            background-color: #DEF1FF; 
-            color: #000;
-        }
+
 
         .reviewdropdown li.active {
-            background-color: #BBDCF9;
-            font-weight: bold; 
+            background-color: #5897CB;
+            font-weight: bold;
             color: #000;
         }
 
@@ -344,7 +345,7 @@
     }
 
 .menu-item {
-    border-bottom: 1px solid #000;
+  
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -530,7 +531,7 @@ th{
 }
 td {
     font-size: 14px;
-    padding: 12px;
+    padding: 18px;
     text-align: left;
     border-bottom: 1px solid #7D7D7D;
 }
