@@ -173,7 +173,7 @@
                const tokenElement = document.querySelector('input[name="__RequestVerificationToken"]');
                const csrfToken = tokenElement ? tokenElement.value : '';
 
-               const response = await fetch('/Admin/GetDivisionsForPopup', {
+               const response = await fetch('/Systems/GetDivisionsForPopup', {
                    method: 'GET',
                    headers: {
                        'Content-Type': 'application/json',

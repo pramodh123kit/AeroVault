@@ -107,7 +107,8 @@
 
         .systems-header {
             font-size: 22px;
-            width: 100%;             
+            width: 100%;    
+            font-weight:bold;
         }
 
     .sidebar2 input {
@@ -199,6 +200,7 @@
 .systems-header {
     font-size: 22px;
     margin-right: auto;
+    font-weight: bold;
 }
 
 .button-container {

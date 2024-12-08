@@ -715,7 +715,7 @@ function softDeleteDepartment() {
     const departmentName = selectedDepartment.getAttribute('data-department-name');
 
     // Send a request to the server to soft delete the department
-    fetch('/Admin/SoftDeleteDepartment', {
+    fetch('/Departments/SoftDeleteDepartment', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
