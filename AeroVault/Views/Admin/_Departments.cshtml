@@ -19,7 +19,7 @@
 
         <div class="sidebar-container">
             <div class="sidebar2">
-                <div class="search-container">
+                <div class="search-container" style="width:90%;">
                     <img src="~/Assets/search-icon.svg" alt="Search Icon" />
                     <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search Department" type="text" />
                 </div>
@@ -85,8 +85,8 @@
 
             <div class="system-container dep-second-container" style="display: none;">
                 <div class="dep-inner-container">
-                    <h2 class="edit-del-instruc">Edit or Delete Department</h2>
-                    <h2 class="systems-name">System Name</h2>
+                    <h2 class="edit-del-instruc" style="font-weight:bold;">Edit or Delete Department</h2>
+                    <h2 class="systems-name" style="font-weight:bold;">System Name</h2>
                     <div class="form-group div-secondary-container">
                         <label class="label" for="department-name" style="margin-top: 20px;">Department Name</label>
                         <input class="depname-input" type="text" id="department-name" value="" style="border-radius:10px; font-size:16px; border:1px solid #6D6D6D;">
