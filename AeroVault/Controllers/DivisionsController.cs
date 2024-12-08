@@ -11,11 +11,7 @@ public class DivisionsController : BaseAdminController
         var divisionsList = await GetAllDivisionsAsync();
         return PartialView("~/Views/Admin/_Divisions.cshtml", divisionsList); 
 
-
     }
-
-    // DIVISION CONTROLLERS
-
 
     // Methods to read divisions
     public async Task<List<DivisionModel>> GetAllDivisionsAsync()
@@ -46,12 +42,4 @@ public class DivisionsController : BaseAdminController
         await _context.Database.ExecuteSqlRawAsync(sql, parameter);
         return Ok(new { Message = "Division added successfully!" });
     }
-
-
-
-
-
-
-    // Include other division-related methods from the original controller
-
 }
