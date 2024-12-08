@@ -1,12 +1,13 @@
 ﻿@model AeroVault.Models.DepartmentViewModel
 
-<html>
-<head>
+@{
+    Layout = null; 
+}
+
     <link rel="stylesheet" href="/Content/css/AdminSystems.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-</head>
-<body>
-    <div class="admin-main-content">
+
+    <div class="admin-main-content" stlye="overflow:hidden; flex-grow: 1;">
         <div class="header-container">
             <h2 class="systems-header" id="systems-header">
                 Select a Department to Manage
@@ -156,5 +157,3 @@
     @Html.Partial("AdminDepartmentPopups/_AdminDepartmentAdded", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDepartmentAddedModel())
 
     <script src="/Scripts/AdminDepartmentScripts.js"></script>
-</body>
-</html>
