@@ -141,7 +141,7 @@
 .search-container {
     display: flex;
     border-bottom: 1px solid #938C8C;
-    width:90%;
+    width:50%;
     margin-left:20px;
     margin-bottom:20px;
 }

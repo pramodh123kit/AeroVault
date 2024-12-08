@@ -32,32 +32,60 @@ function filterDepartments() {
     }
 }
 
+//function toggleReviewDropdown(event) {
+//    var reviewdropdown = event.currentTarget.querySelector('.reviewdropdown');
+//    var icon = event.currentTarget.querySelector('.icon');
+//    var allReviewDropdowns = document.querySelectorAll('.reviewdropdown');
+//    var allIcons = document.querySelectorAll('.icon');
+
+//    allReviewDropdowns.forEach(function (dd) {
+//        if (dd !== reviewdropdown) {
+//            dd.style.display = 'none';
+//        }
+//    });
+
+//    allIcons.forEach(function (ic) {
+//        if (ic !== icon) {
+//            ic.classList.remove('rotate');
+//        }
+//    });
+
+//    if (reviewdropdown.style.display === 'block') {
+//        reviewdropdown.style.display = 'none';
+//        icon.classList.remove('rotate');
+//    } else {
+//        reviewdropdown.style.display = 'block';
+//        icon.classList.add('rotate');
+//    }
+//}
+
+
 function toggleReviewDropdown(event) {
-    var reviewdropdown = event.currentTarget.querySelector('.reviewdropdown');
-    var icon = event.currentTarget.querySelector('.icon');
-    var allReviewDropdowns = document.querySelectorAll('.reviewdropdown');
-    var allIcons = document.querySelectorAll('.icon');
+    event.stopPropagation(); // Prevent parent event triggers
 
-    allReviewDropdowns.forEach(function (dd) {
-        if (dd !== reviewdropdown) {
-            dd.style.display = 'none';
-        }
-    });
+    // Get the clicked parent <li>
+    const parentLi = event.currentTarget;
 
-    allIcons.forEach(function (ic) {
-        if (ic !== icon) {
-            ic.classList.remove('rotate');
-        }
-    });
+    // Find the dropdown within the parent
+    const dropdown = parentLi.querySelector('.reviewdropdown');
 
-    if (reviewdropdown.style.display === 'block') {
-        reviewdropdown.style.display = 'none';
-        icon.classList.remove('rotate');
+    // Toggle the dropdown visibility
+    if (dropdown.style.display === 'block') {
+        dropdown.style.display = 'none'; // Collapse the dropdown
+        parentLi.classList.remove('open'); // Reset the rotation of the icon
     } else {
-        reviewdropdown.style.display = 'block';
-        icon.classList.add('rotate');
+        // Close all other dropdowns first
+        const allDropdowns = document.querySelectorAll('.reviewdropdown');
+        allDropdowns.forEach((dd) => {
+            dd.style.display = 'none';
+            dd.parentElement.classList.remove('open');
+        });
+
+        dropdown.style.display = 'block'; // Show the clicked dropdown
+        parentLi.classList.add('open'); // Add an "open" class for styling
     }
 }
+
 
 function loadReviewContent(url, department, system) {
     fetch(url)
@@ -293,7 +321,7 @@ function staffViewDropdown() {
     if (cardBody.style.maxHeight === '0px' || cardBody.style.maxHeight === '') {
         cardBody.style.maxHeight = cardBody.scrollHeight + "5px";
         cardBody.style.borderTop = '2px solid #ddd'; /* Increased border size */
-        cardBody.style.padding = '20px'; /* Increased padding */
+        cardBody.style.padding = '10px'; /* Increased padding */
         dropdownIcon.classList.remove('fa-chevron-down');
         dropdownIcon.classList.add('fa-chevron-up');
     } else {
@@ -304,6 +332,10 @@ function staffViewDropdown() {
         dropdownIcon.classList.add('fa-chevron-down');
     }
 }
+
+
+
+
 
 // Initialize the card body to be collapsed
 document.addEventListener('DOMContentLoaded', function () {
@@ -354,3 +386,4 @@ function staffViewActive(event) {
     // Call the function to show the corresponding table or content
     showFlightPlanningTable();
 }
+
