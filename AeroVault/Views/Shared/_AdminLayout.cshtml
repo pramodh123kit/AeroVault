@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="~/css/AdminLayout.css" />
+    <link rel="stylesheet" href="/Content/css/AdminLayout.css" />
 </head>
 <body>
     <div class="container" style="margin:0px; padding:0px;">
         <div class="sidebar" id="sidebar">
-            <img src="~/Assets/admin-sidebar-peacock1.svg" alt="Sri Lankan IT Systems Logo" class="footer-logo  peacock-background" />
-            <img src="~/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" class="logo" />
+            <img src="/Content/Assets/admin-sidebar-peacock1.svg" alt="Sri Lankan IT Systems Logo" class="footer-logo  peacock-background" />
+            <img src="/Content/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" class="logo" />
             <div class="profile-info" style="margin-top:0px">
-                <img src="~/Assets/AdminProf.svg" alt="Profile Picture">
+                <img src="/Content/Assets/AdminProf.svg" alt="Profile Picture">
                 <span class="name">Pramodh Lihinikaduwa</span>
             </div>
             <div class="profile-details" style="display: none;">
@@ -21,52 +21,52 @@
             </div>
             <ul class="menu">
                 <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('Index', 'Overview')" class="nav-link" data-icon="/Assets/overview-icon1.svg">
-                        <img src="/Assets/overview-icon.svg" alt="Overview Icon" class="sidebar-icon" />
+                    <a href="javascript:void(0);" onclick="loadContent('Index', 'Overview')" class="nav-link active" data-icon="Content/Assets/overview-icon1.svg">
+                        <img src="/Content/Assets/overview-icon.svg" alt="Overview Icon" class="sidebar-icon" />
                         Overview
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('_Upload', 'Upload')" class="nav-link" data-icon="/Assets/upload-icon1.svg">
-                        <img src="~/Assets/upload-icon.svg" alt="Upload Icon" class="sidebar-icon" />
+                    <a href="javascript:void(0);" onclick="loadContent('_Upload', 'Upload')" class="nav-link" data-icon="Content/Assets/upload-icon1.svg">
+                        <img src="/Content/Assets/upload-icon.svg" alt="Upload Icon" class="sidebar-icon" />
                         Upload
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void(0);" id="manage-toggle" class="nav-link" data-icon="/Assets/manage-icon1.svg">
-                        <img src="~/Assets/manage-icon.svg" alt="Manage Icon" class="sidebar-icon" />
+                    <a href="javascript:void(0);" id="manage-toggle" class="nav-link" data-icon="Content/Assets/manage-icon1.svg">
+                        <img src="/Content/Assets/manage-icon.svg" alt="Manage Icon" class="sidebar-icon" />
                         Manage
                         <span id="dropdown-icon" class="dropdown-icon">▼</span>
                     </a>
                     <ul class="sub-menu" id="manage-sub-menu">
                         <li class="nav-item" style="margin-top:10px;">
-                            <a href="javascript:void(0);" onclick="loadContent('_Systems', 'Manage')" class="nav-link" data-icon="/Assets/systems-icon1.svg">
-                                <img src="~/Assets/systems-icon.svg" alt="Systems Icon" class="sidebar-icon" />
+                            <a href="javascript:void(0);" onclick="loadContent('_Systems', 'Manage')" class="nav-link" data-icon="Content/Assets/systems-icon1.svg">
+                                <img src="/Content/Assets/systems-icon.svg" alt="Systems Icon" class="sidebar-icon" />
                                 Systems
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="javascript:void(0);" onclick="loadContent('_Departments', 'Manage')" class="nav-link" data-icon="/Assets/departments-icon1.svg">
-                                <img src="~/Assets/departments-icon.svg" alt="Departments Icon" class="sidebar-icon" />
+                            <a href="javascript:void(0);" onclick="loadContent('_Departments', 'Manage')" class="nav-link" data-icon="Content/Assets/departments-icon1.svg">
+                                <img src="/Content/Assets/departments-icon.svg" alt="Departments Icon" class="sidebar-icon" />
                                 Departments
                             </a>
                         </li>
                         <li class="nav-item" style="margin-bottom:0px;">
-                            <a href="javascript:void(0);" onclick="loadContent('_Divisions', 'Manage')" class="nav-link" data-icon="/Assets/divisions-sidebar-icon1.svg">
-                                <img src="~/Assets/divisions-sidebar-icon.svg" alt="Divisions Icon" class="sidebar-icon" />
+                            <a href="javascript:void(0);" onclick="loadContent('_Divisions', 'Manage')" class="nav-link" data-icon="Content/Assets/divisions-sidebar-icon1.svg">
+                                <img src="/Content/Assets/divisions-sidebar-icon.svg" alt="Divisions Icon" class="sidebar-icon" />
                                 Divisions
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('_Review', 'Review')" class="nav-link" data-icon="/Assets/review-icon1.svg">
-                        <img src="~/Assets/review-icon.svg" alt="Review Icon" class="sidebar-icon" />
+                    <a href="javascript:void(0);" onclick="loadContent('_Review', 'Review')" class="nav-link" data-icon="Content/Assets/review-icon1.svg">
+                        <img src="/Content/Assets/review-icon.svg" alt="Review Icon" class="sidebar-icon" />
                         Review
                     </a>
                 </li>
             </ul>
-            <img src="~/Assets/admin-sidebar-SLA-logo.svg" alt="Sri Lankan Peacock brand" class="footer-logo" />
+            <img src="/Content/Assets/admin-sidebar-SLA-logo.svg" alt="Sri Lankan Peacock brand" class="footer-logo" />
         </div>
 
         <div class="overlay" id="overlay"></div>
@@ -74,10 +74,10 @@
         <div class="content" style="height: auto;">
             <div class="header">
                 <div style="display: flex; align-items: center;">
-                    <img src="~/Assets/admin-sidebar-collapse.svg" alt="sidebar-collapse-icon" id="sidebar-toggle" />
+                    <img src="/Content/Assets/admin-sidebar-collapse.svg" alt="sidebar-collapse-icon" id="sidebar-toggle" />
                     <h1 class="page-title-name">Overview</h1>
                 </div>
-                <img src="~/Assets/LogoutIcon.svg" class="logout-icon" alt="Logout-icon" />
+                <img src="/Content/Assets/LogoutIcon.svg" class="logout-icon" alt="Logout-icon" />
             </div>
 
             <div class="main-content" id="main-content">
@@ -86,275 +86,18 @@
 
             <footer class="footer-section">
                 <div class="footer-content">
-                    <img src="~/Assets/copyright-icon.svg" alt="Copyright Icon" class="copyright-icon">
+                    <img src="/Content/Assets/copyright-icon.svg" alt="Copyright Icon" class="copyright-icon">
                     <span>2024 Sri Lankan IT Systems. All Rights Reserved.</span>
                 </div>
             </footer>
         </div>
     </div>
 
-
     <div id="dark-overlay6" class="dark-overlay" style="display: none;"></div>
     @Html.Partial("AdminPopups/_AdminLogoutPopup")
 
-
+    <script src="/Scripts/AdminLayoutScripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-        document.getElementById('sidebar-toggle').addEventListener('click', function () {
-            document.getElementById('sidebar').classList.toggle('sidebar-visible');
-            document.getElementById('overlay').classList.toggle('overlay-visible');
-        });
-
-        document.getElementById('overlay').addEventListener('click', function () {
-            document.getElementById('sidebar').classList.remove('sidebar-visible');
-            this.classList.remove('overlay-visible');
-        });
-
-        function loadContent(controllerName, pageTitle) {
-            document.querySelector('.page-title-name').textContent = pageTitle;
-
-            // Map view names to controllers
-            const controllerMap = {
-                'Index': 'Overview',
-                '_Upload': 'Upload',
-                '_Systems': 'Systems',
-                '_Departments': 'Departments',
-                '_Divisions': 'Divisions',
-                '_Review': 'Review'
-            };
-
-            // Get the corresponding controller name
-            const controller = controllerMap[controllerName] || 'Overview';
-
-            $.ajax({
-                url: `/${controller}/Index`,  // Ensure this points to the correct action
-                type: 'GET',
-                success: function (result) {
-                    $('#main-content').html(result); // Update only the main content area
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error loading content:", error);
-                    $('#main-content').html('<p class="text-danger">Failed to load content. Please try again later.</p>');
-                }
-            });
-        }
-
-
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const sidebarToggle = document.getElementById("sidebar-toggle");
-            const sidebar = document.getElementById("sidebar");
-            const dropdownIcon = document.getElementById('dropdown-icon'); 
-
-            const profileInfo = document.querySelector('.profile-info');
-            const originalContent = profileInfo.innerHTML; 
-           const newContent = `
-
-    <div class="profile-info" style="margin-top:0px; border:none; display: flex; flex-direction: column; align-items: center; padding-top:0px; padding-bottom:0px;">
-
-        <img src="/Assets/AdminProf.svg" alt="New Profile Picture" style="width: 50px; height: 50px; margin-bottom: 10px; padding-top:0px;">
-
-        <span class="name" style="padding: 5px 0;">IN1957</span>
-
-        <span class="name" style="padding: 5px 0;">Pramodh Lihinikaduwa</span>
-
-        <span class="name" style="padding-bottom:0px">Information Technology</span>
-
-    </div>
-
-`;           
-            profileInfo.addEventListener('click', function () {
-                if (profileInfo.innerHTML === originalContent) {
-                    profileInfo.innerHTML = newContent;
-                } else {
-                    profileInfo.innerHTML = originalContent; 
-                }
-            });
-
-            sidebarToggle.addEventListener("click", function () {
-                if (window.innerWidth >= 1024) {
-                    sidebar.classList.toggle("hidden");
-                } else {
-                    sidebar.classList.remove("hidden");
-                }
-            });
-
-            document.getElementById('manage-toggle').addEventListener('click', function () {
-                const subMenu = document.getElementById('manage-sub-menu');
-                const isVisible = subMenu.classList.contains('visible');
-
-                if (!isVisible) {
-                    subMenu.style.maxHeight = subMenu.scrollHeight + "px"; 
-                    subMenu.classList.add('visible'); 
-                    dropdownIcon.classList.add('rotate');
-                } else {
-                    subMenu.style.maxHeight = null; 
-                    subMenu.classList.remove('visible'); 
-                    dropdownIcon.classList.remove('rotate'); 
-                }
-            });
-
-            function handleNavLinkClick(event) {
-                const navLinks = document.querySelectorAll('.nav-link');
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    const icon = link.querySelector('img');
-                    if (icon) {
-                        icon.src = icon.getAttribute('data-original');
-                    }
-                });
-
-                event.currentTarget.classList.add('active');
-
-                const clickedIcon = event.currentTarget.querySelector('img');
-                const newIconSrc = event.currentTarget.getAttribute('data-icon');
-                if (clickedIcon) {
-                    clickedIcon.src = newIconSrc;
-                }
-
-            event.currentTarget.classList.add('active');
-
-                    if (event.currentTarget.closest('#manage-sub-menu')) {
-            const manageLink = document.getElementById('manage-toggle');
-            manageLink.classList.add('active');
-        } else {
-            const manageLink = document.getElementById('manage-toggle');
-            manageLink.classList.remove('active');
-        }
-
-        const onclickAttribute = event.currentTarget.getAttribute('onclick');
-        // if (onclickAttribute) {
-        //     const viewName = onclickAttribute.match(/'([^']+)'/)[1];
-        //     const pageTitle = event.currentTarget.textContent.trim();
-        //     loadContent(viewName, pageTitle);
-        // } else {
-        //     console.error("The 'onclick' attribute is missing on the clicked element.");
-        // }
-
-                if (window.innerWidth < 1024) {
-
-                    document.getElementById('sidebar').classList.remove('sidebar-visible');
-
-                    document.getElementById('overlay').classList.remove('overlay-visible');
-
-                }
-            }
-
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', handleNavLinkClick);
-
-                const icon = link.querySelector('img');
-                if (icon) {
-                    icon.setAttribute('data-original', icon.src); 
-                }
-
-                link.addEventListener('mouseover', function () {
-                    const hoverIcon = this.getAttribute('data-icon');
-                    if (icon && hoverIcon) {
-                        icon.src = hoverIcon; 
-                    }
-                });
-
-                link.addEventListener('mouseout', function () {
-                    if (!link.classList.contains('active')) {
-                        const originalIcon = icon.getAttribute('data-original'); 
-                        if (icon) {
-                            icon.src = originalIcon; 
-                        }
-                    }
-                });
-            });
-        });
-
-        function fileEditopenPopup() {
-            document.getElementById('dark-overlay6').style.display = 'block';
-            document.getElementById('editfile-popup2').style.display = 'block';
-        }
-
-        function fileEditClosePopup() {
-            document.getElementById('dark-overlay6').style.display = 'none';
-            document.getElementById('editfile-popup2').style.display = 'none';
-        }
-
-        document.querySelectorAll(".logout-icon").forEach(function (icon) {
-            icon.onclick = fileEditopenPopup;
-        });
-
-        document.getElementById('dark-overlay6').onclick = fileEditClosePopup;
-        document.getElementById('close-logout').onclick = fileEditClosePopup;
-
-
-
-        document.getElementById('sidebar-toggle').addEventListener('click', function () {
-
-            const sidebar = document.getElementById('sidebar');
-
-            const overlay = document.getElementById('overlay');
-
-
-            // Toggle sidebar visibility
-
-            sidebar.classList.toggle('sidebar-visible');
-
-
-            // If the sidebar is visible, show the overlay; otherwise, hide it
-
-            if (sidebar.classList.contains('sidebar-visible')) {
-
-                overlay.classList.add('overlay-visible');
-
-            } else {
-
-                overlay.classList.remove('overlay-visible');
-
-            }
-
-        });
-
-
-        // Hide sidebar and overlay when overlay is clicked
-
-        document.getElementById('overlay').addEventListener('click', function () {
-
-            const sidebar = document.getElementById('sidebar');
-
-            const overlay = document.getElementById('overlay');
-
-            sidebar.classList.remove('sidebar-visible');
-
-            overlay.classList.remove('overlay-visible');
-
-        });
-        document.addEventListener("DOMContentLoaded", function () {
-
-            const sidebarToggle = document.getElementById("sidebar-toggle");
-
-            const sidebar = document.getElementById("sidebar");
-
-
-            sidebarToggle.addEventListener("click", function () {
-
-                if (window.innerWidth < 1024) {
-
-                    sidebar.classList.toggle("sidebar-visible");
-
-                    const overlay = document.getElementById('overlay');
-
-                    if (sidebar.classList.contains('sidebar-visible')) {
-
-                        overlay.classList.add('overlay-visible');
-
-                    } else {
-
-                        overlay.classList.remove('overlay-visible');
-
-                    }
-
-                }
-
-            });
-
-        });
-    </script>
+   
 </body>
 </html>

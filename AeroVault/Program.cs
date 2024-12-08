@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using AeroVault.Models; // Add this line
+using AeroVault.Models;
+using Microsoft.Extensions.FileProviders; // Add this line
 
 namespace AeroVault
 {
@@ -32,13 +33,27 @@ namespace AeroVault
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "Content")),
+                RequestPath = "/Content"
+            });
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "Scripts")),
+                RequestPath = "/Scripts"
+            });
+
             app.UseRouting();
 
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
-                 pattern: "{controller=Admin}/{action=Index}/{id?}");
+                pattern: "{controller=Admin}/{action=Index}/{id?}");
             app.Run();
         }
     }

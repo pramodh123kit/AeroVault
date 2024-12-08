@@ -1,6 +1,6 @@
 @model List<AeroVault.Models.DivisionModel>
 
-    <link rel="stylesheet" href="~/css/AdminSystems.css">
+    <link rel="stylesheet" href="/Content/css/AdminSystems.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
     <div class="admin-main-content">
@@ -9,17 +9,15 @@
                 Select a Division to Manage
             </h2>
             <button class="add-system-button add-dep-button">
-                <img src="~/Assets/add-icon.svg" alt="Add Icon" class="button-icon" />
+                <img src="/Content/Assets/add-icon.svg" alt="Add Icon" class="button-icon" />
                 Add New Division
             </button>
         </div>
 
-
         <div class="sidebar-container">
-
             <div class="sidebar2">
                 <div class="search-container" style="width:90%;">
-                    <img src="~/Assets/search-icon.svg" alt="Search Icon" />
+                    <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
                     <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search Division" type="text" />
                 </div>
                 <div class="scrollable-content scrollable-content-list">
@@ -53,7 +51,7 @@
                                 </div>
                                 <div class="custom-dropdown-content" style="position:sticky">
                                     <div class="custom-search-container">
-                                        <img src="~/Assets/search-icon.svg" alt="Search Icon" />
+                                        <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
                                         <input type="text" id="custom-search-input" placeholder="Search Option" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
                                     </div>
                                     <div class="custom-dropdown-list">
@@ -75,7 +73,7 @@
 
             </div>
             <div class="image-container">
-                <img src="~/Assets/divisions-icon.svg" alt="Departments Background Image" />
+                <img src="/Content/Assets/divisions-icon.svg" alt="Departments Background Image" />
             </div>
 
 
@@ -96,7 +94,7 @@
                             Save Changes
                         </button>
                         <button class="delete-system-button delete-dep-button">
-                            <img src="~/Assets/system-delete-icon.svg" alt="Add Icon" class="button-icon" />
+                            <img src="/Content/Assets/system-delete-icon.svg" alt="Add Icon" class="button-icon" />
                             Delete
                         </button>
                     </div>
@@ -104,8 +102,6 @@
             </div>
         </div>
     </div>
-
-
 
     <!-- Overlay -->
     <div id="dark-overlay-dep1" class="dark-overlay" style="display: none;"></div>
@@ -117,10 +113,4 @@
     <div id="dark-overlay-dep3" class="dark-overlay" style="display: none;"></div>
     @Html.Partial("AdminDivisionPopups/_AdminDivisionAdded", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDepartmentAddedModel())
 
-    <script src="~/js/AdminDivisionScripts.js"></script>
-
-    <script>
-        function setDivisionName(divisionName) {
-            document.getElementById('department-name').value = divisionName;
-        }
-    </script>
+    <script src="/Scripts/AdminDivisionScripts.js"></script>

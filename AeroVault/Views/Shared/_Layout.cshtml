@@ -7,14 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - AeroVault</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/AeroVault.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="/Content/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/AeroVault.styles.css" asp-append-version="true" /> 
 </head>
 <body class="d-flex flex-column min-vh-100">
-
-
     <header>
-
         @if (ViewData["HideNavbar"] == null || !(bool)ViewData["HideNavbar"])
         {
             @if (ViewData["CustomNavbar"] != null && (bool)ViewData["CustomNavbar"])
@@ -22,10 +19,10 @@
                 <nav class="navbar navbar-expand-sm navbar-dark bg-primary user-navbar">
                     <div class="container-fluid">
                         <a class="navbar-brand d-flex align-items-center">
-                            <img src="~/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" width="165px" class="d-inline-block align-top">
+                            <img src="/Content/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" width="165px" class="d-inline-block align-top">
                         </a>
-                        <img src="~/Assets/LogoutIcon.svg" class="logout-icon2" alt="Logout-icon" />
-                        <img src="~/Assets/admin-sidebar-collapse.svg" alt="sidebar-collapse-icon" id="user-sidebar-toggle" class="user-sidebar-toggle" />                      
+                        <img src="/Content/Assets/LogoutIcon.svg" class="logout-icon2" alt="Logout-icon" />
+                        <img src="/Content/Assets/admin-sidebar-collapse.svg" alt="sidebar-collapse-icon" id="user-sidebar-toggle" class="user-sidebar-toggle" />                      
 
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav centered-links">
@@ -39,9 +36,9 @@
                                 </li>
                             </ul>
                             <div class="navbar-icons d-flex align-items-center">
-                                <img src="~/Assets/UserProfilePic.svg" alt="User  Icon" width="30" height="30" class="rounded-circle" style="cursor:pointer;">
-                                <img src="~/Assets/Line.svg" class="line-seperator" alt="Line separator" style="width:1px; margin-left:15px;" />
-                                <img src="~/Assets/LogoutIcon.svg" alt="Logout Icon" class="logout-icon" style="width:20px; cursor:pointer; margin-left:15px;" />
+                                <img src="/Content/Assets/UserProfilePic.svg" alt="User  Icon" width="30" height="30" class="rounded-circle" style="cursor:pointer;">
+                                <img src="/Content/Assets/Line.svg" class="line-seperator" alt="Line separator" style="width:1px; margin-left:15px;" />
+                                <img src="/Content/Assets/LogoutIcon.svg" alt="Logout Icon" class="logout-icon" style="width:20px; cursor:pointer; margin-left:15px;" />
                             </div>
                         </div>
                     </div>
@@ -49,7 +46,6 @@
             }
         }
     </header>
-
 
     <main role="main" class="flex-grow-1">
         @RenderBody()
@@ -59,20 +55,11 @@
     {
         <footer class="footer-section">
             <div class="footer-content">
-                <img src="~/Assets/copyright-icon.svg" alt="Copyright Icon" class="copyright-icon">
+                <img src="/Content/Assets/copyright-icon.svg" alt="Copyright Icon" class="copyright-icon">
                 <span>2024 Sri Lankan IT Systems. All Rights Reserved.</span>
             </div>
         </footer>
     }
-
-@*     <div id="dark-overlay5" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("UserPopups/_UserLogoutPopup", new AeroVault.Views.Shared.UserPopups._UserLogoutPopupModel())
-
-    <div id="dark-overlay6" class="dark-overlay6" style="display: none;"></div>
-    @Html.Partial("UserPopups/_UserProfilePopup", new AeroVault.Views.Shared.UserPopups._UserProfilePopupModel())
-
-    <div id="dark-overlay7" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("UserPopups/_UserSidebar", new AeroVault.Views.Shared.UserPopups._UserSidebarModel())  *@
 
     <div id="dark-overlay5" class="dark-overlay" style="display: none;"></div>
     @Html.Partial("UserPopups/_UserLogoutPopup", new UserLogoutPopupModel())
@@ -83,123 +70,9 @@
     <div id="dark-overlay7" class="dark-overlay" style="display: none;"></div>
     @Html.Partial("UserPopups/_UserSidebar", new UserSidebarModel())
 
-
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script>
-
-        
-        function fileEditopenPopup() {
-            document.getElementById('dark-overlay5').style.display = 'block';
-            document.getElementById('editfile-popup5').style.display = 'block';
-        }
-
-        function fileEditClosePopup() {
-            document.getElementById('dark-overlay5').style.display = 'none';
-            document.getElementById('editfile-popup5').style.display = 'none';
-        }
-
-
-
-        document.querySelectorAll(".logout-icon").forEach(function (icon) {
-            icon.onclick = fileEditopenPopup;
-        });
-
-         document.getElementById('dark-overlay5').onclick = fileEditClosePopup;
-         document.getElementById('close-logout').onclick = fileEditClosePopup;
-
-
-
-
-
-
-
-
-        function fileEditopenPopup5() {
-            document.getElementById('dark-overlay5').style.display = 'block';
-            document.getElementById('editfile-popup5').style.display = 'block';
-        }
-
-        function fileEditClosePopup5() {
-            document.getElementById('dark-overlay5').style.display = 'none';
-            document.getElementById('editfile-popup5').style.display = 'none';
-        }
-
-
-
-        document.querySelectorAll(".logout-icon2").forEach(function (icon) {
-            icon.onclick = fileEditopenPopup5;
-        });
-
-        document.getElementById('dark-overlay5').onclick = fileEditClosePopup5;
-        document.getElementById('close-logout').onclick = fileEditClosePopup5;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        function fileEditopenPopup2() {
-            document.getElementById('dark-overlay6').style.display = 'block';
-            document.getElementById('editfile-popup6').style.display = 'block';            
-        }
-
-        function fileEditClosePopup2() {
-            document.getElementById('dark-overlay6').style.display = 'none';
-            document.getElementById('editfile-popup6').style.display = 'none';            
-        }
-
-
-
-        document.querySelectorAll(".rounded-circle").forEach(function (icon) {
-            icon.onclick = fileEditopenPopup2;
-        });
-
-        document.getElementById('dark-overlay6').onclick = fileEditClosePopup2;
-        document.getElementById('close-icon6').onclick = fileEditClosePopup2;
-
-
-
-
-
-
-
-        function fileEditopenPopup3() {
-            document.getElementById('dark-overlay7').style.display = 'block';
-            document.getElementById('editfile-popup7').style.display = 'block';
-        }
-
-        function fileEditClosePopup3() {
-            document.getElementById('dark-overlay7').style.display = 'none';
-            document.getElementById('editfile-popup7').style.display = 'none';
-        }
-
-        document.querySelectorAll(".user-sidebar-toggle").forEach(function (icon) {
-            icon.onclick = fileEditopenPopup3;
-        });
-
-        document.getElementById('dark-overlay7').onclick = fileEditClosePopup3;
-
-        function checkScreenSize() {
-            if (window.innerWidth > 576) {
-                fileEditClosePopup3();
-            }
-        }
-
-        window.addEventListener('resize', checkScreenSize);
-
-        checkScreenSize();      
-    </script>
+    <script src="/Scripts/UserLayoutScripts.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

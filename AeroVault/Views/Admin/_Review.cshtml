@@ -1,8 +1,7 @@
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link href="~/css/AdminReview.css" rel="stylesheet" />
+    <link href="/Content/css/AdminReview.css" rel="stylesheet" />
 
-    <script src="~/js/adminReview.js" defer></script>
+    <script src="/Scripts/adminReview.js" defer></script>
 
     <div class="ReviewReviewTabs">
         <div class="reviewtab active" id="system-reviewtab" onclick="showSystemView()">
@@ -20,7 +19,7 @@
             <div class="reviewsidebar">
 
                 <div class="search-box">
-                    <img src="~/Assets/search-icon.svg" alt="Search Icon" />
+                    <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
                     <input id="searchInput" onkeyup="filterDepartments()" placeholder="Search Department" type="text" />
                 </div>
                 <ul class="department-list " id="departmentList">
@@ -181,7 +180,7 @@
                         <input type="text" id="staffViewSearchInput" placeholder="Search by Name or Staff ID">
                         <button onclick="staffViewPerformSearch()">Search</button>
                     </div>
-                    <img src="~/Assets/StaffViewBottom.png" />
+                    <img src="/Content/Assets/StaffViewBottom.png" />
                 </div>
             </div>
 
@@ -318,7 +317,7 @@
                         <div class="staff-header">
                             <h1>Flight Planning</h1>
                             <div class="staff-search-container">
-                                <img src="~/Assets/search-icon.svg" alt="Search Icon" />
+                                <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
                                 <input type="text" id="staffSearchInput" onkeyup="filterStaffViewTable()" placeholder="Search">
                             </div>
                         </div>
@@ -387,7 +386,7 @@
                     </div>
 
 
-                    <img src="~/Assets/PCpic.svg" style="position:relative;" />
+                    <img src="/Content/Assets/PCpic.svg" style="position:relative;" />
                 </div>
             </div>
         </div>

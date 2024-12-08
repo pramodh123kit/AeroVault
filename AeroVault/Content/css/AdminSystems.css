@@ -11,6 +11,9 @@
     margin-top:-2px;
 }
 
+.div-dep-delete-popup {
+    justify-content: center;
+}
 .header-container {
     display: flex;
     align-items: center;
