@@ -166,7 +166,7 @@ body {
 
 .main-content {
     margin: 10px;
-    flex: 1; 
+    flex: 1;
 }
 
 .copyright-icon {
@@ -249,10 +249,9 @@ body {
     }
 
     .main-content {
-      
         margin: 10px;
-/*        background-color:white;*/
-        flex: 1; 
+        /*        background-color:white;*/
+        flex: 1;
     }
 }
 

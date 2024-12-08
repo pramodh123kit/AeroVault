@@ -1,12 +1,10 @@
-﻿@model List<AeroVault.Models.SystemModel>
+﻿@using System.Linq
+@model List<SystemModel>
 
 
-<html>
-<head>
     <link rel="stylesheet" href="~/css/AdminSystems.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-</head>
-<body>
+
     <div class="admin-main-content">
         <div class="header-container">
             <h2 class="systems-header" id="systems-header">
@@ -28,24 +26,43 @@
                 </div>
                 <div class="scrollable-content scrollable-content-list">
                     <div id="systemListContainer">
-                        <ul id="systemList">
-                            @if (Model == null || !Model.Any())
+                    @{
+                        var systemList = Model ?? new List<SystemModel>();
+                    }
+
+                    <ul id="systemList">
+                        @if (!systemList.Any())
+                        {
+                            <li>No systems available.</li>
+                        }
+                        else
+                        {
+                            @foreach (var system in systemList)
                             {
-                                <li>No systems available.</li>
+                                <li onclick="highlightSystem(this)">
+                                    <a href="#">
+                                        <img src="~/Assets/folder-icon.svg" alt="Folder icon" class="folder-icon" />
+                                        @system.SystemName
+                                    </a>
+                                </li>
                             }
-                            else
-                            {
-                                @foreach (var system in Model)
-                                {
-                                    <li onclick="highlightSystem(this)">
-                                        <a href="#">
-                                            <img src="~/Assets/folder-icon.svg" alt="Folder icon" class="folder-icon" />
-                                            @system.SystemName
-                                        </a>
-                                    </li>
-                                }
-                            }
-                        </ul>
+                        }
+                    </ul>
+
+                   
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                         <div class="custom-form-group">
                             <h2 class="systems-header systems-header-label">
@@ -61,7 +78,7 @@
                                         <img src="~/Assets/search-icon.svg" alt="Search Icon" />
                                         <input type="text" id="custom-search-input" placeholder="Search system" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
                                     </div>
-                                    <div class="custom-dropdown-list">
+                                    @* <div class="custom-dropdown-list">
                                         <div onclick="selectCustomOption(this)">Information Technology</div>
                                         
                                         @foreach (var system in Model)
@@ -70,7 +87,38 @@
                                                 @system.SystemName
                                             </div>                                           
                                         }
-                                    </div>
+                                    </div> *@
+
+
+
+
+
+
+                                <div class="custom-dropdown-list">
+                                    <div onclick="selectCustomOption(this)">Information Technology</div>
+
+                                    @foreach (var system in systemList)
+                                    {
+                                        <div onclick="selectCustomOption(this)">
+                                            @system.SystemName
+                                        </div>
+                                    }
+                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                 </div>
                             </div>
                         </div>
@@ -419,5 +467,3 @@
         
 
     </script>
-</body>
-</html>

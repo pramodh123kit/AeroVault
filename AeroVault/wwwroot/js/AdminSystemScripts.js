@@ -320,13 +320,20 @@ async function addNewSystem() {
 
     try {
         // Validation 7: Check if system name already exists
-        const systemExistsResponse = await fetch('/Admin/CheckSystemExists', {
+        const systemExistsResponse = await fetch('/Systems/CheckSystemExists', {
+
             method: 'POST',
+
             headers: {
+
                 'Content-Type': 'application/json',
+
                 'X-CSRF-TOKEN': document.querySelector('input[name="__RequestVerificationToken"]').value
+
             },
+
             body: JSON.stringify({ systemName: systemName })
+
         });
 
         const systemExistsResult = await systemExistsResponse.json();
@@ -344,13 +351,20 @@ async function addNewSystem() {
         };
 
         // Send system creation request
-        const createSystemResponse = await fetch('/Admin/CreateSystem', {
+        const createSystemResponse = await fetch('/Systems/CreateSystem', {
+
             method: 'POST',
+
             headers: {
+
                 'Content-Type': 'application/json',
+
                 'X-CSRF-TOKEN': document.querySelector('input[name="__RequestVerificationToken"]').value
+
             },
+
             body: JSON.stringify(systemData)
+
         });
 
         // Check response
@@ -452,7 +466,7 @@ function showSuccessNotification(message) {
 // Optional: Function to refresh systems list
 async function refreshSystemsList() {
     try {
-        const response = await fetch('/Admin/GetAllSystems');
+        const response = await fetch('/Systems/GetAllSystems');
         const systems = await response.json();
 
         // Update the systems list in the UI

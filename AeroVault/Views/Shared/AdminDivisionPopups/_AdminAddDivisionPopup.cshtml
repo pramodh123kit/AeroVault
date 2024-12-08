@@ -36,7 +36,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("AddDivision", "Admin")',
+                url: '@Url.Action("AddDivision", "Divisions")',
                 data: { divisionName: divisionName },
                 success: function(response) {
                     alert(response.message);
@@ -46,7 +46,7 @@
                     // Fetch the updated list of divisions
                     $.ajax({
                         type: 'GET',
-                        url: '@Url.Action("GetAllDivisions", "Admin")', 
+                        url: '@Url.Action("GetAllDivisions", "Divisions")',
                         success: function(divisions) {
                             $('#systemList').empty();
                             if (divisions.length === 0) {

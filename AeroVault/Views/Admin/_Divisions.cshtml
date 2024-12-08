@@ -1,11 +1,8 @@
 ﻿@model List<AeroVault.Models.DivisionModel>
 
-<html>
-<head>
     <link rel="stylesheet" href="~/css/AdminSystems.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-</head>
-<body>
+
     <div class="admin-main-content">
         <div class="header-container">
             <h2 class="systems-header" id="systems-header">
@@ -23,7 +20,7 @@
             <div class="sidebar2">
                 <div class="search-container">
                     <img src="~/Assets/search-icon.svg" alt="Search Icon" />
-                    <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search Department" type="text" />
+                    <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search Division" type="text" />
                 </div>
                 <div class="scrollable-content scrollable-content-list">
                     <div id="systemListContainer">
@@ -87,7 +84,7 @@
                     <h2 class="edit-del-instruc">Edit or Delete Division</h2>
                     <h2 class="systems-name">System Name</h2>
                     <div class="form-group div-secondary-container">
-                        <label class="label" for="department-name">Division Name</label>
+                        <label class="label" for="department-name" style="margin-top:20px;">Division Name</label>
                         <input class="depname-input" type="text" id="department-name" value="" style="border-radius:10px; font-size:16px; border:1px solid #6D6D6D;">
                     </div>
                     
@@ -127,6 +124,3 @@
             document.getElementById('department-name').value = divisionName;
         }
     </script>
-
-</body>
-</html>

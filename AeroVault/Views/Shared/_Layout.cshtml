@@ -1,4 +1,5 @@
-﻿
+﻿@using AeroVault.Models;
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,14 +65,25 @@
         </footer>
     }
 
-    <div id="dark-overlay5" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("UserPopups/_UserLogoutPopup")
+@*     <div id="dark-overlay5" class="dark-overlay" style="display: none;"></div>
+    @Html.Partial("UserPopups/_UserLogoutPopup", new AeroVault.Views.Shared.UserPopups._UserLogoutPopupModel())
 
     <div id="dark-overlay6" class="dark-overlay6" style="display: none;"></div>
-    @Html.Partial("UserPopups/_UserProfilePopup")
+    @Html.Partial("UserPopups/_UserProfilePopup", new AeroVault.Views.Shared.UserPopups._UserProfilePopupModel())
 
     <div id="dark-overlay7" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("UserPopups/_UserSidebar")
+    @Html.Partial("UserPopups/_UserSidebar", new AeroVault.Views.Shared.UserPopups._UserSidebarModel())  *@
+
+    <div id="dark-overlay5" class="dark-overlay" style="display: none;"></div>
+    @Html.Partial("UserPopups/_UserLogoutPopup", new UserLogoutPopupModel())
+
+    <div id="dark-overlay6" class="dark-overlay6" style="display: none;"></div>
+    @Html.Partial("UserPopups/_UserProfilePopup", new UserProfilePopupModel())
+
+    <div id="dark-overlay7" class="dark-overlay" style="display: none;"></div>
+    @Html.Partial("UserPopups/_UserSidebar", new UserSidebarModel())
+
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

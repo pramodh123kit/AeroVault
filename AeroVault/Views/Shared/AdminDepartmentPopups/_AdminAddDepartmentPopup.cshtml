@@ -36,19 +36,32 @@
                         <input type="text" id="unique-search-input" placeholder="Search Division" onkeyup="filterUniqueOptions()" onclick="event.stopPropagation()">
                     </div>
                     <div class="unique-dropdown-list" id="division-dropdown-list">
-                        @foreach (var division in ViewData["Divisions"] as List<AeroVault.Models.DivisionModel>)
+                        @* @foreach (var division in ViewData["Divisions"] as List<AeroVault.Models.DivisionModel>)
+                        {
+                            <div onclick="selectUniqueOption(this)" data-division-id="@division.DivisionID">
+                                @division.DivisionName
+                            </div>
+                        } *@
+
+
+
+
+                        @foreach (var division in ViewData["Divisions"] as List<AeroVault.Models.DivisionModel> ?? new List<AeroVault.Models.DivisionModel>())
                         {
                             <div onclick="selectUniqueOption(this)" data-division-id="@division.DivisionID">
                                 @division.DivisionName
                             </div>
                         }
+
+
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal-footer">
+    <div class="modal-footer" style="border:none;">
         <button class="save-btn add-new-dep-popup-btn" id="add-department-btn">Add New Department</button>
     </div>
 </div>
@@ -93,7 +106,7 @@
             // If no errors, proceed with AJAX request
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("AddDepartment", "Admin")',
+                url: '@Url.Action("AddDepartment", "Departments")',
                 data: {
                     departmentName: departmentName,
                     divisionId: selectedDivisionId
@@ -251,7 +264,7 @@
         function loadDepartments() {
         $.ajax({
             type: 'GET',
-            url: '@Url.Action("GetAllDepartments", "Admin")',
+            url: '@Url.Action("GetAllDepartments", "Departments")',
             success: function (departments) {
                 $('#systemList').empty();
                 $('.custom-dropdown-list').empty();
