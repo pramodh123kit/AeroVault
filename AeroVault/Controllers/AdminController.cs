@@ -17,5 +17,10 @@ namespace AeroVault.Controllers
         {
             return View();
         }
+
+        public IActionResult HumanR()
+        {
+            return View();
+        }
     }
 }
