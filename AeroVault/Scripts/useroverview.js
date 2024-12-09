@@ -1,12 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
-
     function calculateReadPercentage(readFiles, totalFiles) {
         return Math.round((readFiles / totalFiles) * 100);
     }
 
     // Initialize chart with initial values
-    const readFileCount = 90;  // This should come from your backend
-    const totalFiles = 100;     // This should come from your backend
+    const readFileCount = 90;
+    const totalFiles = 100;
     const readPercentage = calculateReadPercentage(readFileCount, totalFiles);
     const pendingPercentage = 100 - readPercentage;
 
@@ -14,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const progressChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
+            labels: ['Processed Files', 'Pending Files'], // Add labels
             datasets: [{
                 data: [readPercentage, pendingPercentage],
                 backgroundColor: [
@@ -27,10 +27,30 @@ document.addEventListener('DOMContentLoaded', function () {
             cutout: '70%',
             plugins: {
                 legend: {
-                    display: false // Disable the default legend
+                    display: false
                 },
                 tooltip: {
-                    enabled: false
+                    enabled: true, // Enable tooltips
+                    callbacks: {
+                        label: function (context) {
+                            const label = context.label;
+                            const value = context.parsed;
+
+                            // Customize tooltip text
+                            if (label === 'Processed Files') {
+                                return `Read: ${readFileCount} files`;
+                            } else {
+                                return `Pending: ${totalFiles - readFileCount} files`;
+                            }
+                        },
+                        title: function () {
+                            return 'Total Files'; // Optional: custom title
+                        }
+                    },
+                    backgroundColor: 'rgba(0,0,0,0.7)', // Tooltip background color
+                    titleColor: '#fff', // Title text color
+                    bodyColor: '#fff',   // Body text color
+
                 }
             },
             responsive: true,
@@ -63,20 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }]
     });
 
-    // Set legend text
-    document.getElementById('readCount').textContent = readFileCount;
-    document.getElementById('pendingCount').textContent = totalFiles - readFileCount;
-
-    // Function to update chart
-    window.updateChart = function (newReadCount, newTotalFiles) {
-        const newReadPercentage = calculateReadPercentage(newReadCount, newTotalFiles);
-        progressChart.data.datasets[0].data = [newReadPercentage, 100 - newReadPercentage];
-        progressChart.update();
-
-        // Update legend text
-        document.getElementById('readCount').textContent = newReadCount;
-        document.getElementById('pendingCount').textContent = newTotalFiles - newReadCount;
-    };
+    // Rest of the code remains the same...
 });
 
 

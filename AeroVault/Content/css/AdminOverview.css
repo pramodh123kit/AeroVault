@@ -594,3 +594,25 @@
 .custom-dropdown-toggle::after {
     content: none;
 }
+
+@media (max-width: 370px) {
+    .outerPieChartsContainer, .outerBarChartsContainer {
+        height:100%;
+    }
+    .legend {
+        flex-wrap:wrap;
+        flex-direction:row;
+        margin-left:-80%;
+        margin-top:100%;
+    }
+    .stats-container {
+        flex-wrap:wrap;
+        padding: 0px 40px 0px 40px;
+    }
+    .stat-number {
+        padding:0px 10px;
+    }
+    .stat-label {
+        padding: 0px 10px;
+    }
+}

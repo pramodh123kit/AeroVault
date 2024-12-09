@@ -385,6 +385,23 @@
         margin-bottom:30px;
     }
 }
+
+@media(max-width: 320px) {
+    .logout-icon2 {
+        margin-left:25%;
+    }
+    .footer-content[b-blegukjoyx] {
+        width:100%;
+        font-size:10px;
+    }
+    .progress-section {
+        height:100%;
+    }
+    .chart-wrapper {
+        flex-direction: column;
+    }
+}
+
 .main-container {
     overflow:hidden;
     justify-content:space-between;
