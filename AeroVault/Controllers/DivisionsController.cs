@@ -10,7 +10,6 @@ public class DivisionsController : BaseAdminController
     {
         var divisionsList = await GetAllDivisionsAsync();
         return PartialView("~/Views/Admin/_Divisions.cshtml", divisionsList); 
-
     }
 
     // Methods to read divisions
