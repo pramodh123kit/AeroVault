@@ -1390,15 +1390,7 @@ iframe {
     .chart-wrapper {
         flex-direction: column;
     }
-    .left-section {
-        width:58%;
-    }
-    .content-section {
-        width: 58%;
-    }
-    .filter-category-status-selector {
-        width: 58%;
-    }
+    .left-section, .content-section, .filter-category-status-selector,
     .category-dropdown-selector {
         width: 58%;
     }
