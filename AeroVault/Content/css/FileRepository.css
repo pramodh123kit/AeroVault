@@ -1372,3 +1372,40 @@ iframe {
 .title-container {
     
 }*/
+
+@media(max-width: 320px) {
+    .logout-icon2 {
+        margin-left: 25%;
+    }
+
+    .footer-content[b-blegukjoyx] {
+        width: 100%;
+        font-size: 10px;
+    }
+
+    .progress-section {
+        height: 100%;
+    }
+
+    .chart-wrapper {
+        flex-direction: column;
+    }
+    .left-section {
+        width:58%;
+    }
+    .content-section {
+        width: 58%;
+    }
+    .filter-category-status-selector {
+        width: 58%;
+    }
+    .category-dropdown-selector {
+        width: 58%;
+    }
+    .item-info {
+        display: flex;
+        align-items: center;
+        margin: 5px;
+        flex-direction: column;
+    }
+}
