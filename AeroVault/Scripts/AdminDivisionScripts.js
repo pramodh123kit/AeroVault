@@ -106,7 +106,7 @@ function depAddClosePopup() {
 document.querySelector('.add-dep-button').onclick = depAddopenPopup;
 
 document.getElementById('close-icon-dep1').onclick = depAddClosePopup;
-document.getElementById('dark-overlay-dep1').onclick = depAddClosePopup;
+//document.getElementById('dark-overlay-dep1').onclick = depAddClosePopup;
 
 function addNewDepartment() {
     depAddClosePopup(); 
@@ -153,4 +153,7 @@ function highlightSystem(selectedItem) {
 
     document.querySelector('.image-container').style.display = 'none';
     document.querySelector('.system-container').style.display = 'block';
+}
+function setDivisionName(divisionName) {
+    document.getElementById('department-name').value = divisionName;
 }

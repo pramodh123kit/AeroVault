@@ -715,7 +715,7 @@ function softDeleteDepartment() {
     const departmentName = selectedDepartment.getAttribute('data-department-name');
 
     // Send a request to the server to soft delete the department
-    fetch('/Admin/SoftDeleteDepartment', {
+    fetch('/Departments/SoftDeleteDepartment', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -878,5 +878,240 @@ document.querySelector('.custom-dropdown-list').addEventListener('click', functi
     const selectedItem = event.target.closest('div[data-department-name]');
     if (selectedItem) {
         updateDeletePopupHeader();
+    }
+});
+
+
+
+
+function checkForChanges() {
+    const departmentNameInput = document.getElementById('department-name');
+    const selectedDivision = document.querySelector('.division-selector');
+    const saveChangesButton = document.querySelector('.edit-system-button');
+
+    const originalName = originalDepartmentName;
+    const originalDivision = originalDivisionName;
+
+    // Get current values
+    const currentName = departmentNameInput.value.trim();
+    const currentDivision = selectedDivision.querySelector('span').innerText.trim();
+
+    // Check if there are any changes
+    const hasChanges = currentName !== originalName || currentDivision !== originalDivision;
+
+    if (hasChanges) {
+        // Enable the button
+        saveChangesButton.style.backgroundColor = '#00436C';
+        saveChangesButton.style.cursor = 'pointer';
+        saveChangesButton.disabled = false;
+    } else {
+        // Disable the button
+        saveChangesButton.style.backgroundColor = '#6c757d';
+        saveChangesButton.style.cursor = 'not-allowed';
+        saveChangesButton.disabled = true;
+    }
+}
+document.getElementById('department-name').addEventListener('input', checkForChanges);
+
+// Add event listener to division selector
+document.querySelector('.division-selector').addEventListener('click', function () {
+    // Use a small delay to ensure the division is updated
+    setTimeout(checkForChanges, 100);
+});
+
+function saveChanges() {
+    const saveChangesButton = document.querySelector('.edit-system-button');
+
+    // Check if the button is disabled
+    if (saveChangesButton.disabled) {
+        return;
+    }
+
+    const selectedDepartment = document.querySelector('#systemList li[style*="background-color: rgb(187, 220, 249)"]');
+
+    if (!selectedDepartment) {
+        alert("Please select a department first.");
+        return;
+    }
+
+    const departmentId = selectedDepartment.getAttribute('data-department-id');
+    const departmentName = document.getElementById('department-name').value.trim();
+    const divisionId = document.querySelector('.division-selector').getAttribute('data-division-id');
+
+    // Get the selected division name
+    const selectedDivisionName = document.getElementById('selected-division').innerText.trim();
+
+    // Validate input fields
+    if (!departmentId) {
+        alert("Department ID is missing.");
+        return;
+    }
+
+    if (!departmentName) {
+        alert("Department name cannot be empty.");
+        return;
+    }
+
+    if (!divisionId) {
+        alert("Please select a division.");
+        return;
+    }
+
+    fetch('/Departments/UpdateDepartment', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            departmentId: parseInt(departmentId),
+            departmentName: departmentName,
+            divisionId: parseInt(divisionId)
+        })
+    })
+
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(errorText => {
+                    throw new Error(errorText);
+                });
+            }
+            return response.json();
+        })
+
+        .then(data => {
+
+            // Update the data attributes of the selected department
+            selectedDepartment.setAttribute('data-department-name', departmentName);
+            selectedDepartment.setAttribute('data-division-id', divisionId);
+            selectedDepartment.setAttribute('data-division-name', selectedDivisionName);
+
+            // Update the text of the department
+            selectedDepartment.textContent = departmentName;
+
+            // Update the custom dropdown list
+            const customDropdownList = document.querySelector('.custom-dropdown-list');
+            const customDropdownItems = customDropdownList.querySelectorAll('div');
+
+            customDropdownItems.forEach(item => {
+                if (item.getAttribute('data-department-id') === departmentId.toString()) {
+                    // Update the department name in the custom dropdown
+                    item.textContent = departmentName;
+                    item.setAttribute('data-department-name', departmentName);
+                    item.setAttribute('data-division-id', divisionId);
+                    item.setAttribute('data-division-name', selectedDivisionName);
+                }
+            });
+
+            // Clear the custom search input
+            const customSearchInput = document.getElementById('custom-search-input');
+            if (customSearchInput) {
+                customSearchInput.value = '';
+                filterCustomOptions();
+            }
+            const selectedOptionSpan = document.getElementById('selected-option');
+
+            if (selectedOptionSpan) {
+                selectedOptionSpan.textContent = departmentName;
+                selectedOptionSpan.style.color = '#333333';
+            }
+
+            // Update the systems name h2 element
+            const systemsNameElement = document.querySelector('.systems-name');
+            if (systemsNameElement) {
+                systemsNameElement.textContent = departmentName;
+            }
+
+            // Update original values for reset functionality
+            originalDepartmentName = departmentName;
+            originalDivisionName = selectedDivisionName;
+
+            // Disable the save changes button after successful update
+            checkForChanges();
+
+            // Call the success popup instead of alert
+            showSuccessPopup();
+        })
+
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Error: " + error.message);
+        });
+}
+
+function updateDepartmentLists(newDepartmentName, departmentId, divisionId) {
+    // Update the main system list
+    const mainSystemList = document.getElementById('systemList');
+    const mainListItem = mainSystemList.querySelector(`li[data-department-id="${departmentId}"]`);
+
+    if (mainListItem) {
+        // Update the text content directly
+        mainListItem.textContent = newDepartmentName;
+
+        // Update data attributes
+        mainListItem.setAttribute('data-department-name', newDepartmentName);
+        mainListItem.setAttribute('data-division-id', divisionId);
+    }
+
+    // Update the custom dropdown list
+    const customDropdownList = document.querySelector('.custom-dropdown-list');
+    const customDropdownItems = customDropdownList.querySelectorAll('div');
+
+    customDropdownItems.forEach(item => {
+        if (item.getAttribute('data-division-id') === departmentId.toString()) {
+            // Update the department name in the custom dropdown
+            item.textContent = newDepartmentName;
+            item.setAttribute('data-division-id', divisionId);
+        }
+    });
+}
+
+
+
+document.querySelector('.reset-changes').addEventListener('click', function () {
+    // Reset department name input to original value
+    document.getElementById('department-name').value = originalDepartmentName;
+
+    // Reset division name
+    document.getElementById('selected-division').innerText = originalDivisionName;
+
+    // Update division selector span if it exists
+    const divisionSelectorSpan = document.querySelector('.division-selector span');
+    if (divisionSelectorSpan) {
+        divisionSelectorSpan.innerText = originalDivisionName;
+    }
+
+    // Disable the Save Changes button
+    const saveChangesButton = document.querySelector('.edit-system-button');
+    saveChangesButton.style.backgroundColor = '#6c757d';  // Disabled gray color
+    saveChangesButton.style.cursor = 'not-allowed';
+    saveChangesButton.disabled = true;
+});
+
+function showSuccessPopup() {
+    const overlay = document.getElementById('overlay-edit-dep');
+    const popup = document.getElementById('successPopup');
+
+    // Show overlay and popup
+    overlay.classList.add('show');
+}
+
+function closeSuccessPopup() {
+    const overlay = document.getElementById('overlay-edit-dep');
+    overlay.classList.remove('show');
+}
+
+// Optional: Add a click event to close the popup if needed
+document.getElementById('overlay-edit-dep').addEventListener('click', function (event) {
+    // Only close if clicking directly on the overlay (not the popup)
+    if (event.target === this) {
+        closeSuccessPopup();
+    }
+});
+
+
+document.getElementById('overlay-edit-dep').addEventListener('click', function (event) {
+    // Only close if clicking directly on the overlay (not the popup)
+    if (event.target === this) {
+        this.classList.remove('show');
     }
 });

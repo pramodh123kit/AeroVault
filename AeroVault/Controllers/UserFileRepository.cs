@@ -6,7 +6,7 @@ namespace AeroVault.Controllers
     {
         public IActionResult FileRepository()
         {
-            return View();
+            return View("~/Views/User/UserFileRepository/FileRepository.cshtml");
         }
     }
 }

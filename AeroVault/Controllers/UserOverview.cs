@@ -6,7 +6,7 @@ namespace AeroVault.Controllers
     {
         public IActionResult UserPageOverview()
         {
-            return View();
+            return View("~/Views/User/UserOverview/UserPageOverview.cshtml");
         }
     }
 }

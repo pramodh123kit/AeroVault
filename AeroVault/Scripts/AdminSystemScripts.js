@@ -320,13 +320,20 @@ async function addNewSystem() {
 
     try {
         // Validation 7: Check if system name already exists
-        const systemExistsResponse = await fetch('/Admin/CheckSystemExists', {
+        const systemExistsResponse = await fetch('/Systems/CheckSystemExists', {
+
             method: 'POST',
+
             headers: {
+
                 'Content-Type': 'application/json',
+
                 'X-CSRF-TOKEN': document.querySelector('input[name="__RequestVerificationToken"]').value
+
             },
+
             body: JSON.stringify({ systemName: systemName })
+
         });
 
         const systemExistsResult = await systemExistsResponse.json();
@@ -344,13 +351,20 @@ async function addNewSystem() {
         };
 
         // Send system creation request
-        const createSystemResponse = await fetch('/Admin/CreateSystem', {
+        const createSystemResponse = await fetch('/Systems/CreateSystem', {
+
             method: 'POST',
+
             headers: {
+
                 'Content-Type': 'application/json',
+
                 'X-CSRF-TOKEN': document.querySelector('input[name="__RequestVerificationToken"]').value
+
             },
+
             body: JSON.stringify(systemData)
+
         });
 
         // Check response
@@ -452,7 +466,7 @@ function showSuccessNotification(message) {
 // Optional: Function to refresh systems list
 async function refreshSystemsList() {
     try {
-        const response = await fetch('/Admin/GetAllSystems');
+        const response = await fetch('/Systems/GetAllSystems');
         const systems = await response.json();
 
         // Update the systems list in the UI
@@ -463,7 +477,7 @@ async function refreshSystemsList() {
             const li = document.createElement('li');
             li.innerHTML = `
                 <a href="#">
-                    <img src="./Assets/folder-icon.svg" alt="Folder icon" class="folder-icon" />
+                    <img src="/Content/Assets/folder-icon.svg" alt="Folder icon" class="folder-icon" />
                     ${system.systemName}
                 </a>
             `;
@@ -588,3 +602,123 @@ function selectSystem(dropdown) {
 
 window.addEventListener('load', toggleSystemList);
 window.addEventListener('resize', toggleSystemList);
+
+
+function toggleCustomDropdown(event) {
+    event.stopPropagation();
+    var dropdownContent = document.querySelector('.custom-dropdown-content');
+    var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
+    var selector = document.querySelector('.custom-selector');
+
+    if (dropdownContent.style.display === 'block') {
+        dropdownContent.style.display = 'none';
+        dropdownToggle.classList.remove('open');
+        selector.style.borderBottomLeftRadius = '10px';
+        selector.style.borderBottomRightRadius = '10px';
+        selector.style.borderBottom = '1px solid #6D6D6D';
+    } else {
+        dropdownContent.style.display = 'block';
+        dropdownToggle.classList.add('open');
+        selector.style.borderBottomLeftRadius = '0';
+        selector.style.borderBottomRightRadius = '0';
+        selector.style.borderBottom = 'none';
+        document.getElementById('custom-search-input').value = '';
+        showAllCustomOptions();
+    }
+}
+
+function filterCustomOptions() {
+    var input = document.getElementById('custom-search-input');
+    var filter = input.value.toUpperCase();
+    var divs = document.querySelectorAll('.custom-dropdown-list div');
+
+    divs.forEach(function (div) {
+        var txtValue = div.textContent || div.innerText;
+        div.style.display = txtValue.toUpperCase().indexOf(filter) > -1 ? '' : 'none';
+    });
+}
+
+function selectCustomOption(element) {
+    var selectedOption = element.textContent || element.innerText;
+    document.getElementById('selected-option').textContent = selectedOption;
+    document.querySelector('.custom-dropdown-content').style.display = 'none';
+    document.querySelector('.custom-dropdown-toggle').classList.remove('open');
+
+    var selector = document.querySelector('.custom-selector');
+    selector.style.borderBottomLeftRadius = '10px';
+    selector.style.borderBottomRightRadius = '10px';
+    selector.style.borderBottom = '1px solid #6D6D6D';
+
+    var divs = document.querySelectorAll('.custom-dropdown-list div');
+    divs.forEach(div => div.classList.remove('active'));
+    element.classList.add('active');
+
+    document.querySelector('.systems-name').innerText = selectedOption;
+
+    document.querySelector('.image-container').style.display = 'none';
+    document.querySelector('.system-container').style.display = 'block';
+}
+
+function showAllCustomOptions() {
+    var divs = document.querySelectorAll('.custom-dropdown-list div');
+    divs.forEach(div => div.style.display = "");
+}
+
+window.addEventListener('click', function (event) {
+    var dropdownContent = document.querySelector('.custom-dropdown-content');
+    var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
+    var selector = document.querySelector('.custom-selector');
+
+    if (!dropdownToggle.contains(event.target) && dropdownContent.style.display === 'block') {
+        dropdownContent.style.display = 'none';
+        dropdownToggle.classList.remove('open');
+        selector.style.borderBottomLeftRadius = '10px';
+        selector.style.borderBottomRightRadius = '10px';
+        selector.style.borderBottom = '1px solid #6D6D6D';
+    }
+});
+
+
+function populateCustomDropdown() {
+    var dropdownList = document.querySelector('.custom-dropdown-list');
+
+    dropdownList.innerHTML = '';
+
+    var systemListItems = document.querySelectorAll('#systemList li');
+
+    systemListItems.forEach(function (item) {
+        var systemName = item.innerText.trim();
+
+
+
+        var dropdownItem = document.createElement('div');
+        dropdownItem.textContent = systemName;
+
+        dropdownItem.onclick = function () {
+            selectCustomOption(dropdownItem);
+        };
+
+        dropdownList.appendChild(dropdownItem);
+    });
+
+    if (dropdownList.children.length === 0) {
+        console.log("No items found to populate the dropdown.");
+    }
+}
+
+window.addEventListener('load', function () {
+
+    console.log("Window loaded, populating dropdown...");
+
+    populateCustomDropdown();
+
+});
+
+document.querySelector('.add-system-button').addEventListener('click', function () {
+
+    document.getElementById('addsystem-popup').style.display = 'block';
+
+    loadDivisions(); // Call to load divisions when the popup is opened
+    showAddSystemPopup()
+
+});

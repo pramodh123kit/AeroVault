@@ -10,13 +10,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="/Content/css/site.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="~/css/UserOverview.css" />
+    <link rel="stylesheet" href="/Content/css/UserOverview.css" />
 </head>
 <body>
-    <!-- Banner Section -->
-    @* <img src="~/Assets/banner-new4.svg" alt="Banner" class="user-banner" /> *@
     <div class="banner-content">
         <h1>Welcome to AeroVault</h1>
         <p>Your IT Hub for Systems and File Management</p>
@@ -31,15 +29,10 @@
                 <h2>Rusith Manorathna</h2>
                 <p>Information Technology</p>
             </div>
-
-           
+         
             <!-- Progress Section -->
             <div class="progress-section">
                 <h3>Your Progress</h3>
-
-
-
-                
 
                 <div class="custom-form-group">
                     <label class="custom-label" for="custom-selector">Select System</label>
@@ -50,7 +43,7 @@
                         </div>
                         <div class="custom-dropdown-content">
                             <div class="custom-search-container">
-                                <img src="~/Assets/search-icon.svg" alt="Search Icon" />
+                                <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
                                 <input type="text" id="custom-search-input" placeholder="Search System" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
                             </div>
                             <div class="custom-dropdown-list">
@@ -66,34 +59,19 @@
                     </div>
                 </div>
 
-
-
-
-
-
-
                 <div class="chart-wrapper">
                     <div class="chart-container">
                         <canvas id="progressChart" width="200" height="200"></canvas>
                     </div>
                     <div class="chart-legend">
-
                         <div class="legend-item">
-
                             <span class="legend-color" style="background: #2a5298;"></span>
-
                             <span class="legend-text">Read File Count: <span id="readCount"></span></span>
-
                         </div>
-
                         <div class="legend-item">
-
                             <span class="legend-color" style="background: #f5f5f5;"></span>
-
                             <span class="legend-text">Pending File Count: <span id="pendingCount"></span></span>
-
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -104,18 +82,17 @@
             <!-- Statistics Cards -->
             <div class="Cards">
                 <div class="Card">
-                    <img src="~/Assets/systemiconsvg1.svg" />
+                    <img src="/Content/Assets/systemiconsvg1.svg" />
                     <h1 class="card-count">105</h1>
                 </div>
                 <div class="Card">
-                    <img src="~/Assets/documenticonsvg1.svg" />
+                    <img src="/Content/Assets/documenticonsvg1.svg" />
                     <h1 class="card-count">140</h1>
                 </div>
                 <div class="Card">
-                    <img src="~/Assets/videosiconsvg1.svg" />
+                    <img src="/Content/Assets/videosiconsvg1.svg" />
                     <h1 class="card-count">750</h1>
-                </div>
-               
+                </div>               
             </div>
 
             <!-- Recently Added Files -->
@@ -123,7 +100,7 @@
                 <h3>Recently Added Files</h3>
                 <div class="file-list">
                     <div class="file-item">
-                        <img src="~/Assets/system-doc-icon.svg" alt="File" class="file-icon">
+                        <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
                         <div class="file-info">
                             <span class="file-name">Maintenance Checklist</span>                            
                         </div>
@@ -131,7 +108,7 @@
                         <span class="file-date">Mar 10, 2024</span>
                     </div>
                     <div class="file-item">
-                        <img src="~/Assets/system-doc-icon.svg" alt="File" class="file-icon">
+                        <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
                         <div class="file-info">
                             <span class="file-name">Maintenance Checklist</span>
                         </div>
@@ -139,7 +116,7 @@
                         <span class="file-date">Mar 10, 2024</span>
                     </div>
                     <div class="file-item">
-                        <img src="~/Assets/system-doc-icon.svg" alt="File" class="file-icon">
+                        <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
                         <div class="file-info">
                             <span class="file-name">Maintenance Checklist</span>                            
                         </div>
@@ -147,7 +124,7 @@
                         <span class="file-date">Mar 10, 2024</span>
                     </div>
                      <div class="file-item">
-                        <img src="~/Assets/system-doc-icon.svg" alt="File" class="file-icon">
+                        <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
                         <div class="file-info">
                             <span class="file-name">Maintenance Checklist</span>                            
                         </div>
@@ -155,7 +132,7 @@
                         <span class="file-date">Mar 10, 2024</span>
                     </div>
                      <div class="file-item">
-                        <img src="~/Assets/system-doc-icon.svg" alt="File" class="file-icon">
+                        <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
                         <div class="file-info">
                             <span class="file-name">Maintenance Checklist</span>                            
                         </div>
@@ -163,7 +140,7 @@
                         <span class="file-date">Mar 10, 2024</span>
                     </div>
                      <div class="file-item">
-                        <img src="~/Assets/system-doc-icon.svg" alt="File" class="file-icon">
+                        <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
                         <div class="file-info">
                             <span class="file-name">Maintenance Checklist</span>                            
                         </div>
@@ -171,7 +148,7 @@
                         <span class="file-date">Mar 10, 2024</span>
                     </div>
                     <div class="file-item">
-                        <img src="~/Assets/system-doc-icon.svg" alt="File" class="file-icon">
+                        <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
                         <div class="file-info">
                             <span class="file-name">Maintenance Checklist</span>
                         </div>
@@ -179,7 +156,7 @@
                         <span class="file-date">Mar 10, 2024</span>
                     </div>
                     <div class="file-item">
-                        <img src="~/Assets/system-doc-icon.svg" alt="File" class="file-icon">
+                        <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
                         <div class="file-info">
                             <span class="file-name">Maintenance Checklist</span>
                         </div>
@@ -187,7 +164,7 @@
                         <span class="file-date">Mar 10, 2024</span>
                     </div>
                     <div class="file-item">
-                        <img src="~/Assets/system-doc-icon.svg" alt="File" class="file-icon">
+                        <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
                         <div class="file-info">
                             <span class="file-name">Maintenance Checklist</span>
                         </div>
@@ -201,6 +178,6 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="~/js/userOverview.js"></script>
+    <script src="/Scripts/userOverview.js"></script>
 </body>
 </html>

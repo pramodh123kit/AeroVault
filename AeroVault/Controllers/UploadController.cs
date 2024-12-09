@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AeroVault.Controllers;
+using AeroVault.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace AeroVault.Controllers
+public class UploadController : BaseAdminController
 {
-    public class UploadController : Controller
+    public UploadController(ApplicationDbContext context) : base(context) { }
+
+    public IActionResult Index()
     {
-        public IActionResult Index()
-        {
-            return PartialView("_Upload");
-        }
+        return PartialView("~/Views/Admin/_Upload.cshtml"); // Return partial view
     }
 }
