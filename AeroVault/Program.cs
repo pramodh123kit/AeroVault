@@ -53,7 +53,7 @@ namespace AeroVault
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Login}/{action=loginpage}/{id?}");
+                pattern: "{controller=useroverview}/{action=userpageoverview}/{id?}");
             app.Run();
         }
     }
