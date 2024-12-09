@@ -394,6 +394,12 @@
         width:100%;
         font-size:10px;
     }
+    .progress-section {
+        height:100%;
+    }
+    .chart-wrapper {
+        flex-direction: column;
+    }
 }
 
 .main-container {
