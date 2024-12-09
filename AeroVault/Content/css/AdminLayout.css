@@ -18,6 +18,12 @@ body {
    
 }
 
+.manage-active {
+
+    background-color: #f0f0f0; /* Change this to your desired color */
+
+}
+
 /* Sidebar */
 .sidebar {
     width: 16%;
@@ -47,6 +53,10 @@ body {
         margin-top: 10px;
         padding: 10px 0;
     }
+
+.manage-active {
+    background-color: #244673; /* Change this to your desired color */
+}
 
 .sidebar-icon {
     margin-right: 10px;
@@ -166,7 +176,7 @@ body {
 
 .main-content {
     margin: 10px;
-    flex: 1; 
+    flex: 1;
 }
 
 .copyright-icon {
@@ -249,10 +259,9 @@ body {
     }
 
     .main-content {
-      
         margin: 10px;
-/*        background-color:white;*/
-        flex: 1; 
+        /*        background-color:white;*/
+        flex: 1;
     }
 }
 

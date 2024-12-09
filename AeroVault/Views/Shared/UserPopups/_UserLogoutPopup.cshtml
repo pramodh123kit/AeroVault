@@ -1,121 +1,24 @@
 ﻿@page
-@model AeroVault.Views.Shared.UserPopups._UserLogoutPopupModel
+@model AeroVault.Models.UserLogoutPopupModel
 @{
 }
-
-<style>
-    .modal-notification-edit3 {
-        background-color: white;
-        border-radius: 8px;
-        width: 350px;
-        overflow: hidden;
-        position: fixed;
-        top: 45%;
-        left: 48%;
-        transform: translate(-50%, -50%);
-        z-index: 1001;
-    }
-
-  
-
-    .modal-header3 {
-        background-color: #00436C;
-        height: 5px;
-       
-        color: white;
-        position: relative;
-    }
-
-        .modal-header3 h2 {
-            margin: 0;
-            font-size: 18px;
-            color: white;
-        }
-
-
-    .modal-body3 {
-        padding: 0px;
-        padding-top: 15px;
-        text-align: center;
-        border-bottom: 1px solid #BCBBBB;
-        width:90%;
-        margin:0 auto;
-
-    }
-
-        .modal-body3 h2 {
-            font-weight:bold;
-            font-size:32px;
-        }
-
-
-    .modal-footer3 {
-        display: flex;
-        justify-content: center;
-        padding: 0px;
-        border:none;
-        margin-bottom:15px;
-        margin-right:20px;
-    }
-
-        .modal-footer3 button {
-            background-color: #00436C;
-            border: none;
-            border-radius: 10px;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-            width:120px;
-            padding: 5px 18px;
-        }
-
-            .modal-footer3 button.reset-btn2 {
-                background-color: transparent;
-border:none;
-                color: black;
-            }
-
-            .modal-footer3 button + button {
-                margin-left: 5px;
-            }
-            .save-btn2 {
-            margin:0px;
-            }
-            .reset-btn2 {
-                margin:0px;
-            }
-
-</style>
-
+<link rel="stylesheet" href="/Content/css/UserLogoutStyles.css">
 
 <div class="modal-notification-edit3" id="editfile-popup5" style="display: none;">
-
     <div class="modal-header3" style="height:10px; padding:0;">
-
-    </div>
-    
-    <div class="modal-body3">
-        
-          <h2 class="admin-logout-header">Confirm Logout</h2>        
-
+    </div>    
+    <div class="modal-body3">        
+          <h2 class="admin-logout-header">Confirm Logout</h2>     
     </div>
     <p style="text-align:center; margin-top:15px;">Are you sure you want to log out?</p>
-
     <div class="modal-footer3">
-
         <button class="reset-btn2" id="close-logout">Cancel</button>
-
         <button type="button" class="save-btn2" onclick="logout()">Logout</button>
     </div>
-
 </div>
 
 <script>
-
     function logout() {
-
         window.location.href = '@Url.Action("LoginPage", "Login")';
-
     }
-
 </script>

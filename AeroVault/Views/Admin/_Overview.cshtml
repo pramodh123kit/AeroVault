@@ -1,29 +1,25 @@
-﻿<html>
-<head>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href=~/css/AdminOverview.css />
-</head>
-<body>
+﻿<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/Content/css/AdminOverview.css" />
+
     <div class="admin-main-content">
         <div class="Cards">
             <div class="Card">
-                <img src="~/Assets/overview-dep-card1.png" />
+                <img src="/Content/Assets/overview-dep-card1.png" />
                 <h1 class="card-header">Departments</h1>
                 <h1 class="card-count">105</h1>
             </div>
             <div class="Card">
-                <img src="~/Assets/overview-sys-card1.png" />
+                <img src="/Content/Assets/overview-sys-card1.png" />
                 <h1 class="card-header">Systems</h1>
                 <h1 class="card-count">140</h1>
             </div>
             <div class="Card">
-                <img src="~/Assets/overview-doc-card1.png" />
+                <img src="/Content/Assets/overview-doc-card1.png" />
                 <h1 class="card-header">Documents</h1>
                 <h1 class="card-count">750</h1>
             </div>
             <div class="Card">
-                <img src="~/Assets/overview-vid-card1.png" />
+                <img src="/Content/Assets/overview-vid-card1.png" />
                 <h1 class="card-header">Videos</h1>
                 <h1 class="card-count">750</h1>
             </div> 
@@ -110,13 +106,7 @@
                         <p class="stat-label">Divisions</p>
                     </div>
                 </div>
-
-
-
-
-
             </div>
-
             <div class="outerBarChartsContainer">
                 <div class="header2 barchart-header">
                     <h2>Logged In Staff</h2>
@@ -126,64 +116,10 @@
                     <div class="BarChart">
                         <canvas id="myChart2" class="myChart2" style="display: block; box-sizing: border-box;"></canvas>
                     </div>
-                </div>
-                
+                </div>                
             </div>
         </div>
     </div>
-</body>
-<script src="~/js/AdminOverview.js"></script>
-<script>
-    function toggleCustomDropdown() {
-        var dropdownContent = document.querySelector('.custom-dropdown-content');
-        var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
-        var selector = document.querySelector('.custom-selector');
 
-        if (dropdownContent.style.display === 'block') {
-            dropdownContent.style.display = 'none';
-            dropdownToggle.classList.remove('open');
-
-            selector.style.borderBottomLeftRadius = '10px';
-            selector.style.borderBottomRightRadius = '10px';
-            selector.style.borderBottom = '1px solid #6D6D6D';
-        } else {
-            dropdownContent.style.display = 'block';
-            dropdownToggle.classList.add('open');
-
-            selector.style.borderBottomLeftRadius = '0';
-            selector.style.borderBottomRightRadius = '0';
-            selector.style.borderBottom = 'none';
-            document.getElementById('custom-search-input').value = '';
-            showAllCustomOptions();
-        }
-    }
-
-
-    function selectCustomOption(element) {
-        var selectedOption = element.textContent || element.innerText;
-        document.getElementById('selected-option').textContent = selectedOption;
-        document.querySelector('.custom-dropdown-content').style.display = 'none';
-        document.querySelector('.custom-dropdown-toggle').classList.remove('open');
-
-        var selector = document.querySelector('.custom-selector');
-        selector.style.borderBottomLeftRadius = '10px';
-        selector.style.borderBottomRightRadius = '10px';
-        selector.style.borderBottom = '1px solid #6D6D6D';
-
-        var divs = document.querySelectorAll('.custom-dropdown-list div');
-        divs.forEach(function (div) {
-            div.classList.remove('active');
-        });
-        element.classList.add('active');
-    }
-
-    function showAllCustomOptions() {
-        var divs = document.querySelectorAll('.custom-dropdown-list div');
-        divs.forEach(function (div) {
-            div.style.display = "";
-        });
-    }
-
-
-</script>
-</html>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/Scripts/AdminOverview.js"></script>

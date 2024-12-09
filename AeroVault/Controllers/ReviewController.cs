@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AeroVault.Controllers;
+using AeroVault.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace AeroVault.Controllers
+public class ReviewController : BaseAdminController
 {
-    public class ReviewController : Controller
+    public ReviewController(ApplicationDbContext context) : base(context) { }
+
+    public IActionResult Index()
     {
-        public IActionResult Index()
-        {
-            return PartialView("_Review");
-        }
+        return PartialView("~/Views/Admin/_Review.cshtml"); // Return partial view
     }
 }
