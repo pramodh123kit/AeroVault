@@ -102,26 +102,44 @@ function updateTable() {
   function setupDepartmentPopup() {
     const departmentCells = document.querySelectorAll(".department-cell");
     const popup = document.getElementById("departmentPopup");
+    const departmentList = [
+        "Information Technology",
+        "Human Resources",
+        "Ground Handling",
+        "Finance",
+        "Engineering & Maintenance",
+        "Cargo"
+    ];
 
     departmentCells.forEach((cell) => {
-      if (cell.textContent.trim() === "Multi-Departmental") {
-        cell.addEventListener("click", (e) => {
-          const rect = cell.getBoundingClientRect();
-          popup.style.top = `${rect.bottom + window.scrollY}px`;
-          popup.style.left = `${rect.left + window.scrollX}px`;
-          popup.style.display = "block";
-          e.stopPropagation();
-        });
-      }
+        if (cell.textContent.trim() === "Multiple Departments") {
+            cell.addEventListener("click", (e) => {
+                const rect = cell.getBoundingClientRect();
+                popup.style.top = `${rect.bottom + window.scrollY}px`;
+                popup.style.left = `${rect.left + window.scrollX}px`;
+                popup.style.display = "block";
+
+                // Populate the popup with department names
+                const ul = document.createElement("ul");
+                departmentList.forEach(department => {
+                    const li = document.createElement("li");
+                    li.textContent = department;
+                    ul.appendChild(li);
+                });
+                popup.innerHTML = ""; // Clear previous content
+                popup.appendChild(ul);
+                e.stopPropagation();
+            });
+        }
     });
 
     // Close popup when clicking outside
     document.addEventListener("click", (e) => {
-      if (!popup.contains(e.target)) {
-        popup.style.display = "none";
-      }
+        if (!popup.contains(e.target) && !Array.from(departmentCells).includes(e.target)) {
+            popup.style.display = "none";
+        }
     });
-  }
+}
 
   // Dropdown filters
   function setupFilters() {
