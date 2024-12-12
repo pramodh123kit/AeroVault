@@ -1808,3 +1808,77 @@ input[type="text"] {
     width:100%;
 }
 
+.div-edit.disabled-button {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    background-color: #000;
+}
+
+
+
+
+
+
+
+
+
+#division-updated-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+    #division-updated-popup .div-edit-header {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        padding: 0px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        background-color: #fff;
+        justify-content: end;
+    }
+
+    #division-updated-popup .modal-body {
+        padding: 20px;
+        text-align: center;
+    }
+
+    #division-updated-popup .modal-footer {
+        display: flex;
+        justify-content: center;
+        padding: 15px;
+        border-top: 1px solid #e0e0e0;
+    }
+
+    #division-updated-popup .save-btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        #division-updated-popup .save-btn:hover {
+            background-color: #0056b3;
+        }
+
+@media (max-width: 768px) {
+    #systemList {
+        display: none;
+    }
+
+    .custom-dropdown-list {
+        display: block !important;
+    }
+}
+
