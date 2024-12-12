@@ -1,6 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using AeroVault.Models;
-using Microsoft.Extensions.FileProviders; // Add this line
+using Microsoft.Extensions.FileProviders;
+using AeroVault.Data;
+using AeroVault.Business;
+using AeroVault.Repositories; // Add this for Department Repository
+using AeroVault.Services;    // Add this for Department Service
 
 namespace AeroVault
 {
@@ -16,6 +20,18 @@ namespace AeroVault
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            // Register existing repositories and services
+            builder.Services.AddScoped<DivisionRepository>();
+            builder.Services.AddScoped<DivisionService>();
+
+            // Register Department-related services
+            builder.Services.AddScoped<DepartmentRepository>();
+            builder.Services.AddScoped<DepartmentService>();
+
+            // Register System-related services
+            builder.Services.AddScoped<SystemRepository>();
+            builder.Services.AddScoped<SystemService>();
 
             var app = builder.Build();
 

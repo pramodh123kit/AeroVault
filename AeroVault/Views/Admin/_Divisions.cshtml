@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="/Content/css/AdminSystems.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
-    <div class="admin-main-content">
+    <div class="admin-main-content" style="height:100%;">
         <div class="header-container">
             <h2 class="systems-header" id="systems-header">
                 Select a Division to Manage
@@ -46,24 +46,28 @@
                             </h2>
                             <div class="custom-dropdown">
                                 <div class="custom-dropdown-toggle custom-selector" onclick="toggleCustomDropdown(event)">
-                                    <span id="selected-option" style="color:#333333;">Information Technology</span>
+                                    <span id="selected-option" style="color:#333333;">Select a division</span>
                                     <i class="fas fa-chevron-down"></i>
                                 </div>
                                 <div class="custom-dropdown-content" style="position:sticky">
                                     <div class="custom-search-container">
                                         <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
-                                        <input type="text" id="custom-search-input" placeholder="Search Option" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
+                                        <input type="text" id="custom-search-input" placeholder="Search Division" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
                                     </div>
                                     <div class="custom-dropdown-list">
-                                        <div onclick="selectCustomOption(this)" class="active">Information Technology</div>
-                                        <div onclick="selectCustomOption(this)">Human Resource</div>
-                                        <div onclick="selectCustomOption(this)">Sales & Marketing</div>
-                                        <div onclick="selectCustomOption(this)">Customer Service</div>
-                                        <div onclick="selectCustomOption(this)">Cabin Crew</div>
-                                        <div onclick="selectCustomOption(this)">Flight Operations</div>
-                                        <div onclick="selectCustomOption(this)">Ground Handling</div>
-                                        <div onclick="selectCustomOption(this)">Finance & Accounting</div>
-                                        <div onclick="selectCustomOption(this)">Engineering & Maintenance</div>
+                                        @if (Model == null || !Model.Any())
+                                        {
+                                            <div>No Divisions available.</div>
+                                        }
+                                        else
+                                        {
+                                            @foreach (var division in Model)
+                                            {
+                                                <div onclick="selectCustomOption(this)">
+                                                    @division.DivisionName.Trim()
+                                                </div>
+                                            }
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -87,10 +91,10 @@
                     </div>
                     
                     <div class="button-container">
-                        <button class="reset-changes">
+                        <button class="reset-changes div-name-reset" id="div-name-reset">
                             Reset
                         </button>
-                        <button class="edit-system-button">
+                        <button class="edit-system-button div-edit">
                             Save Changes
                         </button>
                         <button class="delete-system-button delete-dep-button">
@@ -100,6 +104,19 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Division Updated Popup -->
+    <div id="dark-overlay-dep9" class="dark-overlay" style="display: none;"></div>
+    <div id="division-updated-popup" class="modal-notification-edit" style="display: none;">
+    <div class="div-edit-header">
+        <button class="popup-close" id="close-icon-dep9">×</button>
+            @* <img src="/Content/Assets/close-icon.svg" id="close-icon-dep9" style="cursor:pointer; color:black;" /> *@
+        </div>
+        <div class="modal-body">
+            <img src="/Content/Assets/system-added-successfully.svg" alt="Alternate Text">
+        <h2 class="edit-success-dep">Division was Successfully Edited</h2>
         </div>
     </div>
 

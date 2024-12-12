@@ -1,44 +1,99 @@
-﻿using AeroVault.Controllers;
+﻿using AeroVault.Business;
+using AeroVault.Controllers;
 using AeroVault.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Oracle.ManagedDataAccess.Client;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 public class DivisionsController : BaseAdminController
 {
-    public DivisionsController(ApplicationDbContext context) : base(context) { }
+    private readonly DivisionService _divisionService;
+
+    public DivisionsController(ApplicationDbContext context, DivisionService divisionService)
+        : base(context)
+    {
+        _divisionService = divisionService;
+    }
+
+    // GET: /Divisions
     public async Task<IActionResult> IndexAsync()
     {
-        var divisionsList = await GetAllDivisionsAsync();
-        return PartialView("~/Views/Admin/_Divisions.cshtml", divisionsList); 
+        var divisionsList = await _divisionService.GetAllDivisionsAsync();
+        return PartialView("~/Views/Admin/_Divisions.cshtml", divisionsList);
     }
 
-    // Methods to read divisions
-    public async Task<List<DivisionModel>> GetAllDivisionsAsync()
-    {
-        return await _context.Set<DivisionModel>()
-            .FromSqlRaw("SELECT * FROM C##AEROVAULT.DIVISIONS")
-            .ToListAsync();
-    }
-
+    // GET: /Divisions/GetAll
     [HttpGet]
     public async Task<IActionResult> GetAllDivisions()
     {
-        var divisions = await GetAllDivisionsAsync();
+        var divisions = await _divisionService.GetAllDivisionsAsync();
         return Json(divisions);
     }
 
-    // Method to add a division
+    // POST: /Divisions/Add
     [HttpPost]
-    public async Task<IActionResult> AddDivision(string divisionName)
+    public async Task<IActionResult> AddDivision([FromForm] string divisionName)
     {
+        // Add more comprehensive logging
+        Console.WriteLine($"AddDivision method called at: {DateTime.Now}");
+        Console.WriteLine($"Received division name: {divisionName}");
+
         if (string.IsNullOrEmpty(divisionName))
         {
-            return BadRequest("Division name cannot be empty.");
+            Console.WriteLine("Division name is null or empty");
+            return BadRequest(new { Message = "Division name cannot be empty." });
         }
 
-        string sql = "INSERT INTO Divisions (DivisionName) VALUES (:DivisionName)";
-        var parameter = new OracleParameter(":DivisionName", divisionName);
-        await _context.Database.ExecuteSqlRawAsync(sql, parameter);
-        return Ok(new { Message = "Division added successfully!" });
+        try
+        {
+            await _divisionService.AddDivisionAsync(divisionName);
+            Console.WriteLine($"Division '{divisionName}' added successfully");
+            return Ok(new
+            {
+                Message = "Division added successfully!",
+                DivisionName = divisionName
+            });
+        }
+        catch (Exception ex)
+        {
+            // More detailed error logging
+            Console.WriteLine($"Error adding division: {ex.Message}");
+            Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+
+            return StatusCode(500, new
+            {
+                Message = "Internal server error",
+                ErrorDetails = ex.Message
+            });
+        }
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> UpdateDivision(string originalName, string newDivisionName)
+    {
+        if (string.IsNullOrEmpty(originalName) || string.IsNullOrEmpty(newDivisionName))
+        {
+            return BadRequest(new { Message = "Division names cannot be empty." });
+        }
+
+        try
+        {
+            await _divisionService.UpdateDivisionNameAsync(originalName, newDivisionName);
+            return Ok(new
+            {
+                Message = "Division updated successfully",
+                NewDivisionName = newDivisionName
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error updating division: {ex.Message}");
+            return StatusCode(500, new
+            {
+                Message = "Internal server error",
+                ErrorDetails = ex.Message
+            });
+        }
     }
 }

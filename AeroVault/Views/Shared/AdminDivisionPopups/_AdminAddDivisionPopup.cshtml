@@ -1,10 +1,12 @@
-﻿@page
+﻿@page 
 
 @model AeroVault.Views.Shared.AdminDepartmentPopups._AdminAddDepartmentPopupModel
 
 <link rel="stylesheet" href="/Content/css/AdminAddDivisionStyles.css">
 
-<div class="modal-notification-edit" id="adddepartment-popup" style="display: none;">
+<div class="modal-notification-edit" id="adddepartment-popup" style="display: none;"
+     data-add-url="@Url.Action("AddDivision", "Divisions")"
+     data-get-url="@Url.Action("GetAllDivisions", "Divisions")">
     <div class="modal-header">
         <h2>Add Division</h2>
         <img src="/Content/Assets/close-icon.svg" id="close-icon-dep1" style="cursor:pointer;" />
@@ -13,16 +15,26 @@
     <div class="modal-body">
         <p>Enter division name to add this division</p>
         <div class="add-dep-form-popup">
-            <label for="new-department-name">Division Name</label>
-            <input type="text" id="new-department-name" placeholder="New Division Name">
+            <label for="new-department-name" style="display: inline-block;">Division Name</label>
+            <span id="division-name-error" style="color: red; display: none; margin-left: 10px;">Please enter a division name.</span>
+
+            <input type="text"
+                   id="new-department-name"
+                   placeholder="New Division Name"
+                   required
+                   oninvalid="this.setCustomValidity('Please enter a division name')"
+                   oninput="this.setCustomValidity('')">
         </div>
     </div>
 
     <div class="modal-footer">
-        <button id="add-new-division-btn" class="save-btn add-new-dep-popup-btn">Add New Division</button>
+
+        <button id="add-new-division-btn"
+                class="save-btn add-new-dep-popup-btn"
+                >
+            Add New Division
+        </button>
     </div>
 </div>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/Scripts/AdminAddDivisionScripts.js"></script>
-

@@ -36,7 +36,7 @@
         // If no errors, proceed with AJAX request
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("AddDepartment", "Departments")',
+            url: '/Departments/AddDepartment',
             data: {
                 departmentName: departmentName,
                 divisionId: selectedDivisionId
@@ -194,7 +194,7 @@ function resetForm() {
 function loadDepartments() {
     $.ajax({
         type: 'GET',
-        url: '@Url.Action("GetAllDepartments", "Departments")',
+        url: '/Departments/GetAllDepartments',
         success: function (departments) {
             $('#systemList').empty();
             $('.custom-dropdown-list').empty();
