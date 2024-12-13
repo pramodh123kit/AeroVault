@@ -64,5 +64,34 @@ namespace AeroVault.Business
         {
             return await _systemRepository.GetDivisionsForPopupAsync();
         }
+
+        public async Task<IActionResult> UpdateSystemAsync(UpdateSystemRequest request)
+        {
+            try
+            {
+                // Implement system update logic in repository
+                var updatedSystem = await _systemRepository.UpdateSystemAsync(request);
+
+                return new OkObjectResult(new
+                {
+                    systemName = request.SystemName,
+                    description = request.Description,
+                    departments = request.DepartmentIds
+                });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return new ConflictObjectResult(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return new StatusCodeResult(500);
+            }
+        }
+
+        public async Task<List<int>> GetSystemDepartmentIdsAsync(string systemName)
+        {
+            return await _systemRepository.GetSystemDepartmentIdsAsync(systemName);
+        }
     }
 }
