@@ -19,6 +19,9 @@ namespace AeroVault.Controllers
         public async Task<IActionResult> Index()
         {
             var systems = await _systemService.GetAllSystemsAsync();
+            var divisionsWithDepartments = await _systemService.GetDivisionsForPopupAsync();
+
+            ViewBag.DivisionsWithDepartments = divisionsWithDepartments;
             return View("~/Views/Admin/_Systems.cshtml", systems);
         }
 
@@ -72,5 +75,33 @@ namespace AeroVault.Controllers
             public string Description { get; set; }
             public List<int> DepartmentIds { get; set; }
         }
+
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateSystem([FromBody] UpdateSystemRequest request)
+        {
+            var result = await _systemService.UpdateSystemAsync(request);
+            return result;
+        }
+
+        // DTO for updating a system
+        public class UpdateSystemRequest
+        {
+            public string SystemName { get; set; }
+            public string Description { get; set; }
+            public List<int> DepartmentIds { get; set; }
+        }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetSystemDepartments(string systemName)
+        {
+            var departmentIds = await _systemService.GetSystemDepartmentIdsAsync(systemName);
+            return Json(departmentIds);
+        }
+
+
+
     }
 }

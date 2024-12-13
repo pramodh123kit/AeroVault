@@ -39,16 +39,25 @@
                         else
                         {
                             @foreach (var system in systemList)
+
                             {
-                                <li onclick="highlightSystem(this)">
+
+                                <li onclick="highlightSystem(this)"
+                                    data-system-description="@(system.Description ?? string.Empty)">
+
                                     <a href="#">
+
                                         <img src="/Content/Assets/folder-icon.svg" alt="Folder icon" class="folder-icon" />
+
                                         @system.SystemName
+
                                     </a>
+
                                 </li>
+
                             }
                         }
-                    </ul>                   
+                    </ul>  
 
                         <div class="custom-form-group">
                             <h2 class="systems-header systems-header-label">
@@ -64,15 +73,20 @@
                                         <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
                                         <input type="text" id="custom-search-input" placeholder="Search system" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
                                     </div>
-
-                                <div class="custom-dropdown-list">
-                                    <div onclick="selectCustomOption(this)">Information Technology</div>
+                                    <div class="custom-dropdown-list">
+                                        <div onclick="selectCustomOption(this)">Information Technology</div>
 
                                     @foreach (var system in systemList)
+
                                     {
-                                        <div onclick="selectCustomOption(this)">
+
+                                        <div onclick="selectCustomOption(this)"
+                                             data-system-description="@(system.Description ?? string.Empty)">
+
                                             @system.SystemName
+
                                         </div>
+
                                     }
                                 </div>
                                 </div>

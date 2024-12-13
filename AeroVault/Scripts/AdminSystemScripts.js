@@ -16,23 +16,95 @@
     }
 }
 
-function highlightSystem(selectedItem) {
+async function highlightSystem(selectedItem) {
+
+   
+
+    const systemName = selectedItem.querySelector('a').textContent.trim();
+
+    try {
+
+        // Fetch system departments
+
+        const response = await fetch(`/Systems/GetSystemDepartments?systemName=${encodeURIComponent(systemName)}`);
+
+        const departmentIds = await response.json();
+
+
+        // Pre-select departments and set up listeners
+
+        preDepartmentSelection(departmentIds);
+
+
+    } catch (error) {
+
+        console.error('Error fetching system departments:', error);
+
+    }
+
+
+
     const listItems = document.querySelectorAll("#systemList li");
     listItems.forEach(item => {
-        item.style.backgroundColor = ""; 
-        item.style.fontWeight = ""; 
+        item.style.backgroundColor = "";
+        item.style.fontWeight = "";
         item.style.padding = "";
     });
 
     selectedItem.style.backgroundColor = "#BBDCF9";
     selectedItem.style.fontWeight = "bold";
 
-    const systemName = selectedItem.innerText.trim();
+    // Capture system details from data attributes
+    const systemDescription = selectedItem.getAttribute('data-system-description') || '';
+    console.log('Selected System Name:', systemName);
+    console.log('System Description (Attribute):', systemDescription);
+
+    const descriptionElements = [
+        document.getElementById('description'),
+        document.querySelector('#editsystem-popup textarea[id="description"]')
+    ];
+
+    descriptionElements.forEach(element => {
+        if (element) {
+            element.value = '';
+            element.value = systemDescription.trim();
+
+            console.log('Description Element:', element);
+            console.log('Set Description Value:', element.value);
+        } else {
+            console.warn('Description element not found');
+        }
+    });
+
+    // Set system name in edit popup
+    const systemEditNameElements = [
+        document.getElementById('system-edit-name'),
+        document.querySelector('#editsystem-popup input[id="system-edit-name"]')
+    ];
+
+    systemEditNameElements.forEach(element => {
+        if (element) {
+            element.value = systemName;
+        }
+    });
 
     document.querySelector('.systems-name').innerText = systemName;
+    document.querySelector('.image-container').style.display = 'none';
+    document.querySelector('.system-container').style.display = 'block';
 
-    document.querySelector('.image-container').style.display = 'none'; 
-    document.querySelector('.system-container').style.display = 'block'; 
+    // Optional: Fetch description as a fallback
+    if (!systemDescription) {
+        try {
+            const descriptionResponse = await fetchSystemDescription(systemName);
+            descriptionElements.forEach(element => {
+                if (element) {
+                    element.value = descriptionResponse;
+                }
+            });
+        } catch (error) {
+            console.error('Error fetching system description:', error);
+        }
+    }
 }
 
 function filterFiles() {
@@ -183,36 +255,86 @@ document.querySelectorAll('.department').forEach(departmentCheckbox => {
 });
 
 function updateSelectedCount(divisionDiv) {
+
     const selectedCountElement = divisionDiv.querySelector('.selected-count');
+
     const departmentCheckboxes = divisionDiv.querySelectorAll('.department');
+
+    const selectAllCheckbox = divisionDiv.querySelector('.select-all');
+
+
+
     const selectedCount = Array.from(departmentCheckboxes).filter(checkbox => checkbox.checked).length;
+
+
+    // Update selected count display
 
     selectedCountElement.textContent = selectedCount > 0 ? selectedCount : '';
 
-    const selectAllCheckbox = divisionDiv.querySelector('.select-all');
-    selectAllCheckbox.indeterminate = false;
+
+    // Update select all checkbox state
 
     if (selectedCount === departmentCheckboxes.length) {
+
         selectAllCheckbox.checked = true;
+
+        selectAllCheckbox.indeterminate = false;
+
     } else if (selectedCount === 0) {
+
         selectAllCheckbox.checked = false;
+
+        selectAllCheckbox.indeterminate = false;
+
     } else {
+
+        selectAllCheckbox.checked = false;
+
         selectAllCheckbox.indeterminate = true;
+
     }
 
-    // Change the background color of the division header based on selection
+
+    // Change division header background
+
     const header = divisionDiv.querySelector('.division-header');
-    if (selectedCount > 0) {
-        header.style.backgroundColor = '#D5EBFE'; // Set background color
-    } else {
-        header.style.backgroundColor = ''; // Reset to default
-    }
+
+    header.style.backgroundColor = selectedCount > 0 ? '#D5EBFE' : '';
+
 }
 
+// Add event listeners to dynamically created checkboxes
 document.querySelectorAll('.division').forEach(division => {
+    const selectAllCheckbox = division.querySelector('.select-all');
+    const departmentCheckboxes = division.querySelectorAll('.department');
+
+    selectAllCheckbox.addEventListener('change', (event) => {
+        departmentCheckboxes.forEach(checkbox => {
+            checkbox.checked = event.target.checked;
+        });
+        updateSelectedCount(division);
+    });
+
+    departmentCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            updateSelectedCount(division);
+        });
+    });
+
+    // Initial count update
     updateSelectedCount(division);
 });
 
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    document.querySelectorAll('.division').forEach(division => {
+
+        setupDivisionListeners(division);
+
+    });
+
+});
 
 function filterDepartmentsDivisions() {
     const input = document.getElementById('DepartmentsDivisionsSearch').value.toLowerCase();
@@ -469,12 +591,17 @@ async function refreshSystemsList() {
         const response = await fetch('/Systems/GetAllSystems');
         const systems = await response.json();
 
+        console.log('Fetched Systems:', systems);
+
         // Update the systems list in the UI
         const systemList = document.getElementById('systemList');
         systemList.innerHTML = ''; // Clear existing list
 
         systems.forEach(system => {
+            console.log('System Details:', system);
+
             const li = document.createElement('li');
+            li.setAttribute('data-system-description', system.description || '');
             li.innerHTML = `
                 <a href="#">
                     <img src="/Content/Assets/folder-icon.svg" alt="Folder icon" class="folder-icon" />
@@ -638,9 +765,169 @@ function filterCustomOptions() {
     });
 }
 
-function selectCustomOption(element) {
+
+function preDepartmentSelection(departmentIds) {
+
+    // Reset all checkboxes first
+
+    const allDepartmentCheckboxes = document.querySelectorAll('.division .department');
+
+    allDepartmentCheckboxes.forEach(checkbox => {
+
+        checkbox.checked = false;
+
+    });
+
+
+    // Select departments for the system
+
+    departmentIds.forEach(departmentId => {
+
+        const checkbox = document.querySelector(`.department[value="${departmentId}"]`);
+
+        if (checkbox) {
+
+            checkbox.checked = true;
+
+        }
+
+    });
+
+
+    // Ensure checkbox listeners are set up
+
+    document.querySelectorAll('.division').forEach(division => {
+
+        setupDivisionListeners(division);
+
+    });
+
+}
+
+function selectAllHandler(event) {
+
+    const divisionDiv = event.target.closest('.division');
+
+    const departmentCheckboxes = divisionDiv.querySelectorAll('.department');
+
+
+
+    departmentCheckboxes.forEach(checkbox => {
+
+        checkbox.checked = event.target.checked;
+
+    });
+
+
+
+    updateSelectedCount(divisionDiv);
+
+}
+
+
+function departmentHandler() {
+
+    const divisionDiv = this.closest('.division');
+
+    updateSelectedCount(divisionDiv);
+
+}
+
+function setupDivisionListeners(divisionDiv) {
+
+    const selectAllCheckbox = divisionDiv.querySelector('.select-all');
+
+    const departmentCheckboxes = divisionDiv.querySelectorAll('.department');
+
+
+    // Remove existing listeners to prevent multiple bindings
+
+    selectAllCheckbox.removeEventListener('change', selectAllHandler);
+
+    selectAllCheckbox.addEventListener('change', selectAllHandler);
+
+
+    departmentCheckboxes.forEach(checkbox => {
+
+        checkbox.removeEventListener('change', departmentHandler);
+
+        checkbox.addEventListener('change', departmentHandler);
+
+    });
+
+
+    // Initial update of selected count
+
+    updateSelectedCount(divisionDiv);
+
+}
+
+async function selectCustomOption(element) {
+
+
+    const systemName = element.textContent.trim();
+
+
+    try {
+
+        // Fetch system departments
+
+        const response = await fetch(`/Systems/GetSystemDepartments?systemName=${encodeURIComponent(systemName)}`);
+
+        const departmentIds = await response.json();
+
+
+        // Pre-select departments and set up listeners
+
+        preDepartmentSelection(departmentIds);
+
+    } catch (error) {
+
+        console.error('Error fetching system departments:', error);
+
+    }
+
+
+
+
+
+
+
+
+
     var selectedOption = element.textContent || element.innerText;
+    var systemDescription = element.getAttribute('data-system-description') || '';
+
+    console.log('Selected Option:', selectedOption);
+    console.log('System Description (Attribute):', systemDescription);
+
+    // Try multiple description elements
+    const descriptionElements = [
+        document.getElementById('description'),
+        document.querySelector('#editsystem-popup textarea[id="description"]')
+    ];
+
+    descriptionElements.forEach(element => {
+        if (element) {
+            // Clear first, then set value
+            element.value = '';
+            element.value = systemDescription.trim();
+
+            console.log('Description Element:', element);
+            console.log('Set Description Value:', element.value);
+        }
+    });
+
+    // Set system name
     document.getElementById('selected-option').textContent = selectedOption;
+    document.getElementById('system-edit-name').value = selectedOption;
+
+    // Update other UI elements
+    document.querySelector('.systems-name').innerText = selectedOption;
+    document.querySelector('.image-container').style.display = 'none';
+    document.querySelector('.system-container').style.display = 'block';
+
+    // Dropdown UI management
     document.querySelector('.custom-dropdown-content').style.display = 'none';
     document.querySelector('.custom-dropdown-toggle').classList.remove('open');
 
@@ -652,11 +939,6 @@ function selectCustomOption(element) {
     var divs = document.querySelectorAll('.custom-dropdown-list div');
     divs.forEach(div => div.classList.remove('active'));
     element.classList.add('active');
-
-    document.querySelector('.systems-name').innerText = selectedOption;
-
-    document.querySelector('.image-container').style.display = 'none';
-    document.querySelector('.system-container').style.display = 'block';
 }
 
 function showAllCustomOptions() {
@@ -688,11 +970,11 @@ function populateCustomDropdown() {
 
     systemListItems.forEach(function (item) {
         var systemName = item.innerText.trim();
-
-
+        var systemDescription = item.getAttribute('data-system-description') || '';
 
         var dropdownItem = document.createElement('div');
         dropdownItem.textContent = systemName;
+        dropdownItem.setAttribute('data-system-description', systemDescription);
 
         dropdownItem.onclick = function () {
             selectCustomOption(dropdownItem);
@@ -721,4 +1003,134 @@ document.querySelector('.add-system-button').addEventListener('click', function 
     loadDivisions(); // Call to load divisions when the popup is opened
     showAddSystemPopup()
 
+});
+
+
+
+async function editSystem() {
+    // 1. Validate System Name
+    const systemNameInput = document.getElementById('system-edit-name');
+    const systemName = systemNameInput.value.trim();
+
+    // Validation 1: Check if system name is empty
+    if (!systemName) {
+        showValidationError(systemNameInput, 'Please enter a System Name');
+        return;
+    }
+
+    // Validation 2: Check system name length
+    if (systemName.length < 3 || systemName.length > 100) {
+        showValidationError(systemNameInput, 'System name must be between 3 and 100 characters');
+        return;
+    }
+
+    // Validate Description
+    const descriptionInput = document.getElementById('description');
+    const description = descriptionInput.value.trim();
+
+    // Validation 3: Check if description is empty
+    if (!description) {
+        showValidationError(descriptionInput, 'Please enter a Description');
+        return;
+    }
+
+    // Validation 4: Description length check
+    if (description.length < 10 || description.length > 500) {
+        showValidationError(descriptionInput, 'Description must be between 10 and 500 characters');
+        return;
+    }
+
+    // Collect selected departments
+    const selectedDepartments = [];
+    const divisions = document.querySelectorAll('.division');
+
+    divisions.forEach(division => {
+        const departmentCheckboxes = division.querySelectorAll('.department:checked');
+        departmentCheckboxes.forEach(checkbox => {
+            selectedDepartments.push(parseInt(checkbox.value));
+        });
+    });
+
+    try {
+        // Prepare system update data
+        const systemUpdateData = {
+            SystemName: systemName,
+            Description: description,
+            DepartmentIds: selectedDepartments
+        };
+
+        // Send system update request
+        const updateSystemResponse = await fetch('/Systems/UpdateSystem', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('input[name="__RequestVerificationToken"]').value
+            },
+            body: JSON.stringify(systemUpdateData)
+        });
+
+        // Check response
+        if (!updateSystemResponse.ok) {
+            const errorData = await updateSystemResponse.json();
+            throw new Error(errorData.message || 'Failed to update system');
+        }
+
+        // Close the popup
+        document.getElementById('editsystem-popup').style.display = 'none';
+        document.getElementById('dark-overlay1').style.display = 'none';
+
+        // Show success notification
+        showSuccessNotification('System updated successfully!');
+
+        // Refresh systems list
+        await refreshSystemsList();
+
+    } catch (error) {
+        console.error('Error updating system:', error);
+        showCustomAlert(`Error: ${error.message}`);
+    }
+}
+
+// Add event listener to save button
+document.querySelector('.save-btn').addEventListener('click', editSystem);
+
+
+
+async function fetchSystemDescription(systemName) {
+
+    try {
+
+        const response = await fetch(`/Systems/GetSystemDescription?systemName=${encodeURIComponent(systemName)}`);
+
+        const data = await response.json();
+
+        return data.description || '';
+
+    } catch (error) {
+
+        console.error('Error fetching system description:', error);
+
+        return '';
+
+    }
+
+}
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Existing description element listener
+    const descriptionElement = document.getElementById('description');
+    if (descriptionElement) {
+        descriptionElement.addEventListener('input', (event) => {
+            console.log('Description changed:', event.target.value);
+        });
+    } else {
+        console.warn('Description element not found on page load');
+    }
+
+    // Add division listeners
+    document.querySelectorAll('.division').forEach(division => {
+        setupDivisionListeners(division);
+    });
 });
