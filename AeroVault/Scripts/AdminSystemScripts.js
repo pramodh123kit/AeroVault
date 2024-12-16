@@ -35,7 +35,6 @@ async function highlightSystem(selectedItem) {
 
         preDepartmentSelection(departmentIds);
 
-
     } catch (error) {
 
         console.error('Error fetching system departments:', error);
@@ -159,7 +158,7 @@ function systemEditClosePopup() {
 document.querySelector('.edit-system-button').onclick = systemEditopenPopup;
 
 document.getElementById('close-icon1').onclick = systemEditClosePopup;
-document.getElementById('dark-overlay1').onclick = systemEditClosePopup;
+//document.getElementById('dark-overlay1').onclick = systemEditClosePopup;
 
 
 // SYSTEM DELETE POPUP
@@ -767,41 +766,47 @@ function filterCustomOptions() {
 
 
 function preDepartmentSelection(departmentIds) {
+    const allDivisions = document.querySelectorAll('.division');
 
-    // Reset all checkboxes first
+    allDivisions.forEach(division => {
+        const selectAllCheckbox = division.querySelector('.select-all');
+        const departmentCheckboxes = division.querySelectorAll('.department');
+        const contentDiv = division.querySelector('.division-content');
+        const headerIcon = division.querySelector('.division-header i');
 
-    const allDepartmentCheckboxes = document.querySelectorAll('.division .department');
-
-    allDepartmentCheckboxes.forEach(checkbox => {
-
-        checkbox.checked = false;
-
-    });
-
-
-    // Select departments for the system
-
-    departmentIds.forEach(departmentId => {
-
-        const checkbox = document.querySelector(`.department[value="${departmentId}"]`);
-
-        if (checkbox) {
-
-            checkbox.checked = true;
-
+        // Reset first
+        if (selectAllCheckbox) {
+            selectAllCheckbox.checked = false;
+            selectAllCheckbox.indeterminate = false;
         }
 
+        departmentCheckboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+
+        // Select departments for the system
+        departmentIds.forEach(departmentId => {
+            const checkbox = division.querySelector(`.department[value="${departmentId}"]`);
+            if (checkbox) {
+                checkbox.checked = true;
+            }
+        });
+
+        // Manage content visibility and icon
+        const selectedCount = Array.from(departmentCheckboxes).filter(checkbox => checkbox.checked).length;
+        if (selectedCount > 0) {
+            contentDiv.style.display = 'block';
+            headerIcon.classList.remove('fa-chevron-right');
+            headerIcon.classList.add('fa-chevron-down');
+        } else {
+            contentDiv.style.display = 'none';
+            headerIcon.classList.remove('fa-chevron-down');
+            headerIcon.classList.add('fa-chevron-right');
+        }
+
+        // Update selected count
+        updateSelectedCount(division);
     });
-
-
-    // Ensure checkbox listeners are set up
-
-    document.querySelectorAll('.division').forEach(division => {
-
-        setupDivisionListeners(division);
-
-    });
-
 }
 
 function selectAllHandler(event) {
