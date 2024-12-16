@@ -151,51 +151,43 @@ body {
     width: 100%;
     border-collapse: collapse;
     font-family: Arial, sans-serif;
-    text-align: left; /* Default alignment for the entire table */
+    text-align: left; 
 }
 
     #fileTableUnique th {
-        background-color: #D8D8D8; /* Light gray background for headers */
-        color: black; /* Text color */
-        padding: 12px; /* Add spacing */
-        text-align: left; /* Align header text to the left */
-        font-size: 16px; /* Header font size */
+        background-color: #D8D8D8;
+        color: black;
+        padding: 12px; 
+        text-align: left; 
+        font-size: 16px; 
     }
 
     #fileTableUnique td {
-        padding: 12px; /* Add spacing */
-        border-bottom: 1px solid #ddd; /* Light border for row separation */
-        text-align: left; /* Align content to the left */
-        font-size: 14px; /* Content font size */
-        vertical-align: middle; /* Vertically center the content */
+        padding: 12px;
+        border-bottom: 1px solid #7D7D7D; 
+        text-align: left; 
+        font-size: 14px; 
+        vertical-align: middle; 
     }
-
-    #fileTableUnique tr:hover {
-        background-color: #f1f1f1; /* Light gray hover effect for rows */
-    }
-
-    /* Zebra striping for rows */
-    #fileTableUnique tr:nth-child(even) {
-        background-color: #f9f9f9; /* Light gray background for even rows */
-    }
+ 
     #fileTableUnique th, #fileTableUnique td {
         text-align: left !important;
     }
 
 /* Icon styling */
 .icon-unique {
-    margin-right: 10px; /* Space between the icon and text */
-    vertical-align: middle; /* Align icons with text */
+    margin-right: 10px; 
+    vertical-align: middle; 
 }
 
 /* Mobile responsiveness */
 @media screen and (max-width: 768px) {
     #fileTableUnique {
-        font-size: 12px; /* Reduce font size on smaller screens */
+        font-size: 12px; 
     }
 
         #fileTableUnique td, #fileTableUnique th {
-            padding: 8px; /* Reduce padding for smaller screens */
+            padding: 8px;
         }
 }
 

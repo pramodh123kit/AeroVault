@@ -46,7 +46,7 @@
 .admin-main-content h1 {
     font-family: Arial;
     margin-left: 0%;
-    font-size: 22px;
+    font-size: 26px;
 }
 .Card .card-count {
     position: absolute; 
@@ -54,7 +54,7 @@
     color: white; 
     text-align:left;
     margin: 10px; 
-    font-size: 60px; 
+    font-size: 36px; 
     z-index: 1; 
 }
 
@@ -72,8 +72,7 @@
     background-color: white;
     margin-left: -225%;
     margin-top: -10%;
-    width: 180px; 
-
+    width: 180px;
     height: 180px;
 }
 
@@ -147,7 +146,7 @@
 }
 
 .legend-color {
-    width: 30px;
+    width: 11px;
     height: 10px;
     margin-right: 10px;
 }
@@ -221,7 +220,7 @@
 }
 
 .stat-label {
-    font-size: 14px;
+    font-size: 22px;
     color: gray;
     margin: 0;
 }
@@ -299,15 +298,15 @@
 }
 
 .myChart2 {
-    width: 100% !important; 
+  
     margin-top:-40px;
-    height: 260px !important; 
+    
     display: block; 
 }
 
 #myChart {
-    width: 180px !important;
-    height: 180px !important;
+/*    width: 180px !important;
+    height: 180px !important;*/
 }
 
 .barchart-contentInfo {
@@ -321,8 +320,7 @@
         margin-bottom:10px;
     }
         .BarChart {
-        width: 100% !important;
-        height: 100% !important;
+       
         margin-top:50px;
     }
   
@@ -333,7 +331,7 @@
         font-size: 40px;
     }
     .Card .card-header {
-        font-size:17px;
+        font-size:28px;
     }
         .pieChart {
         margin-top: 0px;
@@ -425,10 +423,7 @@
     .header2 {
         margin-bottom: 10px;
     }
-    #myChart {
-        width: 180px !important; 
-        height: 180px !important;
-    }
+   
 
     .Cards {
         grid-template-columns: 1fr;
@@ -451,7 +446,7 @@
     }
 
     .stat-number {
-        font-size: 24px;
+        font-size: 16px;
     }
 
     .stat-label {
@@ -468,122 +463,164 @@
 }
 
 
+@media (max-width: 1030px ) and (min-width: 769px) {
+    Card .card-count {
+        font-size: 24px;
+    }
+    Card .card-header {
+        font-size: 12px;
+    }
 
+}
+@media (max-width: 2200px ) and (min-width: 1700px) {
+    Card .card-count {
+        font-size: 48px;
+    }
+
+    Card .card-header {
+        font-size: 52px;
+    }
+}
+
+@media (max-width: 2500px ) and (min-width: 2200px) {
+    myChart2 {
+       margin-top:-5rem;
+    }
+
+}
+@media (max-width: 2900px ) and (min-width: 2600px) {
+    myChart2 {
+        margin-top: -6rem;
+    }
+}
+@media (max-width: 3120px ) and (min-width: 2900px) {
+    myChart2 {
+        margin-top: -7rem;
+    }
+}
 .custom-form-group {
     margin-bottom: 0px;
-/*    width: 300px;*/
+    /*    width: 300px;*/
 }
 
-.custom-dropdown {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-   
-    
-}
-
-.custom-dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #fff;
-    min-width: 100%;
-    border: 1px solid #6D6D6D;
-    border-top: none;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    z-index: 1;
-}
-
-.custom-dropdown-list {
-    height: 150px;
-    overflow-y: scroll;
-}
-
-
-.custom-dropdown-list {
-    /* For Firefox */
-    scrollbar-width: thin; /* Options: auto, thin */
-    scrollbar-color: #00436C transparent; /* thumb color, track color */
-}
-
-    /* WebKit Browsers (Chrome, Safari) */
-    .custom-dropdown-list::-webkit-scrollbar {
-        width: 8px; /* Width of the scrollbar */
+    .custom-dropdown {
+        position: relative;
+        display: inline-block;
+        width: 100%;
     }
 
-    .custom-dropdown-list::-webkit-scrollbar-thumb {
-        background-color: #00436C; /* Color of the scrollbar thumb */
-        border-radius: 10px; /* Rounded corners */
+    .custom-dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        min-width: 100%;
+        border: 1px solid #6D6D6D;
+        border-top: none;
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+        z-index: 1;
     }
 
-    .custom-dropdown-list::-webkit-scrollbar-track {
-        background: transparent; /* No background for the track */
+    .custom-dropdown-list {
+        height: 150px;
+        overflow-y: scroll;
     }
 
 
+    .custom-dropdown-list {
+        /* For Firefox */
+        scrollbar-width: thin; /* Options: auto, thin */
+        scrollbar-color: #00436C transparent; /* thumb color, track color */
+    }
+
+        /* WebKit Browsers (Chrome, Safari) */
+        .custom-dropdown-list::-webkit-scrollbar {
+            width: 8px; /* Width of the scrollbar */
+        }
+
+        .custom-dropdown-list::-webkit-scrollbar-thumb {
+            background-color: #00436C; /* Color of the scrollbar thumb */
+            border-radius: 10px; /* Rounded corners */
+        }
+
+        .custom-dropdown-list::-webkit-scrollbar-track {
+            background: transparent; /* No background for the track */
+        }
 
 
 
 
-    .custom-dropdown-list div {
-        padding: 8px 16px;
+
+
+        .custom-dropdown-list div {
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+            .custom-dropdown-list div:hover {
+                background-color: #BBDCF9;
+            }
+
+        .custom-dropdown-list .active {
+            font-weight: bold;
+        }
+
+    .custom-dropdown-toggle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        border: 1px solid #6D6D6D;
+        border-bottom: none;
+        border-radius: 4px;
         cursor: pointer;
     }
 
-        .custom-dropdown-list div:hover {
-            background-color: #BBDCF9;
+        .custom-dropdown-toggle i {
+            margin-left: 10px;
+            transition: transform 0.3s;
         }
 
-    .custom-dropdown-list .active {
-        font-weight: bold;
+        .custom-dropdown-toggle.open i {
+            transform: rotate(180deg);
+        }
+
+    .custom-selector {
+        border: 1px solid #6D6D6D;
+        border-radius: 10px;
     }
 
-.custom-dropdown-toggle {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px;
-    border: 1px solid #6D6D6D;
-    border-bottom: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-    .custom-dropdown-toggle i {
-        margin-left: 10px;
-        transition: transform 0.3s;
+    .custom-search-container {
+        display: flex;
+        border-bottom: 1px solid #938C8C;
+        margin: 20px;
+        margin-top: 0px;
     }
 
-    .custom-dropdown-toggle.open i {
-        transform: rotate(180deg);
-    }
+        .custom-search-container img {
+            color: #999;
+            margin-right: 5px;
+            font-size: 20px;
+            margin-left: 5px;
+        }
 
-.custom-selector {
-    border: 1px solid #6D6D6D;
-    border-radius: 10px;
-}
+        .custom-search-container input {
+            border: none;
+            color: #000;
+            font-size: 16px;
+            outline: none;
+            flex: 1;
+            padding: 5px;
+        }
 
-.custom-search-container {
-    display: flex;
-    border-bottom: 1px solid #938C8C;
-    margin: 20px;
-    margin-top: 0px;
-}
-
-    .custom-search-container img {
-        color: #999;
-        margin-right: 5px;
-        font-size: 20px;
-        margin-left: 5px;
-    }
-
-    .custom-search-container input {
+    #custom-search-input {
+        margin-left: 0px;
         border: none;
-        color: #000;
-        font-size: 16px;
-        outline: none;
-        flex: 1;
-        padding: 5px;
+    }
+
+
+    .custom-dropdown-toggle::after {
+        content: none;
     }
 
 #custom-search-input {
@@ -616,3 +653,4 @@
         padding: 0px 10px;
     }
 }
+

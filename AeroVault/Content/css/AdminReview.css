@@ -8,14 +8,14 @@
 
 .reviewcontainer {
     display: flex;
-    height: 79vh;
+    height: 100%;
     width: 100%; /* Ensure it spans full width */
 }
 
 .reviewsidebar-reviewcontainer {
     display: flex;
     flex-direction: column;
-    width: 320px;
+ 
     background-color: #fff;
     position: relative;
 }
@@ -194,8 +194,9 @@
     background-color: #F3F3F3;
     padding-top: 9%;
     text-align: center;
-    border-radius: 5px;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+   margin: 4px;
+   margin-bottom:4px;
 }
 
     .staffView-container img {
@@ -302,9 +303,9 @@
 }
 
 .staffViewSidebar {
-    width: 30%;
+    width: 25%;
     height: 100%; /* Ensure sidebar takes full height */
-    padding: 20px;
+    padding: 6px;
     overflow-y: auto; /* Allow scrolling within the sidebar */
     border-right: 1px solid #585656;
 }
@@ -357,6 +358,7 @@
 
     .menu-item i {
         margin-right: 10px;
+        margin-left: 14px;
         color: #135176;
     }
 

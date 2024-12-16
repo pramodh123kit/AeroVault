@@ -106,7 +106,7 @@
 	  <Content Include="Content\css\AdminUpload.css" />
 	  <Content Include="Content\css\Adminuploadpopup.css" />
 	  <Content Include="Content\css\FileRepository.css" />
-	  <Content Include="Content\css\HumanR.css" />
+	  <Content Include="Content\css\ReviewTable.css" />
 	  <Content Include="Content\css\Login.css" />
 	  <Content Include="Content\css\site.css" />
 	  <Content Include="Content\css\UserOverview.css" />
