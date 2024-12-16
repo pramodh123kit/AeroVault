@@ -799,7 +799,7 @@ function showDepartmentDeletedSuccessPopup(departmentName) {
             <h2 style="margin: 0; text-align: center;">Department Deleted</h2>
         </div>
         <div style="text-align: center; padding: 20px;">
-            <img src="/Assets/system-added-successfully.svg" alt="Success" style="max-width: 100px; margin-bottom: 15px;">
+            <img src="Content/Assets/system-added-successfully.svg" alt="Success" style="max-width: 100px; margin-bottom: 15px;">
             <p>Department "${departmentName}" has been successfully deleted.</p>
         </div>
         <div class="modal-footer div-dep-delete-popup" style="padding: 20px; margin-bottom:0px; justify-content: center; padding-top:0px;">
@@ -960,7 +960,8 @@ function saveChanges() {
     fetch('/Departments/UpdateDepartment', {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'  // Explicitly ask for JSON response
         },
         body: JSON.stringify({
             departmentId: parseInt(departmentId),
@@ -968,18 +969,18 @@ function saveChanges() {
             divisionId: parseInt(divisionId)
         })
     })
-
         .then(response => {
+            // Check if the response is OK
             if (!response.ok) {
-                return response.text().then(errorText => {
-                    throw new Error(errorText);
+                // Try to parse error response as JSON
+                return response.json().then(errorData => {
+                    throw new Error(errorData.message || 'An error occurred');
                 });
             }
+            // If response is OK, parse it as JSON
             return response.json();
         })
-
         .then(data => {
-
             // Update the data attributes of the selected department
             selectedDepartment.setAttribute('data-department-name', departmentName);
             selectedDepartment.setAttribute('data-division-id', divisionId);
@@ -1031,9 +1032,9 @@ function saveChanges() {
             // Call the success popup instead of alert
             showSuccessPopup();
         })
-
         .catch(error => {
             console.error('Error:', error);
+            // Show a more user-friendly error message
             alert("Error: " + error.message);
         });
 }

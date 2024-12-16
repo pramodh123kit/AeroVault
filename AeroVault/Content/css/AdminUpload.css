@@ -1,7 +1,7 @@
 ﻿/* Main Container */
 .admin-main-content {
     background-color: #ffffff;
-    min-height: 100vh;
+    /* min-height: 100vh; */
     width: 100%;
     border-radius: 10px;
     padding: 20px;
@@ -68,7 +68,7 @@
 .dropdown-group {
     display: flex;
     gap: 15px;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
 }
 
 .dropdown-wrapper {
@@ -94,7 +94,7 @@
 /* Search Container */
 .file-search-container {
     position: relative;
-    min-width: 250px;
+    
 }
 
 .search-icon {
@@ -125,7 +125,7 @@
 .scrollable-tbody {
     overflow-y: auto;
     overflow-x: auto;
-    max-height: calc(100vh - 300px);
+    max-height: calc(100vh - 340px);
 }
 
 .file-table {
@@ -147,7 +147,7 @@
 }
 
 .file-table td {
-    padding: 8px 16px;
+    padding: 6px 12px;
     border-bottom: 1px solid #ddd;
     color: #000000;
 }
@@ -170,12 +170,14 @@
     text-decoration: underline;
 }
 
+
+
 /* Pagination */
 .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 15px;
+    margin-top: 20px;
     gap: 10px;
     background: white;
    
@@ -218,6 +220,7 @@
     border-radius: 5px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     z-index: 1000;
+    padding: 10px;
 }
 
 .department-popup ul {

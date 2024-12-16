@@ -95,10 +95,10 @@
                         },
                         tooltip: {
                             bodyFont: {
-                                size: 16 // Change this to your desired font size
+                                size: 14 // Change this to your desired font size
                             },
                             titleFont: {
-                                size: 19 // Change this to your desired title font size
+                                size: 15 // Change this to your desired title font size
                             }
                         }
                     }
@@ -121,10 +121,10 @@
                         },
                         tooltip: {
                             bodyFont: {
-                                size: 16 // Change this to your desired font size
+                                size: 14 // Change this to your desired font size
                             },
                             titleFont: {
-                                size: 16 // Change this to your desired title font size
+                                size: 15 // Change this to your desired title font size
                             }
                         }
                     }

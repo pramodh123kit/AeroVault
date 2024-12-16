@@ -1,517 +1,518 @@
 ﻿<link rel="stylesheet" href=/Content/css/AdminUpload.css />
 
-    <div class="admin-main-content">
-        <!-- Header Section -->
-        <div class="header-container">
-            <h2>Upload History</h2>
-            
-            <button class="upload-btn">
-                <img src="/Content/Assets/Uploadbtn1.svg" class="upload-btn-icn" alt="upload Icon">
-                Upload Files
-            </button>
-        </div>
+<div class="admin-main-content">
+    <!-- Header Section -->
+    <div class="header-container">
+        <h2>Upload History</h2>
 
-        <!-- Filters Section -->
-        <div class="filters-section">
-            <div class="filters-container">
-                <div class="dropdown-group">
-                    <div class="dropdown-wrapper">
-                        <label>Department</label>
-                        <select class="filter-dropdown" name="department">
-                            <option value="all">All</option>
-                            <option value="it">Information Technology</option>
-                            <option value="hr">Human Resources</option>
-                            <option value="gh">Ground Handling</option>
-                            <option value="finance">Finance</option>
-                            <option value="em">Engineering & Maintenance</option>
-                            <option value="cargo">Cargo</option>
-                        </select>
-                    </div>
+        <button class="upload-btn">
+            <img src="/Content/Assets/Uploadbtn1.svg" class="upload-btn-icn" alt="upload Icon">
+            Upload Files
+        </button>
+    </div>
 
-                    <div class="dropdown-wrapper">
-                        <label>System</label>
-                        <select class="filter-dropdown" name="system">
-                            <option value="all">All</option>
-                            <option value="amos">AMOS</option>
-                            <option value="easypass">EasyPass</option>
-                        </select>
-                    </div>
-
-                    <div class="dropdown-wrapper">
-                        <label>Category</label>
-                        <select class="filter-dropdown" name="category">
-                            <option value="all">All</option>
-                            <option value="technical">Technical</option>
-                            <option value="training">Training</option>
-                        </select>
-                    </div>
+    <!-- Filters Section -->
+    <div class="filters-section">
+        <div class="filters-container">
+            <div class="dropdown-group">
+                <div class="dropdown-wrapper">
+                    <label>Department</label>
+                    <select class="filter-dropdown" name="department">
+                        <option value="all">All</option>
+                        <option value="it">Information Technology</option>
+                        <option value="hr">Human Resources</option>
+                        <option value="gh">Ground Handling</option>
+                        <option value="finance">Finance</option>
+                        <option value="em">Engineering & Maintenance</option>
+                        <option value="cargo">Cargo</option>
+                    </select>
                 </div>
 
+                <div class="dropdown-wrapper">
+                    <label>System</label>
+                    <select class="filter-dropdown" name="system">
+                        <option value="all">All</option>
+                        <option value="amos">AMOS</option>
+                        <option value="easypass">EasyPass</option>
+                    </select>
+                </div>
+
+                <div class="dropdown-wrapper">
+                    <label>Category</label>
+                    <select class="filter-dropdown" name="category">
+                        <option value="all">All</option>
+                        <option value="technical">Technical</option>
+                        <option value="training">Training</option>
+                    </select>
+                </div>
                 <div class="file-search-container">
                     <img src="/Content/Assets/search-icon.svg" class="search-icon" alt="Search Icon" />
                     <input id="SystemfileSearch" onkeyup="filterFiles()" placeholder="Search" type="text"
                         class="file-search-input" />
                 </div>
             </div>
-        </div>
-
-        <!-- Table Section -->
-        <div class="table-container">
-            <div class="scrollable-tbody">
-                <table class="file-table">
-                    <thead>
-                        <tr>
-                            <th>File Name</th>
-                            <th>Category</th>
-                            <th>System Name</th>
-                            <th>Department Name</th>
-                            <th>Added Date</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
-                                Maintenance Procedure Overview
-                            </td>
-                            <td class="category-cell">Technical</td>
-                            <td class="system-cell">AMOS</td>
-                            <td class="department-cell">Engineering & Maintenance</td>
-                            <td>Mar 04,2014</td>
-                            <td>
-                                <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
-                            </td>
-                        </tr>
-
-                        
 
 
-                        <!-- More rows following the same pattern -->
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Pagination -->
-            <div class="pagination">
-                <button class="pagination-btn prev">Previous</button>
-                <div class="page-numbers"></div>
-                <button class="pagination-btn next">Next</button>
-            </div>
         </div>
     </div>
 
-    <!-- Department Popup -->
-    <div class="department-popup" id="departmentPopup">
-        <div class="popup-content">
-            <ul>
-                <li>Information Technology</li>
-                <li>Human Resources</li>
-                <li>Ground Handling</li>
-                <li>Finance</li>
-                <li>Engineering & Maintenance</li>
-                <li>Cargo</li>
-            </ul>
+    <!-- Table Section -->
+    <div class="table-container">
+        <div class="scrollable-tbody">
+            <table class="file-table">
+                <thead>
+                    <tr>
+                        <th>File Name</th>
+                        <th>Category</th>
+                        <th>System Name</th>
+                        <th>Department Name</th>
+                        <th>Added Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" />
+                            Maintenance Procedure Overview
+                        </td>
+                        <td class="category-cell">Technical</td>
+                        <td class="system-cell">AMOS</td>
+                        <td class="department-cell">Engineering & Maintenance</td>
+                        <td>Mar 04,2014</td>
+                        <td>
+                            <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" />
+                        </td>
+                    </tr>
+
+
+
+
+                    <!-- More rows following the same pattern -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button class="pagination-btn prev">Previous</button>
+            <div class="page-numbers"></div>
+            <button class="pagination-btn next">Next</button>
         </div>
     </div>
+</div>
+
+<!-- Department Popup -->
+<div class="department-popup" id="departmentPopup">
+    <div class="popup-content">
+        <ul>
+            <li>Information Technology</li>
+            <li>Human Resources</li>
+            <li>Ground Handling</li>
+            <li>Finance</li>
+            <li>Engineering & Maintenance</li>
+            <li>Cargo</li>
+        </ul>
+    </div>
+</div>
 
 
 
 
-    <div id="dark-overlay8" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminUploadPopups/_AdminUploadPopup")
+<div id="dark-overlay8" class="dark-overlay" style="display: none;"></div>
+@Html.Partial("AdminUploadPopups/_AdminUploadPopup")
 
-    <script src="/Scripts/AdminUpload.js"></script>
-    <!-- Example button to open the popup -->
+<script src="/Scripts/AdminUpload.js"></script>
+<!-- Example button to open the popup -->

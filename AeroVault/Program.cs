@@ -1,6 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using AeroVault.Models;
-using Microsoft.Extensions.FileProviders; // Add this line
+using Microsoft.Extensions.FileProviders;
+using AeroVault.Data;
+using AeroVault.Business;
+using AeroVault.Repositories; 
+using AeroVault.Services;  
 
 namespace AeroVault
 {
@@ -14,8 +18,16 @@ namespace AeroVault
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<DivisionRepository>();
+            builder.Services.AddScoped<DivisionService>();
+
+            builder.Services.AddScoped<DepartmentRepository>();
+            builder.Services.AddScoped<DepartmentService>();
+
+            builder.Services.AddScoped<SystemRepository>();
+            builder.Services.AddScoped<SystemService>();
 
             var app = builder.Build();
 
@@ -53,7 +65,7 @@ namespace AeroVault
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Admin}/{action=Index}/{id?}");
+                pattern: "{controller=admin}/{action=index}/{id?}");
             app.Run();
         }
     }
