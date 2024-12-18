@@ -165,11 +165,12 @@
 
 /* Department Cell Styles */
 .department-cell {
-    cursor: pointer;
     color: #318d56;
-    text-decoration: underline;
 }
-
+#Multi_Dp {
+    cursor:pointer;
+    text-decoration:underline;
+}
 
 
 /* Pagination */
@@ -207,7 +208,7 @@
 }
 
 .page-number.active {
-    background: #318d56;
+    background: #00436C;
     color: white;
 }
 
@@ -274,4 +275,32 @@
     .scrollable-tbody {
         max-height: calc(100vh - 450px);
     }
+}
+
+.tooltip {
+    display: none; /* Hidden by default */
+    position: absolute; /* Position it absolutely */
+    background-color: #000; /* Background color */
+    border: 1px solid #ddd; /* Border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Padding */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Shadow */
+    z-index: 1000; /* Ensure it appears above other elements */
+    color:#fff;
+}
+
+    .tooltip::after {
+        content: '';
+        position: absolute;
+        bottom: 100%; /* Position above the tooltip */
+        left: 50%; /* Center horizontally */
+        margin-left: -5px; /* Adjust to center the arrow */
+        border-width: 5px; /* Size of the arrow */
+        border-style: solid;
+        border-color: transparent transparent #000 transparent; /* Arrow color */
+    }
+
+.Multi_Dp {
+    text-decoration:underline;
+    cursor:pointer;
 }

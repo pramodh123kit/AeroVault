@@ -181,21 +181,44 @@ function updateTable() {
   }
 
   // Initialize everything
-  document.addEventListener("DOMContentLoaded", () => {
-    setupPagination();
-    setupDepartmentPopup();
-    setupFilters();
-    updateTable();
+    document.addEventListener("DOMContentLoaded", () => {
+        updateTable(); // Ensure the table is updated first
+        setupPagination(); // Then set up pagination
+        setupDepartmentPopup();
+        setupFilters();
 
-    // Add view functionality to eye icons
-    document.querySelectorAll(".view-icon").forEach((icon) => {
-      icon.addEventListener("click", () => {
-        // Implement view functionality here
-        console.log(
-          "Viewing file:",
-          icon.closest("tr").querySelector("td:first-child").textContent
-        );
-      });
+        // Add view functionality to eye icons
+        document.querySelectorAll(".view-icon").forEach((icon) => {
+            icon.addEventListener("click", () => {
+                // Implement view functionality here
+                console.log(
+                    "Viewing file:",
+                    icon.closest("tr").querySelector("td:first-child").textContent
+                );
+            });
+        });
     });
-  });
 })();
+
+
+document.querySelectorAll(".Multi_Dp").forEach(function (element) {
+    element.addEventListener("click", function (e) {
+        const tooltip = document.querySelector(".tooltip");
+        const tooltipContent = this.getAttribute("data-tooltip"); // Get the tooltip content from the data attribute
+        tooltip.innerHTML = tooltipContent; // Set the tooltip content
+        const rect = this.getBoundingClientRect(); // Get the position of the clicked element
+
+        // Set the position of the tooltip
+        tooltip.style.top = `${rect.bottom + window.scrollY}px`; // Position below the element
+        tooltip.style.left = `${rect.left + window.scrollX}px`; // Align with the left of the element
+        tooltip.style.display = "block"; // Show the tooltip
+
+        e.stopPropagation(); // Prevent the click event from bubbling up
+    });
+});
+
+// Hide the tooltip when clicking outside
+document.addEventListener("click", function () {
+    const tooltip = document.querySelector(".tooltip");
+    tooltip.style.display = "none"; // Hide the tooltip
+});
