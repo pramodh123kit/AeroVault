@@ -1,13 +1,8 @@
 ﻿@page
-
 @model AeroVault.Views.Shared.AdminSystemPopups._AdminEditSystemPopupModel
 
 @{
-
-    // You might want to pass divisions data to the view model
-
     var divisionsWithDepartments = ViewBag.DivisionsWithDepartments ?? new List<object>();
-
 }
 
 <div id="editsystem-popup" class="addsystem-popup" style="display: none;">
@@ -39,62 +34,39 @@
                 </div>
             </div>
             <div class="division-container" id="division-container">
-
                 @foreach (dynamic division in divisionsWithDepartments)
-
                 {
-
                     <div class="division">
-
                         <div class="division-header">
-
                             <div>
-
                                 <i class="fas fa-chevron-right division-name"></i>
-
                                 <span class="division-name">@division.divisionName</span>
-
                             </div>
-
                             <span class="selected-count"></span>
-
                         </div>
-
-                        <div class="division-content">
-
+                        <div class="division-content" style="display: none;">
                             <div class="checkbox-group">
-
                                 <label><input type="checkbox" class="select-all"> Select All</label>
-
                                 @foreach (dynamic department in division.departments)
-
                                 {
-
                                     <label>
-
                                         <input type="checkbox"
                                                class="department"
                                                value="@department.departmentID">
-
                                         @department.departmentName
-
                                     </label>
-
                                 }
-
                             </div>
-
                         </div>
-
                     </div>
-
                 }
-
             </div>
         </div>
         <div class="footer">
-            <button class="reset-btn">Reset</button>
-            <button class="save-btn">Save Changes</button>
+            <button class="reset-btn" id="reset-btn">Reset</button>
+            <button class="save-btn" id="save-btn" disabled>Save Changes</button>
         </div>
     </div>
 </div>
+
+<script src="/Scripts/AdminEditSystemScripts.js"></script>

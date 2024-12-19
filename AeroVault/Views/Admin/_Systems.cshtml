@@ -76,19 +76,19 @@
                                     <div class="custom-dropdown-list">
                                         <div onclick="selectCustomOption(this)">Information Technology</div>
 
-                                        @foreach (var system in systemList)
+                                            @foreach (var system in systemList)
 
-                                        {
+                                            {
 
-                                            <div onclick="selectCustomOption(this)"
-                                                 data-system-description="@(system.Description ?? string.Empty)">
+                                                <div onclick="selectCustomOption(this)"
+                                                     data-system-description="@(system.Description ?? string.Empty)">
 
-                                                @system.SystemName
+                                                    @system.SystemName
 
-                                            </div>
+                                                </div>
 
-                                        }
-                                    </div>
+                                            }
+                                        </div>
                                 </div>
                             </div>
                         </div>

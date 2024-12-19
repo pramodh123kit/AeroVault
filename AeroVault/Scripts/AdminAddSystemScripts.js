@@ -1,58 +1,62 @@
-﻿function resetPopup() {
+﻿function resetPopup(popupType) {
     const systemNameInput = document.getElementById('system-name');
     const descriptionInput = document.getElementById('description');
     const searchInput = document.getElementById('DepartmentsDivisionsSearch');
 
     // Reset input fields
-    systemNameInput.value = '';
-    descriptionInput.value = '';
-    searchInput.value = '';
+    if (popupType === 'add') {
+        systemNameInput.value = '';
+        descriptionInput.value = '';
+        searchInput.value = '';
+    }
 
     // Remove any existing validation errors
     const existingErrors = document.querySelectorAll('.validation-error');
     existingErrors.forEach(error => error.remove());
 
-    // Reset division checkboxes
-    const divisions = document.querySelectorAll('.division');
+    // Reset division checkboxes only if it's the add popup
+    if (popupType === 'add') {
+        const divisions = document.querySelectorAll('.division');
 
-    divisions.forEach(division => {
-        const selectAllCheckbox = division.querySelector('.select-all');
-        const departmentCheckboxes = division.querySelectorAll('.department');
-        const divisionHeader = division.querySelector('.division-header');
+        divisions.forEach(division => {
+            const selectAllCheckbox = division.querySelector('.select-all');
+            const departmentCheckboxes = division.querySelectorAll('.department');
+            const divisionHeader = division.querySelector('.division-header');
 
-        if (divisionHeader) {
-            divisionHeader.style.backgroundColor = '#E9E9EF';
-        }
+            if (divisionHeader) {
+                divisionHeader.style.backgroundColor = '#E9E9EF';
+            }
 
-        // Explicitly uncheck the "Select All" checkbox
-        if (selectAllCheckbox) {
-            selectAllCheckbox.checked = false;
-            selectAllCheckbox.indeterminate = false;
-        }
+            // Explicitly uncheck the "Select All" checkbox
+            if (selectAllCheckbox) {
+                selectAllCheckbox.checked = false;
+                selectAllCheckbox.indeterminate = false;
+            }
 
-        // Uncheck all department checkboxes
-        departmentCheckboxes.forEach(checkbox => {
-            checkbox.checked = false;
+            // Uncheck all department checkboxes
+            departmentCheckboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+
+            // Reset selected count
+            const selectedCountElement = division.querySelector('.selected-count');
+            if (selectedCountElement) selectedCountElement.textContent = '';
+
+            // Reset division content visibility
+            const contentDiv = division.querySelector('.division-content');
+            if (contentDiv) contentDiv.style.display = 'none';
+
+            // Reset division header icon
+            const icon = division.querySelector('.division-header i');
+            if (icon) {
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-right');
+            }
         });
 
-        // Reset selected count
-        const selectedCountElement = division.querySelector('.selected-count');
-        if (selectedCountElement) selectedCountElement.textContent = '';
-
-        // Reset division content visibility
-        const contentDiv = division.querySelector('.division-content');
-        if (contentDiv) contentDiv.style.display = 'none';
-
-        // Reset division header icon
-        const icon = division.querySelector('.division-header i');
-        if (icon) {
-            icon.classList.remove('fa-chevron-down');
-            icon.classList.add('fa-chevron-right');
-        }
-    });
-
-    // Refilter to show all divisions
-    filterDepartmentsDivisions();
+        // Refilter to show all divisions
+        filterDepartmentsDivisions();
+    }
 }
 
 // Setup popup event listeners
@@ -75,7 +79,7 @@ function setupPopupEventListeners() {
 
 // Popup close handler
 function popupCloseHandler() {
-    resetPopup();
+    resetPopup('add'); // Specify that we are resetting the add popup
     const popup = document.getElementById('addsystem-popup');
     const darkOverlay = document.getElementById('dark-overlay');
 
@@ -86,7 +90,7 @@ function popupCloseHandler() {
 // Modified addNewSystem function
 async function addNewSystem() {
     try {
-        resetPopup();
+        resetPopup('add'); // Specify that we are resetting the add popup
 
         const popup = document.getElementById('addsystem-popup');
         const darkOverlay = document.getElementById('dark-overlay');
