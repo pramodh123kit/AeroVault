@@ -1360,3 +1360,4 @@ function toggleDivisionContent(header) {
         icon.classList.replace('fa-chevron-right', 'fa-chevron-down'); // Change icon
     }
 }
+
