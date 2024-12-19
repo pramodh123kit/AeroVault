@@ -98,6 +98,14 @@ window.addEventListener('click', function (event) {
 });
 
 function depDeleteopenPopup() {
+    if (!currentSelectedDivisionId) {
+        alert('Please select a division to delete');
+        return;
+    }
+
+    // Update the popup to show the current division name
+    document.querySelector('#deletedepartment-popup h2').textContent = `Delete ${currentSelectedDivisionName} Division?`;
+
     document.getElementById('dark-overlay-dep2').style.display = 'block';
     document.getElementById('deletedepartment-popup').style.display = 'block';
 }
@@ -173,6 +181,14 @@ document.getElementById('dark-overlay-dep3').onclick = closeNotificationPopup;
 
 
 function highlightSystem(selectedItem) {
+    const systemName = selectedItem.textContent.trim();
+    currentSelectedDivisionName = systemName;
+
+    // You'll need to modify this to also set the division ID
+    // This might require adding a data attribute to your list items
+    const divisionId = selectedItem.getAttribute('data-division-id');
+    currentSelectedDivisionId = divisionId;
+
     const listItems = document.querySelectorAll("#systemList li");
     listItems.forEach(item => {
         item.style.backgroundColor = "";
@@ -184,7 +200,7 @@ function highlightSystem(selectedItem) {
     selectedItem.style.fontWeight = "bold";
 
     // Extract the division name from the selected item
-    const systemName = selectedItem.textContent.trim();
+    //const systemName = selectedItem.textContent.trim();
 
     // Set the system name in the header
     document.querySelector('.systems-name').innerText = systemName;
@@ -400,4 +416,64 @@ document.querySelector('.reset-changes').addEventListener('click', function () {
 // Attach the save changes function to the button
 document.querySelector('.div-edit').addEventListener('click', saveChanges);
 document.addEventListener('DOMContentLoaded', setupDivisionUpdatedPopupListeners);
+
+
+var currentSelectedDivisionId = null;
+var currentSelectedDivisionName = null;
+
+
+
+function confirmDeleteDivision() {
+    if (!currentSelectedDivisionId) {
+        alert('Please select a division to delete');
+        return;
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '/Divisions/SoftDeleteDivision',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            DivisionId: parseInt(currentSelectedDivisionId)
+        }),
+        success: function (response) {
+            // Remove the division from the list
+            const listItems = document.querySelectorAll('#systemList li');
+            listItems.forEach(item => {
+                if (item.textContent.trim() === currentSelectedDivisionName) {
+                    item.remove();
+                }
+            });
+
+            // Remove from custom dropdown
+            const dropdownItems = document.querySelectorAll('.custom-dropdown-list div');
+            dropdownItems.forEach(item => {
+                if (item.textContent.trim() === currentSelectedDivisionName) {
+                    item.remove();
+                }
+            });
+
+            // Close the delete popup
+            depDeleteClosePopup();
+
+            // Optionally show a success message
+            alert('Division deleted successfully');
+
+            // Reset the selected division
+            currentSelectedDivisionId = null;
+            currentSelectedDivisionName = null;
+
+            // Hide the system container and show the image container
+            document.querySelector('.system-container').style.display = 'none';
+            document.querySelector('.image-container').style.display = 'block';
+        },
+        error: function (xhr, status, error) {
+            console.error('Error deleting division:', error);
+            alert('Failed to delete division');
+        }
+    });
+}
+
+// Modify your existing delete button event listener
+document.querySelector('.delete-btn').addEventListener('click', confirmDeleteDivision);
 
