@@ -150,18 +150,18 @@ async function highlightSystem(selectedItem) {
 
 function filterFiles() {
     const input = document.getElementById('SystemfileSearch');
-    const filter = input.value.toLowerCase(); 
+    const filter = input.value.toLowerCase();
     const table = document.querySelector('.file-table tbody');
-    const rows = table.getElementsByTagName('tr'); 
+    const rows = table.getElementsByTagName('tr');
 
     for (let i = 0; i < rows.length; i++) {
-        const td = rows[i].getElementsByTagName('td')[0]; 
+        const td = rows[i].getElementsByTagName('td')[0];
         if (td) {
-            const txtValue = td.textContent || td.innerText; 
+            const txtValue = td.textContent || td.innerText;
             if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                rows[i].style.display = ""; 
+                rows[i].style.display = "";
             } else {
-                rows[i].style.display = "none"; 
+                rows[i].style.display = "none";
             }
         }
     }
@@ -176,7 +176,7 @@ function openPopup() {
 }
 
 function closePopup() {
-    document.getElementById('dark-overlay').style.display = 'none'; 
+    document.getElementById('dark-overlay').style.display = 'none';
     document.getElementById('addsystem-popup').style.display = 'none';
 }
 
@@ -188,13 +188,13 @@ document.getElementById('close-icon').onclick = closePopup;
 
 // SYSTEM EDIT POPUP
 function systemEditopenPopup() {
-    document.getElementById('dark-overlay1').style.display = 'block'; 
-    document.getElementById('editsystem-popup').style.display = 'block'; 
+    document.getElementById('dark-overlay1').style.display = 'block';
+    document.getElementById('editsystem-popup').style.display = 'block';
 }
 
 function systemEditClosePopup() {
-    document.getElementById('dark-overlay1').style.display = 'none'; 
-    document.getElementById('editsystem-popup').style.display = 'none'; 
+    document.getElementById('dark-overlay1').style.display = 'none';
+    document.getElementById('editsystem-popup').style.display = 'none';
 }
 
 document.querySelector('.edit-system-button').onclick = systemEditopenPopup;
@@ -205,13 +205,13 @@ document.getElementById('close-icon1').onclick = systemEditClosePopup;
 
 // SYSTEM DELETE POPUP
 function systemDeleteopenPopup() {
-    document.getElementById('dark-overlay2').style.display = 'block'; 
-    document.getElementById('deletesystem-popup').style.display = 'block'; 
+    document.getElementById('dark-overlay2').style.display = 'block';
+    document.getElementById('deletesystem-popup').style.display = 'block';
 }
 
 function systemDeleteClosePopup() {
-    document.getElementById('dark-overlay2').style.display = 'none'; 
-    document.getElementById('deletesystem-popup').style.display = 'none'; 
+    document.getElementById('dark-overlay2').style.display = 'none';
+    document.getElementById('deletesystem-popup').style.display = 'none';
 }
 
 
@@ -223,17 +223,17 @@ document.getElementById('dark-overlay2').onclick = systemDeleteClosePopup;
 
 // FILE DELETE POPUP
 function fileDeleteopenPopup() {
-    document.getElementById('dark-overlay4').style.display = 'block'; 
-    document.getElementById('deletefile-popup').style.display = 'block'; 
+    document.getElementById('dark-overlay4').style.display = 'block';
+    document.getElementById('deletefile-popup').style.display = 'block';
 }
 
 function fileDeleteClosePopup() {
-    document.getElementById('dark-overlay4').style.display = 'none'; 
-    document.getElementById('deletefile-popup').style.display = 'none'; 
+    document.getElementById('dark-overlay4').style.display = 'none';
+    document.getElementById('deletefile-popup').style.display = 'none';
 }
 
 document.querySelectorAll(".file-delete-icon").forEach(function (icon) {
-    icon.onclick = fileDeleteopenPopup; 
+    icon.onclick = fileDeleteopenPopup;
 });
 
 document.getElementById('close-icon4').onclick = fileDeleteClosePopup;
@@ -387,12 +387,12 @@ function filterDepartmentsDivisions() {
         let hasVisibleDepartment = false;
 
         if (divisionName.includes(input)) {
-            division.style.display = ''; 
+            division.style.display = '';
         } else {
             departmentLabels.forEach(label => {
                 const departmentName = label.textContent.toLowerCase();
                 if (departmentName.includes(input)) {
-                    hasVisibleDepartment = true; 
+                    hasVisibleDepartment = true;
                 }
             });
             division.style.display = hasVisibleDepartment ? '' : 'none';
@@ -411,7 +411,7 @@ function filterDepartmentsDivisions1() {
         let hasVisibleDepartment = false;
 
         if (divisionName.includes(input)) {
-            division.style.display = ''; 
+            division.style.display = '';
         } else {
             departmentLabels.forEach(label => {
                 const departmentName = label.textContent.toLowerCase();
@@ -680,8 +680,8 @@ document.addEventListener('click', function (event) {
 });
 
 function closeNotificationPopup() {
-    document.getElementById('dark-overlay3').style.display = 'none'; 
-    document.getElementById('notification-popup').style.display = 'none'; 
+    document.getElementById('dark-overlay3').style.display = 'none';
+    document.getElementById('notification-popup').style.display = 'none';
 }
 
 document.getElementById('close-icon3').onclick = closeNotificationPopup;
@@ -689,30 +689,30 @@ document.getElementById('dark-overlay3').onclick = closeNotificationPopup;
 
 function filterDivisionOptions() {
     var input, filter, div, i, txtValue;
-    input = document.getElementById('division-search'); 
+    input = document.getElementById('division-search');
     filter = input.value.toUpperCase();
-    div = document.querySelectorAll('.division-dropdown-list div'); 
+    div = document.querySelectorAll('.division-dropdown-list div');
     for (i = 0; i < div.length; i++) {
         txtValue = div[i].textContent || div[i].innerText;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
             div[i].style.display = "";
         } else {
-            div[i].style.display = "none"; 
+            div[i].style.display = "none";
         }
     }
 }
 
 function selectDivisionOption(element) {
     var selectedDivision = element.textContent || element.innerText;
-    document.getElementById('selected-division-option').textContent = selectedDivision; 
-    document.querySelector('.division-dropdown-content').style.display = 'none'; 
-    document.querySelector('.division-dropdown-toggle').classList.remove('open'); 
+    document.getElementById('selected-division-option').textContent = selectedDivision;
+    document.querySelector('.division-dropdown-content').style.display = 'none';
+    document.querySelector('.division-dropdown-toggle').classList.remove('open');
 
     var divs = document.querySelectorAll('.division-dropdown-list div');
     divs.forEach(function (div) {
         div.classList.remove('selected');
     });
-    element.classList.add('selected'); 
+    element.classList.add('selected');
 }
 
 function toggleDivisionDropdown() {
@@ -720,20 +720,20 @@ function toggleDivisionDropdown() {
     var dropdownToggle = document.querySelector('.division-dropdown-toggle');
 
     if (dropdownContent.style.display === 'block') {
-        dropdownContent.style.display = 'none'; 
-        dropdownToggle.classList.remove('open'); 
+        dropdownContent.style.display = 'none';
+        dropdownToggle.classList.remove('open');
     } else {
         dropdownContent.style.display = 'block';
-        dropdownToggle.classList.add('open'); 
-        document.getElementById('division-search').value = ''; 
-        showAllDivisionOptions(); 
+        dropdownToggle.classList.add('open');
+        document.getElementById('division-search').value = '';
+        showAllDivisionOptions();
     }
 }
 
 function showAllDivisionOptions() {
     var divs = document.querySelectorAll('.division-dropdown-list div');
     divs.forEach(function (div) {
-        div.style.display = ""; 
+        div.style.display = "";
     });
 }
 
@@ -743,8 +743,8 @@ window.onclick = function (event) {
 
     if (!event.target.matches('.division-dropdown-toggle') && !event.target.matches('.division-dropdown-toggle *') && !event.target.matches('#division-search')) {
         if (dropdownContent.style.display === 'block') {
-            dropdownContent.style.display = 'none'; 
-            dropdownToggle.classList.remove('open'); 
+            dropdownContent.style.display = 'none';
+            dropdownToggle.classList.remove('open');
         }
     }
 };
@@ -758,7 +758,7 @@ function toggleSystemList() {
         systemDropdown.style.display = 'block';
 
         const listItems = systemList.querySelectorAll('li');
-        systemDropdown.innerHTML = '<option value="">Select a System</option>'; 
+        systemDropdown.innerHTML = '<option value="">Select a System</option>';
         listItems.forEach(item => {
             const systemName = item.textContent.trim();
             const option = document.createElement('option');
