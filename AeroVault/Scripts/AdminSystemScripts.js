@@ -1,4 +1,4 @@
-﻿function filterSystems() {
+function filterSystems() {
     var input, filter, ul, li, a, i, txtValue;
     input = document.getElementById('systemSearch');
     filter = input.value.toUpperCase();
@@ -18,14 +18,9 @@
 
 async function highlightSystem(selectedItem) {
 
+   
+
     const systemName = selectedItem.querySelector('a').textContent.trim();
-
-
-
-    // Get system description from the data attribute
-
-    const systemDescription = selectedItem.getAttribute('data-system-description') || '';
-
 
     try {
 
@@ -39,47 +34,6 @@ async function highlightSystem(selectedItem) {
         // Pre-select departments and set up listeners
 
         preDepartmentSelection(departmentIds);
-
-
-        const systemEditNameElements = [
-
-            document.getElementById('system-edit-name'),
-
-            document.querySelector('#editsystem-popup input[id="system-edit-name"]')
-
-        ];
-
-
-        const descriptionElements = [
-
-            document.getElementById('description'),
-
-            document.querySelector('#editsystem-popup textarea[id="description"]')
-
-        ];
-
-
-        systemEditNameElements.forEach(element => {
-
-            if (element) {
-
-                element.setAttribute('data-original-name', systemName);
-
-            }
-
-        });
-
-
-        descriptionElements.forEach(element => {
-
-            if (element) {
-
-                element.setAttribute('data-original-description', systemDescription);
-
-            }
-
-        });
-
 
     } catch (error) {
 
@@ -100,8 +54,9 @@ async function highlightSystem(selectedItem) {
     selectedItem.style.fontWeight = "bold";
 
     // Capture system details from data attributes
-    //const systemDescription = selectedItem.getAttribute('data-system-description') || '';
-
+    const systemDescription = selectedItem.getAttribute('data-system-description') || '';
+    //console.log('Selected System Name:', systemName);
+    //console.log('System Description (Attribute):', systemDescription);
 
     const descriptionElements = [
         document.getElementById('description'),
@@ -112,6 +67,9 @@ async function highlightSystem(selectedItem) {
         if (element) {
             element.value = '';
             element.value = systemDescription.trim();
+
+            //console.log('Description Element:', element);
+            //console.log('Set Description Value:', element.value);
         } else {
             console.warn('Description element not found');
         }
@@ -150,18 +108,18 @@ async function highlightSystem(selectedItem) {
 
 function filterFiles() {
     const input = document.getElementById('SystemfileSearch');
-    const filter = input.value.toLowerCase();
+    const filter = input.value.toLowerCase(); 
     const table = document.querySelector('.file-table tbody');
-    const rows = table.getElementsByTagName('tr');
+    const rows = table.getElementsByTagName('tr'); 
 
     for (let i = 0; i < rows.length; i++) {
-        const td = rows[i].getElementsByTagName('td')[0];
+        const td = rows[i].getElementsByTagName('td')[0]; 
         if (td) {
-            const txtValue = td.textContent || td.innerText;
+            const txtValue = td.textContent || td.innerText; 
             if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                rows[i].style.display = "";
+                rows[i].style.display = ""; 
             } else {
-                rows[i].style.display = "none";
+                rows[i].style.display = "none"; 
             }
         }
     }
@@ -176,7 +134,7 @@ function openPopup() {
 }
 
 function closePopup() {
-    document.getElementById('dark-overlay').style.display = 'none';
+    document.getElementById('dark-overlay').style.display = 'none'; 
     document.getElementById('addsystem-popup').style.display = 'none';
 }
 
@@ -188,13 +146,13 @@ document.getElementById('close-icon').onclick = closePopup;
 
 // SYSTEM EDIT POPUP
 function systemEditopenPopup() {
-    document.getElementById('dark-overlay1').style.display = 'block';
-    document.getElementById('editsystem-popup').style.display = 'block';
+    document.getElementById('dark-overlay1').style.display = 'block'; 
+    document.getElementById('editsystem-popup').style.display = 'block'; 
 }
 
 function systemEditClosePopup() {
-    document.getElementById('dark-overlay1').style.display = 'none';
-    document.getElementById('editsystem-popup').style.display = 'none';
+    document.getElementById('dark-overlay1').style.display = 'none'; 
+    document.getElementById('editsystem-popup').style.display = 'none'; 
 }
 
 document.querySelector('.edit-system-button').onclick = systemEditopenPopup;
@@ -205,13 +163,13 @@ document.getElementById('close-icon1').onclick = systemEditClosePopup;
 
 // SYSTEM DELETE POPUP
 function systemDeleteopenPopup() {
-    document.getElementById('dark-overlay2').style.display = 'block';
-    document.getElementById('deletesystem-popup').style.display = 'block';
+    document.getElementById('dark-overlay2').style.display = 'block'; 
+    document.getElementById('deletesystem-popup').style.display = 'block'; 
 }
 
 function systemDeleteClosePopup() {
-    document.getElementById('dark-overlay2').style.display = 'none';
-    document.getElementById('deletesystem-popup').style.display = 'none';
+    document.getElementById('dark-overlay2').style.display = 'none'; 
+    document.getElementById('deletesystem-popup').style.display = 'none'; 
 }
 
 
@@ -223,17 +181,17 @@ document.getElementById('dark-overlay2').onclick = systemDeleteClosePopup;
 
 // FILE DELETE POPUP
 function fileDeleteopenPopup() {
-    document.getElementById('dark-overlay4').style.display = 'block';
-    document.getElementById('deletefile-popup').style.display = 'block';
+    document.getElementById('dark-overlay4').style.display = 'block'; 
+    document.getElementById('deletefile-popup').style.display = 'block'; 
 }
 
 function fileDeleteClosePopup() {
-    document.getElementById('dark-overlay4').style.display = 'none';
-    document.getElementById('deletefile-popup').style.display = 'none';
+    document.getElementById('dark-overlay4').style.display = 'none'; 
+    document.getElementById('deletefile-popup').style.display = 'none'; 
 }
 
 document.querySelectorAll(".file-delete-icon").forEach(function (icon) {
-    icon.onclick = fileDeleteopenPopup;
+    icon.onclick = fileDeleteopenPopup; 
 });
 
 document.getElementById('close-icon4').onclick = fileDeleteClosePopup;
@@ -387,12 +345,12 @@ function filterDepartmentsDivisions() {
         let hasVisibleDepartment = false;
 
         if (divisionName.includes(input)) {
-            division.style.display = '';
+            division.style.display = ''; 
         } else {
             departmentLabels.forEach(label => {
                 const departmentName = label.textContent.toLowerCase();
                 if (departmentName.includes(input)) {
-                    hasVisibleDepartment = true;
+                    hasVisibleDepartment = true; 
                 }
             });
             division.style.display = hasVisibleDepartment ? '' : 'none';
@@ -411,7 +369,7 @@ function filterDepartmentsDivisions1() {
         let hasVisibleDepartment = false;
 
         if (divisionName.includes(input)) {
-            division.style.display = '';
+            division.style.display = ''; 
         } else {
             departmentLabels.forEach(label => {
                 const departmentName = label.textContent.toLowerCase();
@@ -632,7 +590,7 @@ async function refreshSystemsList() {
         const response = await fetch('/Systems/GetAllSystems');
         const systems = await response.json();
 
-        //console.log('Fetched Systems:', systems);
+        console.log('Fetched Systems:', systems);
 
         // Update the systems list in the UI
         const systemList = document.getElementById('systemList');
@@ -661,27 +619,12 @@ async function refreshSystemsList() {
 }
 
 
-//document.querySelector('.save-btn').onclick = addNewSystem;
+document.querySelector('.save-btn').onclick = addNewSystem;
 
-
-
-
-document.addEventListener('click', function (event) {
-    if (event.target.classList.contains('save-btn')) {
-        // Check if the add system popup is visible
-        if (document.getElementById('addsystem-popup').style.display === 'block') {
-            addNewSystem; // Call the add function
-        }
-        // Check if the edit system popup is visible
-        else if (document.getElementById('editsystem-popup').style.display === 'block') {
-            editSystem(); // Call the edit function
-        }
-    }
-});
 
 function closeNotificationPopup() {
-    document.getElementById('dark-overlay3').style.display = 'none';
-    document.getElementById('notification-popup').style.display = 'none';
+    document.getElementById('dark-overlay3').style.display = 'none'; 
+    document.getElementById('notification-popup').style.display = 'none'; 
 }
 
 document.getElementById('close-icon3').onclick = closeNotificationPopup;
@@ -689,30 +632,30 @@ document.getElementById('dark-overlay3').onclick = closeNotificationPopup;
 
 function filterDivisionOptions() {
     var input, filter, div, i, txtValue;
-    input = document.getElementById('division-search');
+    input = document.getElementById('division-search'); 
     filter = input.value.toUpperCase();
-    div = document.querySelectorAll('.division-dropdown-list div');
+    div = document.querySelectorAll('.division-dropdown-list div'); 
     for (i = 0; i < div.length; i++) {
         txtValue = div[i].textContent || div[i].innerText;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
             div[i].style.display = "";
         } else {
-            div[i].style.display = "none";
+            div[i].style.display = "none"; 
         }
     }
 }
 
 function selectDivisionOption(element) {
     var selectedDivision = element.textContent || element.innerText;
-    document.getElementById('selected-division-option').textContent = selectedDivision;
-    document.querySelector('.division-dropdown-content').style.display = 'none';
-    document.querySelector('.division-dropdown-toggle').classList.remove('open');
+    document.getElementById('selected-division-option').textContent = selectedDivision; 
+    document.querySelector('.division-dropdown-content').style.display = 'none'; 
+    document.querySelector('.division-dropdown-toggle').classList.remove('open'); 
 
     var divs = document.querySelectorAll('.division-dropdown-list div');
     divs.forEach(function (div) {
         div.classList.remove('selected');
     });
-    element.classList.add('selected');
+    element.classList.add('selected'); 
 }
 
 function toggleDivisionDropdown() {
@@ -720,20 +663,20 @@ function toggleDivisionDropdown() {
     var dropdownToggle = document.querySelector('.division-dropdown-toggle');
 
     if (dropdownContent.style.display === 'block') {
-        dropdownContent.style.display = 'none';
-        dropdownToggle.classList.remove('open');
+        dropdownContent.style.display = 'none'; 
+        dropdownToggle.classList.remove('open'); 
     } else {
         dropdownContent.style.display = 'block';
-        dropdownToggle.classList.add('open');
-        document.getElementById('division-search').value = '';
-        showAllDivisionOptions();
+        dropdownToggle.classList.add('open'); 
+        document.getElementById('division-search').value = ''; 
+        showAllDivisionOptions(); 
     }
 }
 
 function showAllDivisionOptions() {
     var divs = document.querySelectorAll('.division-dropdown-list div');
     divs.forEach(function (div) {
-        div.style.display = "";
+        div.style.display = ""; 
     });
 }
 
@@ -743,8 +686,8 @@ window.onclick = function (event) {
 
     if (!event.target.matches('.division-dropdown-toggle') && !event.target.matches('.division-dropdown-toggle *') && !event.target.matches('#division-search')) {
         if (dropdownContent.style.display === 'block') {
-            dropdownContent.style.display = 'none';
-            dropdownToggle.classList.remove('open');
+            dropdownContent.style.display = 'none'; 
+            dropdownToggle.classList.remove('open'); 
         }
     }
 };
@@ -758,7 +701,7 @@ function toggleSystemList() {
         systemDropdown.style.display = 'block';
 
         const listItems = systemList.querySelectorAll('li');
-        systemDropdown.innerHTML = '<option value="">Select a System</option>';
+        systemDropdown.innerHTML = '<option value="">Select a System</option>'; 
         listItems.forEach(item => {
             const systemName = item.textContent.trim();
             const option = document.createElement('option');
@@ -852,11 +795,11 @@ function preDepartmentSelection(departmentIds) {
         // Manage content visibility and icon
         const selectedCount = Array.from(departmentCheckboxes).filter(checkbox => checkbox.checked).length;
         if (selectedCount > 0) {
-            contentDiv.style.display = 'block'; // Show the content
+            contentDiv.style.display = 'block';
             headerIcon.classList.remove('fa-chevron-right');
             headerIcon.classList.add('fa-chevron-down');
         } else {
-            contentDiv.style.display = 'none'; // Hide the content
+            contentDiv.style.display = 'none';
             headerIcon.classList.remove('fa-chevron-down');
             headerIcon.classList.add('fa-chevron-right');
         }
@@ -926,9 +869,8 @@ function setupDivisionListeners(divisionDiv) {
 
 async function selectCustomOption(element) {
 
-    const systemName = element.textContent.trim();
 
-    const systemDescription = element.getAttribute('data-system-description') || '';
+    const systemName = element.textContent.trim();
 
 
     try {
@@ -940,15 +882,9 @@ async function selectCustomOption(element) {
         const departmentIds = await response.json();
 
 
-        // Pre-select departments and set up listenerss
+        // Pre-select departments and set up listeners
 
         preDepartmentSelection(departmentIds);
-
-
-        document.getElementById('system-edit-name').setAttribute('data-original-name', systemName);
-
-        document.getElementById('description').setAttribute('data-original-description', systemDescription);
-
 
     } catch (error) {
 
@@ -965,10 +901,10 @@ async function selectCustomOption(element) {
 
 
     var selectedOption = element.textContent || element.innerText;
-    //var systemDescription = element.getAttribute('data-system-description') || '';
+    var systemDescription = element.getAttribute('data-system-description') || '';
 
-    //console.log('Selected Option:', selectedOption);
-    //console.log('System Description (Attribute):', systemDescription);
+    console.log('Selected Option:', selectedOption);
+    console.log('System Description (Attribute):', systemDescription);
 
     // Try multiple description elements
     const descriptionElements = [
@@ -982,8 +918,8 @@ async function selectCustomOption(element) {
             element.value = '';
             element.value = systemDescription.trim();
 
-            //console.log('Description Element:', element);
-            //console.log('Set Description Value:', element.value);
+            console.log('Description Element:', element);
+            console.log('Set Description Value:', element.value);
         }
     });
 
@@ -1203,161 +1139,3 @@ document.addEventListener('DOMContentLoaded', () => {
         setupDivisionListeners(division);
     });
 });
-
-
-
-// EDIT SYSTEM POPUP JAVASCRIPTS
-
-
-function resetSystemEditPopup() {
-    // Get the original system name and description
-    const originalSystemName = document.getElementById('system-edit-name').getAttribute('data-original-name');
-    const originalDescription = document.getElementById('description').getAttribute('data-original-description');
-
-    // Restore original system name and description
-    document.getElementById('system-edit-name').value = originalSystemName;
-
-    // Ensure description is restored
-    const descriptionElements = [
-        document.getElementById('description'),
-        document.querySelector('#editsystem-popup textarea[id="description"]')
-    ];
-
-    descriptionElements.forEach(element => {
-        if (element) {
-            element.value = originalDescription;
-        }
-    });
-
-    // Fetch and restore the original departments
-    fetchAndRestoreOriginalDepartments(originalSystemName);
-}
-
-
-async function fetchAndRestoreOriginalDepartments(systemName) {
-
-    try {
-
-        // Fetch the original department IDs for this system
-
-        const response = await fetch(`/Systems/GetSystemDepartments?systemName=${encodeURIComponent(systemName)}`);
-
-        const originalDepartmentIds = await response.json();
-
-
-        // Reset all divisions and departments
-
-        const allDivisions = document.querySelectorAll('.division');
-
-
-        allDivisions.forEach(division => {
-
-            const selectAllCheckbox = division.querySelector('.select-all');
-
-            const departmentCheckboxes = division.querySelectorAll('.department');
-
-            const contentDiv = division.querySelector('.division-content');
-
-            const headerIcon = division.querySelector('.division-header i');
-
-
-            // Reset checkboxes
-
-            if (selectAllCheckbox) {
-
-                selectAllCheckbox.checked = false;
-
-                selectAllCheckbox.indeterminate = false;
-
-            }
-
-
-            departmentCheckboxes.forEach(checkbox => {
-
-                checkbox.checked = false;
-
-            });
-
-
-            // Restore original departments
-
-            originalDepartmentIds.forEach(departmentId => {
-
-                const checkbox = division.querySelector(`.department[value="${departmentId}"]`);
-
-                if (checkbox) {
-
-                    checkbox.checked = true;
-
-                }
-
-            });
-
-
-            // Manage content visibility and icon
-
-            const selectedCount = Array.from(departmentCheckboxes).filter(checkbox => checkbox.checked).length;
-
-            if (selectedCount > 0) {
-
-                contentDiv.style.display = 'block';
-
-                headerIcon.classList.remove('fa-chevron-right');
-
-                headerIcon.classList.add('fa-chevron-down');
-
-            } else {
-
-                contentDiv.style.display = 'none';
-
-                headerIcon.classList.remove('fa-chevron-down');
-
-                headerIcon.classList.add('fa-chevron-right');
-
-            }
-
-
-            // Update selected count
-
-            updateSelectedCount(division);
-
-        });
-
-
-    } catch (error) {
-
-        console.error('Error restoring original departments:', error);
-
-    }
-
-}
-
-
-document.getElementById('reset-btn').addEventListener('click', resetSystemEditPopup);
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Set up event listeners for division headers
-    document.querySelectorAll('.division-header').forEach(header => {
-        header.addEventListener('click', () => {
-            console.log('Division header clicked:', header); // Debugging log
-            toggleDivisionContent(header);
-        });
-    });
-});
-
-// Function to toggle the visibility of division content
-function toggleDivisionContent(header) {
-    const contentDiv = header.nextElementSibling; // This should be the division-content div
-    const icon = header.querySelector('i');
-
-    // Toggle visibility of content
-    if (contentDiv.style.display === 'block') {
-        contentDiv.style.display = 'none'; // Hide the content
-        icon.classList.replace('fa-chevron-down', 'fa-chevron-right'); // Change icon
-    } else {
-        contentDiv.style.display = 'block'; // Show the content
-        icon.classList.replace('fa-chevron-right', 'fa-chevron-down'); // Change icon
-    }
-}
-

@@ -1,5 +1,5 @@
-﻿function toggleCustomDropdown(event) {
-    event.stopPropagation(); 
+function toggleCustomDropdown(event) {
+    event.stopPropagation();
     var dropdownContent = document.querySelector('.custom-dropdown-content');
     var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
     var selector = document.querySelector('.custom-selector');
@@ -172,8 +172,8 @@ document.querySelector('.add-new-dep-popup-btn').onclick = addNewDepartment;
 
 // Function to close the notification popup
 function closeNotificationPopup() {
-    document.getElementById('dark-overlay-dep3').style.display = 'none'; 
-    document.getElementById('notification-popup2').style.display = 'none'; 
+    document.getElementById('dark-overlay-dep3').style.display = 'none';
+    document.getElementById('notification-popup2').style.display = 'none';
 }
 
 document.getElementById('close-icon-dep3').onclick = closeNotificationPopup;
@@ -476,4 +476,3 @@ function confirmDeleteDivision() {
 
 // Modify your existing delete button event listener
 document.querySelector('.delete-btn').addEventListener('click', confirmDeleteDivision);
-
