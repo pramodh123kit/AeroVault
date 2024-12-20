@@ -1,4 +1,4 @@
-﻿function filterSystems() {
+function filterSystems() {
     var input, filter, ul, li, a, i, txtValue;
     input = document.getElementById('systemSearch');
     filter = input.value.toUpperCase();

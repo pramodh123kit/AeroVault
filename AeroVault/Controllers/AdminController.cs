@@ -18,7 +18,7 @@ namespace AeroVault.Controllers
             return View();
         }
 
-        public IActionResult HumanR()
+        public IActionResult ReviewTable()
         {
             return View();
         }

@@ -1,4 +1,4 @@
-﻿function toggleCustomDropdown(event) {
+function toggleCustomDropdown(event) {
     event.stopPropagation();
     var dropdownContent = document.querySelector('.custom-dropdown-content');
     var dropdownToggle = document.querySelector('.custom-dropdown-toggle');

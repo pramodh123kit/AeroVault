@@ -1,4 +1,4 @@
-﻿using AeroVault.Models;
+using AeroVault.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
