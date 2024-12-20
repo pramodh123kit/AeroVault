@@ -55,8 +55,8 @@ async function highlightSystem(selectedItem) {
 
     // Capture system details from data attributes
     const systemDescription = selectedItem.getAttribute('data-system-description') || '';
-    console.log('Selected System Name:', systemName);
-    console.log('System Description (Attribute):', systemDescription);
+    //console.log('Selected System Name:', systemName);
+    //console.log('System Description (Attribute):', systemDescription);
 
     const descriptionElements = [
         document.getElementById('description'),
@@ -68,8 +68,8 @@ async function highlightSystem(selectedItem) {
             element.value = '';
             element.value = systemDescription.trim();
 
-            console.log('Description Element:', element);
-            console.log('Set Description Value:', element.value);
+            //console.log('Description Element:', element);
+            //console.log('Set Description Value:', element.value);
         } else {
             console.warn('Description element not found');
         }
@@ -597,7 +597,7 @@ async function refreshSystemsList() {
         systemList.innerHTML = ''; // Clear existing list
 
         systems.forEach(system => {
-            console.log('System Details:', system);
+            //console.log('System Details:', system);
 
             const li = document.createElement('li');
             li.setAttribute('data-system-description', system.description || '');
@@ -1097,7 +1097,7 @@ async function editSystem() {
 }
 
 // Add event listener to save button
-document.querySelector('.save-btn').addEventListener('click', editSystem);
+//document.querySelector('.save-btn').addEventListener('click', editSystem);
 
 
 
