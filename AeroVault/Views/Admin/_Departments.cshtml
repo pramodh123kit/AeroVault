@@ -1,159 +1,158 @@
 ﻿@model AeroVault.Models.DepartmentViewModel
 
 @{
-    Layout = null; 
+    Layout = null;
 }
 
-    <link rel="stylesheet" href="/Content/css/AdminSystems.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/Content/css/AdminSystems.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
-    <div class="admin-main-content" stlye="overflow:hidden; flex-grow: 1;">
-        <div class="header-container">
-            <h2 class="systems-header" id="systems-header">
-                Select a Department to Manage
-            </h2>
-            <button class="add-system-button add-dep-button" onclick="openAddDepartmentPopup()">
-                <img src="/Content/Assets/add-icon.svg" alt="Add Icon" class="button-icon" />
-                Add New Department
-            </button>
-        </div>
+<div class="admin-main-content" stlye="overflow:hidden; flex-grow: 1;">
+    <div class="header-container">
+        <h2 class="systems-header" id="systems-header">
+            Select a Department to Manage
+        </h2>
+        <button class="add-system-button add-dep-button" onclick="openAddDepartmentPopup()">
+            <img src="/Content/Assets/add-icon.svg" alt="Add Icon" class="button-icon" />
+            Add New Department
+        </button>
+    </div>
 
-        <div class="sidebar-container">
-            <div class="sidebar2">
-                <div class="search-container" style="width:90%;">
-                    <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
-                    <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search Department" type="text" />
-                </div>
-                <div class="scrollable-content scrollable-content-list">
-                    <div id="systemListContainer">
-                        <ul id="systemList">
-                            @if (Model.Departments == null || !Model.Departments.Any())
-                            {
-                                <li>No Departments available.</li>
-                            }
-                            else
-                            {
-                                @foreach (var department in Model.Departments)
-                                {
-                                    <li onclick="highlightSystem(this)"
-                                        data-department-id="@department.DepartmentID"
-                                        data-department-name="@department.DepartmentName"
-                                        data-division-id="@department.DivisionID"
-                                        data-division-name="@department.Division.DivisionName">
-
-                                        @department.DepartmentName
-
-                                    </li>
-                                }
-                            }
-                        </ul>
-
-                        <div class="custom-form-group">
-                            <h2 class="systems-header systems-header-label">
-                                Select a Department to Manage
-                            </h2>
-                            <div class="custom-dropdown">
-                                <div class="custom-dropdown-toggle custom-selector" onclick="toggleCustomDropdown(event)">
-                                    <span id="selected-option" style="color:#333333;">Select a department</span>
-                                    <i class="fas fa-chevron-down"></i>
-                                </div>
-                                <div class="custom-dropdown-content" style="position:sticky">
-                                    <div class="custom-search-container">
-                                        <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
-                                        <input type="text" id="custom-search-input" placeholder="Search Option" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
-                                    </div>
-                                    <div class="custom-dropdown-list">
-                                        @foreach (var department in Model.Departments)
-                                        {
-                                            <div onclick="selectCustomOption(this); highlightSystem(this)"
-                                                 data-department-id="@department.DepartmentID"
-                                                 data-department-name="@department.DepartmentName"
-                                                 data-division-id="@department.DivisionID"
-                                                 data-division-name="@department.Division.DivisionName">
-                                                @department.DepartmentName
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="sidebar-container">
+        <div class="sidebar2">
+            <div class="search-container" style="width:90%;">
+                <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search Department" type="text" />
             </div>
-            <div class="image-container">
-                <img src="/Content/Assets/departments-background-icon.svg" alt="Departments Background Image" />
-            </div>
+            <div class="scrollable-content scrollable-content-list">
+                <div id="systemListContainer">
+                    <ul id="systemList">
+                        @if (Model.Departments == null || !Model.Departments.Any())
+                        {
+                            <li>No Departments available.</li>
+                        }
+                        else
+                        {
+                            @foreach (var department in Model.Departments)
+                            {
+                                <li onclick="highlightSystem(this)"
+                                    data-department-id="@department.DepartmentID"
+                                    data-department-name="@department.DepartmentName"
+                                    data-division-id="@department.DivisionID"
+                                    data-division-name="@department.Division.DivisionName">
 
-            <div class="system-container dep-second-container" style="display: none;">
-                <div class="dep-inner-container">
-                    <h2 class="edit-del-instruc" style="font-weight:bold;">Edit or Delete Department</h2>
-                    <h2 class="systems-name" style="font-weight:bold;">System Name</h2>
-                    <div class="form-group div-secondary-container">
-                        <label class="label" for="department-name" style="margin-top: 20px;">Department Name</label>
-                        <input class="depname-input" type="text" id="department-name" value="" style="border-radius:10px; font-size:16px; border:1px solid #6D6D6D;">
-                    </div>
+                                    @department.DepartmentName
 
-                    <div class="form-group second-input div-secondary-container">
-                        <label class="label" for="division" style="margin-top: 20px;">Division</label>
-                        <div class="dropdown">
-                            <div class="dropdown-toggle division-selector" onclick="toggleDropdown()">
-                                <span id="selected-division">Information Technology</span>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+                    <div class="custom-form-group">
+                        <h2 class="systems-header systems-header-label">
+                            Select a Department to Manage
+                        </h2>
+                        <div class="custom-dropdown">
+                            <div class="custom-dropdown-toggle custom-selector" onclick="toggleCustomDropdown(event)">
+                                <span id="selected-option" style="color:#333333;">Select a department</span>
                                 <i class="fas fa-chevron-down"></i>
                             </div>
-                            <div class="dropdown-content div-secondary-container">
-                                <div class="search-container second-search" style="width:90%;">
+                            <div class="custom-dropdown-content" style="position:sticky">
+                                <div class="custom-search-container">
                                     <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
-                                    <input type="text" id="search-division" placeholder="Search Division" onkeyup="filterDivisions()" onclick="event.stopPropagation()">
+                                    <input type="text" id="custom-search-input" placeholder="Search Option" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
                                 </div>
-                                <div class="dropdown-list">
-                                    <!-- Assuming server-side rendering for divisions -->
-                                    @foreach (var division in Model.Divisions)
+                                <div class="custom-dropdown-list">
+                                    @foreach (var department in Model.Departments)
                                     {
-                                        <div onclick="selectDivision(this)" data-division-id="@division.DivisionID">
-                                            @division.DivisionName
+                                        <div onclick="selectCustomOption(this); highlightSystem(this)"
+                                             data-department-id="@department.DepartmentID"
+                                             data-department-name="@department.DepartmentName"
+                                             data-division-id="@department.DivisionID"
+                                             data-division-name="@department.Division.DivisionName">
+                                            @department.DepartmentName
                                         </div>
                                     }
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="image-container">
+            <img src="/Content/Assets/departments-background-icon.svg" alt="Departments Background Image" />
+        </div>
 
-                    <div class="button-container">
-                        <button class="reset-changes">
-                            Reset
-                        </button>
-                        <button class="edit-system-button" onclick="saveChanges()">
-                            Save Changes
-                        </button>
-                        <button class="delete-system-button delete-dep-button">
-                            <img src="/Content/Assets/system-delete-icon.svg" alt="Add Icon" class="button-icon" />
-                            Delete
-                        </button>
+        <div class="system-container dep-second-container" style="display: none;">
+            <div class="dep-inner-container">
+                <h2 class="edit-del-instruc" style="font-weight:bold;">Edit or Delete Department</h2>
+                <h2 class="systems-name" style="font-weight:bold;">System Name</h2>
+                <div class="form-group div-secondary-container">
+                    <label class="label" for="department-name" style="margin-top: 20px;">Department Name</label>
+                    <input class="depname-input" type="text" id="department-name" value="" style="border-radius:10px; font-size:16px; border:1px solid #6D6D6D;">
+                </div>
+
+                <div class="form-group second-input div-secondary-container">
+                    <label class="label" for="division" style="margin-top: 20px;">Division</label>
+                    <div class="dropdown">
+                        <div class="dropdown-toggle division-selector" onclick="toggleDropdown()">
+                            <span id="selected-division">Information Technology</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="dropdown-content div-secondary-container">
+                            <div class="search-container second-search" style="width:90%;">
+                                <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                                <input type="text" id="search-division" placeholder="Search Division" onkeyup="filterDivisions()" onclick="event.stopPropagation()">
+                            </div>
+                            <div class="dropdown-list">
+                                @foreach (var division in Model.Divisions)
+                                {
+                                    <div onclick="selectDivision(this)" data-division-id="@division.DivisionID">
+                                        @division.DivisionName
+                                    </div>
+                                }
+                            </div>
+                        </div>
                     </div>
+                </div>
+
+                <div class="button-container">
+                    <button class="reset-changes">
+                        Reset
+                    </button>
+                    <button class="edit-system-button" onclick="saveChanges()">
+                        Save Changes
+                    </button>
+                    <button class="delete-system-button delete-dep-button">
+                        <img src="/Content/Assets/system-delete-icon.svg" alt="Add Icon" class="button-icon" />
+                        Delete
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div id="overlay-edit-dep" class="overlay-edit-dep">
-        <div id="successPopup" class="popup">
-            <button class="popup-close" onclick="closeSuccessPopup()">&times;</button>
+<div id="overlay-edit-dep" class="overlay-edit-dep">
+    <div id="successPopup" class="popup">
+        <button class="popup-close" onclick="closeSuccessPopup()"></button>
 
-            <div class="popup-content">
-                <img src="/Content/Assets/system-added-successfully.svg" alt="Alternate Text" />
-                <h2 class="edit-success-dep">Department was Successfully Edited</h2>
-            </div>
+        <div class="popup-content">
+            <img src="/Content/Assets/system-added-successfully.svg" alt="Alternate Text" />
+            <h2 class="edit-success-dep">Department was Successfully Edited</h2>
         </div>
     </div>
+</div>
 
-    <!-- Overlay -->
-    <div id="dark-overlay-dep1" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminDepartmentPopups/_AdminAddDepartmentPopup", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminAddDepartmentPopupModel())
+<!-- Overlay -->
+<div id="dark-overlay-dep1" class="dark-overlay" style="display: none;"></div>
+@Html.Partial("AdminDepartmentPopups/_AdminAddDepartmentPopup", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminAddDepartmentPopupModel())
 
-    <div id="dark-overlay-dep2" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminDepartmentPopups/_AdminDeleteDepartmentPopup", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDeleteDepartmentPopupModel())
+<div id="dark-overlay-dep2" class="dark-overlay" style="display: none;"></div>
+@Html.Partial("AdminDepartmentPopups/_AdminDeleteDepartmentPopup", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDeleteDepartmentPopupModel())
 
-    <div id="dark-overlay-dep3" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminDepartmentPopups/_AdminDepartmentAdded", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDepartmentAddedModel())
+<div id="dark-overlay-dep3" class="dark-overlay" style="display: none;"></div>
+@Html.Partial("AdminDepartmentPopups/_AdminDepartmentAdded", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDepartmentAddedModel())
 
-    <script src="/Scripts/AdminDepartmentScripts.js"></script>
+<script src="/Scripts/AdminDepartmentScripts.js"></script>
