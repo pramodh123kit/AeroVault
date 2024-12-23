@@ -20,21 +20,26 @@ namespace AeroVault.Data
 
         public async Task<List<SystemModel>> GetAllSystemsAsync()
         {
-            string sql = "SELECT SystemID, SystemName, Description FROM C##AEROVAULT.SYSTEMS";
+            var systems = new List<SystemModel>();
+
             using (var connection = new OracleConnection(_connectionString))
             {
                 await connection.OpenAsync();
+
+                string sql = @"
+        SELECT DISTINCT s.SystemID, s.SystemName, s.Description 
+        FROM C##AEROVAULT.SYSTEMS s
+        JOIN C##AEROVAULT.SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
+        JOIN C##AEROVAULT.DEPARTMENTS d ON sd.DepartmentID = d.DepartmentID
+        WHERE d.is_deleted = 0";
+
                 using (var command = new OracleCommand(sql, connection))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
-                        var systems = new List<SystemModel>();
                         while (await reader.ReadAsync())
                         {
                             var description = reader.IsDBNull(2) ? string.Empty : reader.GetString(2);
-
-                            // Log the exact description
-                            Console.WriteLine($"SystemName: {reader.GetString(1)}, Description Length: {description.Length}, Description: '{description}'");
 
                             systems.Add(new SystemModel
                             {
@@ -43,10 +48,11 @@ namespace AeroVault.Data
                                 Description = description
                             });
                         }
-                        return systems;
                     }
                 }
             }
+
+            return systems;
         }
 
         public async Task<bool> CheckSystemExistsAsync(string systemName)
