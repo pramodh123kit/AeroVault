@@ -21,7 +21,7 @@ namespace AeroVault.Data
         public async Task<List<DivisionModel>> GetAllDivisionsAsync()
         {
             return await _context.Set<DivisionModel>()
-                .FromSqlRaw("SELECT * FROM C##AEROVAULT.DIVISIONS WHERE IsDeleted = 0") // Add filter for non-deleted divisions
+                .FromSqlRaw("SELECT * FROM C##AEROVAULT.DIVISIONS WHERE IsDeleted = 0")
                 .ToListAsync();
         }
 
@@ -46,14 +46,12 @@ namespace AeroVault.Data
             }
             catch (OracleException ex)
             {
-                // Log the specific Oracle exception
                 Console.WriteLine($"Oracle Error: {ex.Message}");
                 Console.WriteLine($"Error Code: {ex.ErrorCode}");
                 throw;
             }
             catch (Exception ex)
             {
-                // Log any other exceptions
                 Console.WriteLine($"Unexpected error: {ex.Message}");
                 throw;
             }
@@ -62,15 +60,15 @@ namespace AeroVault.Data
         public async Task UpdateDivisionNameAsync(string originalName, string newDivisionName)
         {
             string sql = @"
-        UPDATE C##AEROVAULT.DIVISIONS 
-        SET DivisionName = :NewDivisionName 
-        WHERE DivisionName = :OriginalName";
+            UPDATE C##AEROVAULT.DIVISIONS 
+            SET DivisionName = :NewDivisionName 
+            WHERE DivisionName = :OriginalName";
 
             var parameters = new[]
             {
-        new OracleParameter(":NewDivisionName", newDivisionName),
-        new OracleParameter(":OriginalName", originalName)
-    };
+                new OracleParameter(":NewDivisionName", newDivisionName),
+                new OracleParameter(":OriginalName", originalName)
+            };
 
             int rowsAffected = await _context.Database.ExecuteSqlRawAsync(sql, parameters);
 
@@ -97,6 +95,32 @@ namespace AeroVault.Data
             }
         }
 
-
+        public async Task<List<DepartmentModel>> GetDepartmentsByDivisionAsync(int divisionId)
+        {
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string sql = "SELECT * FROM C##AEROVAULT.DEPARTMENTS WHERE DivisionID = :DivisionID AND IS_DELETED = 0"; 
+                using (var command = new OracleCommand(sql, connection))
+                {
+                    command.Parameters.Add(new OracleParameter(":DivisionID", divisionId));
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        var departments = new List<DepartmentModel>();
+                        while (await reader.ReadAsync())
+                        {
+                            departments.Add(new DepartmentModel
+                            {
+                                DepartmentID = reader.GetInt32(0),
+                                DepartmentName = reader.GetString(1),
+                                DivisionID = reader.GetInt32(2),
+                                IsDeleted = reader.GetInt32(3) 
+                            });
+                        }
+                        return departments;
+                    }
+                }
+            }
+        }
     }
 }

@@ -85,7 +85,12 @@ namespace AeroVault.Controllers
         }
 
 
-        // Add these classes back to the controller
+        [HttpGet]
+        public async Task<IActionResult> GetSystemsByDepartment(int departmentId)
+        {
+            var systems = await _departmentService.GetSystemsByDepartmentAsync(departmentId);
+            return Json(systems);
+        }
 
         public class UpdateDepartmentRequest
 

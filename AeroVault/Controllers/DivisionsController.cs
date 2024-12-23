@@ -126,6 +126,12 @@ public class DivisionsController : BaseAdminController
         }
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetDepartmentsByDivision(int divisionId)
+    {
+        var departments = await _divisionService.GetDepartmentsByDivisionAsync(divisionId);
+        return Json(departments);
+    }
 
 }
 
