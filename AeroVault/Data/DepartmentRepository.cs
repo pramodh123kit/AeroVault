@@ -179,5 +179,37 @@ namespace AeroVault.Repositories
                 }
             }
         }
+
+        public async Task<List<SystemModel>> GetSystemsByDepartmentAsync(int departmentId)
+        {
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string sql = @"
+            SELECT s.SystemID, s.SystemName, s.Description 
+            FROM C##AEROVAULT.SYSTEMS s
+            JOIN C##AEROVAULT.SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
+            WHERE sd.DepartmentID = :DepartmentID";
+
+                using (var command = new OracleCommand(sql, connection))
+                {
+                    command.Parameters.Add(new OracleParameter(":DepartmentID", departmentId));
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        var systems = new List<SystemModel>();
+                        while (await reader.ReadAsync())
+                        {
+                            systems.Add(new SystemModel
+                            {
+                                SystemID = reader.GetInt32(0),
+                                SystemName = reader.GetString(1),
+                                Description = reader.IsDBNull(2) ? string.Empty : reader.GetString(2)
+                            });
+                        }
+                        return systems;
+                    }
+                }
+            }
+        }
     }
 }

@@ -5,29 +5,17 @@
 
 <div class="modal-delete-system" id="deletedepartment-popup" style="display: none;">
     <div class="modal-header-delete-system" style="display: flex; align-items: center;">
-        <h2 style="margin: 0; margin-bottom: 20px;display: inline-block;">Delete Engineering Division?</h2>
-        <img src="/Content/Assets/AdminSystemDeletePopupCloseIcon.svg" id="close-icon-dep2" style="margin-left: auto; cursor: pointer; vertical-align: middle; margin-top:-25px" />
+        <h2 style="margin: 0; margin-bottom: 20px; display: inline-block;">Delete Division?</h2>
+        <img src="/Content/Assets/AdminSystemDeletePopupCloseIcon.svg" id="close-icon-dep2" style="margin-left: auto; cursor: pointer; vertical-align: middle; margin-top: -25px" />
     </div>
     <div>
         <p>
             Are you sure you want to delete this Division and all of its departments listed below permanently?
         </p>
-        <div class="file-list">
-            <div class="file-item"> Aircraft Engineering</div>
-            <div class="file-item"> Technical Services</div>
-            <div class="file-item"> Aircraft Maintenance</div>
-            <div class="file-item"> Technical Training</div>
-            <div class="file-item">Quality-Assurance</div>
-            <div class="file-item"> Aircraft Engineering</div>
-            <div class="file-item"> Technical Services</div>
-            <div class="file-item"> Aircraft Maintenance</div>
-            <div class="file-item"> Technical Training</div>
-            <div class="file-item">Quality-Assurance</div>
-            <div class="file-item"> Aircraft Engineering</div>
-        </div>
+        <div class="file-list" style="height: 250px;"></div>
     </div>
-    <div class="modal-footer div-dep-delete-popup" style="padding:0px; justify-content: center;">
-        <button class="cancel-btn">No, Cancel</button>
+    <div class="modal-footer div-dep-delete-popup" style="padding: 0px; justify-content: center;">
+        <button class="cancel-btn" id="cancel-btn">No, Cancel</button>
         <button class="delete-btn"><img src="/Content/Assets/system-delete-icon.svg" class="delete-icon-popup" /> Yes, I'm sure</button>
     </div>
 </div>

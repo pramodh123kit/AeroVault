@@ -51,5 +51,9 @@ namespace AeroVault.Business
             }
         }
 
+        public async Task<List<DepartmentModel>> GetDepartmentsByDivisionAsync(int divisionId)
+        {
+            return await _divisionRepository.GetDepartmentsByDivisionAsync(divisionId);
+        }
     }
 }
