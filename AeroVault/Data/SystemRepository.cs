@@ -169,8 +169,8 @@ namespace AeroVault.Data
             {
                 await connection.OpenAsync();
 
-                // Fetch divisions
-                string divisionsSql = "SELECT DivisionID, DivisionName FROM C##AEROVAULT.DIVISIONS";
+                // Fetch divisions that are not deleted
+                string divisionsSql = "SELECT DivisionID, DivisionName FROM C##AEROVAULT.DIVISIONS WHERE IsDeleted = 0";
                 var divisionList = new List<DivisionModel>();
                 using (var command = new OracleCommand(divisionsSql, connection))
                 {
@@ -187,11 +187,11 @@ namespace AeroVault.Data
                     }
                 }
 
-                // Fetch departments
+                // Fetch departments that are not deleted
                 string departmentsSql = @"
-                SELECT DepartmentID, DepartmentName, DivisionID 
-                FROM C##AEROVAULT.DEPARTMENTS 
-                WHERE is_deleted = 0";
+        SELECT DepartmentID, DepartmentName, DivisionID 
+        FROM C##AEROVAULT.DEPARTMENTS 
+        WHERE is_deleted = 0";
 
                 var departmentList = new List<DepartmentModel>();
                 using (var command = new OracleCommand(departmentsSql, connection))

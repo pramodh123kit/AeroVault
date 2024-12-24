@@ -968,9 +968,7 @@ window.addEventListener('click', function (event) {
 
 function populateCustomDropdown() {
     var dropdownList = document.querySelector('.custom-dropdown-list');
-
     dropdownList.innerHTML = '';
-
     var systemListItems = document.querySelectorAll('#systemList li');
 
     systemListItems.forEach(function (item) {
@@ -994,23 +992,15 @@ function populateCustomDropdown() {
 }
 
 window.addEventListener('load', function () {
-
-    console.log("Window loaded, populating dropdown...");
-
+    //console.log("Window loaded, populating dropdown...");
     populateCustomDropdown();
-
 });
 
 document.querySelector('.add-system-button').addEventListener('click', function () {
-
     document.getElementById('addsystem-popup').style.display = 'block';
-
-    loadDivisions(); // Call to load divisions when the popup is opened
+    loadDivisions();
     showAddSystemPopup()
-
 });
-
-
 
 async function editSystem() {
     // 1. Validate System Name
@@ -1100,31 +1090,18 @@ async function editSystem() {
 //document.querySelector('.save-btn').addEventListener('click', editSystem);
 
 
-
 async function fetchSystemDescription(systemName) {
-
     try {
-
         const response = await fetch(`/Systems/GetSystemDescription?systemName=${encodeURIComponent(systemName)}`);
-
         const data = await response.json();
-
         return data.description || '';
-
     } catch (error) {
-
         console.error('Error fetching system description:', error);
-
         return '';
-
     }
-
 }
 
-
-
 document.addEventListener('DOMContentLoaded', () => {
-    // Existing description element listener
     const descriptionElement = document.getElementById('description');
     if (descriptionElement) {
         descriptionElement.addEventListener('input', (event) => {
@@ -1133,8 +1110,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.warn('Description element not found on page load');
     }
-
-    // Add division listeners
     document.querySelectorAll('.division').forEach(division => {
         setupDivisionListeners(division);
     });
