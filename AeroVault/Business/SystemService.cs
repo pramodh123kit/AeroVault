@@ -93,5 +93,20 @@ namespace AeroVault.Business
         {
             return await _systemRepository.GetSystemDepartmentIdsAsync(systemName);
         }
+
+
+        public async Task<bool> SoftDeleteSystemAsync(string systemName)
+        {
+            try
+            {
+                return await _systemRepository.SoftDeleteSystemAsync(systemName);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine($"Error in SoftDeleteSystemAsync: {ex.Message}");
+                throw; // Rethrow the exception for higher-level handling
+            }
+        }
     }
 }

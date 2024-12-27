@@ -102,6 +102,34 @@ namespace AeroVault.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> SoftDeleteSystem([FromBody] SoftDeleteSystemRequest request)
+        {
+            try
+            {
+                var result = await _systemService.SoftDeleteSystemAsync(request.SystemName);
+                if (result)
+                {
+                    return Ok(new { message = "System soft deleted successfully" });
+                }
+                else
+                {
+                    return NotFound(new { message = "System not found" });
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine($"Error in SoftDeleteSystem: {ex.Message}");
+                return StatusCode(500, new { message = "An error occurred while deleting the system." });
+            }
+        }
+
+        // DTO for soft delete request
+        public class SoftDeleteSystemRequest
+        {
+            public string SystemName { get; set; }
+        }
 
     }
 }
