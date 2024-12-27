@@ -472,7 +472,7 @@ function confirmDeleteDivision() {
 
             // Hide the system container and show the image container
             document.querySelector('.system-container').style.display = 'none';
-            document.querySelector('.image-container').style.display = 'block';
+            document.querySelector('.image-container').style.display = 'flex';
             const selectedOptionSpan = document.getElementById('selected-option');            
             selectedOptionSpan.textContent = "Select a division";
            

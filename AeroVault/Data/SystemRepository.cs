@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 using static AeroVault.Controllers.SystemsController;
+using System.Xml.Linq;
 
 namespace AeroVault.Data
 {
@@ -27,11 +28,11 @@ namespace AeroVault.Data
                 await connection.OpenAsync();
 
                 string sql = @"
-        SELECT DISTINCT s.SystemID, s.SystemName, s.Description 
-        FROM C##AEROVAULT.SYSTEMS s
-        JOIN C##AEROVAULT.SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
-        JOIN C##AEROVAULT.DEPARTMENTS d ON sd.DepartmentID = d.DepartmentID
-        WHERE d.is_deleted = 0";
+            SELECT DISTINCT s.SystemID, s.SystemName, s.Description 
+            FROM C##AEROVAULT.SYSTEMS s
+            JOIN C##AEROVAULT.SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
+            JOIN C##AEROVAULT.DEPARTMENTS d ON sd.DepartmentID = d.DepartmentID
+            WHERE s.IS_DELETED = 0 AND d.IS_DELETED = 0"; // Ensure both systems and departments are not deleted
 
                 using (var command = new OracleCommand(sql, connection))
                 {
@@ -55,7 +56,8 @@ namespace AeroVault.Data
             return systems;
         }
 
-        public async Task<bool> CheckSystemExistsAsync(string systemName)
+        public async Task<bool> CheckSystemExistsAsyncch
+            (string systemName)
         {
             string sql = "SELECT COUNT(*) FROM C##AEROVAULT.SYSTEMS WHERE LOWER(SystemName) = LOWER(:SystemName)";
             using (var connection = new OracleConnection(_connectionString))
@@ -363,6 +365,68 @@ namespace AeroVault.Data
             }
 
             return departmentIds;
+        }
+
+
+        public async Task<bool> SoftDeleteSystemAsync(string systemName)
+        {
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        // Soft delete the system
+                        string updateSystemSql = @"
+                UPDATE C##AEROVAULT.SYSTEMS 
+                SET is_deleted = 1 
+                WHERE LOWER(SYSTEMNAME) = LOWER(:SystemName)";
+
+                        using (var updateCommand = new OracleCommand(updateSystemSql, connection))
+                        {
+                            updateCommand.Transaction = transaction;
+                            updateCommand.Parameters.Add(new OracleParameter(":SystemName", systemName));
+
+                            int rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+
+                            // Log the number of rows affected
+                            Console.WriteLine($"Rows affected by soft delete: {rowsAffected}");
+
+                            if (rowsAffected == 0)
+                            {
+                                transaction.Rollback();
+                                return false; // No rows affected, system not found
+                            }
+                        }
+
+                        // Commit the transaction
+                        transaction.Commit();
+                        return true; // Soft delete successful
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        Console.WriteLine($"Error in SoftDeleteSystemAsync: {ex.Message}"); // Log the error
+                        throw; // Rethrow the exception for higher-level handling
+                    }
+                }
+            }
+        }
+
+        public async Task<bool> CheckSystemExistsAsync(string systemName)
+        {
+            string sql = "SELECT COUNT(*) FROM C##AEROVAULT.SYSTEMS WHERE LOWER(SystemName) = LOWER(:SystemName)";
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new OracleCommand(sql, connection))
+                {
+                    command.Parameters.Add(new OracleParameter(":SystemName", systemName));
+                    int count = Convert.ToInt32(await command.ExecuteScalarAsync());
+                    return count > 0; // Return true if count is greater than 0
+                }
+            }
         }
     }
 }

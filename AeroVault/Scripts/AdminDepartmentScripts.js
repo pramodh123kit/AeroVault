@@ -714,7 +714,7 @@ function softDeleteDepartment() {
 
             // Reset the system container and show image container
             document.querySelector('.system-container').style.display = 'none';
-            document.querySelector('.image-container').style.display = 'block';
+            document.querySelector('.image-container').style.display = 'flex';
 
             // Remove active state from any active custom dropdown items
             const customDropdownItems = document.querySelectorAll('.custom-dropdown-list div');

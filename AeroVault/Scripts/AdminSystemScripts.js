@@ -21,6 +21,7 @@ async function highlightSystem(selectedItem) {
    
 
     const systemName = selectedItem.querySelector('a').textContent.trim();
+    selectedSystemName = systemName;
 
     try {
 
@@ -584,21 +585,61 @@ function showSuccessNotification(message) {
     }
 }
 
-// Optional: Function to refresh systems list
+
+function showDeleteSuccessNotification(message) {
+    const successPopup = document.getElementById('success-popup');
+    const darkOverlay123 = document.getElementById('dark-overlay123');
+    const successMessage = document.getElementById('success-message');
+    const closeButton = document.getElementById('close-success-popup');
+    const okButton = document.getElementById('ok-success-btn');
+
+    successMessage.textContent = message;
+    successPopup.style.display = 'block';
+    darkOverlay123.style.display = 'block';
+
+    // Close the popup when the close button is clicked
+    closeButton.onclick = function () {
+        successPopup.style.display = 'none';
+        darkOverlay123.style.display = 'none';
+    };
+
+    // Close the popup when the OK button is clicked
+    okButton.onclick = function () {
+        successPopup.style.display = 'none';
+        darkOverlay123.style.display = 'none';
+    };
+
+    darkOverlay123.onclick = function () {
+        successPopup.style.display = 'none';
+        darkOverlay123.style.display = 'none';
+    };
+}
+
+
+
+window.onclick = function (event) {
+
+    const successPopup = document.getElementById('success-popup');
+
+    if (event.target === successPopup) {
+
+        successPopup.style.display = 'none';
+
+    }
+
+};
+
+// Function to refresh systems list
 async function refreshSystemsList() {
     try {
         const response = await fetch('/Systems/GetAllSystems');
         const systems = await response.json();
-
-        console.log('Fetched Systems:', systems);
 
         // Update the systems list in the UI
         const systemList = document.getElementById('systemList');
         systemList.innerHTML = ''; // Clear existing list
 
         systems.forEach(system => {
-            //console.log('System Details:', system);
-
             const li = document.createElement('li');
             li.setAttribute('data-system-description', system.description || '');
             li.innerHTML = `
@@ -867,68 +908,33 @@ function setupDivisionListeners(divisionDiv) {
 
 }
 
+
+
+var selectedSystemName = ''; // Variable to store the selected system name
+
 async function selectCustomOption(element) {
-
-
     const systemName = element.textContent.trim();
-
+    selectedSystemName = systemName; // Store the selected system name
 
     try {
-
         // Fetch system departments
-
         const response = await fetch(`/Systems/GetSystemDepartments?systemName=${encodeURIComponent(systemName)}`);
-
         const departmentIds = await response.json();
 
-
         // Pre-select departments and set up listeners
-
         preDepartmentSelection(departmentIds);
-
     } catch (error) {
-
         console.error('Error fetching system departments:', error);
-
     }
 
-
-
-
-
-
-
-
-
-    var selectedOption = element.textContent || element.innerText;
     var systemDescription = element.getAttribute('data-system-description') || '';
 
-    console.log('Selected Option:', selectedOption);
-    console.log('System Description (Attribute):', systemDescription);
-
-    // Try multiple description elements
-    const descriptionElements = [
-        document.getElementById('description'),
-        document.querySelector('#editsystem-popup textarea[id="description"]')
-    ];
-
-    descriptionElements.forEach(element => {
-        if (element) {
-            // Clear first, then set value
-            element.value = '';
-            element.value = systemDescription.trim();
-
-            console.log('Description Element:', element);
-            console.log('Set Description Value:', element.value);
-        }
-    });
-
-    // Set system name
-    document.getElementById('selected-option').textContent = selectedOption;
-    document.getElementById('system-edit-name').value = selectedOption;
+    // Update UI elements
+    document.getElementById('selected-option').textContent = systemName;
+    document.getElementById('system-edit-name').value = systemName;
 
     // Update other UI elements
-    document.querySelector('.systems-name').innerText = selectedOption;
+    document.querySelector('.systems-name').innerText = systemName;
     document.querySelector('.image-container').style.display = 'none';
     document.querySelector('.system-container').style.display = 'block';
 
@@ -936,15 +942,11 @@ async function selectCustomOption(element) {
     document.querySelector('.custom-dropdown-content').style.display = 'none';
     document.querySelector('.custom-dropdown-toggle').classList.remove('open');
 
-    var selector = document.querySelector('.custom-selector');
-    selector.style.borderBottomLeftRadius = '10px';
-    selector.style.borderBottomRightRadius = '10px';
-    selector.style.borderBottom = '1px solid #6D6D6D';
-
     var divs = document.querySelectorAll('.custom-dropdown-list div');
     divs.forEach(div => div.classList.remove('active'));
     element.classList.add('active');
 }
+
 
 function showAllCustomOptions() {
     var divs = document.querySelectorAll('.custom-dropdown-list div');
@@ -967,28 +969,46 @@ window.addEventListener('click', function (event) {
 
 
 function populateCustomDropdown() {
+
     var dropdownList = document.querySelector('.custom-dropdown-list');
+
     dropdownList.innerHTML = '';
+
     var systemListItems = document.querySelectorAll('#systemList li');
 
+
     systemListItems.forEach(function (item) {
+
         var systemName = item.innerText.trim();
+
         var systemDescription = item.getAttribute('data-system-description') || '';
 
+
         var dropdownItem = document.createElement('div');
+
         dropdownItem.textContent = systemName;
+
         dropdownItem.setAttribute('data-system-description', systemDescription);
 
+
         dropdownItem.onclick = function () {
+
             selectCustomOption(dropdownItem);
+
         };
 
+
         dropdownList.appendChild(dropdownItem);
+
     });
 
+
     if (dropdownList.children.length === 0) {
+
         console.log("No items found to populate the dropdown.");
+
     }
+
 }
 
 window.addEventListener('load', function () {
@@ -1114,3 +1134,64 @@ document.addEventListener('DOMContentLoaded', () => {
         setupDivisionListeners(division);
     });
 });
+
+
+
+document.getElementById('delete-system-button').onclick = async function () {
+    if (!selectedSystemName) {
+        alert("Please select a system to delete.");
+        return;
+    }
+
+    try {
+        const response = await fetch('/Systems/SoftDeleteSystem', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ systemName: selectedSystemName })
+        });
+
+        const data = await response.json();
+        console.log("Response from server:", data); // Log the server response
+        if (data.message === "System soft deleted successfully") {
+            // Refresh the systems list to reflect the deletion immediately
+            await refreshSystemsList();
+
+            // Reset the selected option in the dropdown
+            document.querySelector('#selected-option').textContent = 'Select a system';
+            document.querySelector('.system-container').style.display = 'none';
+            document.querySelector('.image-container').style.display = 'flex';
+
+            // Show success notification
+            showDeleteSuccessNotification(`System "${selectedSystemName}" has been successfully deleted.`);
+
+            // Close the delete popup
+            closeDeletePopup();
+        } else {
+            alert(data.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while deleting the system.');
+    }
+};
+
+function closeDeletePopup() {
+    document.getElementById('deletesystem-popup').style.display = 'none';
+    document.getElementById('dark-overlay2').style.display = 'none';
+}
+
+document.querySelector('.delete-system-button').onclick = function () {
+    if (!selectedSystemName) {
+        alert("Please select a system to delete.");
+        return;
+    }
+
+    // Set the system name in the delete confirmation popup
+    document.getElementById('system-name-to-delete').textContent = selectedSystemName;
+
+    // Show the delete confirmation popup
+    document.getElementById('deletesystem-popup').style.display = 'block';
+    document.getElementById('dark-overlay2').style.display = 'block';
+};

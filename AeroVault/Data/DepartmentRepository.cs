@@ -189,7 +189,7 @@ namespace AeroVault.Repositories
             SELECT s.SystemID, s.SystemName, s.Description 
             FROM C##AEROVAULT.SYSTEMS s
             JOIN C##AEROVAULT.SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
-            WHERE sd.DepartmentID = :DepartmentID";
+            WHERE sd.DepartmentID = :DepartmentID AND s.is_deleted = 0"; // Only include systems that are not deleted
 
                 using (var command = new OracleCommand(sql, connection))
                 {
