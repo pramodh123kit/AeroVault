@@ -308,7 +308,7 @@ function preparePopupForDisplay() {
 
 
 function showAddSystemPopup() {
-    preparePopupForDisplay();
+    resetPopup('add'); // Reset the popup fields and checkboxes
     const popup = document.getElementById('addsystem-popup');
     const darkOverlay = document.getElementById('dark-overlay');
 

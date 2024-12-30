@@ -125,6 +125,13 @@ namespace AeroVault.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetSystemDetails(string systemName)
+        {
+            var systemDetails = await _systemService.GetSystemDetailsAsync(systemName);
+            return Json(systemDetails);
+        }
+
         // DTO for soft delete request
         public class SoftDeleteSystemRequest
         {
