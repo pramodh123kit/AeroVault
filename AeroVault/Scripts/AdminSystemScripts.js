@@ -1,27 +1,42 @@
 function filterSystems() {
+
     var input, filter, ul, li, a, i, txtValue;
+
     input = document.getElementById('systemSearch');
+
     filter = input.value.toUpperCase();
+
     ul = document.getElementById("systemList");
+
     li = ul.getElementsByTagName('li');
 
+
     for (i = 0; i < li.length; i++) {
+
         a = li[i].getElementsByTagName("a")[0];
+
         txtValue = a.textContent || a.innerText;
+
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
+
             li[i].style.display = "";
+
         } else {
+
             li[i].style.display = "none";
+
         }
+
     }
+
 }
 
 async function highlightSystem(selectedItem) {
 
-   
-
     const systemName = selectedItem.querySelector('a').textContent.trim();
+
     selectedSystemName = systemName;
+
 
     try {
 
@@ -43,68 +58,110 @@ async function highlightSystem(selectedItem) {
     }
 
 
-
     const listItems = document.querySelectorAll("#systemList li");
+
     listItems.forEach(item => {
+
         item.style.backgroundColor = "";
+
         item.style.fontWeight = "";
+
         item.style.padding = "";
+
     });
+
 
     selectedItem.style.backgroundColor = "#BBDCF9";
+
     selectedItem.style.fontWeight = "bold";
 
+
     // Capture system details from data attributes
+
     const systemDescription = selectedItem.getAttribute('data-system-description') || '';
-    //console.log('Selected System Name:', systemName);
-    //console.log('System Description (Attribute):', systemDescription);
+
 
     const descriptionElements = [
-        document.getElementById('description'),
-        document.querySelector('#editsystem-popup textarea[id="description"]')
+
+        document.getElementById('edit-description'),
+
+        document.querySelector('#editsystem-popup textarea[id="edit-description"]')
+
     ];
+
 
     descriptionElements.forEach(element => {
+
         if (element) {
+
             element.value = '';
+
             element.value = systemDescription.trim();
 
-            //console.log('Description Element:', element);
-            //console.log('Set Description Value:', element.value);
         } else {
+
             console.warn('Description element not found');
+
         }
+
     });
+
 
     // Set system name in edit popup
+
     const systemEditNameElements = [
+
         document.getElementById('system-edit-name'),
+
         document.querySelector('#editsystem-popup input[id="system-edit-name"]')
+
     ];
 
+
     systemEditNameElements.forEach(element => {
+
         if (element) {
+
             element.value = systemName;
+
         }
+
     });
 
+
     document.querySelector('.systems-name').innerText = systemName;
+
     document.querySelector('.image-container').style.display = 'none';
+
     document.querySelector('.system-container').style.display = 'block';
 
+
     // Optional: Fetch description as a fallback
+
     if (!systemDescription) {
+
         try {
+
             const descriptionResponse = await fetchSystemDescription(systemName);
+
             descriptionElements.forEach(element => {
+
                 if (element) {
+
                     element.value = descriptionResponse;
+
                 }
+
             });
+
         } catch (error) {
+
             console.error('Error fetching system description:', error);
+
         }
+
     }
+
 }
 
 function filterFiles() {
@@ -147,8 +204,88 @@ document.getElementById('close-icon').onclick = closePopup;
 
 // SYSTEM EDIT POPUP
 function systemEditopenPopup() {
-    document.getElementById('dark-overlay1').style.display = 'block'; 
-    document.getElementById('editsystem-popup').style.display = 'block'; 
+
+    document.getElementById('dark-overlay1').style.display = 'block';
+
+    document.getElementById('editsystem-popup').style.display = 'block';
+
+    console.log('Edit System Popup opened'); // Log when the popup is opened
+
+
+    // Fetch the system details for the selected system
+
+    fetch(`/Systems/GetSystemDetails?systemName=${encodeURIComponent(selectedSystemName)}`)
+
+        .then(response => response.json())
+
+        .then(systemDetails => {
+
+            // Update the input fields with the fetched system details
+
+            document.getElementById('system-edit-name').value = systemDetails.systemName;
+
+            document.getElementById('edit-description').value = systemDetails.description;
+
+
+            // Fetch the departments for the selected system
+
+            return fetch(`/Systems/GetSystemDepartments?systemName=${encodeURIComponent(selectedSystemName)}`);
+
+        })
+
+        .then(response => response.json())
+
+        .then(departmentIds => {
+
+            preDepartmentSelection(departmentIds);
+
+        })
+
+        .catch(error => {
+
+            console.error('Error fetching system details or departments:', error);
+
+        });
+
+
+    // Setup event listeners for edit division headers
+
+    document.querySelectorAll('.edit-division-header').forEach(header => {
+
+        header.addEventListener('click', () => {
+
+            console.log('Division clicked:', header.querySelector('.edit-division-name').textContent); // Log the division name
+
+            const contentDiv = header.nextElementSibling; // This should be the edit-division-content
+
+            const icon = header.querySelector('i');
+
+
+            // Toggle content visibility
+
+            if (contentDiv.style.display === 'none' || contentDiv.style.display === '') {
+
+                contentDiv.style.display = 'block';
+
+                icon.classList.replace('fa-chevron-right', 'fa-chevron-down');
+
+            } else {
+
+                contentDiv.style.display = 'none';
+
+                icon.classList.replace('fa-chevron-down', 'fa-chevron-right');
+
+            }
+
+        });
+
+    });
+
+
+    // Setup edit division checkbox listeners
+
+    setupEditDivisionCheckboxListeners();
+
 }
 
 function systemEditClosePopup() {
@@ -158,7 +295,7 @@ function systemEditClosePopup() {
 
 document.querySelector('.edit-system-button').onclick = systemEditopenPopup;
 
-document.getElementById('close-icon1').onclick = systemEditClosePopup;
+document.getElementById('close-icon-edit').onclick = systemEditClosePopup;
 //document.getElementById('dark-overlay1').onclick = systemEditClosePopup;
 
 
@@ -807,13 +944,13 @@ function filterCustomOptions() {
 
 
 function preDepartmentSelection(departmentIds) {
-    const allDivisions = document.querySelectorAll('.division');
+    const allDivisions = document.querySelectorAll('.edit-division');
 
     allDivisions.forEach(division => {
-        const selectAllCheckbox = division.querySelector('.select-all');
-        const departmentCheckboxes = division.querySelectorAll('.department');
-        const contentDiv = division.querySelector('.division-content');
-        const headerIcon = division.querySelector('.division-header i');
+        const selectAllCheckbox = division.querySelector('.edit-select-all');
+        const departmentCheckboxes = division.querySelectorAll('.edit-department');
+        const contentDiv = division.querySelector('.edit-division-content');
+        const headerIcon = division.querySelector('.edit-division-header i');
 
         // Reset first
         if (selectAllCheckbox) {
@@ -821,32 +958,32 @@ function preDepartmentSelection(departmentIds) {
             selectAllCheckbox.indeterminate = false;
         }
 
-        departmentCheckboxes.forEach(checkbox => {
-            checkbox.checked = false;
-        });
+        // Check if there are department checkboxes
+        if (departmentCheckboxes.length > 0) {
+            departmentCheckboxes.forEach(checkbox => {
+                checkbox.checked = departmentIds.includes(parseInt(checkbox.value));
+            });
 
-        // Select departments for the system
-        departmentIds.forEach(departmentId => {
-            const checkbox = division.querySelector(`.department[value="${departmentId}"]`);
-            if (checkbox) {
-                checkbox.checked = true;
+            // Manage content visibility and icon
+            const selectedCount = Array.from(departmentCheckboxes).filter(checkbox => checkbox.checked).length;
+            if (selectedCount > 0) {
+                contentDiv.style.display = 'block';
+                headerIcon.classList.remove('fa-chevron-right');
+                headerIcon.classList.add('fa-chevron-down');
+            } else {
+                contentDiv.style.display = 'none';
+                headerIcon.classList.remove('fa-chevron-down');
+                headerIcon.classList.add('fa-chevron-right');
             }
-        });
 
-        // Manage content visibility and icon
-        const selectedCount = Array.from(departmentCheckboxes).filter(checkbox => checkbox.checked).length;
-        if (selectedCount > 0) {
-            contentDiv.style.display = 'block';
-            headerIcon.classList.remove('fa-chevron-right');
-            headerIcon.classList.add('fa-chevron-down');
+            // Update selected count
+            updateEditSelectedCount(division);
         } else {
+            // If no departments, show the message and hide the content
             contentDiv.style.display = 'none';
             headerIcon.classList.remove('fa-chevron-down');
             headerIcon.classList.add('fa-chevron-right');
         }
-
-        // Update selected count
-        updateSelectedCount(division);
     });
 }
 
@@ -1195,3 +1332,196 @@ document.querySelector('.delete-system-button').onclick = function () {
     document.getElementById('deletesystem-popup').style.display = 'block';
     document.getElementById('dark-overlay2').style.display = 'block';
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// EDIT SYSTEM NEW JAVASCRIPTS
+
+// Function to open the edit system popup
+function openEditSystemPopup() {
+    document.getElementById('editsystem-popup').style.display = 'block';
+
+    // Setup event listeners for edit division headers
+    document.querySelectorAll('.edit-division-header').forEach(header => {
+        header.addEventListener('click', () => {
+            console.log('Division clicked:', header.querySelector('.edit-division-name').textContent); // Log the division name
+            const contentDiv = header.nextElementSibling; // This should be the edit-division-content
+            const icon = header.querySelector('i');
+
+            // Toggle content visibility
+            if (contentDiv.style.display === 'none' || contentDiv.style.display === '') {
+                contentDiv.style.display = 'block';
+                icon.classList.replace('fa-chevron-right', 'fa-chevron-down');
+            } else {
+                contentDiv.style.display = 'none';
+                icon.classList.replace('fa-chevron-down', 'fa-chevron-right');
+            }
+        });
+    });
+
+    // Setup edit division checkbox listeners
+    setupEditDivisionCheckboxListeners();
+}
+
+function setupEditDivisionCheckboxListeners() {
+
+    document.querySelectorAll('.edit-division').forEach(division => {
+
+        const selectAllCheckbox = division.querySelector('.edit-select-all');
+
+        const departmentCheckboxes = division.querySelectorAll('.edit-department');
+
+
+        // Select All checkbox functionality
+
+        if (selectAllCheckbox) {
+
+            selectAllCheckbox.addEventListener('change', (event) => {
+
+                departmentCheckboxes.forEach(checkbox => {
+
+                    checkbox.checked = event.target.checked;
+
+                });
+
+                updateEditSelectedCount(division);
+
+            });
+
+        }
+
+
+        // Individual department checkbox listeners
+
+        departmentCheckboxes.forEach(checkbox => {
+
+            checkbox.addEventListener('change', () => {
+
+                updateEditSelectedCount(division);
+
+            });
+
+        });
+
+
+        // Initial count update
+
+        updateEditSelectedCount(division);
+
+    });
+
+}
+
+function updateEditSelectedCount(divisionDiv) {
+    const selectedCountElement = divisionDiv.querySelector('.edit-selected-count');
+    const departmentCheckboxes = divisionDiv.querySelectorAll('.edit-department');
+    const selectAllCheckbox = divisionDiv.querySelector('.edit-select-all');
+
+    // Only proceed if there are department checkboxes
+    if (departmentCheckboxes.length > 0) {
+        const selectedCount = Array.from(departmentCheckboxes).filter(checkbox => checkbox.checked).length;
+
+        // Update selected count display
+        selectedCountElement.textContent = selectedCount > 0 ? selectedCount : '';
+
+        // Update select all checkbox state
+        if (selectedCount === departmentCheckboxes.length) {
+            selectAllCheckbox.checked = true;
+            selectAllCheckbox.indeterminate = false;
+        } else if (selectedCount === 0) {
+            selectAllCheckbox.checked = false;
+            selectAllCheckbox.indeterminate = false;
+        } else {
+            selectAllCheckbox.checked = false;
+            selectAllCheckbox.indeterminate = true;
+        }
+
+        // Change division header background
+        const header = divisionDiv.querySelector('.edit-division-header');
+        header.style.backgroundColor = selectedCount > 0 ? '#D5EBFE' : '';
+    } else {
+        // If no department checkboxes, clear the selected count
+        selectedCountElement.textContent = '';
+    }
+}
+
+
+// Function to filter edit departments and divisions
+function filterEditDepartmentsDivisions() {
+
+    const input = document.getElementById('EditDepartmentsDivisionsSearch').value.toLowerCase();
+
+    const divisions = document.querySelectorAll('.edit-division');
+
+
+    divisions.forEach(division => {
+
+        const divisionName = division.querySelector('.edit-division-header span').textContent.toLowerCase();
+
+        const departmentLabels = division.querySelectorAll('.edit-department');
+
+        let hasVisibleDepartment = false;
+
+
+        if (divisionName.includes(input)) {
+
+            division.style.display = '';
+
+        } else {
+
+            departmentLabels.forEach(label => {
+
+                const departmentName = label.textContent.toLowerCase();
+
+                if (departmentName.includes(input)) {
+
+                    hasVisibleDepartment = true;
+
+                }
+
+            });
+
+            division.style.display = hasVisibleDepartment ? '' : 'none';
+
+        }
+
+    });
+
+}
+
+// Event listener for the close icon
+document.getElementById('close-icon-edit').onclick = function () {
+
+    document.getElementById('editsystem-popup').style.display = 'none';
+
+    document.getElementById('dark-overlay1').style.display = 'none';
+
+};
+
+// Ensure the functions are available when the document is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Any additional initialization can go here
+});

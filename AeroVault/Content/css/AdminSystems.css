@@ -1956,3 +1956,111 @@ input[type="text"] {
     z-index: 1000; /* Ensure it appears above other content */
     display: none; /* Initially hidden */
 }
+
+
+
+
+
+
+
+
+
+
+/* EDIT SYSTEM POPUP NEW STYLES*/
+
+.edit-division-container {
+    margin-top: 15px;
+    height: 360px;
+    overflow-y: auto;
+}
+
+.edit-division-container {
+    /* For Firefox */
+    scrollbar-width: thin; /* Options: auto, thin */
+    scrollbar-color: #00436C transparent; /* thumb color, track color */
+}
+
+    /* WebKit Browsers (Chrome, Safari) */
+    .edit-division-container::-webkit-scrollbar {
+        width: 8px; /* Width of the scrollbar */
+    }
+
+    .edit-division-container::-webkit-scrollbar-thumb {
+        background-color: #00436C; /* Color of the scrollbar thumb */
+        border-radius: 10px; /* Rounded corners */
+    }
+
+    .edit-division-container::-webkit-scrollbar-track {
+        background: transparent; /* No background for the track */
+    }
+
+.edit-division {
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.edit-division-header {
+    background-color: #E9E9EF;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    border-radius: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .edit-division-header.active {
+        background-color: #D5EBFE;
+    }
+
+    .edit-division-header.selected {
+        background-color: #D5EBFE;
+    }
+
+    .edit-division-header i {
+        margin-right: 10px;
+    }
+
+.edit-division-content {
+    display: none;
+    padding: 10px;
+    padding-bottom: 0px;
+}
+
+    .edit-division-content.active {
+        display: block;
+    }
+
+.edit-selected-count {
+    color: #063468;
+    margin-right: 10px;
+}
+
+.edit-division-name {
+    margin-left: 10px;
+    font-weight:bold;
+}
+
+.edit-checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+    .edit-checkbox-group label {
+        margin-right: 20px;
+        margin-left: 20px;
+        display: flex;
+        align-items: center;
+        width: 45%;
+        margin-bottom: 20px;
+    }
+
+    .edit-checkbox-group input[type="checkbox"] {
+        margin-right: 5px;
+    }
+
+.edit-department,
+.edit-select-all {
+    width: 15px;
+    height: 15px;
+}
