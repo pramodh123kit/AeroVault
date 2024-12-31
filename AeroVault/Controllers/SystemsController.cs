@@ -80,8 +80,16 @@ namespace AeroVault.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateSystem([FromBody] UpdateSystemRequest request)
         {
-            var result = await _systemService.UpdateSystemAsync(request);
-            return result;
+            try
+            {
+                var result = await _systemService.UpdateSystemAsync(request);
+                return result; // This should return Ok() or other appropriate responses
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in UpdateSystem: {ex.Message}"); // Log the error
+                return StatusCode(500, new { message = "An error occurred while updating the system." });
+            }
         }
 
         // DTO for updating a system

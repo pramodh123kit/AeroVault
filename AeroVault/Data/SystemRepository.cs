@@ -32,7 +32,7 @@ namespace AeroVault.Data
             FROM C##AEROVAULT.SYSTEMS s
             JOIN C##AEROVAULT.SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
             JOIN C##AEROVAULT.DEPARTMENTS d ON sd.DepartmentID = d.DepartmentID
-            WHERE s.IS_DELETED = 0 AND d.IS_DELETED = 0"; 
+            WHERE s.IS_DELETED = 0 AND d.IS_DELETED = 0";
 
                 using (var command = new OracleCommand(sql, connection))
                 {
@@ -138,7 +138,7 @@ namespace AeroVault.Data
             catch
             {
                 transaction?.Rollback();
-                throw; 
+                throw;
             }
             finally
             {
@@ -243,55 +243,73 @@ namespace AeroVault.Data
                 {
                     try
                     {
+                        // Get the SystemID for the current SystemName
+                        string getIdSql = "SELECT SYSTEMID FROM C##AEROVAULT.SYSTEMS WHERE LOWER(SYSTEMNAME) = LOWER(:OldSystemName)";
+                        int systemId;
+
+                        using (var getIdCommand = new OracleCommand(getIdSql, connection))
+                        {
+                            getIdCommand.Parameters.Add(new OracleParameter(":OldSystemName", request.SystemName));
+                            var result = await getIdCommand.ExecuteScalarAsync();
+                            if (result == null)
+                            {
+                                throw new InvalidOperationException("System not found.");
+                            }
+                            systemId = Convert.ToInt32(result);
+                        }
+
+                        // Update system name and description using SystemID
                         string updateSql = @"
-                    UPDATE C##AEROVAULT.SYSTEMS 
-                    SET SYSTEMNAME = :SystemName, 
-                        DESCRIPTION = :Description 
-                    WHERE SYSTEMNAME = :OldSystemName";
+                UPDATE C##AEROVAULT.SYSTEMS 
+                SET SYSTEMNAME = :SystemName, 
+                    DESCRIPTION = :Description 
+                WHERE SYSTEMID = :SystemID";
 
                         using (var updateCommand = new OracleCommand(updateSql, connection))
                         {
                             updateCommand.Transaction = transaction;
                             updateCommand.Parameters.Add(new OracleParameter(":SystemName", request.SystemName));
                             updateCommand.Parameters.Add(new OracleParameter(":Description", request.Description));
-                            updateCommand.Parameters.Add(new OracleParameter(":OldSystemName", request.SystemName));
+                            updateCommand.Parameters.Add(new OracleParameter(":SystemID", systemId)); // Use SystemID for the update
 
                             await updateCommand.ExecuteNonQueryAsync();
                         }
 
+                        // Continue with deleting and inserting department associations...
                         string deleteSql = @"
-                    DELETE FROM C##AEROVAULT.SYSTEM_DEPARTMENTS 
-                    WHERE SYSTEMID = (SELECT SYSTEMID FROM C##AEROVAULT.SYSTEMS WHERE SYSTEMNAME = :SystemName)";
+                DELETE FROM C##AEROVAULT.SYSTEM_DEPARTMENTS 
+                WHERE SYSTEMID = :SystemID";
 
                         using (var deleteCommand = new OracleCommand(deleteSql, connection))
                         {
                             deleteCommand.Transaction = transaction;
-                            deleteCommand.Parameters.Add(new OracleParameter(":SystemName", request.SystemName));
+                            deleteCommand.Parameters.Add(new OracleParameter(":SystemID", systemId));
                             await deleteCommand.ExecuteNonQueryAsync();
                         }
 
                         string insertAssociationSql = @"
-                    INSERT INTO C##AEROVAULT.SYSTEM_DEPARTMENTS (SYSTEMID, DEPARTMENTID) 
-                    VALUES ((SELECT SYSTEMID FROM C##AEROVAULT.SYSTEMS WHERE SYSTEMNAME = :SystemName), :DepartmentID)";
+                INSERT INTO C##AEROVAULT.SYSTEM_DEPARTMENTS (SYSTEMID, DEPARTMENTID) 
+                VALUES (:SystemID, :DepartmentID)";
 
                         foreach (var departmentId in request.DepartmentIds)
                         {
                             using (var associationCommand = new OracleCommand(insertAssociationSql, connection))
                             {
                                 associationCommand.Transaction = transaction;
-                                associationCommand.Parameters.Add(new OracleParameter(":SystemName", request.SystemName));
+                                associationCommand.Parameters.Add(new OracleParameter(":SystemID", systemId));
                                 associationCommand.Parameters.Add(new OracleParameter(":DepartmentID", departmentId));
 
                                 await associationCommand.ExecuteNonQueryAsync();
                             }
                         }
                         transaction.Commit();
-                        return await GetSystemByNameAsync(request.SystemName); 
+                        return await GetSystemByNameAsync(request.SystemName);
                     }
-                    catch
+                    catch (Exception ex)
                     {
                         transaction.Rollback();
-                        throw;
+                        Console.WriteLine($"Error in UpdateSystemAsync: {ex.Message}"); // Log the error
+                        throw; // Rethrow the exception to be handled by the controller
                     }
                 }
             }
@@ -379,12 +397,12 @@ namespace AeroVault.Data
                         }
 
                         transaction.Commit();
-                        return true; 
+                        return true;
                     }
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        Console.WriteLine($"Error in SoftDeleteSystemAsync: {ex.Message}"); 
+                        Console.WriteLine($"Error in SoftDeleteSystemAsync: {ex.Message}");
                         throw;
                     }
                 }
