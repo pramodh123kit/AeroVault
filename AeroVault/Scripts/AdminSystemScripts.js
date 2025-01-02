@@ -36,7 +36,7 @@ async function highlightSystem(selectedItem) {
     const systemName = selectedItem.querySelector('a').textContent.trim();
 
     selectedSystemName = systemName;
-
+    selectedSystemId = selectedItem.getAttribute('data-system-id'); // Ensure you have this attribute in your HTML
 
     try {
 
@@ -211,9 +211,9 @@ document.getElementById('close-icon').onclick = closePopup;
 //});
 
 
-document.getElementById('edit-save-btn').addEventListener('click', async function () {
-    await editSystem();
-});
+//document.getElementById('edit-save-btn').addEventListener('click', async function () {
+//    await editSystem();
+//});
 
 
 var originalSystemName = '';
@@ -1198,6 +1198,9 @@ async function editSystem() {
     const descriptionInput = document.getElementById('edit-description');
     const description = descriptionInput.value.trim();
 
+    // Get the SystemID from the selected system
+    const systemId = selectedSystemId; // Make sure you have this variable set when selecting a system
+
     // Validate inputs
     if (!systemName || systemName.length < 3 || systemName.length > 100) {
         showValidationError(systemNameInput, 'Invalid System Name');
@@ -1211,13 +1214,14 @@ async function editSystem() {
     // Collect selected departments
     const selectedDepartments = Array.from(document.querySelectorAll('.edit-department:checked')).map(checkbox => parseInt(checkbox.value));
 
-    try {
-        const systemUpdateData = {
-            SystemName: systemName,
-            Description: description,
-            DepartmentIds: selectedDepartments
-        };
+    const systemUpdateData = {
+        SystemID: systemId, // Include the SystemID
+        SystemName: systemName,
+        Description: description,
+        DepartmentIds: selectedDepartments
+    };
 
+    try {
         const updateSystemResponse = await fetch('/Systems/UpdateSystem', {
             method: 'PUT',
             headers: {
@@ -1232,20 +1236,44 @@ async function editSystem() {
             throw new Error(errorData.message || 'Failed to update system');
         }
 
-        // Close the popup and refresh the list
+        // Close the popup
         document.getElementById('editsystem-popup').style.display = 'none';
         document.getElementById('dark-overlay1').style.display = 'none';
         showSuccessNotification('System updated successfully!');
-        await refreshSystemsList();
+
+        // Refresh systems list
+        await refreshSystemsList(); // Call to refresh the system list and dropdowns
+
     } catch (error) {
         console.error('Error updating system:', error);
-        showCustomAlert(`Error: ${error.message}`);
     }
 }
 
-// Add event listener to save button
-//document.querySelector('.save-btn').addEventListener('click', editSystem);
+// Function to update the system list and dropdown
+function updateSystemList(systemId, systemName, description) {
+    // Update the system list
+    const systemList = document.getElementById('systemList');
+    const systemItems = systemList.getElementsByTagName('li');
 
+    for (let item of systemItems) {
+        if (item.getAttribute('data-system-id') == systemId) {
+            item.querySelector('a').textContent = systemName; // Update the system name
+            item.setAttribute('data-system-description', description); // Update the description
+            break;
+        }
+    }
+
+    // Update the custom dropdown list
+    const customDropdownList = document.querySelector('.custom-dropdown-list');
+    const dropdownItems = customDropdownList.getElementsByTagName('div');
+
+    for (let dropdownItem of dropdownItems) {
+        if (dropdownItem.textContent.trim() === systemName) {
+            dropdownItem.setAttribute('data-system-description', description); // Update the description
+            break;
+        }
+    }
+}
 
 async function fetchSystemDescription(systemName) {
     try {

@@ -243,20 +243,14 @@ namespace AeroVault.Data
                 {
                     try
                     {
-                        // Get the SystemID for the current SystemName
-                        string getIdSql = "SELECT SYSTEMID FROM C##AEROVAULT.SYSTEMS WHERE LOWER(SYSTEMNAME) = LOWER(:OldSystemName)";
-                        int systemId;
+                        // Log the request for debugging
+                        Console.WriteLine($"Attempting to update system with ID: '{request.SystemID}'");
 
-                        using (var getIdCommand = new OracleCommand(getIdSql, connection))
-                        {
-                            getIdCommand.Parameters.Add(new OracleParameter(":OldSystemName", request.SystemName));
-                            var result = await getIdCommand.ExecuteScalarAsync();
-                            if (result == null)
-                            {
-                                throw new InvalidOperationException("System not found.");
-                            }
-                            systemId = Convert.ToInt32(result);
-                        }
+                        // Get the SystemID directly from the request
+                        int systemId = request.SystemID;
+
+                        // Log the system ID found
+                        Console.WriteLine($"Updating SystemID: {systemId}");
 
                         // Update system name and description using SystemID
                         string updateSql = @"
@@ -268,11 +262,18 @@ namespace AeroVault.Data
                         using (var updateCommand = new OracleCommand(updateSql, connection))
                         {
                             updateCommand.Transaction = transaction;
-                            updateCommand.Parameters.Add(new OracleParameter(":SystemName", request.SystemName));
+                            updateCommand.Parameters.Add(new OracleParameter(":SystemName", request.SystemName.Trim()));
                             updateCommand.Parameters.Add(new OracleParameter(":Description", request.Description));
                             updateCommand.Parameters.Add(new OracleParameter(":SystemID", systemId)); // Use SystemID for the update
 
-                            await updateCommand.ExecuteNonQueryAsync();
+                            Console.WriteLine($"Executing update with System Name: '{request.SystemName}', Description: '{request.Description}', SystemID: {systemId}"); // Log the update parameters
+
+                            int rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+                            if (rowsAffected == 0)
+                            {
+                                Console.WriteLine($"No rows updated for SystemID: {systemId}. It may not exist.");
+                                throw new InvalidOperationException("System not found.");
+                            }
                         }
 
                         // Continue with deleting and inserting department associations...
@@ -302,8 +303,9 @@ namespace AeroVault.Data
                                 await associationCommand.ExecuteNonQueryAsync();
                             }
                         }
+
                         transaction.Commit();
-                        return await GetSystemByNameAsync(request.SystemName);
+                        return await GetSystemByIdAsync(systemId); // Fetch the updated system by ID
                     }
                     catch (Exception ex)
                     {
@@ -313,6 +315,11 @@ namespace AeroVault.Data
                     }
                 }
             }
+        }
+
+        private async Task<SystemModel> GetSystemByIdAsync(int systemId)
+        {
+            return await _context.Set<SystemModel>().FirstOrDefaultAsync(s => s.SystemID == systemId);
         }
 
         private async Task<SystemModel> GetSystemByNameAsync(string systemName)

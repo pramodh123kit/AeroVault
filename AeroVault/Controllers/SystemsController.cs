@@ -93,8 +93,10 @@ namespace AeroVault.Controllers
         }
 
         // DTO for updating a system
+        // DTO for updating a system
         public class UpdateSystemRequest
         {
+            public int SystemID { get; set; } // Add this line
             public string SystemName { get; set; }
             public string Description { get; set; }
             public List<int> DepartmentIds { get; set; }
