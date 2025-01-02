@@ -3,6 +3,8 @@
     document.getElementById('staff-view').style.display = 'none';
     document.getElementById('system-reviewtab').classList.add('active');
     document.getElementById('staff-reviewtab').classList.remove('active');
+    document.querySelector('.default-view').style.display = 'block';
+    document.getElementById('system-review-table').style.display = 'none';
 }
 
 function showStaffView() {
@@ -86,21 +88,18 @@ function toggleReviewDropdown(event) {
     }
 }
 
-
-function loadReviewContent(url, department, system) {
-    fetch(url)
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('system-view-reviewcontent').innerHTML = data;
-        })
-        .catch(error => console.error('Error loading reviewcontent:', error));
-
+function loadReviewContent(systemName, department, system) {
+    document.querySelector('.default-view').style.display = 'none';
+    const systemReviewTable = document.getElementById('system-review-table');
+    systemReviewTable.style.display = 'block';
+    const headerElement = document.getElementById('system-header');
+    const departmentName = department.querySelector(':scope > :first-child').textContent.trim();
+    headerElement.innerHTML = `<b>${departmentName} / </b>${systemName}`;
     var departments = document.querySelectorAll('.department-list li');
     departments.forEach(function (dept) {
         dept.classList.remove('active');
     });
     department.classList.add('active');
-
     var systems = department.querySelectorAll('.reviewdropdown li');
     systems.forEach(function (sys) {
         sys.classList.remove('active');
@@ -368,7 +367,7 @@ function filterStaffViewTable() {
 }
 
 function showFlightPlanningTable() {
-    // Hide other content if necessary
+    // Hide other content if necessary 
     document.querySelector('.tableChanger').style.display = 'block'; // Show the table
 }
 

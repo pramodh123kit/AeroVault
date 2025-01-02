@@ -8,7 +8,7 @@
 
 .reviewcontainer {
     display: flex;
-    height: 100%;
+    height: 79vh;
     width: 100%; /* Ensure it spans full width */
 }
 
@@ -109,7 +109,7 @@
         color: #000;
     }
     .department-list > li {
-        padding: 22px 0 0 0;
+        padding: 15px 0 15px 0;
         border-bottom: 1px solid #ddd; /* Bottom border only for department-list items */
         cursor: pointer;
         position: relative;
@@ -558,4 +558,219 @@ th {
 .tableChanger {
     position: relative;
     padding: 20px;
+}
+
+/* Styles for Read and Pending Modals */
+.readUsers-container,
+.pendingUsers-container {
+    border-radius: 1%;
+    margin-left: 30%;
+    width: 60%;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.readUsers-header,
+.pendingUsers-header {
+    background-color: #004b8d;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.readUsers-header h1,
+.pendingUsers-header h1 {
+    font-size: 18px;
+    margin: 0;
+}
+
+.readUsers-title,
+.pendingUsers-title {
+    padding: 15px 20px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.readUsers-search-bar,
+.pendingUsers-searchBar {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.readUsers-search-bar input,
+.pendingUsers-searchBar input {
+    width: 300px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.readUsers-table-container,
+.pendingUsers-tableContainer {
+    padding: 0 20px 20px 20px;
+    min-height: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* Unique Table Styles */
+.header-container-unique {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    padding: 6px;
+}
+
+.header-unique {
+    font-size: 18px;
+    color: black;
+    margin: 10px;
+    padding: 10px;
+    margin-left: 0rem;
+}
+
+.search-bar-unique {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #938C8C; 
+    margin-left: 20px;
+    margin-bottom: 15px;
+    padding: 2px 0; 
+}
+
+.search-bar-unique img {
+    height: 20px; 
+    margin-right: 10px;
+    opacity: 0.7;
+}
+
+.search-bar-unique input {
+    flex: 1;
+    border: none; 
+    color: #000; 
+    font-size: 16px; 
+    outline: none; 
+    padding: 5px;
+}
+
+.table-container-unique {
+    max-height: 400px;
+    overflow-y: auto;
+    width: 100%;
+    padding: 2px; 
+    margin: 10px auto; 
+}
+
+#fileTableUnique {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    text-align: left; 
+}
+
+#fileTableUnique th {
+    background-color: #D8D8D8;
+    color: black;
+    padding: 12px; 
+    text-align: left; 
+    font-size: 16px; 
+}
+
+#fileTableUnique td {
+    padding: 12px;
+    border-bottom: 1px solid #7D7D7D; 
+    text-align: left; 
+    font-size: 14px; 
+    vertical-align: middle; 
+}
+
+.icon-unique {
+    margin-right: 10px; 
+    vertical-align: middle; 
+}
+
+.read-by-unique {
+    color: green;
+    cursor: pointer;
+    position: relative;
+    text-decoration: underline;
+    text-decoration-color: green;
+}
+
+.read-by-unique .clickable-icon-unique {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.read-by-unique:hover .clickable-icon-unique {
+    display: block;
+}
+
+.pending-by-unique {
+    color: red;
+    cursor: pointer;
+    position: relative;
+    text-decoration: underline;
+    text-decoration-color: red;
+}
+
+.pending-by-unique .clickable-icon-unique {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.pending-by-unique:hover .clickable-icon-unique {
+    display: block;
+}
+
+.modal-unique {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+
+.close-unique {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-unique:hover,
+.close-unique:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    #fileTableUnique {
+        font-size: 12px; 
+    }
+
+    #fileTableUnique td, 
+    #fileTableUnique th {
+        padding: 8px;
+    }
 }
