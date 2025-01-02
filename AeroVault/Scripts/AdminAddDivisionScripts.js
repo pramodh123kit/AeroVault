@@ -158,6 +158,6 @@
     });
 
     // Debug logging for URL
-    console.log('Add Division URL:', addDivisionUrl);
-    console.log('Get All Divisions URL:', getAllDivisionsUrl);
+    //console.log('Add Division URL:', addDivisionUrl);
+    //console.log('Get All Divisions URL:', getAllDivisionsUrl);
 });

@@ -37,5 +37,23 @@ namespace AeroVault.Business
 
             await _divisionRepository.UpdateDivisionNameAsync(originalName, newDivisionName);
         }
+
+        public async Task<(bool Success, string Message)> SoftDeleteDivisionAsync(int divisionId)
+        {
+            try
+            {
+                bool deleted = await _divisionRepository.SoftDeleteDivisionAsync(divisionId);
+                return deleted ? (true, "Division soft deleted successfully") : (false, "Division not found");
+            }
+            catch (Exception ex)
+            {
+                return (false, "An unexpected error occurred: " + ex.Message);
+            }
+        }
+
+        public async Task<List<DepartmentModel>> GetDepartmentsByDivisionAsync(int divisionId)
+        {
+            return await _divisionRepository.GetDepartmentsByDivisionAsync(divisionId);
+        }
     }
 }

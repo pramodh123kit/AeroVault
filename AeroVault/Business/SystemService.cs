@@ -69,7 +69,6 @@ namespace AeroVault.Business
         {
             try
             {
-                // Implement system update logic in repository
                 var updatedSystem = await _systemRepository.UpdateSystemAsync(request);
 
                 return new OkObjectResult(new
@@ -92,6 +91,25 @@ namespace AeroVault.Business
         public async Task<List<int>> GetSystemDepartmentIdsAsync(string systemName)
         {
             return await _systemRepository.GetSystemDepartmentIdsAsync(systemName);
+        }
+
+
+        public async Task<bool> SoftDeleteSystemAsync(string systemName)
+        {
+            try
+            {
+                return await _systemRepository.SoftDeleteSystemAsync(systemName);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in SoftDeleteSystemAsync: {ex.Message}");
+                throw; 
+            }
+        }
+
+        public async Task<SystemModel> GetSystemDetailsAsync(string systemName)
+        {
+            return await _systemRepository.GetSystemDetailsAsync(systemName);
         }
     }
 }

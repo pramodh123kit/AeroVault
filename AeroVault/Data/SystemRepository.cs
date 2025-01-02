@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 using static AeroVault.Controllers.SystemsController;
+using System.Xml.Linq;
 
 namespace AeroVault.Data
 {
@@ -20,21 +21,26 @@ namespace AeroVault.Data
 
         public async Task<List<SystemModel>> GetAllSystemsAsync()
         {
-            string sql = "SELECT SystemID, SystemName, Description FROM C##AEROVAULT.SYSTEMS";
+            var systems = new List<SystemModel>();
+
             using (var connection = new OracleConnection(_connectionString))
             {
                 await connection.OpenAsync();
+
+                string sql = @"
+            SELECT DISTINCT s.SystemID, s.SystemName, s.Description 
+            FROM C##AEROVAULT.SYSTEMS s
+            JOIN C##AEROVAULT.SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
+            JOIN C##AEROVAULT.DEPARTMENTS d ON sd.DepartmentID = d.DepartmentID
+            WHERE s.IS_DELETED = 0 AND d.IS_DELETED = 0"; 
+
                 using (var command = new OracleCommand(sql, connection))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
-                        var systems = new List<SystemModel>();
                         while (await reader.ReadAsync())
                         {
                             var description = reader.IsDBNull(2) ? string.Empty : reader.GetString(2);
-
-                            // Log the exact description
-                            Console.WriteLine($"SystemName: {reader.GetString(1)}, Description Length: {description.Length}, Description: '{description}'");
 
                             systems.Add(new SystemModel
                             {
@@ -43,13 +49,14 @@ namespace AeroVault.Data
                                 Description = description
                             });
                         }
-                        return systems;
                     }
                 }
             }
+            return systems;
         }
 
-        public async Task<bool> CheckSystemExistsAsync(string systemName)
+        public async Task<bool> CheckSystemExistsAsyncch
+            (string systemName)
         {
             string sql = "SELECT COUNT(*) FROM C##AEROVAULT.SYSTEMS WHERE LOWER(SystemName) = LOWER(:SystemName)";
             using (var connection = new OracleConnection(_connectionString))
@@ -75,7 +82,6 @@ namespace AeroVault.Data
                 await connection.OpenAsync();
                 transaction = connection.BeginTransaction();
 
-                // Check if system name already exists
                 string checkSql = "SELECT COUNT(*) FROM C##AEROVAULT.SYSTEMS WHERE LOWER(SYSTEMNAME) = LOWER(:SystemName)";
                 using (var checkCommand = new OracleCommand(checkSql, connection))
                 {
@@ -89,7 +95,6 @@ namespace AeroVault.Data
                     }
                 }
 
-                // Create new system 
                 int newSystemId;
                 string insertSql = @"
                 INSERT INTO C##AEROVAULT.SYSTEMS (SYSTEMID, SYSTEMNAME, DESCRIPTION) 
@@ -112,7 +117,6 @@ namespace AeroVault.Data
                     newSystemId = ConvertOracleDecimal(systemIdParam.Value);
                 }
 
-                // Insert system-department associations
                 string insertAssociationSql = @"
                 INSERT INTO C##AEROVAULT.SYSTEM_DEPARTMENTS (SYSTEMID, DEPARTMENTID) 
                 VALUES (:SystemID, :DepartmentID)";
@@ -128,7 +132,6 @@ namespace AeroVault.Data
                         await associationCommand.ExecuteNonQueryAsync();
                     }
                 }
-
                 transaction.Commit();
                 return newSystemId;
             }
@@ -163,8 +166,7 @@ namespace AeroVault.Data
             {
                 await connection.OpenAsync();
 
-                // Fetch divisions
-                string divisionsSql = "SELECT DivisionID, DivisionName FROM C##AEROVAULT.DIVISIONS";
+                string divisionsSql = "SELECT DivisionID, DivisionName FROM C##AEROVAULT.DIVISIONS WHERE IsDeleted = 0";
                 var divisionList = new List<DivisionModel>();
                 using (var command = new OracleCommand(divisionsSql, connection))
                 {
@@ -181,11 +183,10 @@ namespace AeroVault.Data
                     }
                 }
 
-                // Fetch departments
                 string departmentsSql = @"
-                SELECT DepartmentID, DepartmentName, DivisionID 
-                FROM C##AEROVAULT.DEPARTMENTS 
-                WHERE is_deleted = 0";
+        SELECT DepartmentID, DepartmentName, DivisionID 
+        FROM C##AEROVAULT.DEPARTMENTS 
+        WHERE is_deleted = 0";
 
                 var departmentList = new List<DepartmentModel>();
                 using (var command = new OracleCommand(departmentsSql, connection))
@@ -204,7 +205,6 @@ namespace AeroVault.Data
                     }
                 }
 
-                // Group departments by division
                 foreach (var division in divisionList)
                 {
                     divisions.Add(new
@@ -221,7 +221,6 @@ namespace AeroVault.Data
                     });
                 }
             }
-
             return divisions;
         }
 
@@ -235,8 +234,6 @@ namespace AeroVault.Data
             };
         }
 
-
-
         public async Task<SystemModel> UpdateSystemAsync(UpdateSystemRequest request)
         {
             using (var connection = new OracleConnection(_connectionString))
@@ -246,7 +243,6 @@ namespace AeroVault.Data
                 {
                     try
                     {
-                        // Update system details
                         string updateSql = @"
                     UPDATE C##AEROVAULT.SYSTEMS 
                     SET SYSTEMNAME = :SystemName, 
@@ -263,7 +259,6 @@ namespace AeroVault.Data
                             await updateCommand.ExecuteNonQueryAsync();
                         }
 
-                        // Delete existing system-department associations
                         string deleteSql = @"
                     DELETE FROM C##AEROVAULT.SYSTEM_DEPARTMENTS 
                     WHERE SYSTEMID = (SELECT SYSTEMID FROM C##AEROVAULT.SYSTEMS WHERE SYSTEMNAME = :SystemName)";
@@ -275,7 +270,6 @@ namespace AeroVault.Data
                             await deleteCommand.ExecuteNonQueryAsync();
                         }
 
-                        // Insert new system-department associations
                         string insertAssociationSql = @"
                     INSERT INTO C##AEROVAULT.SYSTEM_DEPARTMENTS (SYSTEMID, DEPARTMENTID) 
                     VALUES ((SELECT SYSTEMID FROM C##AEROVAULT.SYSTEMS WHERE SYSTEMNAME = :SystemName), :DepartmentID)";
@@ -291,9 +285,8 @@ namespace AeroVault.Data
                                 await associationCommand.ExecuteNonQueryAsync();
                             }
                         }
-
                         transaction.Commit();
-                        return await GetSystemByNameAsync(request.SystemName); // Fetch updated system details
+                        return await GetSystemByNameAsync(request.SystemName); 
                     }
                     catch
                     {
@@ -309,8 +302,6 @@ namespace AeroVault.Data
             return await _context.Set<SystemModel>().FirstOrDefaultAsync(s => s.SystemName == systemName);
         }
 
-
-
         public async Task<string> GetSystemDescriptionAsync(string systemName)
         {
             string sql = "SELECT Description FROM C##AEROVAULT.SYSTEMS WHERE SystemName = :SystemName";
@@ -325,8 +316,6 @@ namespace AeroVault.Data
                 }
             }
         }
-
-
 
         public async Task<List<int>> GetSystemDepartmentIdsAsync(string systemName)
         {
@@ -355,8 +344,92 @@ namespace AeroVault.Data
                     }
                 }
             }
-
             return departmentIds;
+        }
+
+
+        public async Task<bool> SoftDeleteSystemAsync(string systemName)
+        {
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        string updateSystemSql = @"
+                UPDATE C##AEROVAULT.SYSTEMS 
+                SET is_deleted = 1 
+                WHERE LOWER(SYSTEMNAME) = LOWER(:SystemName)";
+
+                        using (var updateCommand = new OracleCommand(updateSystemSql, connection))
+                        {
+                            updateCommand.Transaction = transaction;
+                            updateCommand.Parameters.Add(new OracleParameter(":SystemName", systemName));
+
+                            int rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+
+                            Console.WriteLine($"Rows affected by soft delete: {rowsAffected}");
+
+                            if (rowsAffected == 0)
+                            {
+                                transaction.Rollback();
+                                return false;
+                            }
+                        }
+
+                        transaction.Commit();
+                        return true; 
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        Console.WriteLine($"Error in SoftDeleteSystemAsync: {ex.Message}"); 
+                        throw;
+                    }
+                }
+            }
+        }
+
+        public async Task<bool> CheckSystemExistsAsync(string systemName)
+        {
+            string sql = "SELECT COUNT(*) FROM C##AEROVAULT.SYSTEMS WHERE LOWER(SystemName) = LOWER(:SystemName)";
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new OracleCommand(sql, connection))
+                {
+                    command.Parameters.Add(new OracleParameter(":SystemName", systemName));
+                    int count = Convert.ToInt32(await command.ExecuteScalarAsync());
+                    return count > 0;
+                }
+            }
+        }
+
+        public async Task<SystemModel> GetSystemDetailsAsync(string systemName)
+        {
+            string sql = "SELECT SystemID, SystemName, Description FROM C##AEROVAULT.SYSTEMS WHERE LOWER(SystemName) = LOWER(:SystemName)";
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new OracleCommand(sql, connection))
+                {
+                    command.Parameters.Add(new OracleParameter(":SystemName", systemName));
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            return new SystemModel
+                            {
+                                SystemID = reader.GetInt32(0),
+                                SystemName = reader.GetString(1),
+                                Description = reader.IsDBNull(2) ? string.Empty : reader.GetString(2)
+                            };
+                        }
+                    }
+                }
+            }
+            return null; // Return null if not found
         }
     }
 }

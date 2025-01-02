@@ -89,5 +89,10 @@ namespace AeroVault.Services
                 return (false, "An unexpected error occurred: " + ex.Message);
             }
         }
+
+        public async Task<List<SystemModel>> GetSystemsByDepartmentAsync(int departmentId)
+        {
+            return await _departmentRepository.GetSystemsByDepartmentAsync(departmentId);
+        }
     }
 }

@@ -841,6 +841,7 @@ margin-top:-5px;
 
 .file-list {
     max-height: 250px;
+    height:250px;
     margin-top:10px;
     overflow-y: auto; 
 }
@@ -1882,3 +1883,184 @@ input[type="text"] {
     }
 }
 
+/* General styles for the success popup */
+.modal-success {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1001; /* Ensure it appears above other content */
+    width: 300px; /* Set a fixed width for the popup */
+    display: none; /* Initially hidden */
+}
+
+/* Header styles */
+.modal-header-success {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    background-color: #00436C; /* Header background color */
+    color: white; /* Header text color */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+/* Body styles */
+.modal-body-success {
+    padding: 20px;
+    text-align: center; /* Center the text */
+}
+
+/* Footer styles */
+.modal-footer {
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+    border-top: 1px solid #e0e0e0; /* Optional border for separation */
+}
+
+/* Button styles */
+.ok-btn {
+    background-color: #00436C; /* Button background color */
+    color: white; /* Button text color */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+    .ok-btn:hover {
+        background-color: #005f8d; /* Darker shade on hover */
+    }
+
+/* Close icon styles */
+#close-success-popup {
+    width: 20px; /* Set a fixed width for the close icon */
+    height: 20px; /* Set a fixed height for the close icon */
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+/* Overlay styles */
+.dark-overlay123 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 1000; /* Ensure it appears above other content */
+    display: none; /* Initially hidden */
+}
+
+
+
+
+
+
+
+
+
+
+/* EDIT SYSTEM POPUP NEW STYLES*/
+
+.edit-division-container {
+    margin-top: 15px;
+    height: 360px;
+    overflow-y: auto;
+}
+
+.edit-division-container {
+    /* For Firefox */
+    scrollbar-width: thin; /* Options: auto, thin */
+    scrollbar-color: #00436C transparent; /* thumb color, track color */
+}
+
+    /* WebKit Browsers (Chrome, Safari) */
+    .edit-division-container::-webkit-scrollbar {
+        width: 8px; /* Width of the scrollbar */
+    }
+
+    .edit-division-container::-webkit-scrollbar-thumb {
+        background-color: #00436C; /* Color of the scrollbar thumb */
+        border-radius: 10px; /* Rounded corners */
+    }
+
+    .edit-division-container::-webkit-scrollbar-track {
+        background: transparent; /* No background for the track */
+    }
+
+.edit-division {
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.edit-division-header {
+    background-color: #E9E9EF;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    border-radius: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .edit-division-header.active {
+        background-color: #D5EBFE;
+    }
+
+    .edit-division-header.selected {
+        background-color: #D5EBFE;
+    }
+
+    .edit-division-header i {
+        margin-right: 10px;
+    }
+
+.edit-division-content {
+    display: none;
+    padding: 10px;
+    padding-bottom: 0px;
+}
+
+    .edit-division-content.active {
+        display: block;
+    }
+
+.edit-selected-count {
+    color: #063468;
+    margin-right: 10px;
+}
+
+.edit-division-name {
+    margin-left: 10px;
+    font-weight:bold;
+}
+
+.edit-checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+    .edit-checkbox-group label {
+        margin-right: 20px;
+        margin-left: 20px;
+        display: flex;
+        align-items: center;
+        width: 45%;
+        margin-bottom: 20px;
+    }
+
+    .edit-checkbox-group input[type="checkbox"] {
+        margin-right: 5px;
+    }
+
+.edit-department,
+.edit-select-all {
+    width: 15px;
+    height: 15px;
+}

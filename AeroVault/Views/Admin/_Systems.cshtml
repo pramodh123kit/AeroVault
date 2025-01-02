@@ -74,21 +74,21 @@
                                         <input type="text" id="custom-search-input" placeholder="Search system" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
                                     </div>
                                     <div class="custom-dropdown-list">
-                                        <div onclick="selectCustomOption(this)">Information Technology</div>
+                                        @* <div onclick="selectCustomOption(this)"></div> *@
 
-                                    @foreach (var system in systemList)
+                                            @foreach (var system in systemList)
 
-                                    {
+                                            {
 
-                                        <div onclick="selectCustomOption(this)"
-                                             data-system-description="@(system.Description ?? string.Empty)">
+                                                <div onclick="selectCustomOption(this)"
+                                                     data-system-description="@(system.Description ?? string.Empty)">
 
-                                            @system.SystemName
+                                                    @system.SystemName
 
-                                        </div>
+                                                </div>
 
-                                    }
-                                </div>
+                                            }
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -288,6 +288,20 @@
             </div>
         </div>
     </div>
+
+<div id="dark-overlay123" class="dark-overlay123" style="display: none;"></div>
+<div id="success-popup" class="modal-success" style="display: none;">
+    <div class="modal-header-success" style="display: flex; align-items: center;">
+        <h2 style="margin: 0; margin-bottom: 20px;">Success</h2>
+        <img src="/Content/Assets/close-icon.svg" id="close-success-popup" style="margin-left: auto; cursor: pointer;" />
+    </div>
+    <div class="modal-body-success">
+        <p id="success-message"></p>
+    </div>
+    <div class="modal-footer">
+        <button class="ok-btn" id="ok-success-btn">OK</button>
+    </div>
+</div>
 
     <!-- Overlay for popups -->
     <div id="dark-overlay" class="dark-overlay" style="display: none;"></div>

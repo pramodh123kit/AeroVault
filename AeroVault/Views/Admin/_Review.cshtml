@@ -1,411 +1,560 @@
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link href="/Content/css/AdminReview.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+<link href="/Content/css/AdminReview.css" rel="stylesheet" />
 
-    <script src="/Scripts/adminReview.js" defer></script>
+<script src="/Scripts/adminReview.js" defer></script>
 
-    <div class="ReviewReviewTabs">
-        <div class="reviewtab active" id="system-reviewtab" onclick="showSystemView()">
-            System View
+<div class="ReviewReviewTabs">
+    <div class="reviewtab active" id="system-reviewtab" onclick="showSystemView()">
+        System View
+    </div>
+    <div class="reviewtab" id="staff-reviewtab" onclick="showStaffView()">
+        Staff View
+    </div>
+</div>
+<div class="reviewcontainer" id="system-view">
+    <div class="reviewsidebar-reviewcontainer">
+        <div class="reviewtitle">
+            Select a Department to Review System Activity
         </div>
-        <div class="reviewtab" id="staff-reviewtab" onclick="showStaffView()">
-            Staff View
+        <div class="reviewsidebar">
+
+            <div class="search-box">
+                <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                <input id="searchInput" onkeyup="filterDepartments()" placeholder="Search Department" type="text" />
+            </div>
+            <ul class="department-list " id="departmentList">
+                <li onclick="toggleReviewDropdown(event)">
+                    <i class="fas fa-chevron-right icon"></i> Human Resources
+                    <ul class="reviewdropdown">
+                        <li onclick="loadReviewContent('System 1', this.parentElement.parentElement, this)">
+                            System 1
+                        </li>
+                        <li onclick="loadReviewContent('System 1', this.parentElement.parentElement, this)">
+                            System 2
+                        </li>
+                        <li onclick="loadReviewContent('System 1', this.parentElement.parentElement, this)">
+                            System 3
+                        </li>
+                    </ul>
+                </li>
+                <li onclick="toggleReviewDropdown(event)">
+                    <i class="fas fa-chevron-right icon"></i> Engineering &amp; Maintenance
+                    <ul class="reviewdropdown">
+                        <li
+                            onclick="loadReviewContent('engineering_systemA.html', this.parentElement.parentElement, this)">
+                            System A
+                        </li>
+                        <li
+                            onclick="loadReviewContent('engineering_systemB.html', this.parentElement.parentElement, this)">
+                            System B
+                        </li>
+                        <li
+                            onclick="loadReviewContent('engineering_systemC.html', this.parentElement.parentElement, this)">
+                            System C
+                        </li>
+                    </ul>
+                </li>
+                <li onclick="toggleReviewDropdown(event)">
+                    <i class="fas fa-chevron-right icon"></i> Information Technology
+                    <ul class="reviewdropdown">
+                        <li onclick="loadReviewContent('it_systemX.html', this.parentElement.parentElement, this)">
+                            System X
+                        </li>
+                        <li onclick="loadReviewContent('it_systemY.html', this.parentElement.parentElement, this)">
+                            System Y
+                        </li>
+                        <li onclick="loadReviewContent('it_systemZ.html', this.parentElement.parentElement, this)">
+                            System Z
+                        </li>
+                    </ul>
+                </li>
+                <li onclick="toggleReviewDropdown(event)">
+                    <i class="fas fa-chevron-right icon"></i> Ground Handling
+                    <ul class="reviewdropdown">
+                        <li
+                            onclick="loadReviewContent('ground_handling_systemAlpha.html', this.parentElement.parentElement, this)">
+                            System Alpha
+                        </li>
+                        <li
+                            onclick="loadReviewContent('ground_handling_systemBeta.html', this.parentElement.parentElement, this)">
+                            System Beta
+                        </li>
+                        <li
+                            onclick="loadReviewContent('ground_handling_systemGamma.html', this.parentElement.parentElement, this)">
+                            System Gamma
+                        </li>
+                    </ul>
+                </li>
+                <li onclick="toggleReviewDropdown(event)">
+                    <i class="fas fa-chevron-right icon"></i> Flight Operations
+                    <ul class="reviewdropdown">
+                        <li
+                            onclick="loadReviewContent('flight_operations_system1.html', this.parentElement.parentElement, this)">
+                            System 1
+                        </li>
+                        <li
+                            onclick="loadReviewContent('flight_operations_system2.html', this.parentElement.parentElement, this)">
+                            System 2
+                        </li>
+                        <li
+                            onclick="loadReviewContent('flight_operations_system3.html', this.parentElement.parentElement, this)">
+                            System 3
+                        </li>
+                    </ul>
+                </li>
+                <li onclick="toggleReviewDropdown(event)">
+                    <i class="fas fa-chevron-right icon"></i> Cabin Crew
+                    <ul class="reviewdropdown">
+                        <li
+                            onclick="loadReviewContent('cabin_crew_systemA.html', this.parentElement.parentElement, this)">
+                            System A
+                        </li>
+                        <li
+                            onclick="loadReviewContent('cabin_crew_systemB.html', this.parentElement.parentElement, this)">
+                            System B
+                        </li>
+                        <li
+                            onclick="loadReviewContent('cabin_crew_systemC.html', this.parentElement.parentElement, this)">
+                            System C
+                        </li>
+                    </ul>
+                </li>
+                <li onclick="toggleReviewDropdown(event)">
+                    <i class="fas fa-chevron-right icon"></i> Cargo Operations
+                    <ul class="reviewdropdown">
+                        <li
+                            onclick="loadReviewContent('cargo_operations_systemX.html', this.parentElement.parentElement, this)">
+                            System X
+                        </li>
+                        <li
+                            onclick="loadReviewContent('cargo_operations_systemY.html', this.parentElement.parentElement, this)">
+                            System Y
+                        </li>
+                        <li
+                            onclick="loadReviewContent('cargo_operations_systemZ.html', this.parentElement.parentElement, this)">
+                            System Z
+                        </li>
+                    </ul>
+                </li>
+                <li onclick="toggleReviewDropdown(event)">
+                    <i class="fas fa-chevron-right icon"></i> Customer Service
+                    <ul class="reviewdropdown">
+                        <li
+                            onclick="loadReviewContent('customer_service_systemAlpha.html', this.parentElement.parentElement, this)">
+                            System Alpha
+                        </li>
+                        <li
+                            onclick="loadReviewContent('customer_service_systemBeta.html', this.parentElement.parentElement, this)">
+                            System Beta
+                        </li>
+                        <li
+                            onclick="loadReviewContent('customer_service_systemGamma.html', this.parentElement.parentElement, this)">
+                            System Gamma
+                        </li>
+                    </ul>
+                </li>
+                <li onclick="toggleReviewDropdown(event)">
+                    <i class="fas fa-chevron-right icon"></i> Sales &amp; Marketing
+                    <ul class="reviewdropdown">
+                        <li
+                            onclick="loadReviewContent('sales_marketing_system1.html', this.parentElement.parentElement, this)">
+                            System 1
+                        </li>
+                        <li
+                            onclick="loadReviewContent('sales_marketing_system2.html', this.parentElement.parentElement, this)">
+                            System 2
+                        </li>
+                        <li
+                            onclick="loadReviewContent('sales_marketing_system3.html', this.parentElement.parentElement, this)">
+                            System 3
+                        </li>
+                    </ul>
+                </li>
+                <li onclick="toggleReviewDropdown(event)">
+                    <i class="fas fa-chevron-right icon"></i> Finance &amp; Accounting
+                    <ul class="reviewdropdown">
+                        <li
+                            onclick="loadReviewContent('finance_accounting_systemA.html', this.parentElement.parentElement, this)">
+                            System A
+                        </li>
+                        <li
+                            onclick="loadReviewContent('finance_accounting_systemB.html', this.parentElement.parentElement, this)">
+                            System B
+                        </li>
+                        <li
+                            onclick="loadReviewContent('finance_accounting_systemC.html', this.parentElement.parentElement, this)">
+                            System C
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
-    <div class="reviewcontainer" id="system-view">
-        <div class="reviewsidebar-reviewcontainer">
-            <div class="reviewtitle">
-                Select a Department to Review System Activity
-            </div>
-            <div class="reviewsidebar">
+    <div class="reviewcontent" id="system-view-reviewcontent">
+        <div class="default-view">
+            <img src="/Content/Assets/PCpic.svg" style="max-width: 100%; height: auto;" />
+        </div>
 
-                <div class="search-box">
+        <div id="system-review-table" style="display:none;">
+            <div class="header-container-unique">
+                <div class="header-unique" id="system-header">
+                    <b>Department / </b>System Name
+                </div>
+                <div class="search-bar-unique">
                     <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
-                    <input id="searchInput" onkeyup="filterDepartments()" placeholder="Search Department" type="text" />
+                    <input type="text" id="searchInputUnique" placeholder="Search Department"
+                        onkeyup="searchTableUnique()" />
                 </div>
-                <ul class="department-list " id="departmentList">
-                    <li onclick="toggleReviewDropdown(event)">
-                        <i class="fas fa-chevron-right icon"></i> Human Resources
-                        <ul class="reviewdropdown">
-                            <li onclick="loadReviewContent('../admin/humanr', this.parentElement.parentElement, this)">
-                                System 1
-                            </li>
-                            <li onclick="loadReviewContent('human_resources_system2.html', this.parentElement.parentElement, this)">
-                                System 2
-                            </li>
-                            <li onclick="loadReviewContent('human_resources_system3.html', this.parentElement.parentElement, this)">
-                                System 3
-                            </li>
-                        </ul>
-                    </li>
-                    <li onclick="toggleReviewDropdown(event)">
-                        <i class="fas fa-chevron-right icon"></i> Engineering &amp; Maintenance
-                        <ul class="reviewdropdown">
-                            <li onclick="loadReviewContent('engineering_systemA.html', this.parentElement.parentElement, this)">
-                                System A
-                            </li>
-                            <li onclick="loadReviewContent('engineering_systemB.html', this.parentElement.parentElement, this)">
-                                System B
-                            </li>
-                            <li onclick="loadReviewContent('engineering_systemC.html', this.parentElement.parentElement, this)">
-                                System C
-                            </li>
-                        </ul>
-                    </li>
-                    <li onclick="toggleReviewDropdown(event)">
-                        <i class="fas fa-chevron-right icon"></i> Information Technology
-                        <ul class="reviewdropdown">
-                            <li onclick="loadReviewContent('it_systemX.html', this.parentElement.parentElement, this)">
-                                System X
-                            </li>
-                            <li onclick="loadReviewContent('it_systemY.html', this.parentElement.parentElement, this)">
-                                System Y
-                            </li>
-                            <li onclick="loadReviewContent('it_systemZ.html', this.parentElement.parentElement, this)">
-                                System Z
-                            </li>
-                        </ul>
-                    </li>
-                    <li onclick="toggleReviewDropdown(event)">
-                        <i class="fas fa-chevron-right icon"></i> Ground Handling
-                        <ul class="reviewdropdown">
-                            <li onclick="loadReviewContent('ground_handling_systemAlpha.html', this.parentElement.parentElement, this)">
-                                System Alpha
-                            </li>
-                            <li onclick="loadReviewContent('ground_handling_systemBeta.html', this.parentElement.parentElement, this)">
-                                System Beta
-                            </li>
-                            <li onclick="loadReviewContent('ground_handling_systemGamma.html', this.parentElement.parentElement, this)">
-                                System Gamma
-                            </li>
-                        </ul>
-                    </li>
-                    <li onclick="toggleReviewDropdown(event)">
-                        <i class="fas fa-chevron-right icon"></i> Flight Operations
-                        <ul class="reviewdropdown">
-                            <li onclick="loadReviewContent('flight_operations_system1.html', this.parentElement.parentElement, this)">
-                                System 1
-                            </li>
-                            <li onclick="loadReviewContent('flight_operations_system2.html', this.parentElement.parentElement, this)">
-                                System 2
-                            </li>
-                            <li onclick="loadReviewContent('flight_operations_system3.html', this.parentElement.parentElement, this)">
-                                System 3
-                            </li>
-                        </ul>
-                    </li>
-                    <li onclick="toggleReviewDropdown(event)">
-                        <i class="fas fa-chevron-right icon"></i> Cabin Crew
-                        <ul class="reviewdropdown">
-                            <li onclick="loadReviewContent('cabin_crew_systemA.html', this.parentElement.parentElement, this)">
-                                System A
-                            </li>
-                            <li onclick="loadReviewContent('cabin_crew_systemB.html', this.parentElement.parentElement, this)">
-                                System B
-                            </li>
-                            <li onclick="loadReviewContent('cabin_crew_systemC.html', this.parentElement.parentElement, this)">
-                                System C
-                            </li>
-                        </ul>
-                    </li>
-                    <li onclick="toggleReviewDropdown(event)">
-                        <i class="fas fa-chevron-right icon"></i> Cargo Operations
-                        <ul class="reviewdropdown">
-                            <li onclick="loadReviewContent('cargo_operations_systemX.html', this.parentElement.parentElement, this)">
-                                System X
-                            </li>
-                            <li onclick="loadReviewContent('cargo_operations_systemY.html', this.parentElement.parentElement, this)">
-                                System Y
-                            </li>
-                            <li onclick="loadReviewContent('cargo_operations_systemZ.html', this.parentElement.parentElement, this)">
-                                System Z
-                            </li>
-                        </ul>
-                    </li>
-                    <li onclick="toggleReviewDropdown(event)">
-                        <i class="fas fa-chevron-right icon"></i> Customer Service
-                        <ul class="reviewdropdown">
-                            <li onclick="loadReviewContent('customer_service_systemAlpha.html', this.parentElement.parentElement, this)">
-                                System Alpha
-                            </li>
-                            <li onclick="loadReviewContent('customer_service_systemBeta.html', this.parentElement.parentElement, this)">
-                                System Beta
-                            </li>
-                            <li onclick="loadReviewContent('customer_service_systemGamma.html', this.parentElement.parentElement, this)">
-                                System Gamma
-                            </li>
-                        </ul>
-                    </li>
-                    <li onclick="toggleReviewDropdown(event)">
-                        <i class="fas fa-chevron-right icon"></i> Sales &amp; Marketing
-                        <ul class="reviewdropdown">
-                            <li onclick="loadReviewContent('sales_marketing_system1.html', this.parentElement.parentElement, this)">
-                                System 1
-                            </li>
-                            <li onclick="loadReviewContent('sales_marketing_system2.html', this.parentElement.parentElement, this)">
-                                System 2
-                            </li>
-                            <li onclick="loadReviewContent('sales_marketing_system3.html', this.parentElement.parentElement, this)">
-                                System 3
-                            </li>
-                        </ul>
-                    </li>
-                    <li onclick="toggleReviewDropdown(event)">
-                        <i class="fas fa-chevron-right icon"></i> Finance &amp; Accounting
-                        <ul class="reviewdropdown">
-                            <li onclick="loadReviewContent('finance_accounting_systemA.html', this.parentElement.parentElement, this)">
-                                System A
-                            </li>
-                            <li onclick="loadReviewContent('finance_accounting_systemB.html', this.parentElement.parentElement, this)">
-                                System B
-                            </li>
-                            <li onclick="loadReviewContent('finance_accounting_systemC.html', this.parentElement.parentElement, this)">
-                                System C
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
             </div>
-        </div>
-        <div class="reviewcontent" id="system-view-reviewcontent">
-            @*  <h1>xD</h1> *@
-        </div>
-    </div>
-    <div class="reviewcontainer" id="staff-view" style="display: none;">
-        <div class="reviewcontent">
-            <div id="staff-view-reviewcontent">
-                <!-- Replace this with your desired reviewcontent for Staff View -->
-                <div class="staffView-container">
-                    <h1 class="staffView-title">Enter Name/ Staff ID to Review Individual Activity</h1>
-                    <div class="staffView-search-box">
-                        <input type="text" id="staffViewSearchInput" placeholder="Search by Name or Staff ID">
-                        <button onclick="staffViewPerformSearch()">Search</button>
+            <div class="table-container-unique">
+                <table id="fileTableUnique">
+                    <thead>
+                        <tr>
+                            <th>File Name</th>
+                            <th>Category</th>
+                            <th>Read by</th>
+                            <th>Pending by</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><i class="fas fa-file icon-unique"></i> Document1.pdf</td>
+                            <td>Reports</td>
+                            <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
+                                    onclick="openReadModalUnique()"></span></td>
+                            <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span
+                                    class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-file icon-unique"></i> Document2.pdf</td>
+                            <td>Invoices</td>
+                            <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
+                                    onclick="openReadModalUnique()"></span></td>
+                            <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span
+                                    class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                        </tr>
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="readModalUnique" class="modal-unique" style="display:none;">
+                <div class="readUsers-container">
+                    <div class="readUsers-header">
+                        <h1 id="readModal-header">Department / System Name</h1>
+                        <span class="close-unique" onclick="closeReadModalUnique()">&times;</span>
                     </div>
-                    <img src="/Content/Assets/StaffViewBottom.png" />
+                    <div class="readUsers-title">
+                        <h2 id="readModal-title">Read Users - Document.pdf</h2>
+                    </div>
+                    <div class="readUsers-search-bar">
+                        <input type="text" id="readUsers-searchInput" onkeyup="searchTable()"
+                            placeholder="Search by Staff ID">
+                    </div>
+                    <div class="readUsers-table-container">
+                        <table id="readUsers-dataTable">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortTable(0)">Staff ID</th>
+                                    <th onclick="sortTable(1)">Staff Name</th>
+                                    <th onclick="sortTable(2)">Viewed Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>IN1957</td>
+                                    <td>Pramodh Lihinikaduwa</td>
+                                    <td>Jan 04,2023</td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <div class="staffAfterSearch" id="staffAfterSearch" style="display:none;">
-                <div class="reviewtitle2">
-                    Select a system to Review Individual Activity
-                </div>
-                <div class="search-container">
-                    <input type="text" placeholder="IN1957">
-                    <button>Search</button>
-                </div>
-                <div class="staffViewDropdown-status-container">
-                    <label for="staffViewDropdown-status" class="staffViewDropdown-status-label">Status</label>
-                    <select id="staffViewDropdown-status" class="staffViewDropdown-status-select">
-                        <option value="all">All</option>
-                        <option value="pending">Pending</option>
-                        <option value="read">Read</option>
-                    </select>
-                </div>
-
-            </div>
-            <div class="staffcontentLayout" id="staffcontentLayout" style="display:none;">
-                <div class="staffViewSidebar">
-                    <div class="search-box-staff">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="searchInputStaff" onkeyup="filterStaffViewSidebar()" placeholder="Search System">
+            <div id="pendingModalUnique" class="modal-unique" style="display:none;">
+                <div class="pendingUsers-container">
+                    <div class="pendingUsers-header">
+                        <h1 id="pendingModal-header">Department / System Name</h1>
+                        <span class="close-unique" onclick="closePendingModalUnique()">&times;</span>
                     </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>AeroProcure</span>
+                    <div class="pendingUsers-title" id="pendingModal-title">
+                        Pending Users - Document.pdf
                     </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Flight Tracking</span>
+                    <div class="pendingUsers-searchBar">
+                        <input type="text" id="pendingUsersSearchInput" onkeyup="pendingUsersSearchTable()"
+                            placeholder="Search by Staff ID or Name">
                     </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Flight Dispatch</span>
+                    <div class="pendingUsers-tableContainer">
+                        <table id="pendingUsersTable">
+                            <thead>
+                                <tr>
+                                    <th onclick="pendingUsersSortTable(0)">Staff ID</th>
+                                    <th onclick="pendingUsersSortTable(1)">Staff Name</th>
+                                    <th onclick="pendingUsersSortTable(2)">Pending Since</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>IN1958</td>
+                                    <td>John Doe</td>
+                                    <td>Jan 05, 2023</td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Operational Control</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Crew Scheduling</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Maintenance Tracking</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Flight Planning</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Aircraft Monitoring</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Flight Dispatch</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Weather Monitoring</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Passenger Services</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Cargo Management</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Security Control</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Ground Handling</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Fuel Management</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Flight Safety</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Emergency Response</span>
-                    </div>
-
-                </div>
-                <div class="staffViewContent">
-                    <div class="staff-card">
-                        <div class="staff-card-header" onclick="staffViewDropdown()">
-                            <div class="staff-card-header-left">
-                                <i class="fas fa-user-circle"></i>
-                                <div class="name">Pramodh Lihinikaduwa</div>
-                                <div class="id">- IN1957</div>
-                            </div>
-                            <div class="staff-card-header-right">
-                                <i class="fas fa-chevron-down" id="staff-dropdown-icon"></i>
-                            </div>
-                        </div>
-                        <div class="staff-card-body" id="staff-card-body">
-                            <div class="left">
-                                <div class="item">
-                                    <i class="fas fa-building"></i>
-                                    <div>Information Technology Department</div>
-                                </div>
-                                <div class="item">
-                                    <i class="fas fa-briefcase"></i>
-                                    <div>On the Job Trainee</div>
-                                </div>
-                            </div>
-                            <div class="right">
-                                <div class="item">
-                                    <i class="fas fa-envelope"></i>
-                                    <div>bhanuka.lihinikaduwa@srilanakan.com</div>
-                                </div>
-                                <div class="item">
-                                    <i class="fas fa-phone"></i>
-                                    <div>+94743 23 1979</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tableChanger" style="display:none;">
-                        <div class="staff-header">
-                            <h1>Flight Planning</h1>
-                            <div class="staff-search-container">
-                                <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
-                                <input type="text" id="staffSearchInput" onkeyup="filterStaffViewTable()" placeholder="Search">
-                            </div>
-                        </div>
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>File Name</th>
-                                        <th>Category</th>
-                                        <th>Viewed date</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><i class="fas fa-file-alt icon"></i>Operational Control System Overview</td>
-                                        <td>Technical</td>
-                                        <td>-</td>
-                                        <td class="status-pending">Pending</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="fas fa-play-circle icon"></i>Flight Schedule Optimization Techniques</td>
-                                        <td>Training</td>
-                                        <td>Mar 20,2024</td>
-                                        <td class="status-read">Read</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="fas fa-play-circle icon"></i>Best Practices for Operational Control</td>
-                                        <td>Technical</td>
-                                        <td>-</td>
-                                        <td class="status-pending">Pending</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="fas fa-file-alt icon"></i>Real-time Flight Operations Monitoring</td>
-                                        <td>Training</td>
-                                        <td>Feb 05,2024</td>
-                                        <td class="status-read">Read</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="fas fa-file-alt icon"></i>System Integration with Flight Management</td>
-                                        <td>Technical</td>
-                                        <td>-</td>
-                                        <td class="status-pending">Pending</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="fas fa-play-circle icon"></i>Webinar: Enhancing Efficiency</td>
-                                        <td>Training</td>
-                                        <td>Mar 18,2024</td>
-                                        <td class="status-read">Read</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="fas fa-file-alt icon"></i>Real-time Flight Operations Monitoring</td>
-                                        <td>Technical</td>
-                                        <td>-</td>
-                                        <td class="status-pending">Pending</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="fas fa-play-circle icon"></i>Flight Schedule Optimization Techniques</td>
-                                        <td>Training</td>
-                                        <td>Mar 20,2024</td>
-                                        <td class="status-read">Read</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="fas fa-play-circle icon"></i>Flight Schedule Optimization Techniques</td>
-                                        <td>Training</td>
-                                        <td>Mar 20,2024</td>
-                                        <td class="status-read">Read</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="fas fa-play-circle icon"></i>Flight Schedule Optimization Techniques</td>
-                                        <td>Training</td>
-                                        <td>Mar 20,2024</td>
-                                        <td class="status-read">Read</td>
-                                    </tr>
-                                    <tr>
-                                        <td><i class="fas fa-play-circle icon"></i>Flight Schedule Optimization Techniques</td>
-                                        <td>Training</td>
-                                        <td>Mar 20,2024</td>
-                                        <td class="status-read">Read</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-
-                    <img src="/Content/Assets/PCpic.svg" style="position:relative;" />
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div class="reviewcontainer" id="staff-view" style="display: none;">
+    <div class="reviewcontent">
+        <div id="staff-view-reviewcontent">
+            <!-- Replace this with your desired reviewcontent for Staff View -->
+            <div class="staffView-container">
+                <h1 class="staffView-title">Enter Name/ Staff ID to Review Individual Activity</h1>
+                <div class="staffView-search-box">
+                    <input type="text" id="staffViewSearchInput" placeholder="Search by Name or Staff ID">
+                    <button onclick="staffViewPerformSearch()">Search</button>
+                </div>
+                <img src="/Content/Assets/StaffViewBottom.png" />
+            </div>
+        </div>
+
+        <div class="staffAfterSearch" id="staffAfterSearch" style="display:none;">
+            <div class="reviewtitle2">
+                Select a system to Review Individual Activity
+            </div>
+            <div class="search-container">
+                <input type="text" placeholder="IN1957">
+                <button>Search</button>
+            </div>
+            <div class="staffViewDropdown-status-container">
+                <label for="staffViewDropdown-status" class="staffViewDropdown-status-label">Status</label>
+                <select id="staffViewDropdown-status" class="staffViewDropdown-status-select">
+                    <option value="all">All</option>
+                    <option value="pending">Pending</option>
+                    <option value="read">Read</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="staffcontentLayout" id="staffcontentLayout" style="display:none;">
+            <div class="staffViewSidebar">
+                <div class="search-box-staff">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInputStaff" onkeyup="filterStaffViewSidebar()"
+                        placeholder="Search System">
+                </div>
+                <div class="menu-item" onclick="staffViewActive(event)">
+                    <i class="fas fa-folder"></i>
+                    <span>AeroProcure</span>
+                </div>
+                <div class="menu-item" onclick="staffViewActive(event)">
+                    <i class="fas fa-folder"></i>
+                    <span>Flight Tracking</span>
+                </div>
+                <div class="menu-item" onclick="staffViewActive(event)">
+                    <i class="fas fa-folder"></i>
+                    <span>Flight Dispatch</span>
+                </div>
+                <div class="menu-item" onclick="staffViewActive(event)">
+                    <i class="fas fa-folder"></i>
+                    <span>Operational Control</span>
+                </div>
+                <div class="menu-item" onclick="staffViewActive(event)">
+                    <i class="fas fa-folder"></i>
+                    <span>Crew Scheduling</span>
+                </div>
+                <div class="menu-item" onclick="staffViewActive(event)">
+                    <i class="fas fa-folder"></i>
+                    <span>Maintenance Tracking</span>
+                </div>
+                <div class="menu-item" onclick="staffViewActive(event)">
+                    <i class="fas fa-folder"></i>
+                    <span>Flight Planning</span>
+                </div>
+                <div class="menu-item" onclick="staffViewActive(event)">
+                    <i class="fas fa-folder"></i>
+                    <span>Aircraft Monitoring</span>
+                </div>
+                <div class="menu-item" onclick="staffViewActive(event)">
+                    <i class="fas fa-folder"></i>
+                    <span>Flight Dispatch</span>
+                </div>
+                <div class="menu-item" onclick="staffViewActive(event)">
+                    <i class="fas fa-folder"></i>
+                    <span>Weather Monitoring</span>
+                </div>
+                <div class="menu-item" onclick="staffViewActive(event)">
+                    <i class="fas fa-folder"></i>
+                    <span>Passenger Services</span>
+                </div>
+                <div class="menu-item" onclick="staffViewActive(event)">
+                    <i class="fas fa-folder"></i>
+                    <span>Cargo Management</span>
+                </div>
+                <div class="menu-item" onclick="staffViewActive(event)">
+                    <i class="fas fa-folder"></i>
+                    <span>Security Control</span>
+                </div>
+                <div class="menu-item" onclick="staffViewActive(event)">
+                    <i class="fas fa-folder"></i>
+                    <span>Ground Handling</span>
+                </div>
+                <div class="menu-item" onclick="staffViewActive(event)">
+                    <i class="fas fa-folder"></i>
+                    <span>Fuel Management</span>
+                </div>
+                <div class="menu-item" onclick="staffViewActive(event)">
+                    <i class="fas fa-folder"></i>
+                    <span>Flight Safety</span>
+                </div>
+                <div class="menu-item" onclick="staffViewActive(event)">
+                    <i class="fas fa-folder"></i>
+                    <span>Emergency Response</span>
+                </div>
+
+            </div>
+            <div class="staffViewContent">
+                <div class="staff-card">
+                    <div class="staff-card-header" onclick="staffViewDropdown()">
+                        <div class="staff-card-header-left">
+                            <i class="fas fa-user-circle"></i>
+                            <div class="name">Pramodh Lihinikaduwa</div>
+                            <div class="id">- IN1957</div>
+                        </div>
+                        <div class="staff-card-header-right">
+                            <i class="fas fa-chevron-down" id="staff-dropdown-icon"></i>
+                        </div>
+                    </div>
+                    <div class="staff-card-body" id="staff-card-body">
+                        <div class="left">
+                            <div class="item">
+                                <i class="fas fa-building"></i>
+                                <div>Information Technology Department</div>
+                            </div>
+                            <div class="item">
+                                <i class="fas fa-briefcase"></i>
+                                <div>On the Job Trainee</div>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div class="item">
+                                <i class="fas fa-envelope"></i>
+                                <div>bhanuka.lihinikaduwa@srilanakan.com</div>
+                            </div>
+                            <div class="item">
+                                <i class="fas fa-phone"></i>
+                                <div>+94743 23 1979</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tableChanger" style="display:none;">
+                    <div class="staff-header">
+                        <h1>Flight Planning</h1>
+                        <div class="staff-search-container">
+                            <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                            <input type="text" id="staffSearchInput" onkeyup="filterStaffViewTable()"
+                                placeholder="Search">
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>File Name</th>
+                                    <th>Category</th>
+                                    <th>Viewed date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><i class="fas fa-file-alt icon"></i>Operational Control System Overview</td>
+                                    <td>Technical</td>
+                                    <td>-</td>
+                                    <td class="status-pending">Pending</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-play-circle icon"></i>Flight Schedule Optimization Techniques
+                                    </td>
+                                    <td>Training</td>
+                                    <td>Mar 20,2024</td>
+                                    <td class="status-read">Read</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-play-circle icon"></i>Best Practices for Operational Control
+                                    </td>
+                                    <td>Technical</td>
+                                    <td>-</td>
+                                    <td class="status-pending">Pending</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-file-alt icon"></i>Real-time Flight Operations Monitoring</td>
+                                    <td>Training</td>
+                                    <td>Feb 05,2024</td>
+                                    <td class="status-read">Read</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-file-alt icon"></i>System Integration with Flight Management
+                                    </td>
+                                    <td>Technical</td>
+                                    <td>-</td>
+                                    <td class="status-pending">Pending</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-play-circle icon"></i>Webinar: Enhancing Efficiency</td>
+                                    <td>Training</td>
+                                    <td>Mar 18,2024</td>
+                                    <td class="status-read">Read</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-file-alt icon"></i>Real-time Flight Operations Monitoring</td>
+                                    <td>Technical</td>
+                                    <td>-</td>
+                                    <td class="status-pending">Pending</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-play-circle icon"></i>Flight Schedule Optimization Techniques
+                                    </td>
+                                    <td>Training</td>
+                                    <td>Mar 20,2024</td>
+                                    <td class="status-read">Read</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-play-circle icon"></i>Flight Schedule Optimization Techniques
+                                    </td>
+                                    <td>Training</td>
+                                    <td>Mar 20,2024</td>
+                                    <td class="status-read">Read</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-play-circle icon"></i>Flight Schedule Optimization Techniques
+                                    </td>
+                                    <td>Training</td>
+                                    <td>Mar 20,2024</td>
+                                    <td class="status-read">Read</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-play-circle icon"></i>Flight Schedule Optimization Techniques
+                                    </td>
+                                    <td>Training</td>
+                                    <td>Mar 20,2024</td>
+                                    <td class="status-read">Read</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+                <img src="/Content/Assets/PCpic.svg" style="position:relative;" />
+            </div>
+        </div>
+    </div>
+</div>

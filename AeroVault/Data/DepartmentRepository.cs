@@ -20,16 +20,63 @@ namespace AeroVault.Repositories
 
         public async Task<List<DepartmentModel>> GetAllDepartmentsAsync()
         {
-            return await _context.Set<DepartmentModel>()
-                .FromSqlRaw("SELECT * FROM C##AEROVAULT.DEPARTMENTS WHERE is_deleted = 0")
-                .ToListAsync();
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new OracleCommand(
+                    "SELECT d.DepartmentID, d.DepartmentName, d.DivisionID, v.DivisionName " +
+                    "FROM C##AEROVAULT.DEPARTMENTS d " +
+                    "JOIN C##AEROVAULT.DIVISIONS v ON d.DivisionID = v.DivisionID " +
+                    "WHERE d.is_deleted = 0 AND v.IsDeleted = 0",
+                    connection))
+                {
+                    var departments = new List<DepartmentModel>();
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            departments.Add(new DepartmentModel
+                            {
+                                DepartmentID = Convert.ToInt32(reader["DepartmentID"]),
+                                DepartmentName = reader["DepartmentName"].ToString(),
+                                DivisionID = Convert.ToInt32(reader["DivisionID"]),
+                                Division = new DivisionModel
+                                {
+                                    DivisionID = Convert.ToInt32(reader["DivisionID"]),
+                                    DivisionName = reader["DivisionName"].ToString()
+                                }
+                            });
+                        }
+                    }
+                    return departments;
+                }
+            }
         }
 
         public async Task<List<DivisionModel>> GetAllDivisionsAsync()
         {
-            return await _context.Set<DivisionModel>()
-                .FromSqlRaw("SELECT * FROM C##AEROVAULT.DIVISIONS")
-                .ToListAsync();
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new OracleCommand(
+                    "SELECT DivisionID, DivisionName FROM C##AEROVAULT.DIVISIONS WHERE IsDeleted = 0",
+                    connection))
+                {
+                    var divisions = new List<DivisionModel>();
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            divisions.Add(new DivisionModel
+                            {
+                                DivisionID = Convert.ToInt32(reader["DivisionID"]),
+                                DivisionName = reader["DivisionName"].ToString()
+                            });
+                        }
+                    }
+                    return divisions;
+                }
+            }
         }
 
         public async Task<bool> DepartmentExistsAsync(string departmentName, int divisionId)
@@ -129,6 +176,38 @@ namespace AeroVault.Repositories
 
                     int rowsAffected = await command.ExecuteNonQueryAsync();
                     return rowsAffected > 0;
+                }
+            }
+        }
+
+        public async Task<List<SystemModel>> GetSystemsByDepartmentAsync(int departmentId)
+        {
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string sql = @"
+            SELECT s.SystemID, s.SystemName, s.Description 
+            FROM C##AEROVAULT.SYSTEMS s
+            JOIN C##AEROVAULT.SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
+            WHERE sd.DepartmentID = :DepartmentID AND s.is_deleted = 0"; // Only include systems that are not deleted
+
+                using (var command = new OracleCommand(sql, connection))
+                {
+                    command.Parameters.Add(new OracleParameter(":DepartmentID", departmentId));
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        var systems = new List<SystemModel>();
+                        while (await reader.ReadAsync())
+                        {
+                            systems.Add(new SystemModel
+                            {
+                                SystemID = reader.GetInt32(0),
+                                SystemName = reader.GetString(1),
+                                Description = reader.IsDBNull(2) ? string.Empty : reader.GetString(2)
+                            });
+                        }
+                        return systems;
+                    }
                 }
             }
         }

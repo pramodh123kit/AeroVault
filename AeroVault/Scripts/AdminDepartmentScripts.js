@@ -37,8 +37,6 @@ function filterCustomOptions() {
     });
 }
 
-
-
 function filterSystems() {
     const searchInput = document.getElementById('systemSearch');
     const filter = searchInput.value.toUpperCase();
@@ -194,34 +192,19 @@ function filterDivisions() {
 }
 
 function selectDivision(element) {
-
     const selectedDivision = element.textContent || element.innerText;
-
     const selectedDivisionId = element.getAttribute('data-division-id');
-
-
-
-    // Update the selected division name in the UI
 
     document.getElementById('selected-division').innerHTML = selectedDivision;
 
-
-    // Update the division ID in the division selector
-
     const divisionSelector = document.querySelector('.division-selector');
-
     divisionSelector.dataset.divisionId = selectedDivisionId;
 
-
     // Close the dropdown
-
     closeDropdown();
 
-
     // Check for changes
-
     checkForChanges();
-
 }
 
 function showAllDivisions() {
@@ -245,15 +228,10 @@ document.getElementById('search-division').addEventListener('blur', function () 
 document.addEventListener('click', function (event) {
     const dropdownContent = document.querySelector('.dropdown-content');
     const dropdownToggle = document.querySelector('.dropdown-toggle');
-
-    // Check if the click happened outside the dropdown
     if (!dropdownContent.contains(event.target) && !dropdownToggle.contains(event.target)) {
         closeDropdown();
     }
 });
-
-
-
 
 window.onclick = function (event) {
     const dropdownContent = document.querySelector('.dropdown-content');
@@ -274,68 +252,63 @@ window.onclick = function (event) {
     }
 };
 
-
-
-
 function updateDeletePopupHeader() {
-
-    // Find the currently selected department
-
     const selectedDepartment = document.querySelector('#systemList li[style*="background-color: rgb(187, 220, 249)"]');
 
-
-
     if (!selectedDepartment) {
-
-        // If not found in system list, check custom dropdown
-
         const selectedCustomDepartment = document.querySelector('.custom-dropdown-list div.active');
 
-
-
         if (selectedCustomDepartment) {
-
             const departmentName = selectedCustomDepartment.getAttribute('data-department-name');
-
             document.querySelector('#deletedepartment-popup h2').textContent = `Delete ${departmentName} Department?`;
-
         } else {
-
             console.error('No department selected');
-
         }
-
         return;
-
     }
-
-
-
-    // Get department name from the selected list item
-
     const departmentName = selectedDepartment.getAttribute('data-department-name');
-
-
-
-    // Update the popup header
-
     document.querySelector('#deletedepartment-popup h2').textContent = `Delete ${departmentName} Department?`;
-
 }
-
-
-
-
-
-
-
 
 // DEPARTMENT DELETE POPUP
 function depDeleteopenPopup() {
+    const selectedDepartment = document.querySelector('#systemList li[style*="background-color: rgb(187, 220, 249)"]');
 
-    updateDeletePopupHeader();
-    document.getElementById('dark-overlay-dep2').style.display = 'block';
-    document.getElementById('deletedepartment-popup').style.display = 'block';
+    if (!selectedDepartment) {
+        alert('Please select a department to delete');
+        return;
+    }
+
+    const departmentId = selectedDepartment.getAttribute('data-department-id');
+
+    // Fetch systems for the selected department
+    fetch(`/Departments/GetSystemsByDepartment?departmentId=${departmentId}`)
+        .then(response => response.json())
+        .then(systems => {
+            //console.log('Fetched Systems:', systems);
+
+            const fileList = document.querySelector('.file-list');
+            fileList.innerHTML = ''; // Clear previous items
+
+            if (systems.length === 0) {
+                fileList.innerHTML = '<div>No systems available.</div>';
+            } else {
+                systems.forEach(system => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item';
+                    fileItem.textContent = system.systemName;
+                    fileList.appendChild(fileItem);
+                });
+            }
+
+            // Show the delete popup
+            document.getElementById('dark-overlay-dep2').style.display = 'block';
+            document.getElementById('deletedepartment-popup').style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error fetching systems:', error);
+            alert('Failed to fetch systems for the selected department.');
+        });
 }
 
 function depDeleteClosePopup() {
@@ -346,9 +319,6 @@ function depDeleteClosePopup() {
 document.querySelector('.delete-dep-button').onclick = depDeleteopenPopup;
 document.getElementById('close-icon-dep2').onclick = depDeleteClosePopup;
 document.getElementById('cancel-dep-del').onclick = depDeleteClosePopup;
-
-
-
 
 // DEPARTMENT ADD POPUP
 function depAddopenPopup() {
@@ -361,22 +331,12 @@ function depAddClosePopup() {
     document.getElementById('adddepartment-popup').style.display = 'none';
 }
 
-
 document.querySelector('.add-dep-button').onclick = depAddopenPopup;
-
-
-
-
 
 document.getElementById('close-icon-dep1').onclick = function () {
     resetAddDepartmentForm();
     depAddClosePopup();
 };
-
-//document.getElementById('dark-overlay-dep1').onclick = function () {
-//    resetAddDepartmentForm();
-//    depAddClosePopup();
-//};
 
 function resetAddDepartmentForm() {
     // Reset department name input
@@ -402,7 +362,6 @@ function resetAddDepartmentForm() {
     const departmentNameInput = document.getElementById('new-department-name');
     departmentNameInput.classList.remove('error-input');
 }
-
 
 function addNewDepartment() {
     // Get department name and selected division
@@ -461,7 +420,6 @@ function addNewDepartment() {
 }
 
 document.querySelector('.add-new-dep-popup-btn').onclick = addNewDepartment;
-
 
 // Function to close the notification popup
 function closeNotificationPopup() {
@@ -532,7 +490,6 @@ window.onclick = function (event) {
         }
     }
 };
-
 
 function toggleSystemList() {
     const systemList = document.getElementById('systemList');
@@ -757,7 +714,7 @@ function softDeleteDepartment() {
 
             // Reset the system container and show image container
             document.querySelector('.system-container').style.display = 'none';
-            document.querySelector('.image-container').style.display = 'block';
+            document.querySelector('.image-container').style.display = 'flex';
 
             // Remove active state from any active custom dropdown items
             const customDropdownItems = document.querySelectorAll('.custom-dropdown-list div');

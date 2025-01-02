@@ -1,133 +1,133 @@
 @model List<AeroVault.Models.DivisionModel>
 
-    <link rel="stylesheet" href="/Content/css/AdminSystems.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/Content/css/AdminSystems.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
-    <div class="admin-main-content" style="height:100%;">
-        <div class="header-container">
-            <h2 class="systems-header" id="systems-header">
-                Select a Division to Manage
-            </h2>
-            <button class="add-system-button add-dep-button">
-                <img src="/Content/Assets/add-icon.svg" alt="Add Icon" class="button-icon" />
-                Add New Division
-            </button>
-        </div>
+<div class="admin-main-content" style="height:100%;">
+    <div class="header-container">
+        <h2 class="systems-header" id="systems-header">
+            Select a Division to Manage
+        </h2>
+        <button class="add-system-button add-dep-button">
+            <img src="/Content/Assets/add-icon.svg" alt="Add Icon" class="button-icon" />
+            Add New Division
+        </button>
+    </div>
 
-        <div class="sidebar-container">
-            <div class="sidebar2">
-                <div class="search-container" style="width:90%;">
-                    <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
-                    <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search Division" type="text" />
-                </div>
-                <div class="scrollable-content scrollable-content-list">
-                    <div id="systemListContainer">
-                        <ul id="systemList">
-                            @if (Model == null || !Model.Any())
+    <div class="sidebar-container">
+        <div class="sidebar2">
+            <div class="search-container" style="width:90%;">
+                <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search Division" type="text" />
+            </div>
+            <div class="scrollable-content scrollable-content-list">
+                <div id="systemListContainer">
+                    <ul id="systemList">
+                        @if (Model == null || !Model.Any())
+                        {
+                            <li>No Divisions available.</li>
+                        }
+                        else
+                        {
+                            @foreach (var division in Model)
                             {
-                                <li>No Divisions available.</li>
+                                <li onclick="highlightSystem(this); setDivisionName('@division.DivisionName')"
+                                    class="department-li"
+                                    data-division-id="@division.DivisionID">
+                                    <a href="#">
+                                        @division.DivisionName
+                                    </a>
+                                </li>
                             }
-                            else
-                            {
-                                @foreach (var division in Model)
-                                {
-                                    <li onclick="highlightSystem(this); setDivisionName('@division.DivisionName')" class="department-li">
-                                        <a href="#">
-                                            @division.DivisionName
-                                        </a>
-                                    </li>
-                                }
-                            }
-                        </ul>
+                        }
+                    </ul>
 
-                        <div class="custom-form-group">
-                            <h2 class="systems-header systems-header-label">
-                                Select a Division to Manage
-                            </h2>
-                            <div class="custom-dropdown">
-                                <div class="custom-dropdown-toggle custom-selector" onclick="toggleCustomDropdown(event)">
-                                    <span id="selected-option" style="color:#333333;">Select a division</span>
-                                    <i class="fas fa-chevron-down"></i>
+                    <div class="custom-form-group">
+                        <h2 class="systems-header systems-header-label">
+                            Select a Division to Manage
+                        </h2>
+                        <div class="custom-dropdown">
+                            <div class="custom-dropdown-toggle custom-selector" onclick="toggleCustomDropdown(event)">
+                                <span id="selected-option" style="color:#333333;">Select a division</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="custom-dropdown-content" style="position:sticky">
+                                <div class="custom-search-container">
+                                    <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                                    <input type="text" id="custom-search-input" placeholder="Search Division" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
                                 </div>
-                                <div class="custom-dropdown-content" style="position:sticky">
-                                    <div class="custom-search-container">
-                                        <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
-                                        <input type="text" id="custom-search-input" placeholder="Search Division" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
-                                    </div>
-                                    <div class="custom-dropdown-list">
-                                        @if (Model == null || !Model.Any())
+                                <div class="custom-dropdown-list">
+                                    @if (Model == null || !Model.Any())
+                                    {
+                                        <div>No Divisions available.</div>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var division in Model)
                                         {
-                                            <div>No Divisions available.</div>
+                                            <div onclick="selectCustomOption(this)"
+                                                 data-division-id="@division.DivisionID">
+                                                @division.DivisionName.Trim()
+                                            </div>
                                         }
-                                        else
-                                        {
-                                            @foreach (var division in Model)
-                                            {
-                                                <div onclick="selectCustomOption(this)">
-                                                    @division.DivisionName.Trim()
-                                                </div>
-                                            }
-                                        }
-                                    </div>
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-            <div class="image-container">
-                <img src="/Content/Assets/divisions-icon.svg" alt="Departments Background Image" />
-            </div>
+        </div>
+        <div class="image-container">
+            <img src="/Content/Assets/divisions-icon.svg" alt="Departments Background Image" />
+        </div>
 
+        <div class="system-container dep-second-container" style="display: none;">
+            <div class="dep-inner-container">
+                <h2 class="edit-del-instruc">Edit or Delete Division</h2>
+                <h2 class="systems-name">System Name</h2>
+                <div class="form-group div-secondary-container">
+                    <label class="label" for="department-name" style="margin-top:20px;">Division Name</label>
+                    <input class="depname-input" type="text" id="department-name" value="" style="border-radius:10px; font-size:16px; border:1px solid #6D6D6D;">
+                </div>
 
-            <div class="system-container dep-second-container" style="display: none;">
-                <div class="dep-inner-container">
-                    <h2 class="edit-del-instruc">Edit or Delete Division</h2>
-                    <h2 class="systems-name">System Name</h2>
-                    <div class="form-group div-secondary-container">
-                        <label class="label" for="department-name" style="margin-top:20px;">Division Name</label>
-                        <input class="depname-input" type="text" id="department-name" value="" style="border-radius:10px; font-size:16px; border:1px solid #6D6D6D;">
-                    </div>
-                    
-                    <div class="button-container">
-                        <button class="reset-changes div-name-reset" id="div-name-reset">
-                            Reset
-                        </button>
-                        <button class="edit-system-button div-edit">
-                            Save Changes
-                        </button>
-                        <button class="delete-system-button delete-dep-button">
-                            <img src="/Content/Assets/system-delete-icon.svg" alt="Add Icon" class="button-icon" />
-                            Delete
-                        </button>
-                    </div>
+                <div class="button-container">
+                    <button class="reset-changes div-name-reset" id="div-name-reset">
+                        Reset
+                    </button>
+                    <button class="edit-system-button div-edit">
+                        Save Changes
+                    </button>
+                    <button class="delete-system-button delete-dep-button">
+                        <img src="/Content/Assets/system-delete-icon.svg" alt="Add Icon" class="button-icon" />
+                        Delete
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Division Updated Popup -->
-    <div id="dark-overlay-dep9" class="dark-overlay" style="display: none;"></div>
-    <div id="division-updated-popup" class="modal-notification-edit" style="display: none;">
+<!-- Division Updated Popup -->
+<div id="dark-overlay-dep9" class="dark-overlay" style="display: none;"></div>
+<div id="division-updated-popup" class="modal-notification-edit" style="display: none;">
     <div class="div-edit-header">
-        <button class="popup-close" id="close-icon-dep9">×</button>
-            @* <img src="/Content/Assets/close-icon.svg" id="close-icon-dep9" style="cursor:pointer; color:black;" /> *@
-        </div>
-        <div class="modal-body">
-            <img src="/Content/Assets/system-added-successfully.svg" alt="Alternate Text">
-        <h2 class="edit-success-dep">Division was Successfully Edited</h2>
-        </div>
+        <button class="popup-close" id="close-icon-dep9">&times;</button>
     </div>
+    <div class="modal-body">
+        <img src="/Content/Assets/system-added-successfully.svg" alt="Alternate Text">
+        <h2 class="edit-success-dep">Division was Successfully Edited</h2>
+    </div>
+</div>
 
-    <!-- Overlay -->
-    <div id="dark-overlay-dep1" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminDivisionPopups/_AdminAddDivisionPopup", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminAddDepartmentPopupModel())
+<!-- Overlay -->
+<div id="dark-overlay-dep1" class="dark-overlay" style="display: none;"></div>
+@Html.Partial("AdminDivisionPopups/_AdminAddDivisionPopup", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminAddDepartmentPopupModel())
 
-    <div id="dark-overlay-dep2" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminDivisionPopups/_AdminDeleteDivisionPopup", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDeleteDepartmentPopupModel())
+<div id="dark-overlay-dep2" class="dark-overlay" style="display: none;"></div>
+@Html.Partial("AdminDivisionPopups/_AdminDeleteDivisionPopup", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDeleteDepartmentPopupModel())
 
-    <div id="dark-overlay-dep3" class="dark-overlay" style="display: none;"></div>
-    @Html.Partial("AdminDivisionPopups/_AdminDivisionAdded", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDepartmentAddedModel())
+<div id="dark-overlay-dep3" class="dark-overlay" style="display: none;"></div>
+@Html.Partial("AdminDivisionPopups/_AdminDivisionAdded", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDepartmentAddedModel())
 
-    <script src="/Scripts/AdminDivisionScripts.js"></script>
+<script src="/Scripts/AdminDivisionScripts.js"></script>

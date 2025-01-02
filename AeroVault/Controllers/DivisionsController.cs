@@ -1,7 +1,8 @@
-﻿using AeroVault.Business;
+using AeroVault.Business;
 using AeroVault.Controllers;
 using AeroVault.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -34,7 +35,6 @@ public class DivisionsController : BaseAdminController
     [HttpPost]
     public async Task<IActionResult> AddDivision([FromForm] string divisionName)
     {
-        // Add more comprehensive logging
         Console.WriteLine($"AddDivision method called at: {DateTime.Now}");
         Console.WriteLine($"Received division name: {divisionName}");
 
@@ -56,10 +56,7 @@ public class DivisionsController : BaseAdminController
         }
         catch (Exception ex)
         {
-            // More detailed error logging
             Console.WriteLine($"Error adding division: {ex.Message}");
-            Console.WriteLine($"Stack Trace: {ex.StackTrace}");
-
             return StatusCode(500, new
             {
                 Message = "Internal server error",
@@ -68,7 +65,7 @@ public class DivisionsController : BaseAdminController
         }
     }
 
-
+    // POST: /Divisions/Update
     [HttpPost]
     public async Task<IActionResult> UpdateDivision(string originalName, string newDivisionName)
     {
@@ -96,4 +93,50 @@ public class DivisionsController : BaseAdminController
             });
         }
     }
+
+    // POST: /Divisions/Delete
+    [HttpPost]
+    public async Task<IActionResult> SoftDeleteDivision([FromBody] DivisionDeleteModel model)
+    {
+        if (model == null || model.DivisionId <= 0)
+        {
+            return BadRequest(new { Message = "Invalid Division ID." });
+        }
+
+        try
+        {
+            var result = await _divisionService.SoftDeleteDivisionAsync(model.DivisionId);
+            if (result.Success)
+            {
+                return Ok(new { Message = result.Message });
+            }
+            else
+            {
+                return NotFound(new { Message = result.Message });
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error deleting division: {ex.Message}");
+            return StatusCode(500, new
+            {
+                Message = "Internal server error",
+                ErrorDetails = ex.Message
+            });
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetDepartmentsByDivision(int divisionId)
+    {
+        var departments = await _divisionService.GetDepartmentsByDivisionAsync(divisionId);
+        return Json(departments);
+    }
+
+}
+
+// Model for soft delete
+public class DivisionDeleteModel
+{
+    public int DivisionId { get; set; }
 }

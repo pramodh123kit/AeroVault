@@ -1,31 +1,26 @@
 ﻿@page
-
 @model AeroVault.Views.Shared.AdminSystemPopups._AdminEditSystemPopupModel
 
 @{
-
-    // You might want to pass divisions data to the view model
-
     var divisionsWithDepartments = ViewBag.DivisionsWithDepartments ?? new List<object>();
-
 }
 
 <div id="editsystem-popup" class="addsystem-popup" style="display: none;">
     <div class="add-system-container-popup" style="margin: 30px auto;">
         <div class="add-system-header">
             <div class="title">Edit System</div>
-            <img src="/Content/Assets/close-icon.svg" class="close-icon" id="close-icon1" />
+            <img src="/Content/Assets/close-icon.svg" class="close-icon" id="close-icon-edit" />
         </div>
         <div class="add-system-content">
             <div class="form-row" style="margin-top: 20px;">
                 <div class="form-group half-width">
-                    <label for="system-name">System Name</label>
+                    <label for="system-edit-name">System Name</label>
                     <input type="text" id="system-edit-name" class="system-edit-name" value="Flight Planning" style="width:100%;">
                 </div>
                 <div class="form-group half-width">
-                    <label for="description">Description</label>
-                    <textarea id="description"
-                              name="description"
+                    <label for="edit-description">Description</label>
+                    <textarea id="edit-description"
+                              name="edit-description"
                               autocomplete="off"
                               class="full-width"
                               placeholder="Description Comes Here"></textarea>
@@ -35,66 +30,48 @@
                 <div class="section-title">Select Departments According to Division</div>
                 <div class="file-search-container">
                     <img src="/Content/Assets/search-icon.svg" class="search-icon" alt="Search Icon" />
-                    <input id="DepartmentsDivisionsSearch1" onkeyup="filterDepartmentsDivisions1()" placeholder="Search" type="text" class="file-search-input" />
+                    <input id="EditDepartmentsDivisionsSearch" onkeyup="filterEditDepartmentsDivisions()" placeholder="Search" type="text" class="file-search-input" />
                 </div>
             </div>
-            <div class="division-container" id="division-container">
-
+            <div class="edit-division-container" id="edit-division-container">
                 @foreach (dynamic division in divisionsWithDepartments)
-
                 {
-
-                    <div class="division">
-
-                        <div class="division-header">
-
+                    <div class="edit-division">
+                        <div class="edit-division-header">
                             <div>
-
-                                <i class="fas fa-chevron-right division-name"></i>
-
-                                <span class="division-name">@division.divisionName</span>
-
+                                <i class="fas fa-chevron-right edit-division-name"></i>
+                                <span class="edit-division-name">@division.divisionName</span>
                             </div>
-
-                            <span class="selected-count"></span>
-
+                            <span class="edit-selected-count"></span>
                         </div>
-
-                        <div class="division-content">
-
-                            <div class="checkbox-group">
-
-                                <label><input type="checkbox" class="select-all"> Select All</label>
-
-                                @foreach (dynamic department in division.departments)
-
+                        <div class="edit-division-content" style="display: none;">
+                            <div class="edit-checkbox-group">
+                                @if (division.departments.Count == 0)
                                 {
-
-                                    <label>
-
-                                        <input type="checkbox"
-                                               class="department"
-                                               value="@department.departmentID">
-
-                                        @department.departmentName
-
-                                    </label>
-
+                                    <span>No departments available.</span>
                                 }
-
+                                else
+                                {
+                                    <label><input type="checkbox" class="edit-select-all"> Select All</label>
+                                    @foreach (dynamic department in division.departments)
+                                    {
+                                        <label>
+                                            <input type="checkbox" class="edit-department" value="@department.departmentID">
+                                            @department.departmentName
+                                        </label>
+                                    }
+                                }
                             </div>
-
                         </div>
-
                     </div>
-
                 }
-
             </div>
         </div>
         <div class="footer">
-            <button class="reset-btn">Reset</button>
-            <button class="save-btn">Save Changes</button>
+            <button class="reset-btn" id="edit-reset-btn">Reset</button>
+            <button class="save-btn" id="edit-save-btn" disabled>Save Changes</button>
         </div>
     </div>
 </div>
+
+<script src="/Scripts/AdminSystemScripts.js"></script>
