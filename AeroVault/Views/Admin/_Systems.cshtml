@@ -43,6 +43,7 @@
                             {
 
                                 <li onclick="highlightSystem(this)"
+                                    data-system-id="@system.SystemID"
                                     data-system-description="@(system.Description ?? string.Empty)">
 
                                     <a href="#">
@@ -54,6 +55,7 @@
                                     </a>
 
                                 </li>
+
 
                             }
                         }
@@ -323,3 +325,14 @@
     @Html.Partial("AdminSystemPopups/_AdminFileEdit", new AeroVault.Views.Shared.AdminSystemPopups._AdminFileEditModel())
 
     <script src="/Scripts/AdminSystemScripts.js"></script>
+<script>
+
+    // Attach the event listener for the save button directly
+
+    document.getElementById('edit-save-btn').addEventListener('click', async function () {
+
+        await editSystem();
+
+    });
+
+</script>
