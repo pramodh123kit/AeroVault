@@ -20,9 +20,11 @@ namespace AeroVault.Data
 
         public async Task<List<DivisionModel>> GetAllDivisionsAsync()
         {
-            return await _context.Set<DivisionModel>()
+            var divisions = await _context.Set<DivisionModel>()
                 .FromSqlRaw("SELECT * FROM C##AEROVAULT.DIVISIONS WHERE IsDeleted = 0")
                 .ToListAsync();
+
+            return divisions ?? new List<DivisionModel>(); // Return an empty list if null
         }
 
         public async Task AddDivisionAsync(string divisionName)

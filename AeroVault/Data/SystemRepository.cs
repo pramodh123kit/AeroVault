@@ -28,11 +28,11 @@ namespace AeroVault.Data
                 await connection.OpenAsync();
 
                 string sql = @"
-            SELECT DISTINCT s.SystemID, s.SystemName, s.Description 
-            FROM C##AEROVAULT.SYSTEMS s
-            JOIN C##AEROVAULT.SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
-            JOIN C##AEROVAULT.DEPARTMENTS d ON sd.DepartmentID = d.DepartmentID
-            WHERE s.IS_DELETED = 0 AND d.IS_DELETED = 0"; 
+                SELECT DISTINCT s.SystemID, s.SystemName, s.Description 
+                FROM C##AEROVAULT.SYSTEMS s
+                JOIN C##AEROVAULT.SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
+                JOIN C##AEROVAULT.DEPARTMENTS d ON sd.DepartmentID = d.DepartmentID
+                WHERE s.IS_DELETED = 0 AND d.IS_DELETED = 0";
 
                 using (var command = new OracleCommand(sql, connection))
                 {
@@ -52,7 +52,7 @@ namespace AeroVault.Data
                     }
                 }
             }
-            return systems;
+            return systems; // This will return an empty list if no systems are found
         }
 
         public async Task<bool> CheckSystemExistsAsyncch
