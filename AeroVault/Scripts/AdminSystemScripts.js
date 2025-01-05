@@ -1199,9 +1199,21 @@ async function editSystem() {
     const description = descriptionInput.value.trim();
 
     // Get the SystemID from the selected system
-    const systemId = selectedSystemId; // Make sure you have this variable set when selecting a system
+    const systemId = selectedSystemId;
+
+    console.log('Edit System Details:', {
+        systemId: systemId,
+        systemName: systemName,
+        description: description
+    });
 
     // Validate inputs
+    if (!systemId) {
+        console.error('No system ID selected');
+        showCustomAlert('Please select a system to edit');
+        return;
+    }
+
     if (!systemName || systemName.length < 3 || systemName.length > 100) {
         showValidationError(systemNameInput, 'Invalid System Name');
         return;
@@ -1215,11 +1227,13 @@ async function editSystem() {
     const selectedDepartments = Array.from(document.querySelectorAll('.edit-department:checked')).map(checkbox => parseInt(checkbox.value));
 
     const systemUpdateData = {
-        SystemID: systemId, // Include the SystemID
+        SystemID: systemId, // Explicitly include the SystemID
         SystemName: systemName,
         Description: description,
         DepartmentIds: selectedDepartments
     };
+
+    console.log('Sending system update data:', systemUpdateData);
 
     try {
         const updateSystemResponse = await fetch('/Systems/UpdateSystem', {
@@ -1231,10 +1245,17 @@ async function editSystem() {
             body: JSON.stringify(systemUpdateData)
         });
 
+        // Log the raw response
+        console.log('Update System Raw Response:', updateSystemResponse);
+
         if (!updateSystemResponse.ok) {
             const errorData = await updateSystemResponse.json();
+            console.error('Update System Error:', errorData);
             throw new Error(errorData.message || 'Failed to update system');
         }
+
+        const result = await updateSystemResponse.json();
+        console.log('System Update Result:', result);
 
         // Close the popup
         document.getElementById('editsystem-popup').style.display = 'none';
@@ -1242,10 +1263,11 @@ async function editSystem() {
         showSuccessNotification('System updated successfully!');
 
         // Refresh systems list
-        await refreshSystemsList(); // Call to refresh the system list and dropdowns
+        await refreshSystemsList();
 
     } catch (error) {
         console.error('Error updating system:', error);
+        showCustomAlert(`Error: ${error.message}`);
     }
 }
 
