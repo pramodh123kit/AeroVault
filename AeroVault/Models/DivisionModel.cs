@@ -13,5 +13,6 @@ namespace AeroVault.Models
         public string DivisionName { get; set; }
         [Column("IsDeleted")]
         public int IsDeleted { get; set; } = 0;
+        public DateTime? AddedDate { get; set; }
     }
 }

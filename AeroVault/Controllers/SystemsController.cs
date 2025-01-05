@@ -44,8 +44,17 @@ namespace AeroVault.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSystem([FromBody] CreateSystemRequest request)
         {
-            var result = await _systemService.CreateSystemAsync(request);
-            return result;
+            try
+            {
+                var result = await _systemService.CreateSystemAsync(request);
+                return result; // This should return Ok() or other appropriate responses
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine($"Error in CreateSystem: {ex.Message}");
+                return StatusCode(500, new { message = "An error occurred while creating the system." });
+            }
         }
 
         [HttpDelete]
