@@ -36,7 +36,7 @@ async function highlightSystem(selectedItem) {
     const systemName = selectedItem.querySelector('a').textContent.trim();
 
     selectedSystemName = systemName;
-
+    selectedSystemId = selectedItem.getAttribute('data-system-id'); // Ensure you have this attribute in your HTML
 
     try {
 
@@ -203,13 +203,34 @@ document.getElementById('close-icon').onclick = closePopup;
 
 
 // SYSTEM EDIT POPUP
+//document.addEventListener('DOMContentLoaded', () => {
+//    console.log("Document loaded, setting up event listeners.");
+//    document.getElementById('edit-save-btn').addEventListener('click', async function () {
+//        await editSystem();
+//    });
+//});
+
+
+//document.getElementById('edit-save-btn').addEventListener('click', async function () {
+//    await editSystem();
+//});
+
+
+var originalSystemName = '';
+var originalDescription = '';
+var originalDepartmentIds = [];
+
+// Function to open the edit system popup
 function systemEditopenPopup() {
 
     document.getElementById('dark-overlay1').style.display = 'block';
 
     document.getElementById('editsystem-popup').style.display = 'block';
 
-    console.log('Edit System Popup opened'); // Log when the popup is opened
+
+    // Reset the popup and disable the save button
+
+    resetEditPopup();
 
 
     // Fetch the system details for the selected system
@@ -227,6 +248,13 @@ function systemEditopenPopup() {
             document.getElementById('edit-description').value = systemDetails.description;
 
 
+            // Store original values
+
+            originalSystemName = systemDetails.systemName;
+
+            originalDescription = systemDetails.description;
+
+
             // Fetch the departments for the selected system
 
             return fetch(`/Systems/GetSystemDepartments?systemName=${encodeURIComponent(selectedSystemName)}`);
@@ -238,6 +266,8 @@ function systemEditopenPopup() {
         .then(departmentIds => {
 
             preDepartmentSelection(departmentIds);
+
+            originalDepartmentIds = departmentIds; // Store original department IDs
 
         })
 
@@ -253,8 +283,6 @@ function systemEditopenPopup() {
     document.querySelectorAll('.edit-division-header').forEach(header => {
 
         header.addEventListener('click', () => {
-
-            console.log('Division clicked:', header.querySelector('.edit-division-name').textContent); // Log the division name
 
             const contentDiv = header.nextElementSibling; // This should be the edit-division-content
 
@@ -285,6 +313,11 @@ function systemEditopenPopup() {
     // Setup edit division checkbox listeners
 
     setupEditDivisionCheckboxListeners();
+
+
+    // Setup listeners for input fields and checkboxes
+
+    setupEditPopupListeners();
 
 }
 
@@ -1160,58 +1193,49 @@ document.querySelector('.add-system-button').addEventListener('click', function 
 });
 
 async function editSystem() {
-    // 1. Validate System Name
     const systemNameInput = document.getElementById('system-edit-name');
     const systemName = systemNameInput.value.trim();
-
-    // Validation 1: Check if system name is empty
-    if (!systemName) {
-        showValidationError(systemNameInput, 'Please enter a System Name');
-        return;
-    }
-
-    // Validation 2: Check system name length
-    if (systemName.length < 3 || systemName.length > 100) {
-        showValidationError(systemNameInput, 'System name must be between 3 and 100 characters');
-        return;
-    }
-
-    // Validate Description
-    const descriptionInput = document.getElementById('description');
+    const descriptionInput = document.getElementById('edit-description');
     const description = descriptionInput.value.trim();
 
-    // Validation 3: Check if description is empty
-    if (!description) {
-        showValidationError(descriptionInput, 'Please enter a Description');
+    // Get the SystemID from the selected system
+    const systemId = selectedSystemId;
+
+    console.log('Edit System Details:', {
+        systemId: systemId,
+        systemName: systemName,
+        description: description
+    });
+
+    // Validate inputs
+    if (!systemId) {
+        console.error('No system ID selected');
+        showCustomAlert('Please select a system to edit');
         return;
     }
 
-    // Validation 4: Description length check
-    if (description.length < 10 || description.length > 500) {
-        showValidationError(descriptionInput, 'Description must be between 10 and 500 characters');
+    if (!systemName || systemName.length < 3 || systemName.length > 100) {
+        showValidationError(systemNameInput, 'Invalid System Name');
+        return;
+    }
+    if (!description || description.length < 10 || description.length > 500) {
+        showValidationError(descriptionInput, 'Invalid Description');
         return;
     }
 
     // Collect selected departments
-    const selectedDepartments = [];
-    const divisions = document.querySelectorAll('.division');
+    const selectedDepartments = Array.from(document.querySelectorAll('.edit-department:checked')).map(checkbox => parseInt(checkbox.value));
 
-    divisions.forEach(division => {
-        const departmentCheckboxes = division.querySelectorAll('.department:checked');
-        departmentCheckboxes.forEach(checkbox => {
-            selectedDepartments.push(parseInt(checkbox.value));
-        });
-    });
+    const systemUpdateData = {
+        SystemID: systemId, // Explicitly include the SystemID
+        SystemName: systemName,
+        Description: description,
+        DepartmentIds: selectedDepartments
+    };
+
+    console.log('Sending system update data:', systemUpdateData);
 
     try {
-        // Prepare system update data
-        const systemUpdateData = {
-            SystemName: systemName,
-            Description: description,
-            DepartmentIds: selectedDepartments
-        };
-
-        // Send system update request
         const updateSystemResponse = await fetch('/Systems/UpdateSystem', {
             method: 'PUT',
             headers: {
@@ -1221,17 +1245,21 @@ async function editSystem() {
             body: JSON.stringify(systemUpdateData)
         });
 
-        // Check response
+        // Log the raw response
+        console.log('Update System Raw Response:', updateSystemResponse);
+
         if (!updateSystemResponse.ok) {
             const errorData = await updateSystemResponse.json();
+            console.error('Update System Error:', errorData);
             throw new Error(errorData.message || 'Failed to update system');
         }
+
+        const result = await updateSystemResponse.json();
+        console.log('System Update Result:', result);
 
         // Close the popup
         document.getElementById('editsystem-popup').style.display = 'none';
         document.getElementById('dark-overlay1').style.display = 'none';
-
-        // Show success notification
         showSuccessNotification('System updated successfully!');
 
         // Refresh systems list
@@ -1243,9 +1271,31 @@ async function editSystem() {
     }
 }
 
-// Add event listener to save button
-//document.querySelector('.save-btn').addEventListener('click', editSystem);
+// Function to update the system list and dropdown
+function updateSystemList(systemId, systemName, description) {
+    // Update the system list
+    const systemList = document.getElementById('systemList');
+    const systemItems = systemList.getElementsByTagName('li');
 
+    for (let item of systemItems) {
+        if (item.getAttribute('data-system-id') == systemId) {
+            item.querySelector('a').textContent = systemName; // Update the system name
+            item.setAttribute('data-system-description', description); // Update the description
+            break;
+        }
+    }
+
+    // Update the custom dropdown list
+    const customDropdownList = document.querySelector('.custom-dropdown-list');
+    const dropdownItems = customDropdownList.getElementsByTagName('div');
+
+    for (let dropdownItem of dropdownItems) {
+        if (dropdownItem.textContent.trim() === systemName) {
+            dropdownItem.setAttribute('data-system-description', description); // Update the description
+            break;
+        }
+    }
+}
 
 async function fetchSystemDescription(systemName) {
     try {
@@ -1525,3 +1575,129 @@ document.getElementById('close-icon-edit').onclick = function () {
 document.addEventListener('DOMContentLoaded', () => {
     // Any additional initialization can go here
 });
+
+
+// Function to reset the popup and disable the save button
+
+function resetEditPopup() {
+
+    const saveButton = document.getElementById('edit-save-btn');
+
+    saveButton.disabled = true; // Disable the save button by default
+
+}
+
+
+// Function to enable the save button
+
+function enableSaveButton() {
+
+    const saveButton = document.getElementById('edit-save-btn');
+
+    saveButton.disabled = false; // Enable the save button
+
+}
+
+
+// Function to check for changes in the input fields and checkboxes
+
+function setupEditPopupListeners() {
+
+    const systemNameInput = document.getElementById('system-edit-name');
+
+    const descriptionInput = document.getElementById('edit-description');
+
+    const departmentCheckboxes = document.querySelectorAll('.edit-department');
+
+
+    // Add event listeners to input fields
+
+    systemNameInput.addEventListener('input', checkForChanges);
+
+    descriptionInput.addEventListener('input', checkForChanges);
+
+
+    // Add event listeners to department checkboxes
+
+    departmentCheckboxes.forEach(checkbox => {
+
+        checkbox.addEventListener('change', checkForChanges);
+
+    });
+
+}
+
+
+
+// Function to check for changes
+
+function checkForChanges() {
+
+    const currentSystemName = document.getElementById('system-edit-name').value;
+
+    const currentDescription = document.getElementById('edit-description').value;
+
+    const currentDepartmentIds = Array.from(document.querySelectorAll('.edit-department:checked')).map(checkbox => parseInt(checkbox.value));
+
+
+    const saveButton = document.getElementById('edit-save-btn');
+
+
+    // Check if any of the values have changed
+
+    const isChanged = currentSystemName !== originalSystemName ||
+
+        currentDescription !== originalDescription ||
+
+        !arraysEqual(currentDepartmentIds, originalDepartmentIds);
+
+
+    saveButton.disabled = !isChanged; // Enable or disable the save button based on changes
+
+}
+
+// Helper function to compare two arrays
+
+function arraysEqual(arr1, arr2) {
+
+    if (arr1.length !== arr2.length) return false;
+
+    for (let i = 0; i < arr1.length; i++) {
+
+        if (arr1[i] !== arr2[i]) return false;
+
+    }
+
+    return true;
+
+}
+
+
+function resetEditPopupToOriginalValues() {
+
+    // Restore original values to input fields
+
+    document.getElementById('system-edit-name').value = originalSystemName;
+
+    document.getElementById('edit-description').value = originalDescription;
+
+
+    // Restore original department selections
+
+    const departmentCheckboxes = document.querySelectorAll('.edit-department');
+
+    departmentCheckboxes.forEach(checkbox => {
+
+        checkbox.checked = originalDepartmentIds.includes(parseInt(checkbox.value));
+
+    });
+
+
+    // Disable the save button since we are resetting to original values
+
+    document.getElementById('edit-save-btn').disabled = true;
+
+}
+
+document.getElementById('edit-reset-btn').addEventListener('click', resetEditPopupToOriginalValues);
+

@@ -24,9 +24,9 @@ namespace AeroVault.Repositories
             {
                 await connection.OpenAsync();
                 using (var command = new OracleCommand(
-                    "SELECT d.DepartmentID, d.DepartmentName, d.DivisionID, v.DivisionName " +
-                    "FROM C##AEROVAULT.DEPARTMENTS d " +
-                    "JOIN C##AEROVAULT.DIVISIONS v ON d.DivisionID = v.DivisionID " +
+                    "SELECT d.DepartmentID, d.DepartmentName, d.DivisionID, v.DivisionName, d.ADDED_DATE " +
+                    "FROM c##aerovault.DEPARTMENTS d " +
+                    "JOIN c##aerovault.DIVISIONS v ON d.DivisionID = v.DivisionID " +
                     "WHERE d.is_deleted = 0 AND v.IsDeleted = 0",
                     connection))
                 {
@@ -40,6 +40,9 @@ namespace AeroVault.Repositories
                                 DepartmentID = Convert.ToInt32(reader["DepartmentID"]),
                                 DepartmentName = reader["DepartmentName"].ToString(),
                                 DivisionID = Convert.ToInt32(reader["DivisionID"]),
+                                AddedDate = reader["ADDED_DATE"] != DBNull.Value
+                                    ? Convert.ToDateTime(reader["ADDED_DATE"])
+                                    : (DateTime?)null,
                                 Division = new DivisionModel
                                 {
                                     DivisionID = Convert.ToInt32(reader["DivisionID"]),
@@ -59,7 +62,7 @@ namespace AeroVault.Repositories
             {
                 await connection.OpenAsync();
                 using (var command = new OracleCommand(
-                    "SELECT DivisionID, DivisionName FROM C##AEROVAULT.DIVISIONS WHERE IsDeleted = 0",
+                    "SELECT DivisionID, DivisionName FROM c##aerovault.DIVISIONS WHERE IsDeleted = 0",
                     connection))
                 {
                     var divisions = new List<DivisionModel>();
@@ -85,7 +88,7 @@ namespace AeroVault.Repositories
             {
                 await connection.OpenAsync();
                 using (var command = new OracleCommand(
-                    "SELECT COUNT(*) FROM C##AEROVAULT.Departments WHERE LOWER(DepartmentName) = LOWER(:DepartmentName) AND DivisionID = :DivisionID",
+                    "SELECT COUNT(*) FROM c##aerovault.Departments WHERE LOWER(DepartmentName) = LOWER(:DepartmentName) AND DivisionID = :DivisionID",
                     connection))
                 {
                     command.Parameters.Add(new OracleParameter(":DepartmentName", departmentName));
@@ -106,7 +109,7 @@ namespace AeroVault.Repositories
 
                 // Insert Department
                 string insertSql = @"
-                INSERT INTO C##AEROVAULT.Departments (DepartmentName, DivisionID) 
+                INSERT INTO c##aerovault.Departments (DepartmentName, DivisionID) 
                 VALUES (:DepartmentName, :DivisionID)
                 RETURNING DepartmentID INTO :NewDepartmentID";
 
@@ -133,7 +136,7 @@ namespace AeroVault.Repositories
                 }
 
                 // Fetch Division Name
-                string divisionNameSql = "SELECT DivisionName FROM C##AEROVAULT.Divisions WHERE DivisionID = :DivisionID";
+                string divisionNameSql = "SELECT DivisionName FROM c##aerovault.Divisions WHERE DivisionID = :DivisionID";
                 using (var divisionCommand = new OracleCommand(divisionNameSql, connection))
                 {
                     divisionCommand.Parameters.Add(new OracleParameter(":DivisionID", divisionId));
@@ -149,7 +152,7 @@ namespace AeroVault.Repositories
             using (var connection = new OracleConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string updateSql = "UPDATE C##AEROVAULT.Departments SET DepartmentName = :DepartmentName, DivisionID = :DivisionID WHERE DepartmentID = :DepartmentID";
+                string updateSql = "UPDATE c##aerovault.Departments SET DepartmentName = :DepartmentName, DivisionID = :DivisionID WHERE DepartmentID = :DepartmentID";
 
                 using (var command = new OracleCommand(updateSql, connection))
                 {
@@ -168,7 +171,7 @@ namespace AeroVault.Repositories
             using (var connection = new OracleConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string updateSql = "UPDATE C##AEROVAULT.DEPARTMENTS SET is_deleted = 1 WHERE DepartmentID = :DepartmentId";
+                string updateSql = "UPDATE c##aerovault.DEPARTMENTS SET is_deleted = 1 WHERE DepartmentID = :DepartmentId";
 
                 using (var command = new OracleCommand(updateSql, connection))
                 {
@@ -187,8 +190,8 @@ namespace AeroVault.Repositories
                 await connection.OpenAsync();
                 string sql = @"
             SELECT s.SystemID, s.SystemName, s.Description 
-            FROM C##AEROVAULT.SYSTEMS s
-            JOIN C##AEROVAULT.SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
+            FROM c##aerovault.SYSTEMS s
+            JOIN c##aerovault.SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
             WHERE sd.DepartmentID = :DepartmentID AND s.is_deleted = 0"; // Only include systems that are not deleted
 
                 using (var command = new OracleCommand(sql, connection))

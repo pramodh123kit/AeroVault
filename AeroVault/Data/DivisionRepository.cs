@@ -20,11 +20,34 @@ namespace AeroVault.Data
 
         public async Task<List<DivisionModel>> GetAllDivisionsAsync()
         {
-            var divisions = await _context.Set<DivisionModel>()
-                .FromSqlRaw("SELECT * FROM C##AEROVAULT.DIVISIONS WHERE IsDeleted = 0")
-                .ToListAsync();
-
-            return divisions ?? new List<DivisionModel>(); // Return an empty list if null
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new OracleCommand(
+                    "SELECT DivisionID, DivisionName, IsDeleted, ADDED_DATE " +
+                    "FROM c##aerovault.DIVISIONS " +
+                    "WHERE IsDeleted = 0",
+                    connection))
+                {
+                    var divisions = new List<DivisionModel>();
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            divisions.Add(new DivisionModel
+                            {
+                                DivisionID = Convert.ToInt32(reader["DivisionID"]),
+                                DivisionName = reader["DivisionName"].ToString(),
+                                IsDeleted = Convert.ToInt32(reader["IsDeleted"]),
+                                AddedDate = reader["ADDED_DATE"] != DBNull.Value
+                                    ? Convert.ToDateTime(reader["ADDED_DATE"])
+                                    : (DateTime?)null
+                            });
+                        }
+                    }
+                    return divisions;
+                }
+            }
         }
 
         public async Task AddDivisionAsync(string divisionName)
@@ -36,7 +59,7 @@ namespace AeroVault.Data
 
             try
             {
-                string sql = "INSERT INTO C##AEROVAULT.DIVISIONS (DivisionName) VALUES (:DivisionName)";
+                string sql = "INSERT INTO c##aerovault.DIVISIONS (DivisionName) VALUES (:DivisionName)";
                 var parameter = new OracleParameter(":DivisionName", divisionName);
 
                 int rowsAffected = await _context.Database.ExecuteSqlRawAsync(sql, parameter);
@@ -62,7 +85,7 @@ namespace AeroVault.Data
         public async Task UpdateDivisionNameAsync(string originalName, string newDivisionName)
         {
             string sql = @"
-            UPDATE C##AEROVAULT.DIVISIONS 
+            UPDATE c##aerovault.DIVISIONS 
             SET DivisionName = :NewDivisionName 
             WHERE DivisionName = :OriginalName";
 
@@ -85,7 +108,7 @@ namespace AeroVault.Data
             using (var connection = new OracleConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string updateSql = "UPDATE C##AEROVAULT.DIVISIONS SET IsDeleted = 1 WHERE DivisionID = :DivisionId";
+                string updateSql = "UPDATE c##aerovault.DIVISIONS SET IsDeleted = 1 WHERE DivisionID = :DivisionId";
 
                 using (var command = new OracleCommand(updateSql, connection))
                 {
@@ -102,7 +125,7 @@ namespace AeroVault.Data
             using (var connection = new OracleConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string sql = "SELECT * FROM C##AEROVAULT.DEPARTMENTS WHERE DivisionID = :DivisionID AND IS_DELETED = 0"; 
+                string sql = "SELECT * FROM c##aerovault.DEPARTMENTS WHERE DivisionID = :DivisionID AND IS_DELETED = 0"; 
                 using (var command = new OracleCommand(sql, connection))
                 {
                     command.Parameters.Add(new OracleParameter(":DivisionID", divisionId));

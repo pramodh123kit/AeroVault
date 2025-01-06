@@ -15,5 +15,7 @@ namespace AeroVault.Models
         public int IsDeleted { get; set; } = 0;
 
         public ICollection<SystemDepartmentModel> SystemDepartments { get; set; }
+
+        public DateTime? AddedDate { get; set; }
     }
 }

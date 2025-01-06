@@ -207,8 +207,10 @@ function closeNotificationPopup() {
     document.getElementById('notification-popup2').style.display = 'none';
 }
 
-document.getElementById('close-icon-dep3').onclick = closeNotificationPopup;
-document.getElementById('dark-overlay-dep3').onclick = closeNotificationPopup;
+// Add event listeners
+document.getElementById('close-icon-dep3').addEventListener('click', closeNotificationPopup);
+//document.getElementById('close-division-added-btn').addEventListener('click', closeNotificationPopup);
+document.getElementById('dark-overlay-dep3').addEventListener('click', closeNotificationPopup);
 
 
 function highlightSystem(selectedItem) {
