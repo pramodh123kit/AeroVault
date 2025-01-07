@@ -1,4 +1,5 @@
 ﻿<link rel="stylesheet" href=/Content/css/AdminUpload.css />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
 <div class="admin-main-content">
     <!-- Header Section -->
@@ -15,37 +16,104 @@
     <div class="filters-section">
         <div class="filters-container">
             <div class="dropdown-group">
-                <div class="dropdown-wrapper">
-                    <label>Department</label>
-                    <select class="filter-dropdown" name="department">
-                        <option value="all">All</option>
-                        <option value="it">Information Technology</option>
-                        <option value="hr">Human Resources</option>
-                        <option value="gh">Ground Handling</option>
-                        <option value="finance">Finance</option>
-                        <option value="em">Engineering & Maintenance</option>
-                        <option value="cargo">Cargo</option>
-                    </select>
+
+
+
+
+
+
+                <div class="status-form-group" style="width: auto; margin-top:0px;">
+                    <label class="status-label" for="status-selector" style="font-weight:normal;">Department</label>
+                    <div class="status-dropdown">
+                        <div class="status-dropdown-toggle status-selector" style="border:1px solid #00436C;" onclick="toggleStatusDropdown()">
+                            <span id="selected-status">All</span> <!-- Default selected value -->
+                            <i class="fas fa-chevron-down" style="color: #00436C;"></i>
+                        </div>
+                        <div class="status-dropdown-content">
+                            <div class="status-search-container">
+                                <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                                <input type="text" id="status-search-input" placeholder="Search Department"
+                                       onkeyup="filterStatusOptions()" onclick="event.stopPropagation()">
+                            </div>
+                            <div class="status-dropdown-list">
+                                <div onclick="selectStatusOption(this)">All</div> <!-- Add "All" option -->
+                                @if (Model != null && Model.Departments != null)
+                                {
+                                    @foreach (var department in Model.Departments)
+                                    {
+                                        <div onclick="selectStatusOption(this)">@department.DepartmentName</div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="dropdown-wrapper">
-                    <label>System</label>
-                    <select class="filter-dropdown" name="system">
-                        <option value="all">All</option>
-                        <option value="amos">AMOS</option>
-                        <option value="easypass">EasyPass</option>
-                    </select>
+
+
+
+
+
+                <div class="system-form-group" style="width: auto; margin-top:0px;">
+                    <label class="system-label" for="system-selector">System</label>
+                    <div class="system-dropdown">
+                        <div class="system-dropdown-toggle system-selector" style="border:1px solid #00436C;" onclick="togglesystemDropdown()">
+                            <span id="selected-system">All</span> <!-- Default selected value -->
+                            <i class="fas fa-chevron-down" style="color: #00436C;"></i>
+                        </div>
+                        <div class="system-dropdown-content">
+                            <div class="system-search-container">
+                                <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                                <input type="text" id="system-search-input" placeholder="Search System"
+                                       onkeyup="filtersystemOptions()" onclick="event.stopPropagation()">
+                            </div>
+                            <div class="system-dropdown-list">
+                                <div onclick="selectsystemOption(this)">All</div> <!-- Add "All" option -->
+                                @if (Model != null && Model.Systems != null)
+                                {
+                                    @foreach (var system in Model.Systems)
+                                    {
+                                        <div onclick="selectsystemOption(this)">@system.SystemName</div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="dropdown-wrapper">
-                    <label>Category</label>
-                    <select class="filter-dropdown" name="category">
-                        <option value="all">All</option>
-                        <option value="technical">Technical</option>
-                        <option value="training">Training</option>
-                    </select>
+
+
+                <div class="category-form-group" style="width: auto; margin-top:0px;">
+                    <label class="category-label" for="category-selector"> Category</label>
+                    <div class="category-dropdown">
+                        <div class="category-dropdown-toggle category-selector" style="border:1px solid #00436C;" onclick="togglecategoryDropdown()">
+                            <span id="selected-category">Information Technology</span>
+                            <i class="fas fa-chevron-down" style="color: #00436C;"></i>
+                        </div>
+                        <div class="category-dropdown-content">
+                            <div class="category-search-container">
+                                <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                                <input type="text" id="category-search-input" placeholder="Search Category"
+                                       onkeyup="filtercategoryOptions()" onclick="event.stopPropagation()">
+                            </div>
+                            <div class="category-dropdown-list">
+                                @* <div onclick="selectcategoryOption(this)" class="active">Information Technology</div> *@
+                                <div onclick="selectcategoryOption(this)">Training</div>
+                                <div onclick="selectcategoryOption(this)">Technical</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="file-search-container">
+
+
+
+
+
+
+
+
+
+                <div class="file-search-container" style="width:auto; margin-bottom:0px;">
                     <img src="/Content/Assets/search-icon.svg" class="search-icon" alt="Search Icon" />
                     <input id="SystemfileSearch" onkeyup="filterFiles()" placeholder="Search" type="text"
                         class="file-search-input" />
