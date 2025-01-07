@@ -356,33 +356,27 @@ function filterStatusOptions() {
 }
 
 function selectStatusOption(element) {
-  // Get the selected status text
-  var selectedStatus = element.textContent || element.innerText;
+    var selectedStatus = element.textContent || element.innerText;
+    document.getElementById('selected-status').textContent = selectedStatus;
 
-  // Update the selected status display
-  var statusDisplay = document.getElementById("selected-status");
-  statusDisplay.textContent = selectedStatus;
+    // Handle "All" selection
+    if (selectedStatus === "All") {
+        // Logic for when "All" is selected (if needed)
+    }
 
-  // Remove placeholder styling if present
-  statusDisplay.classList.remove("placeholder");
+    document.querySelector('.status-dropdown-content').style.display = 'none';
+    document.querySelector('.status-dropdown-toggle').classList.remove('open');
 
-  // Hide the dropdown
-  document.querySelector(".status-dropdown-content").style.display = "none";
+    var selector = document.querySelector('.status-selector');
+    selector.style.borderBottomLeftRadius = '10px';
+    selector.style.borderBottomRightRadius = '10px';
+    selector.style.borderBottom = '1px solid #6D6D6D';
 
-  // Update the toggle styles (close dropdown visuals)
-  var selector = document.querySelector(".status-selector");
-  selector.style.borderBottomLeftRadius = "10px";
-  selector.style.borderBottomRightRadius = "10px";
-  selector.style.borderBottom = "1px solid #6D6D6D";
-
-  // Remove active class from all options
-  var divs = document.querySelectorAll(".status-dropdown-list div");
-  divs.forEach(function (div) {
-    div.classList.remove("active");
-  });
-
-  // Add active class to the selected option
-  element.classList.add("active");
+    var divs = document.querySelectorAll('.status-dropdown-list div');
+    divs.forEach(function (div) {
+        div.classList.remove('active');
+    });
+    element.classList.add('active');
 }
 
 function showAllStatusOptions() {
