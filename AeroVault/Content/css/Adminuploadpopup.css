@@ -88,6 +88,7 @@
   color: #999;
   font-size: clamp(12px, 1.5vw, 16px);
   text-align: center;
+  margin-top:-9px;
 }
 
 .step.active .number {
@@ -232,22 +233,17 @@
 }
 
 .selected-files {
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  margin-top: 5px;
-  height: 150px;
-}
-
-.selected-files {
-  height: 150px;
-  overflow-y: scroll;
-}
-
-.selected-files {
-  /* For Firefox */
-  scrollbar-width: thin; /* Options: auto, thin */
-  scrollbar-color: #00436c transparent; /* thumb color, track color */
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 5px;
+    height: 150px;
+    height: 150px;
+    overflow-y: scroll;
+    /* For Firefox */
+    scrollbar-width: thin; /* Options: auto, thin */
+    scrollbar-color: #00436c transparent; /* thumb color, track color */
+    margin-bottom:62px;
 }
 
 /* WebKit Browsers (Chrome, Safari) */
@@ -350,7 +346,7 @@
 @media (min-width: 1024px) {
   .upload-popup-edit8 {
     max-width: 850px;
-    max-height: 550px;
+    max-height: 650px;
   }
 
   .step .text {
@@ -380,25 +376,28 @@
 .file-search-container {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #938c8c;
   width: 100%; /* Make search container full width */
   margin-left: 0; /* Remove left margin for better alignment */
-  margin-bottom: 20px;
 }
 
 .search-icon {
+    margin-top:10px;
   color: #999;
   margin-right: 5px;
   width: 20px;
-  margin-left: 5px;
+  margin-left: 255px;
 }
 
 .file-search-input {
-  border: none;
-  color: #000;
-  font-size: 16px;
-  outline: none;
-  flex: 1;
+    margin-top: 20px;
+    border: none;
+    border-bottom: 1px solid #938c8c;
+    /* border: none; */
+    color: #000;
+    font-size: 16px;
+    outline: none;
+    flex: 1;
+    margin-left: 250px;
 }
 
 .division-container {
@@ -495,6 +494,7 @@
     margin: 20px auto; /* Centers the image and adds vertical spacing */
     max-width: 100%; /* Ensures the image is responsive */
     height: auto; /* Maintains aspect ratio */
+    margin-bottom:62px;
 }
 
 .placeholder {

@@ -1,4 +1,5 @@
-﻿<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+﻿@model AeroVault.Models.OverviewViewModel
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="/Content/css/AdminOverview.css" />
 
     <div class="admin-main-content">
@@ -6,22 +7,22 @@
             <div class="Card">
                 <img src="/Content/Assets/overview-dep-card1.png" />
                 <h1 class="card-header">Departments</h1>
-                <h1 class="card-count">105</h1>
+                <h1 class="card-count">@Model.DepartmentCount</h1>
             </div>
             <div class="Card">
                 <img src="/Content/Assets/overview-sys-card1.png" />
                 <h1 class="card-header">Systems</h1>
-                <h1 class="card-count">140</h1>
+            <h1 class="card-count">@Model.SystemCount</h1>
             </div>
             <div class="Card">
                 <img src="/Content/Assets/overview-doc-card1.png" />
                 <h1 class="card-header">Documents</h1>
-                <h1 class="card-count">750</h1>
+            <h1 class="card-count">@Model.DepartmentCount</h1>
             </div>
             <div class="Card">
                 <img src="/Content/Assets/overview-vid-card1.png" />
                 <h1 class="card-header">Videos</h1>
-                <h1 class="card-count">750</h1>
+            <h1 class="card-count">@Model.DepartmentCount</h1>
             </div> 
         </div>
         <h1 class="ActivityO">Activity Overview</h1>

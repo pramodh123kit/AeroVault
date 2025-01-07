@@ -1,15 +1,39 @@
 ﻿using AeroVault.Controllers;
-using AeroVault.Models;
+using AeroVault.Data; // Include your repositories
+using AeroVault.Models; // Include your models
+using AeroVault.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 public class OverviewController : BaseAdminController
 {
-    public OverviewController(ApplicationDbContext context) : base(context) { }
+    private readonly DepartmentRepository _departmentRepository;
+    private readonly SystemRepository _systemRepository;
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return PartialView("~/Views/Admin/_Overview.cshtml");
-       
+        var departments = await _departmentRepository.GetAllDepartmentsAsync();
+        var systems = await _systemRepository.GetAllSystemsAsync();
 
+        var viewModel = new OverviewViewModel
+        {
+            DepartmentCount = departments.Count,
+            SystemCount = systems.Count,
+            DocumentCount = 0, // Set to 0 or fetch from the database if needed
+            VideoCount = 0 // Set to 0 or fetch from the database if needed
+        };
+
+        // Log the counts for debugging
+        Console.WriteLine($"Department Count: {viewModel.DepartmentCount}");
+        Console.WriteLine($"System Count: {viewModel.SystemCount}");
+
+        return PartialView("~/Views/Admin/_Overview.cshtml", viewModel);
+    }
+
+    public OverviewController(ApplicationDbContext context, DepartmentRepository departmentRepository, SystemRepository systemRepository)
+        : base(context)
+    {
+        _departmentRepository = departmentRepository;
+        _systemRepository = systemRepository;
     }
 }

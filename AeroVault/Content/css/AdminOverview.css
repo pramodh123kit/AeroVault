@@ -300,8 +300,7 @@
 .myChart2 {
   
     margin-top:-40px;
-    
-    display: block; 
+    height: 250px;
 }
 
 #myChart {
@@ -353,11 +352,6 @@
 
     .outerBarChartsContainer {
         margin: 20px auto;
-    }
-
-    .myChart2 {
-        width: 100% !important; 
-        height: 250px !important; 
     }
 
     .Card {
@@ -484,18 +478,21 @@
 
 @media (max-width: 2500px ) and (min-width: 2200px) {
     myChart2 {
-       margin-top:-5rem;
+        margin-top: -5rem;
+        height: 250px;
     }
 
 }
 @media (max-width: 2900px ) and (min-width: 2600px) {
     myChart2 {
         margin-top: -6rem;
+        height: 250px;
     }
 }
 @media (max-width: 3120px ) and (min-width: 2900px) {
     myChart2 {
         margin-top: -7rem;
+        height: 250px;
     }
 }
 .custom-form-group {
