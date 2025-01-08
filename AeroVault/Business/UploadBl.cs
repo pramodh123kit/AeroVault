@@ -21,5 +21,15 @@ namespace AeroVault.Business
         {
             return _uploadDl.GetActiveSystems();
         }
+
+        public List<DivisionModel> GetActiveDivisions()
+        {
+            return _uploadDl.GetActiveDivisions();
+        }
+
+        public List<SystemModel> GetActiveSystemsByDepartment(int departmentId)
+        {
+            return _uploadDl.GetActiveSystemsByDepartment(departmentId);
+        }
     }
 }
