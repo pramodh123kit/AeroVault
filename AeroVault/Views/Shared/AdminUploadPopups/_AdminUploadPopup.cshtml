@@ -1,7 +1,4 @@
-﻿@page
-@model DepartmentViewModel  // Change this from _AdminUploadPopupModel
-@{
-}
+﻿@model AeroVault.Models.DepartmentViewModel
 
 <!-- Rest of your existing code -->
 
@@ -16,416 +13,181 @@
 
 <body>
     <div class="upload-popup-edit8" id="editfile-popup8" style="display: none;">
+
         <div class="popup-header8">
+
             <h2>Upload Files</h2>
-            <img src="/Content/Assets/close-icon.svg" class="close-btn8" alt="Cancel Icon" id="close-logout8"
-                style="cursor:pointer;">
+
+            <img src="/Content/Assets/close-icon.svg" class="close-btn8" alt="Cancel Icon" id="close-logout8" style="cursor:pointer;">
+
         </div>
 
+
         <div class="uploadpop-up-container">
+
             <div class="uploadpop-up-sidebar">
+
                 <div class="steps-container">
+
                     <div class="step step-1 active">
+
                         <div class="number">1</div>
+
                         <div class="text">Select Department</div>
+
                     </div>
+
                     <div class="step step-2">
+
                         <div class="number">2</div>
+
                         <div class="text">Select System</div>
+
                     </div>
+
                     <div class="step step-3">
+
                         <div class="number">3</div>
+
                         <div class="text">Select Category</div>
+
                     </div>
+
                     <div class="step step-4">
+
                         <div class="number">4</div>
+
                         <div class="text">Upload</div>
+
                     </div>
+
                 </div>
+
             </div>
+
+
+            @* <div class="add-system-searchbar"> *@
+            @*     <div class="file-search-container"> *@
+            @*         <img src="/Content/Assets/search-icon.svg" class="search-icon" alt="Search Icon" /> *@
+            @*         <input id="DepartmentsDivisionsSearch" onkeyup="filterDepartmentsDivisions()" *@
+            @*                placeholder="Search" type="text" class="file-search-input" /> *@
+            @*     </div> *@
+            @* </div> *@
+
+
+
+
             <div class="uploadpop-up-content">
                 <!-- Step 1: Select Departments -->
                 <div class="step-content step-1-content">
-                    <div class="section-title">Select the departments you want to upload your files </div>
-                    <div class="add-system-searchbar">
-                        <div class="file-search-container">
-                            <img src="/Content/Assets/search-icon.svg" class="search-icon" alt="Search Icon" />
-                            <input id="DepartmentsDivisionsSearch" onkeyup="filterDepartmentsDivisions()"
-                                placeholder="Search" type="text" class="file-search-input" />
+                    <div class="section-title">Select the departments you want to upload your files</div>
+                    <div class="add-system-searchbar"> 
+                        <div class="file-search-container"> 
+                            <img src="/Content/Assets/search-icon.svg" class="search-icon" alt="Search Icon" /> 
+                            <input id="DepartmentsDivisionsSearch" onkeyup="filterDepartmentsDivisions()" 
+                                   placeholder="Search" type="text" class="file-search-input" /> 
                         </div>
                     </div>
                     <div class="division-container">
-                        <div class="division">
-                            <div class="division-header">
-                                <div>
-                                    <i class="fas fa-chevron-right division-name"></i>
-                                    <span class="division-name">Aviation College</span>
+                        @if (Model != null && Model.Divisions != null)
+                        {
+                            foreach (var division in Model.Divisions)
+                            {
+                                <div class="division">
+                                    <div class="division-header">
+                                        <div>
+                                            <i class="fas fa-chevron-right division-name"></i>
+                                            <span class="division-name">@division.DivisionName</span>
+                                        </div>
+                                        <span class="selected-count"></span>
+                                    </div>
+                                    <div class="division-content">
+                                        <div class="checkbox-group">
+                                            @if (Model.Departments != null && Model.Departments.Any(d => d.DivisionID == division.DivisionID))
+                                            {
+                                                <label>
+                                                    <input type="checkbox" class="select-all" onclick="toggleSelectAll(this)"> Select All
+                                                </label>
+                                                @foreach (var department in Model.Departments.Where(d => d.DivisionID == division.DivisionID))
+                                                {
+                                                    <label>
+                                                        <input type="checkbox" class="department" data-division-id="@division.DivisionID" data-department-id="@department.DepartmentID" onchange="updateSelectAll(this)" onclick="fetchSystems(this)">
+                                                        @department.DepartmentName
+                                                    </label>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <span>No departments available</span>
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="selected-count"></span>
-                            </div>
-                            <div class="division-content">
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" class="select-all"> Select All</label>
-                                    <label><input type="checkbox" class="department"> Department 1</label>
-                                    <label><input type="checkbox" class="department"> Department 2</label>
-                                    <label><input type="checkbox" class="department"> Department 3</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="division">
-                            <div class="division-header">
-                                <div>
-                                    <i class="fas fa-chevron-right division-name"></i>
-                                    <span class="division-name">Cargo</span>
-                                </div>
-                                <span class="selected-count"></span>
-                            </div>
-                            <div class="division-content">
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" class="select-all"> Select All</label>
-                                    <label><input type="checkbox" class="department"> Cargo Operations</label>
-                                    <label><input type="checkbox" class="department"> Cargo Sales</label>
-                                    <label><input type="checkbox" class="department"> Cargo Customer Service</label>
-                                    <label><input type="checkbox" class="department"> Cargo Network Planning</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="division">
-                            <div class="division-header">
-                                <div>
-                                    <i class="fas fa-chevron-right division-name"></i>
-                                    <span class="division-name">Commercial Operations</span>
-                                </div>
-                                <span class="selected-count"></span>
-                            </div>
-                            <div class="division-content">
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" class="select-all"> Select All</label>
-                                    <label><input type="checkbox" class="department"> Department 1</label>
-                                    <label><input type="checkbox" class="department"> Department 2</label>
-                                    <label><input type="checkbox" class="department"> Department 3</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="division">
-                            <div class="division-header">
-                                <div>
-                                    <i class="fas fa-chevron-right division-name"></i>
-                                    <span class="division-name">Corporate Communications</span>
-                                </div>
-                                <span class="selected-count"></span>
-                            </div>
-                            <div class="division-content">
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" class="select-all"> Select All</label>
-                                    <label><input type="checkbox" class="department"> Department 1</label>
-                                    <label><input type="checkbox" class="department"> Department 2</label>
-                                    <label><input type="checkbox" class="department"> Department 3</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="division">
-                            <div class="division-header">
-                                <div>
-                                    <i class="fas fa-chevron-right division-name"></i>
-                                    <span class="division-name">Commercial Operations</span>
-                                </div>
-                                <span class="selected-count"></span>
-                            </div>
-                            <div class="division-content">
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" class="select-all"> Select All</label>
-                                    <label><input type="checkbox" class="department"> Department 1</label>
-                                    <label><input type="checkbox" class="department"> Department 2</label>
-                                    <label><input type="checkbox" class="department"> Department 3</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="division">
-                            <div class="division-header">
-                                <div>
-                                    <i class="fas fa-chevron-right division-name"></i>
-                                    <span class="division-name">Corporate Communications</span>
-                                </div>
-                                <span class="selected-count"></span>
-                            </div>
-                            <div class="division-content">
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" class="select-all"> Select All</label>
-                                    <label><input type="checkbox" class="department"> Department 1</label>
-                                    <label><input type="checkbox" class="department"> Department 2</label>
-                                    <label><input type="checkbox" class="department"> Department 3</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="division">
-                            <div class="division-header">
-                                <div>
-                                    <i class="fas fa-chevron-right division-name"></i>
-                                    <span class="division-name">Corporate Communications</span>
-                                </div>
-                                <span class="selected-count"></span>
-                            </div>
-                            <div class="division-content">
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" class="select-all"> Select All</label>
-                                    <label><input type="checkbox" class="department"> Department 1</label>
-                                    <label><input type="checkbox" class="department"> Department 2</label>
-                                    <label><input type="checkbox" class="department"> Department 3</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="division">
-                            <div class="division-header">
-                                <div>
-                                    <i class="fas fa-chevron-right division-name"></i>
-                                    <span class="division-name">Corporate Communications</span>
-                                </div>
-                                <span class="selected-count"></span>
-                            </div>
-                            <div class="division-content">
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" class="select-all"> Select All</label>
-                                    <label><input type="checkbox" class="department"> Department 1</label>
-                                    <label><input type="checkbox" class="department"> Department 2</label>
-                                    <label><input type="checkbox" class="department"> Department 3</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="division">
-                            <div class="division-header">
-                                <div>
-                                    <i class="fas fa-chevron-right division-name"></i>
-                                    <span class="division-name">Corporate Communications</span>
-                                </div>
-                                <span class="selected-count"></span>
-                            </div>
-                            <div class="division-content">
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" class="select-all"> Select All</label>
-                                    <label><input type="checkbox" class="department"> Department 1</label>
-                                    <label><input type="checkbox" class="department"> Department 2</label>
-                                    <label><input type="checkbox" class="department"> Department 3</label>
-                                    <label><input type="checkbox" class="department"> Department 4</label>
-                                </div>
-                            </div>
-                        </div>
+                            }
+                        }
                     </div>
                     <div class="button-container">
-                        <button class="next-button" onclick="goToStep(2)">Next <i
-                                class="fas fa-chevron-right"></i></button>
+                        <button class="next-button" onclick="goToStep(2)">Next <i class="fas fa-chevron-right"></i></button>
                     </div>
                 </div>
 
-
                 <!-- Step 2: Select System -->
-                <div class="step-content step-2-content">
-                    <div class="section-title">Select the systems you want to upload your files </div>
-                    <div class="add-system-searchbar">
-                        <div class="file-search-container">
-                            <img src="/Content/Assets/search-icon.svg" class="search-icon" alt="Search Icon" />
-                            <input id="DepartmentsDivisionsSearch" onkeyup="filterDepartmentsDivisions()"
-                                placeholder="Search" type="text" class="file-search-input" />
-                        </div>
-                    </div>
+                <div class="step-content step-2-content" style="display: none;">
+                    <div class="section-title">Select the systems you want to upload your files</div>
                     <div class="division-container">
-                        <div class="division">
-                            <div class="division-header">
-                                <div>
-                                    <i class="fas fa-chevron-right division-name"></i>
-                                    <span class="division-name">Aviation College</span>
+                        @if (Model != null && Model.Divisions != null)
+                        {
+                            foreach (var division in Model.Divisions)
+                            {
+                                <div class="division1">
+                                    <div class="division-header">
+                                        <div>
+                                            <i class="fas fa-chevron-right division-name"></i>
+                                            <span class="division-name">@division.DivisionName</span>
+                                        </div>
+                                        <span class="selected-count1"></span>
+                                    </div>
+                                    <div class="division-content">
+                                        <div class="checkbox-group">
+                                            @if (Model.Departments != null && Model.Departments.Any(d => d.DivisionID == division.DivisionID))
+                                            {
+                                                <label>
+                                                    <input type="checkbox" class="select-all1" onclick="toggleSelectAll(this)"> Select All
+                                                </label>
+                                                @foreach (var department in Model.Departments.Where(d => d.DivisionID == division.DivisionID))
+                                                {
+                                                    <label>
+                                                        <input type="checkbox" class="department1" data-division-id="@division.DivisionID" data-department-id="@department.DepartmentID" onchange="updateSelectAll(this)" onclick="fetchSystems(this)">
+                                                        @department.DepartmentName
+                                                    </label>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <span>No departments available</span>
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
-                                <span class="selected-count"></span>
-                            </div>
-                            <div class="division-content">
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" class="select-all"> Select All</label>
-                                    <label><input type="checkbox" class="system"> Department 1</label>
-                                    <label><input type="checkbox" class="system"> Department 2</label>
-                                    <label><input type="checkbox" class="system"> Department 3</label>
-                                    <label><input type="checkbox" class="system"> Department 4</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="division">
-                            <div class="division-header">
-                                <div>
-                                    <i class="fas fa-chevron-right division-name"></i>
-                                    <span class="division-name">Cargo</span>
-                                </div>
-                                <span class="selected-count"></span>
-                            </div>
-                            <div class="division-content">
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" class="select-all"> Select All</label>
-                                    <label><input type="checkbox" class="system"> Cargo Operations</label>
-                                    <label><input type="checkbox" class="system"> Cargo Sales</label>
-                                    <label><input type="checkbox" class="system"> Cargo Customer Service</label>
-                                    <label><input type="checkbox" class="system"> Cargo Network Planning</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="division">
-                            <div class="division-header">
-                                <div>
-                                    <i class="fas fa-chevron-right division-name"></i>
-                                    <span class="division-name">Commercial Operations</span>
-                                </div>
-                                <span class="selected-count"></span>
-                            </div>
-                            <div class="division-content">
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" class="select-all"> Select All</label>
-                                    <label><input type="checkbox" class="system"> Department 1</label>
-                                    <label><input type="checkbox" class="system"> Department 2</label>
-                                    <label><input type="checkbox" class="system"> Department 3</label>
-                                    <label><input type="checkbox" class="system"> Department 4</label>
-                                    <label><input type="checkbox" class="system"> Department 5</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="division">
-                            <div class="division-header">
-                                <div>
-                                    <i class="fas fa-chevron-right division-name"></i>
-                                    <span class="division-name">Corporate Communications</span>
-                                </div>
-                                <span class="selected-count"></span>
-                            </div>
-                            <div class="division-content">
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" class="select-all"> Select All</label>
-                                    <label><input type="checkbox" class="system"> Department 1</label>
-                                    <label><input type="checkbox" class="system"> Department 2</label>
-                                    <label><input type="checkbox" class="system"> Department 3</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="division">
-                            <div class="division-header">
-                                <div>
-                                    <i class="fas fa-chevron-right division-name"></i>
-                                    <span class="division-name">Commercial Operations</span>
-                                </div>
-                                <span class="selected-count"></span>
-                            </div>
-                            <div class="division-content">
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" class="select-all"> Select All</label>
-                                    <label><input type="checkbox" class="system"> Department 1</label>
-                                    <label><input type="checkbox" class="system"> Department 2</label>
-                                    <label><input type="checkbox" class="system"> Department 3</label>
-                                    <label><input type="checkbox" class="system"> Department 4</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="division">
-                            <div class="division-header">
-                                <div>
-                                    <i class="fas fa-chevron-right division-name"></i>
-                                    <span class="division-name">Corporate Communications</span>
-                                </div>
-                                <span class="selected-count"></span>
-                            </div>
-                            <div class="division-content">
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" class="select-all"> Select All</label>
-                                    <label><input type="checkbox" class="system"> Department 1</label>
-                                    <label><input type="checkbox" class="system"> Department 2</label>
-                                    <label><input type="checkbox" class="system"> Department 3</label>
-                                    <label><input type="checkbox" class="system"> Department 4</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="division">
-                            <div class="division-header">
-                                <div>
-                                    <i class="fas fa-chevron-right division-name"></i>
-                                    <span class="division-name">Corporate Communications</span>
-                                </div>
-                                <span class="selected-count"></span>
-                            </div>
-                            <div class="division-content">
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" class="select-all"> Select All</label>
-                                    <label><input type="checkbox" class="system"> Department 1</label>
-                                    <label><input type="checkbox" class="system"> Department 2</label>
-                                    <label><input type="checkbox" class="system"> Department 3</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="division">
-                            <div class="division-header">
-                                <div>
-                                    <i class="fas fa-chevron-right division-name"></i>
-                                    <span class="division-name">Corporate Communications</span>
-                                </div>
-                                <span class="selected-count"></span>
-                            </div>
-                            <div class="division-content">
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" class="select-all"> Select All</label>
-                                    <label><input type="checkbox" class="system"> Department 1</label>
-                                    <label><input type="checkbox" class="system"> Department 2</label>
-                                    <label><input type="checkbox" class="system"> Department 3</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="division">
-                            <div class="division-header">
-                                <div>
-                                    <i class="fas fa-chevron-right division-name"></i>
-                                    <span class="division-name">Corporate Communications</span>
-                                </div>
-                                <span class="selected-count"></span>
-                            </div>
-                            <div class="division-content">
-                                <div class="checkbox-group">
-                                    <label><input type="checkbox" class="select-all"> Select All</label>
-                                    <label><input type="checkbox" class="system"> Department 1</label>
-                                    <label><input type="checkbox" class="system"> Department 2</label>
-                                    <label><input type="checkbox" class="system"> Department 3</label>
-                                </div>
-                            </div>
-                        </div>
+                            }
+                        }
                     </div>
-
                     <div class="button-container">
                         <button class="back-button" onclick="goToStep(1)">
                             <i class="fas fa-chevron-left"></i> Back
                         </button>
-                        <button class="next-button" onclick="goToStep (3)">
+                        <button class="next-button" onclick="goToStep(3)">
                             Next <i class="fas fa-chevron-right"></i>
                         </button>
                     </div>
                 </div>
 
-
                 <!-- Step 3: Select Category -->
                 <div class="step-content step-3-content" style="display: none;">
-                    @* <h2>Select the Category you want to upload your files</h2>
-                    <div class="category-selection">
-                        <label>
-                            <input type="radio" name="category" value="Category1"> 
-                            Category 1
-                        </label>
-                        <label>
-                            <input type="radio" name="category" value="Category2"> 
-                            Category 2
-                        </label>
-                        <label>
-                            <input type="radio" name="category" value="Category3"> 
-                            Category 3
-                        </label>
-                    </div> *@
-
-
-
                     <div class="status-form-group">
-                        <label class="status-label" for="status-selector">Select a category for your files you want to
-                            upload </label>
+                        <label class="status-label" for="status-selector">Select a category for your files you want to upload</label>
                         <div class="status-dropdown">
-                            <div class="status-dropdown-toggle status-selector" onclick="toggleStatusDropdown()">
+                            <div class="status -dropdown-toggle status-selector" onclick="toggleStatusDropdown()">
                                 <span id="selected-status" class="placeholder">Select a category</span>
                                 <i class="fas fa-chevron-down"></i>
                             </div>
@@ -433,7 +195,7 @@
                                 <div class="status-search-container">
                                     <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
                                     <input type="text" id="status-search-input" placeholder="Search a type"
-                                        onkeyup="filterStatusOptions()" onclick="event.stopPropagation()">
+                                           onkeyup="filterStatusOptions()" onclick="event.stopPropagation()">
                                 </div>
                                 <div class="status-dropdown-list">
                                     <div onclick="selectStatusOption(this)">Training</div>
@@ -462,15 +224,14 @@
 
                 <!-- Step 4: Upload Files -->
                 <div class="step-content step-4-content" style="display: none;">
-                    <h2>Select the files you want to upload </h2>
+                    <h2>Select the files you want to upload</h2>
                     <div id="drop-area" class="upload-area">
                         <input type="file" id="fileElem" multiple accept="*/*" onchange="handleFiles(this.files)"
-                            style="display:none">
+                               style="display:none">
                         <label for="fileElem" class="upload-label">
                             <img src="/Content/Assets/uploadicn.svg" alt="Upload Icon">
                             <p>Drag and drop files here or</p>
-                            <button type="button" onclick="document.getElementById('fileElem').click()">Browse
-                                Files</button>
+                            <button type="button" onclick="document.getElementById('fileElem').click()">Browse Files</button>
                         </label>
                     </div>
                     <p>Selected files</p>

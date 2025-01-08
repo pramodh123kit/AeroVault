@@ -108,7 +108,7 @@
 .file-search-input {
     padding: 8px 12px 8px 40px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+/*    border-radius: 5px;*/
     width: 100%;
     height: 40px;
 }
@@ -305,3 +305,426 @@
     text-decoration:underline;
     cursor:pointer;
 }
+
+
+
+
+
+
+.status-form-group {
+    margin-bottom: 0px;
+    width: auto;
+    margin-top: 30px;
+}
+
+.system-form-group {
+    margin-bottom: 0px;
+    width: auto;
+    margin-top: 30px;
+}
+
+.category-form-group {
+    margin-bottom: 0px;
+    width: auto;
+    margin-top: 30px;
+}
+
+
+
+
+
+
+.status-dropdown {
+    position: relative;
+    display: inline-block;
+    /*    width: 100%;*/
+    margin-top: 10px;
+}
+
+.status-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 100%;
+    border: 1px solid #6D6D6D;
+    border-top: none;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 1;
+}
+
+.status-dropdown-list {
+    height: 150px;
+    overflow-y: scroll;
+}
+
+    .status-dropdown-list::-webkit-scrollbar {
+        width: 10px;
+        background-color: #fff;
+    }
+
+    .status-dropdown-list::-webkit-scrollbar-thumb {
+        background-color: #135176;
+        border-radius: 100px;
+        height: 20px;
+    }
+
+    .status-dropdown-list div {
+        padding: 8px 16px;
+        cursor: pointer;
+    }
+
+        .status-dropdown-list div:hover {
+            background-color: #BBDCF9;
+        }
+
+    .status-dropdown-list .active {
+        font-weight: bold;
+    }
+
+.status-dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #6D6D6D;
+    border-bottom: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    .status-dropdown-toggle i {
+        margin-left: 10px;
+        transition: transform 0.3s;
+    }
+
+    .status-dropdown-toggle.open i {
+        transform: rotate(180deg);
+    }
+
+.status-selector {
+    border: 1px solid #6D6D6D;
+    border-radius: 10px;
+}
+
+.status-search-container {
+    display: flex;
+    border-bottom: 1px solid #938C8C;
+    margin: 20px;
+    margin-top: 0px;
+}
+
+    .status-search-container img {
+        color: #999;
+        margin-right: 5px;
+        font-size: 20px;
+        margin-left: 5px;
+    }
+
+    .status-search-container input {
+        border: none;
+        color: #000;
+        font-size: 16px;
+        outline: none;
+        flex: 1;
+        padding: 5px;
+    }
+
+#status-search-input {
+    margin-left: 0px;
+    border: none;
+}
+
+.status-dropdown-toggle::after {
+    content: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.system-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.system-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 100%;
+    border: 1px solid #00436c;
+    border-top: none;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 1;
+}
+
+
+
+.system-dropdown-list div {
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+    .system-dropdown-list div:hover {
+        background-color: #BBDCF9;
+    }
+
+.system-dropdown-list .active {
+    font-weight: bold;
+}
+
+.system-dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #6D6D6D;
+    border-bottom: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    .system-dropdown-toggle i {
+        margin-left: 10px;
+        transition: transform 0.3s;
+    }
+
+    .system-dropdown-toggle.open i {
+        transform: rotate(180deg);
+    }
+
+.system-selector {
+    border: 1px solid #6D6D6D;
+    border-radius: 10px;
+}
+
+.system-search-container {
+    display: flex;
+    border-bottom: 1px solid #938C8C;
+    margin: 20px;
+    margin-top: 0px;
+}
+
+    .system-search-container img {
+        color: #999;
+        margin-right: 5px;
+        font-size: 20px;
+        margin-left: 5px;
+    }
+
+    .system-search-container input {
+        border: none;
+        color: #000;
+        font-size: 16px;
+        outline: none;
+        flex: 1;
+        padding: 5px;
+    }
+
+#system-search-input {
+    margin-left: 0px;
+    border: none;
+}
+
+.system-dropdown-toggle::after {
+    content: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.category-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.category-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 100%;
+    border: 1px solid #00436c;
+    border-top: none;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 1;
+}
+
+.category-dropdown-list {
+    height: 150px;
+    overflow-y: scroll;
+}
+
+    .category-dropdown-list::-webkit-scrollbar {
+        width: 10px;
+        background-color: #fff;
+    }
+
+    .category-dropdown-list::-webkit-scrollbar-thumb {
+        background-color: #135176;
+        border-radius: 100px;
+        height: 20px;
+    }
+
+    .category-dropdown-list div {
+        padding: 8px 16px;
+        cursor: pointer;
+    }
+
+        .category-dropdown-list div:hover {
+            background-color: #BBDCF9;
+        }
+
+    .category-dropdown-list .active {
+        font-weight: bold;
+    }
+
+.category-dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #6D6D6D;
+    border-bottom: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    .category-dropdown-toggle i {
+        margin-left: 10px;
+        transition: transform 0.3s;
+    }
+
+    .category-dropdown-toggle.open i {
+        transform: rotate(180deg);
+    }
+
+.category-selector {
+    border: 1px solid #6D6D6D;
+    border-radius: 10px;
+}
+
+.category-search-container {
+    display: flex;
+    border-bottom: 1px solid #938C8C;
+    margin: 20px;
+    margin-top: 0px;
+}
+
+    .category-search-container img {
+        color: #999;
+        margin-right: 5px;
+        font-size: 20px;
+        margin-left: 5px;
+    }
+
+    .category-search-container input {
+        border: none;
+        color: #000;
+        font-size: 16px;
+        outline: none;
+        flex: 1;
+        padding: 5px;
+    }
+
+#category-search-input {
+    margin-left: 0px;
+    border: none;
+}
+
+.category-dropdown-toggle::after {
+    content: none;
+}
+
+/* Ensure the dropdown has a high z-index and positioning */
+.status-dropdown,
+.system-dropdown,
+.category-dropdown {
+    position: relative;
+    z-index: 10;
+}
+
+.status-dropdown-content,
+.system-dropdown-content,
+.category-dropdown-content {
+    position: absolute;
+    top: 100%; /* Position right below the dropdown toggle */
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* High z-index to ensure it's above other elements */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Ensure table header is not blocking dropdowns */
+.file-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 100; /* Lower than dropdown z-index */
+}
+
+/* Additional styling to ensure dropdowns are visible */
+.status-dropdown-content,
+.system-dropdown-content,
+.category-dropdown-content {
+    background-color: white;
+    border: 1px solid #00436c;
+    border-top: none;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+
+.system-dropdown-list {
+    /* For Firefox */
+    scrollbar-width: thin; /* Options: auto, thin */
+    scrollbar-color: #00436C transparent; /* thumb color, track color */
+}
+
+    /* WebKit Browsers (Chrome, Safari) */
+    .system-dropdown-list::-webkit-scrollbar {
+        width: 8px; /* Width of the scrollbar */
+    }
+
+    .system-dropdown-list::-webkit-scrollbar-thumb {
+        background-color: #00436C; /* Color of the scrollbar thumb */
+        border-radius: 10px; /* Rounded corners */
+    }
+
+    .system-dropdown-list::-webkit-scrollbar-track {
+        background: transparent; /* No background for the track */
+    }

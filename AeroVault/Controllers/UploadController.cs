@@ -16,19 +16,26 @@ public class UploadController : BaseAdminController
 
     public IActionResult Index()
     {
+        // Fetch active divisions
+        var activeDivisions = _uploadBl.GetActiveDivisions();
+
         // Fetch active departments
         var activeDepartments = _uploadBl.GetActiveDepartments();
-
-        // Fetch active systems
-        var activeSystems = _uploadBl.GetActiveSystems();
 
         // Create a view model
         var viewModel = new DepartmentViewModel
         {
+            Divisions = activeDivisions,
             Departments = activeDepartments,
-            Systems = activeSystems // Assuming you have a property for systems in your view model
+            Systems = _uploadBl.GetActiveSystems() // Assuming you want to keep this as well
         };
 
         return PartialView("~/Views/Admin/_Upload.cshtml", viewModel);
+    }
+
+    public IActionResult GetSystemsByDepartment(int departmentId)
+    {
+        var systems = _uploadBl.GetActiveSystemsByDepartment(departmentId);
+        return Json(systems);
     }
 }

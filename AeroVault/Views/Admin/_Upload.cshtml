@@ -582,7 +582,6 @@
 
 
 <div id="dark-overlay8" class="dark-overlay" style="display: none;"></div>
-@Html.Partial("AdminUploadPopups/_AdminUploadPopup")
-
+@Html.Partial("AdminUploadPopups/_AdminUploadPopup", Model as DepartmentViewModel)
 <script src="/Scripts/AdminUpload.js"></script>
 <!-- Example button to open the popup -->
