@@ -16,7 +16,6 @@ namespace AeroVault.Models
         public int DivisionID { get; set; }
         public DivisionModel Division { get; set; }
 
-        // Add this column to represent soft delete
         [Column("is_deleted")]
         public int IsDeleted { get; set; } = 0;
         public ICollection<SystemDepartmentModel> SystemDepartments { get; set; }

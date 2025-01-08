@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     totalDocs += docsCount;
                 });
 
-                
+
             };
             // Retrieve and sum "Videos" and "Docs" values
             const videosCount = parseInt(item.querySelector(".upload-video b").textContent) || 0;
@@ -402,41 +402,41 @@ function showVideos() {
 
 
 function toggleCustomDropdown() {
-            var dropdownContent = document.querySelector('.custom-dropdown-content');
-            var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
-            var selector = document.querySelector('.custom-selector');
+    var dropdownContent = document.querySelector('.custom-dropdown-content');
+    var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
+    var selector = document.querySelector('.custom-selector');
 
-            if (dropdownContent.style.display === 'block') {
-                dropdownContent.style.display = 'none';
-                dropdownToggle.classList.remove('open');
+    if (dropdownContent.style.display === 'block') {
+        dropdownContent.style.display = 'none';
+        dropdownToggle.classList.remove('open');
 
-                selector.style.borderBottomLeftRadius = '10px';
-                selector.style.borderBottomRightRadius = '10px';
-                selector.style.borderBottom = '1px solid #6D6D6D';
-            } else {
-                dropdownContent.style.display = 'block';
-                dropdownToggle.classList.add('open');
+        selector.style.borderBottomLeftRadius = '10px';
+        selector.style.borderBottomRightRadius = '10px';
+        selector.style.borderBottom = '1px solid #6D6D6D';
+    } else {
+        dropdownContent.style.display = 'block';
+        dropdownToggle.classList.add('open');
 
-                selector.style.borderBottomLeftRadius = '0';
-                selector.style.borderBottomRightRadius = '0';
-                selector.style.borderBottom = 'none';
-                document.getElementById('custom-search-input').value = '';
-                showAllCustomOptions();
-            }
-        }
+        selector.style.borderBottomLeftRadius = '0';
+        selector.style.borderBottomRightRadius = '0';
+        selector.style.borderBottom = 'none';
+        document.getElementById('custom-search-input').value = '';
+        showAllCustomOptions();
+    }
+}
 
-        function filterCustomOptions() {
-            var input = document.getElementById('custom-search-input');
-            var filter = input.value.toLowerCase();
-            var div = document.querySelectorAll('.custom-dropdown-list div');
-            // Filter the dropdown options
-            div.forEach(function (item) {
-                var txtValue = item.textContent || item.innerText;
-                item.style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
-            });
-            // Call the function to filter the upload list
-            filterUploadList(filter);
-        }
+function filterCustomOptions() {
+    var input = document.getElementById('custom-search-input');
+    var filter = input.value.toLowerCase();
+    var div = document.querySelectorAll('.custom-dropdown-list div');
+    // Filter the dropdown options
+    div.forEach(function (item) {
+        var txtValue = item.textContent || item.innerText;
+        item.style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
+    });
+    // Call the function to filter the upload list
+    filterUploadList(filter);
+}
 
 
 
@@ -461,65 +461,87 @@ function filterUploadList(filter) {
 }
 
 function selectCustomOption(element) {
-    var selectedOption = element.textContent || element.innerText;
-    document.getElementById('selected-option').textContent = selectedOption;
-    document.getElementById('selected-department').textContent = selectedOption;
+    var selectedDepartment = element.textContent || element.innerText;
+    var selectedOption = document.getElementById('selected-option');
+    var selectedDepartmentElement = document.getElementById('selected-department');
+
+    // Update dropdown display
+    selectedOption.textContent = selectedDepartment;
+    selectedDepartmentElement.textContent = selectedDepartment;
+
+    // Close dropdown
     document.querySelector('.custom-dropdown-content').style.display = 'none';
     document.querySelector('.custom-dropdown-toggle').classList.remove('open');
 
-    var selector = document.querySelector('.custom-selector');
-    selector.style.borderBottomLeftRadius = '10px';
-    selector.style.borderBottomRightRadius = '10px';
-    selector.style.borderBottom = '1px solid #6D6D6D';
+    // Find the department ID
+    var departmentId = element.getAttribute('data-department-id');
 
-    var divs = document.querySelectorAll('.custom-dropdown-list div');
-    divs.forEach(function (div) {
-        div.classList.remove('active');
-    });
-    element.classList.add('active');
+    // AJAX call to fetch systems for the selected department
+    fetch(`/UserFileRepository/GetSystemsByDepartment?departmentId=${departmentId}`)
+        .then(response => response.json())
+        .then(systems => {
+            // Clear existing systems
+            var uploadListContainer = document.getElementById('upload-list-container');
+            uploadListContainer.innerHTML = '';
 
-
-
-    const uploadItems = document.querySelectorAll(".upload-list-new");
-    uploadItems.forEach(uploadItem => {
-        uploadItem.style.backgroundColor = "white";
-        uploadItem.querySelector(".upload-name-all").style.fontWeight = "normal";
-    });
-
-    // Add logic to hide the read-icon if the selected department is not "Information Technology"
-    const readIcons = document.querySelectorAll('.read-icon');
-    if (selectedOption !== "Information Technology") {
-        readIcons.forEach(icon => {
-            icon.style.display = 'none'; // Hide the read-icon
+            // Populate systems
+            if (systems && systems.length > 0) {
+                systems.forEach(system => {
+                    var systemDiv = document.createElement('div');
+                    systemDiv.className = 'upload-list-new';
+                    systemDiv.id = system.systemName;
+                    systemDiv.innerHTML = `
+                        <div class="upload-item">
+                            <div class="upload-name-all name">
+                                ${system.systemName}
+                                <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
+                                <div class="tooltip-des">${system.description}</div>
+                            </div>
+                            <div class="upload-info">
+                                <span class="upload-video">Videos: <b>0</b></span>
+                                <span class="upload-doc">Docs: <b>0</b></span>
+                            </div>
+                        </div>
+                    `;
+                    uploadListContainer.appendChild(systemDiv);
+                });
+            } else {
+                uploadListContainer.innerHTML = `
+                    <div class="upload-list-new">
+                        <div class="upload-item">
+                            <div class="upload-name-all name">
+                                No Systems Available
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching systems:', error);
         });
-    } else {
-        readIcons.forEach(icon => {
-            icon.style.display = 'block'; // Show the read-icon if "Information Technology" is selected
-        });
-    }
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    var defaultDepartment = document.getElementById('selected-option').textContent;
+    document.getElementById('selected-department').textContent = defaultDepartment;
+});
 
-        document.addEventListener("DOMContentLoaded", function () {
-            var defaultDepartment = document.getElementById('selected-option').textContent;
-            document.getElementById('selected-department').textContent = defaultDepartment;
-        });
+function showAllCustomOptions() {
+    var divs = document.querySelectorAll('.custom-dropdown-list div');
+    divs.forEach(function (div) {
+        div.style.display = "";
+    });
+}
 
-        function showAllCustomOptions() {
-            var divs = document.querySelectorAll('.custom-dropdown-list div');
-            divs.forEach(function (div) {
-                div.style.display = "";
-            });
-        }
+document.getElementById('custom-search-input').addEventListener('blur', function () {
+    const selector = document.querySelector('.custom-selector');
 
-        document.getElementById('custom-search-input').addEventListener('blur', function () {
-            const selector = document.querySelector('.custom-selector');
+    selector.style.borderBottomLeftRadius = '10px';
+    selector.style.borderBottomRightRadius = '10px';
 
-            selector.style.borderBottomLeftRadius = '10px';
-            selector.style.borderBottomRightRadius = '10px';
-
-            selector.style.border = '1px solid #6D6D6D';
-        });
+    selector.style.border = '1px solid #6D6D6D';
+});
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -649,24 +671,24 @@ window.onclick = function (event) {
 
 
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const uploadItems = document.querySelectorAll(".upload-list-new");
-            uploadItems.forEach(item => {
-                item.addEventListener("click", function () {
-                    uploadItems.forEach(uploadItem => {
-                        uploadItem.style.backgroundColor = "white";
-                        uploadItem.querySelector(".upload-name-all").style.fontWeight = "normal";
-                    });
-
-                    item.style.backgroundColor = "#CFE5F2";
-                    item.querySelector(".upload-name-all").style.fontWeight = "bold";
-
-                    const itemName = item.querySelector(".upload-name-all").childNodes[0].textContent.trim();
-                });
+document.addEventListener("DOMContentLoaded", function () {
+    const uploadItems = document.querySelectorAll(".upload-list-new");
+    uploadItems.forEach(item => {
+        item.addEventListener("click", function () {
+            uploadItems.forEach(uploadItem => {
+                uploadItem.style.backgroundColor = "white";
+                uploadItem.querySelector(".upload-name-all").style.fontWeight = "normal";
             });
 
-            
+            item.style.backgroundColor = "#CFE5F2";
+            item.querySelector(".upload-name-all").style.fontWeight = "bold";
+
+            const itemName = item.querySelector(".upload-name-all").childNodes[0].textContent.trim();
         });
+    });
+
+
+});
 
 
 
@@ -1445,3 +1467,66 @@ document.addEventListener("DOMContentLoaded", function () {
         pdfFrame.src = ""; // Clear the src to stop the PDF from loading
     });
 });
+
+function selectCustomOption(element) {
+    var selectedDepartment = element.textContent || element.innerText;
+    var selectedOption = document.getElementById('selected-option');
+    var selectedDepartmentElement = document.getElementById('selected-department');
+
+    // Update dropdown display
+    selectedOption.textContent = selectedDepartment;
+    selectedDepartmentElement.textContent = selectedDepartment;
+
+    // Close dropdown
+    document.querySelector('.custom-dropdown-content').style.display = 'none';
+    document.querySelector('.custom-dropdown-toggle').classList.remove('open');
+
+    // Find the department ID (you might want to store this in a data attribute)
+    var departmentId = element.getAttribute('data-department-id');
+
+    // AJAX call to fetch systems for the selected department
+    fetch(`/UserFileRepository/GetSystemsByDepartment?departmentId=${departmentId}`)
+        .then(response => response.json())
+        .then(systems => {
+            // Clear existing systems
+            var uploadListContainer = document.getElementById('upload-list-container');
+            uploadListContainer.innerHTML = '';
+
+            // Populate systems
+            if (systems && systems.length > 0) {
+                systems.forEach(system => {
+                    var systemDiv = document.createElement('div');
+                    systemDiv.className = 'upload-list-new';
+                    systemDiv.id = system.systemName;
+                    systemDiv.innerHTML = `
+                        <div class="upload-item">
+                            <div class="upload-name-all name">
+                                ${system.systemName}
+                                <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
+                                <div class="tooltip-des">${system.description}</div>
+                            </div>
+                            <div class="upload-info">
+                                <span class="upload-video">Videos: <b>0</b></span>
+                                <span class="upload-doc">Docs: <b>0</b></span>
+                            </div>
+                        </div>
+                    `;
+                    uploadListContainer.appendChild(systemDiv);
+                });
+            } else {
+                uploadListContainer.innerHTML = `
+                    <div class="upload-list-new">
+                        <div class="upload-item">
+                            <div class="upload-name-all name">
+                                No Systems Available
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching systems:', error);
+            // Handle error - maybe show an error message
+        });
+}
