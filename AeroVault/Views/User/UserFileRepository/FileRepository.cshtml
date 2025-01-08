@@ -28,23 +28,47 @@
                                     <span id="selected-option" style="color: #00436C;">Information Technology</span>
                                     <i class="fas fa-chevron-down" style="color:#00436C;"></i>
                                 </div>
+
+
+
+
                                 <div class="custom-dropdown-content">
                                     <div class="custom-search-container">
                                         <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
                                         <input type="text" id="custom-search-input" placeholder="Search Department" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
                                     </div>
+                                    <!-- Replace the existing custom-dropdown-list div with this -->
                                     <div class="custom-dropdown-list">
-                                        <div onclick="selectCustomOption(this)" class="active">Information Technology</div>
-                                        <div onclick="selectCustomOption(this)">Human Resource</div>
-                                        <div onclick="selectCustomOption(this)">Flight Operations</div>
-                                        <div onclick="selectCustomOption(this)">Safety and Security</div>
-                                        <div onclick="selectCustomOption(this)">Finance</div>
-                                        <div onclick="selectCustomOption(this)">Marketing</div>
-                                        <div onclick="selectCustomOption(this)">Customer Service</div>
-                                        <div onclick="selectCustomOption(this)">Logistics</div>
-                                        <div onclick="selectCustomOption(this)">Procurement</div>
+                                        @{
+                                            var departments = ViewBag.Departments as List<DepartmentModel>;
+                                        }
+                                        @if (departments != null && departments.Any())
+                                        {
+                                            <div onclick="selectCustomOption(this)" class="active" data-department-id="@departments.First().DepartmentID">
+                                                @departments.First().DepartmentName
+                                            </div>
+
+                                            @foreach (var department in departments.Skip(1))
+                                            {
+                                                <div onclick="selectCustomOption(this)" data-department-id="@department.DepartmentID">
+                                                    @department.DepartmentName
+                                                </div>
+                                            }
+                                        }
+
+
+
+                                        else
+                                        {
+                                            <div onclick="selectCustomOption(this)" class="active">No Departments Found</div>
+                                        }
                                     </div>
                                 </div>
+
+
+
+
+
                             </div>
                         </div>
                     </div>
@@ -53,103 +77,140 @@
                         <input type="text" id="system-search" placeholder="Search System" onkeyup="filterUploads()">
                     </div>
                     <div class="scrollable-upload-list" id="upload-list-container">
-                        <div class="upload-list-new" id="AeroDocs">
-                            <div class="upload-item">
-                                <div class="upload-name-all name">
-                                    AeroDocs
-                                    <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
-                                    <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
-                                </div>
-                                <div class="upload-info">
-                                    <span class="upload-video">Videos: <b>12</b></span>
-                                    <span class="upload-doc">Docs: <b>12</b></span>
-                                </div>
-                            </div>
+                        @* <div class="upload-list-new" id="AeroDocs">
+                        <div class="upload-item">
+                        <div class="upload-name-all name">
+                        AeroDocs
+                        <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
+                        <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
+                        </div>
+                        <div class="upload-info">
+                        <span class="upload-video">Videos: <b>12</b></span>
+                        <span class="upload-doc">Docs: <b>12</b></span>
+                        </div>
+                        </div>
                         </div>
                         <div class="upload-list-new" id="GovTra">
-                            <div class="upload-item">
-                                <div class="upload-name-all name">
-                                    GovTra
-                                    <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
-                                    <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
-                                </div>
-                                <div class="upload-info">
-                                    <span class="upload-video">Videos: <b>12</b></span>
-                                    <span class="upload-doc">Docs: <b>12</b></span>
-                                </div>
-                            </div>
+                        <div class="upload-item">
+                        <div class="upload-name-all name">
+                        GovTra
+                        <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
+                        <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
+                        </div>
+                        <div class="upload-info">
+                        <span class="upload-video">Videos: <b>12</b></span>
+                        <span class="upload-doc">Docs: <b>12</b></span>
+                        </div>
+                        </div>
                         </div>
 
                         <div class="upload-list-new" id="AeroLetter">
-                            <div class="upload-item">
-                                <div class="upload-name-all name">
-                                    AeroLetter
-                                    <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
-                                    <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
-                                </div>
-                                <div class="upload-info">
-                                    <span class="upload-video">Videos: <b>12</b></span>
-                                    <span class="upload-doc">Docs: <b>12</b></span>
-                                </div>
-                            </div>
+                        <div class="upload-item">
+                        <div class="upload-name-all name">
+                        AeroLetter
+                        <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
+                        <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
+                        </div>
+                        <div class="upload-info">
+                        <span class="upload-video">Videos: <b>12</b></span>
+                        <span class="upload-doc">Docs: <b>12</b></span>
+                        </div>
+                        </div>
                         </div>
 
                         <div class="upload-list-new" id="EasyPass">
-                            <div class="upload-item">
-                                <div class="upload-name-all name">
-                                    EasyPass
-                                    <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
-                                    <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
-                                </div>
-                                <div class="upload-info">
-                                    <span class="upload-video">Videos: <b>12</b></span>
-                                    <span class="upload-doc">Docs: <b>12</b></span>
-                                </div>
-                            </div>
+                        <div class="upload-item">
+                        <div class="upload-name-all name">
+                        EasyPass
+                        <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
+                        <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
+                        </div>
+                        <div class="upload-info">
+                        <span class="upload-video">Videos: <b>12</b></span>
+                        <span class="upload-doc">Docs: <b>12</b></span>
+                        </div>
+                        </div>
                         </div>
                         <div class="upload-list-new" id="FIDS">
-                            <div class="upload-item">
-                                <div class="upload-name-all name">
-                                    FIDS
-                                    <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
-                                    <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
-                                </div>
-                                <div class="upload-info">
-                                    <span class="upload-video">Videos: <b>12</b></span>
-                                    <span class="upload-doc">Docs: <b>12</b></span>
-                                </div>
-                            </div>
+                        <div class="upload-item">
+                        <div class="upload-name-all name">
+                        FIDS
+                        <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
+                        <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
+                        </div>
+                        <div class="upload-info">
+                        <span class="upload-video">Videos: <b>12</b></span>
+                        <span class="upload-doc">Docs: <b>12</b></span>
+                        </div>
+                        </div>
                         </div>
                         <div class="upload-list-new" id="AeroDocs">
-                            <div class="upload-item">
-                                <div class="upload-name-all name">
-                                    AeroDocs
-                                    <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
-                                    <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
-                                </div>
-                                <div class="upload-info">
-                                    <span class="upload-video">Videos: <b>12</b></span>
-                                    <span class="upload-doc">Docs: <b>12</b></span>
-                                </div>
-                            </div>
+                        <div class="upload-item">
+                        <div class="upload-name-all name">
+                        AeroDocs
+                        <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
+                        <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
+                        </div>
+                        <div class="upload-info">
+                        <span class="upload-video">Videos: <b>12</b></span>
+                        <span class="upload-doc">Docs: <b>12</b></span>
+                        </div>
+                        </div>
                         </div>
 
                         <div class="upload-list-new" id="GovTra">
-                            <div class="upload-item">
-                                <div class="upload-name-all name">
-                                    GovTra
-                                    <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
-                                    <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
+                        <div class="upload-item">
+                        <div class="upload-name-all name">
+                        GovTra
+                        <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
+                        <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
+                        </div>
+                        <div class="upload-info">
+                        <span class="upload-video">Videos: <b>12</b></span>
+                        <span class="upload-doc">Docs: <b>12</b></span>
+                        </div>
+                        </div>
+                        </div>  *@
+                        
+
+
+                        @{
+                            var systems = ViewBag.Systems as List<SystemModel>;
+                        }
+                        @if (systems != null && systems.Any())
+                        {
+                            foreach (var system in systems)
+                            {
+                                <div class="upload-list-new" id="@system.SystemName">
+                                    <div class="upload-item">
+                                        <div class="upload-name-all name">
+                                            @system.SystemName
+                                            <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
+                                            <div class="tooltip-des">@system.Description</div>
+                                        </div>
+                                        <div class="upload-info">
+                                            <span class="upload-video">Videos: <b>0</b></span>
+                                            <span class="upload-doc">Docs: <b>0</b></span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="upload-info">
-                                    <span class="upload-video">Videos: <b>12</b></span>
-                                    <span class="upload-doc">Docs: <b>12</b></span>
+                            }
+                        }
+                        else
+                        {
+                            <div class="upload-list-new">
+                                <div class="upload-item">
+                                    <div class="upload-name-all name">
+                                        No Systems Available
+                                    </div>
                                 </div>
                             </div>
-                        </div>   
-                    </div> 
+                        }
+                        
 
-                 <div class="vertical-line"
+                    </div>
+
+                    <div class="vertical-line"
                          style="position: absolute; top: 0; right: 0; bottom: 0; width: 2px; background-color: #5E5E5F;">
                     </div>
                 </div>
@@ -180,7 +241,7 @@
                             <button class="tab-button video-btn" onclick="showVideos()">Videos (10)</button>
                         </div>
 
-                        <div class="upload-content" id="documentsSection"> 
+                        <div class="upload-content" id="documentsSection">
                             <!-- Filter Options -->
                             <div class="filter-options">
                                 <div class="filter-category-status-form-group">
@@ -217,7 +278,7 @@
 
                                 <div class="search-container search-box file-search-bar">
                                     <img class="search-icon" src="/Content/Assets/Search.svg" alt="Search Icon" />
-                                    <input type="text" id="file-search" placeholder="Search" >
+                                    <input type="text" id="file-search" placeholder="Search">
                                 </div>
                             </div>
 
@@ -300,7 +361,7 @@
                                         <span class="item-date">Mar 26, 2024</span>
                                         <button class="action-button" data-pdf="Content/Assets/database design.pdf">View</button>
                                     </div>
-                                </div>                                
+                                </div>
                             </div>
                         </div>
 
@@ -454,12 +515,12 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>                    
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="/Scripts/FileRepository.js"></script>    
+    <script src="/Scripts/FileRepository.js"></script>
 </body>
 </html>

@@ -28,6 +28,9 @@ namespace AeroVault
 
             builder.Services.AddScoped<SystemRepository>();
             builder.Services.AddScoped<SystemService>();
+            
+            builder.Services.AddScoped<FileRepositoryDl>();
+            builder.Services.AddScoped<FileRepositoryBl>();
 
             builder.Services.AddScoped<UploadDl>();
             builder.Services.AddScoped<UploadBl>();
