@@ -445,6 +445,37 @@
   background-color: #d5ebfe;
 }
 
+
+
+.step1-division-header {
+    background-color: #e9e9ef;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    border-radius: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .step1-division-header.active {
+        background-color: #d5ebfe;
+    }
+
+.step2-division-header {
+    background-color: #e9e9ef;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    border-radius: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .step2-division-header.active {
+        background-color: #d5ebfe;
+    }
+
+
 .division-name {
   margin-left: 10px;
 }
@@ -665,3 +696,11 @@
     .system-dropdown-list .active {
         font-weight: bold;
     }
+
+.system {
+    margin-bottom:10px;
+}
+
+.select-all-sys {
+    margin-bottom:20px;
+}

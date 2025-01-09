@@ -81,11 +81,11 @@
                 <!-- Step 1: Select Departments -->
                 <div class="step-content step-1-content">
                     <div class="section-title">Select the departments you want to upload your files</div>
-                    <div class="add-system-searchbar"> 
-                        <div class="file-search-container"> 
-                            <img src="/Content/Assets/search-icon.svg" class="search-icon" alt="Search Icon" /> 
-                            <input id="DepartmentsDivisionsSearch" onkeyup="filterDepartmentsDivisions()" 
-                                   placeholder="Search" type="text" class="file-search-input" /> 
+                    <div class="add-system-searchbar">
+                        <div class="file-search-container">
+                            <img src="/Content/Assets/search-icon.svg" class="search-icon" alt="Search Icon" />
+                            <input id="DepartmentsDivisionsSearch" onkeyup="filterDepartmentsDivisions()"
+                                   placeholder="Search" type="text" class="file-search-input" />
                         </div>
                     </div>
                     <div class="division-container">
@@ -94,7 +94,8 @@
                             foreach (var division in Model.Divisions)
                             {
                                 <div class="division">
-                                    <div class="division-header">
+                                    <div class="step1-division-header">
+                                        <!-- Changed class name -->
                                         <div>
                                             <i class="fas fa-chevron-right division-name"></i>
                                             <span class="division-name">@division.DivisionName</span>
@@ -135,42 +136,64 @@
                 <div class="step-content step-2-content" style="display: none;">
                     <div class="section-title">Select the systems you want to upload your files</div>
                     <div class="division-container">
-                        @if (Model != null && Model.Divisions != null)
-                        {
-                            foreach (var division in Model.Divisions)
-                            {
-                                <div class="division1">
-                                    <div class="division-header">
-                                        <div>
-                                            <i class="fas fa-chevron-right division-name"></i>
-                                            <span class="division-name">@division.DivisionName</span>
+                        <div class="division1">
+                            <div class="step2-division-header" onclick="toggleDivision(this)">
+                                <div>
+                                    <i class="fas fa-chevron-right division-name"></i>
+                                    <span class="division-name">System A</span>
+                                </div>
+                                <span class="selected-count-sys"></span> <!-- Changed class name -->
+                            </div>
+                            <div class="division-content" style="display: none;">
+                                <div class="system-list" data-department-id="1">
+                                    <div class="system-item">
+                                        <label>
+                                            <input type="checkbox" class="system" data-system-id="1"> Subsystem A1
+                                        </label>
+                                        <div class="subsystem-details" style="display: none;">
+                                            <p>Details about Subsystem A1...</p>
                                         </div>
-                                        <span class="selected-count1"></span>
                                     </div>
-                                    <div class="division-content">
-                                        <div class="checkbox-group">
-                                            @if (Model.Departments != null && Model.Departments.Any(d => d.DivisionID == division.DivisionID))
-                                            {
-                                                <label>
-                                                    <input type="checkbox" class="select-all1" onclick="toggleSelectAll(this)"> Select All
-                                                </label>
-                                                @foreach (var department in Model.Departments.Where(d => d.DivisionID == division.DivisionID))
-                                                {
-                                                    <label>
-                                                        <input type="checkbox" class="department1" data-division-id="@division.DivisionID" data-department-id="@department.DepartmentID" onchange="updateSelectAll(this)" onclick="fetchSystems(this)">
-                                                        @department.DepartmentName
-                                                    </label>
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <span>No departments available</span>
-                                            }
+                                    <div class="system-item">
+                                        <label>
+                                            <input type="checkbox" class="system" data-system-id="2"> Subsystem A2
+                                        </label>
+                                        <div class="subsystem-details" style="display: none;">
+                                            <p>Details about Subsystem A2...</p>
                                         </div>
                                     </div>
                                 </div>
-                            }
-                        }
+                            </div>
+                        </div>
+                        <div class="division1">
+                            <div class="step2-division-header" onclick="toggleDivision(this)">
+                                <div>
+                                    <i class="fas fa-chevron-right division-name"></i>
+                                    <span class="division-name">System B</span>
+                                </div>
+                                <span class="selected-count-sys"></span> <!-- Changed class name -->
+                            </div>
+                            <div class="division-content" style="display: none;">
+                                <div class="system-list" data-department-id="2">
+                                    <div class="system-item">
+                                        <label>
+                                            <input type="checkbox" class="system" data-system-id="3"> Subsystem B1
+                                        </label>
+                                        <div class="subsystem-details" style="display: none;">
+                                            <p>Details about Subsystem B1...</p>
+                                        </div>
+                                    </div>
+                                    <div class="system-item">
+                                        <label>
+                                            <input type="checkbox" class="system" data-system-id="4"> Subsystem B2
+                                        </label>
+                                        <div class="subsystem-details" style="display: none;">
+                                            <p>Details about Subsystem B2...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="button-container">
                         <button class="back-button" onclick="goToStep(1)">
@@ -182,7 +205,8 @@
                     </div>
                 </div>
 
-                <!-- Step 3: Select Category -->
+
+   <!-- Step 3: Select Category -->
                 <div class="step-content step-3-content" style="display: none;">
                     <div class="status-form-group">
                         <label class="status-label" for="status-selector">Select a category for your files you want to upload</label>
