@@ -8,5 +8,6 @@ namespace AeroVault.Models
         public int SystemCount { get; set; }
         public int DocumentCount { get; set; }
         public int VideoCount { get; set; }
+        public int DivisionCount { get; set; }
     }
 }

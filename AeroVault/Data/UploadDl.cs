@@ -145,10 +145,10 @@ namespace AeroVault.Data
             {
                 connection.Open();
                 var query = @"
-            SELECT s.SYSTEMID, s.SYSTEMNAME, s.DESCRIPTION, s.IS_DELETED, s.ADDED_DATE 
+            SELECT s.SYSTEMID, s.SYSTEMNAME, s.DESCRIPTION 
             FROM c##aerovault.SYSTEMS s
             JOIN c##aerovault.SYSTEM_DEPARTMENTS sd ON s.SYSTEMID = sd.SYSTEMID
-            WHERE sd.DEPARTMENTID = :departmentId";
+            WHERE sd.DEPARTMENTID = :departmentId AND s.IS_DELETED = 0"; // Ensure we only get non-deleted systems
 
                 using (var command = new OracleCommand(query, connection))
                 {
@@ -162,8 +162,7 @@ namespace AeroVault.Data
                                 SystemID = Convert.ToInt32(reader["SYSTEMID"]),
                                 SystemName = reader["SYSTEMNAME"].ToString(),
                                 Description = reader["DESCRIPTION"].ToString(),
-                                IsDeleted = Convert.ToInt32(reader["IS_DELETED"]), // Fetch the is_deleted status
-                                AddedDate = reader["ADDED_DATE"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(reader["ADDED_DATE"]) : null // Handle nullable date
+                                IsDeleted = 0 // Since we're fetching non-deleted systems
                             });
                         }
                     }

@@ -1,8 +1,13 @@
 // Global variables to track state
+
 var selectedFiles = [];
+
 var selectedDepartments = [];
+
 var selectedSystem = null;
+
 var selectedCategory = null;
+
 
 function validateStep(currentStep) {
 
@@ -54,9 +59,6 @@ function validateStep(currentStep) {
 
 }
 
-// Global variable to track selected departments
-
-
 
 // Function to save selected departments
 
@@ -77,145 +79,305 @@ function saveSelectedDepartments() {
 }
 
 
+// Function to restore selected departments
 
-    // Function to restore selected departments
+function restoreSelectedDepartments() {
 
-    function restoreSelectedDepartments() {
+    selectedDepartments.forEach(department => {
 
-        selectedDepartments.forEach(department => {
+        const checkbox = document.querySelector(`.department[data-department-id="${department.id}"]`);
 
-            const checkbox = document.querySelector(`.department[data-department-id="${department.id}"]`);
+        if (checkbox) {
 
-            if (checkbox) {
+            checkbox.checked = true;
 
-                checkbox.checked = true;
+            updateDivisionHeaderStyle(checkbox.closest('.division'));
 
-                updateDivisionHeaderStyle(checkbox.closest('.division'));
+            updateSelectedCount(checkbox.closest('.division'));
 
-                updateSelectedCount(checkbox.closest('.division'));
+        }
 
-            }
+    });
 
-        });
+}
+
+
+function goToStep(step) {
+
+    const currentStep = parseInt(
+
+        document.querySelector(".step.active .number").textContent
+
+    );
+
+
+    // Validate the current step before proceeding
+
+    if (step > currentStep && !validateStep(currentStep)) {
+
+        alert(`Please complete step ${currentStep} before proceeding.`);
+
+        return;
 
     }
 
-    function goToStep(step) {
-        const currentStep = parseInt(
-            document.querySelector(".step.active .number").textContent
-        );
 
-        // Validate the current step before proceeding
-        if (step > currentStep && !validateStep(currentStep)) {
-            alert(`Please complete step ${currentStep} before proceeding.`);
-            return;
-        }
+    // Save selected departments when moving to Step 2
 
-        // Save selected departments when moving to Step 2
-        if (currentStep === 1) {
-            saveSelectedDepartments();
-        }
+    if (currentStep === 1) {
 
-        // Clear inputs for forward steps
-        if (step < currentStep) {
-            if (step === 1) {
-                // Clear selections for steps 2, 3, and 4
-                selectedDepartments = [];
-                document.querySelectorAll(".department").forEach(department => {
-                    department.checked = false;
-                });
-            } else if (step === 2) {
-                // Clear selections for steps 3 and 4
-                selectedCategory = null;
-                selectedFiles = [];
-                updateFileDisplay(); // Update file display
-                document.querySelectorAll('.category-selection input[type="radio"]').forEach(radio => {
-                    radio.checked = false;
-                });
-            } else if (step === 3) {
-                // Clear selection for step 4
-                selectedFiles = [];
-                updateFileDisplay(); // Update file display
-            }
-        }
+        saveSelectedDepartments();
 
-        // Handle the transition to Step 2
-        if (step === 2) {
-            const selectedDepartmentCheckboxes = document.querySelectorAll(".department:checked");
-            const systemsContainer = document.querySelector('.step-2-content .division-container');
-            systemsContainer.innerHTML = ''; // Clear previous systems
+    }
 
-            selectedDepartmentCheckboxes.forEach(departmentCheckbox => {
-                const departmentId = departmentCheckbox.getAttribute('data-department-id');
-                const departmentName = departmentCheckbox.nextSibling.textContent.trim();
 
-                // Create a new division for the selected department
-                const departmentDiv = document.createElement('div');
-                departmentDiv.classList.add('division');
-                departmentDiv.innerHTML = `
-                <div class="division-header">
-                    <div>
-                        <i class="fas fa-chevron-right division-name"></i>
-                        <span class="division-name">${departmentName}</span>
-                    </div>
-                    <span class="selected-count"></span>
-                </div>
-                <div class="division-content">
-                    <div class="system-list" data-department-id="${departmentId}">
-                        <span>Loading systems...</span> <!-- Placeholder while loading -->
-                    </div>
-                </div>
-            `;
-                systemsContainer.appendChild(departmentDiv);
+    // Clear inputs for forward steps
 
-                // Fetch systems for the selected department
-                fetchSystems(departmentCheckbox);
-            });
-        }
+    if (step < currentStep) {
 
-        // Restore selected departments when going back to Step 1
         if (step === 1) {
-            restoreSelectedDepartments();
+
+            // Clear selections for steps 2, 3, and 4
+
+            selectedDepartments = [];
+
+            document.querySelectorAll(".department").forEach(department => {
+
+                department.checked = false;
+
+            });
+
+        } else if (step === 2) {
+
+            // Clear selections for steps 3 and 4
+
+            selectedCategory = null;
+
+            selectedFiles = [];
+
+            updateFileDisplay(); // Update file display
+
+            document.querySelectorAll('.category-selection input[type="radio"]').forEach(radio => {
+
+                radio.checked = false;
+
+            });
+
+        } else if (step === 3) {
+
+            // Clear selection for step 4
+
+            selectedFiles = [];
+
+            updateFileDisplay(); // Update file display
+
         }
 
-        // Update the active step
-        document.querySelectorAll(".step").forEach(function (el) {
-            el.classList.remove("active");
-            el.classList.remove("completed");
+    }
+
+
+    // Handle the transition to Step 2
+
+    if (step === 2) {
+
+        const selectedDepartmentCheckboxes = document.querySelectorAll(".department:checked");
+
+        const systemsContainer = document.querySelector('.step-2-content .division-container');
+
+        systemsContainer.innerHTML = ''; // Clear previous systems
+
+
+        selectedDepartmentCheckboxes.forEach(departmentCheckbox => {
+
+            const departmentId = departmentCheckbox.getAttribute('data-department-id');
+
+            const departmentName = departmentCheckbox.nextSibling.textContent.trim();
+
+
+            // Create a new division for the selected department
+
+            const departmentDiv = document.createElement('div');
+
+            departmentDiv.classList.add('division');
+
+            departmentDiv.innerHTML = `
+    <div class="step2-division-header" onclick="toggleDivision(this)">
+        <div>
+            <i class="fas fa-chevron-right division-name"></i>
+            <span class="division-name">${departmentName}</span>
+        </div>
+        <span class="selected-count-sys"></span>
+    </div>
+    <div class="division-content" style="display: none;">
+        <div class="system-list" data-department-id="${departmentId}">
+            <span>Loading systems...</span> <!-- Placeholder while loading -->
+        </div>
+    </div>
+`;
+
+            systemsContainer.appendChild(departmentDiv);
+
+
+            // Fetch systems for the selected department
+
+            fetchSystems(departmentCheckbox);
+
         });
 
-        document.querySelector(".step-" + step).classList.add("active");
+    }
 
-        for (var i = 1; i < step; i++) {
-            document.querySelector(".step-" + i).classList.add("completed");
-        }
 
-        // Hide all step contents
-        document.querySelectorAll(".step-content").forEach((content) => {
-            content.style.display = "none";
+    // Restore selected departments when going back to Step 1
+
+    if (step === 1) {
+
+        restoreSelectedDepartments();
+
+    }
+
+
+    // Update the active step
+
+    document.querySelectorAll(".step").forEach(function (el) {
+
+        el.classList.remove("active");
+
+        el.classList.remove("completed");
+
+    });
+
+
+    document.querySelector(".step-" + step).classList.add("active");
+
+
+    for (var i = 1; i < step; i++) {
+
+        document.querySelector(".step-" + i).classList.add("completed");
+
+    }
+
+
+    // Hide all step contents
+
+    document.querySelectorAll(".step-content").forEach((content) => {
+
+        content.style.display = "none";
+
+    });
+
+
+    // Show the current step content
+
+    document.querySelector(".step-" + step + "-content").style.display = "block";
+
+}
+
+
+// Function to toggle division visibility
+
+function toggleDivision(header) {
+
+    const divisionContent = header.nextElementSibling; // Get the corresponding division content
+
+    const icon = header.querySelector("i"); // Get the icon for toggling
+
+
+    // Toggle the display of the division content
+
+    if (divisionContent.style.display === "block") {
+
+        divisionContent.style.display = "none";
+
+        icon.classList.replace("fa-chevron-down", "fa-chevron-right");
+
+    } else {
+
+        divisionContent.style.display = "block";
+
+        icon.classList.replace("fa-chevron-right", "fa-chevron-down");
+
+    }
+
+
+    // Add event listeners for subsystem details
+
+    const systemItems = divisionContent.querySelectorAll('.system-item');
+
+    systemItems.forEach(item => {
+
+        const label = item.querySelector('label');
+
+        const details = item.querySelector('.subsystem-details');
+
+
+        label.addEventListener('click', () => {
+
+            if (details.style.display === "block") {
+
+                details.style.display = "none";
+
+                label.querySelector("input").checked = false; // Uncheck if collapsing
+
+            } else {
+
+                details.style.display = "block";
+
+                label.querySelector("input").checked = true; // Check if expanding
+
+            }
+
         });
 
-        // Show the current step content
-        document.querySelector(".step-" + step + "-content").style.display = "block";
-    }
-    // Add event listeners for drag-and-drop functionality
-    var dropArea = document.getElementById("drop-area");
+    });
 
-    dropArea.addEventListener("dragover", preventDefaults, false);
-    dropArea.addEventListener("dragleave", preventDefaults, false);
-    dropArea.addEventListener("drop", handleDrop, false);
+}
 
-    function preventDefaults(e) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
 
-    function handleDrop(e) {
-        preventDefaults(e); // Ensure default behavior is prevented
-        let dt = e.dataTransfer;
-        let files = dt.files;
-        handleFiles(files);
-    }
+// Add event listeners for the step 2 division headers
+
+document.querySelectorAll(".step2-division-header").forEach((header) => {
+
+    header.addEventListener("click", () => {
+
+        toggleDivision(header);
+
+    });
+
+});
+
+
+// Add event listeners for drag-and-drop functionality
+
+var dropArea = document.getElementById("drop-area");
+
+
+dropArea.addEventListener("dragover", preventDefaults, false);
+
+dropArea.addEventListener("dragleave", preventDefaults, false);
+
+dropArea.addEventListener("drop", handleDrop, false);
+
+
+function preventDefaults(e) {
+
+    e.preventDefault();
+
+    e.stopPropagation();
+
+}
+
+
+function handleDrop(e) {
+
+    preventDefaults(e); // Ensure default behavior is prevented
+
+    let dt = e.dataTransfer;
+
+    let files = dt.files;
+
+    handleFiles(files);
+
+}
 
     function handleFiles(files) {
         Array.from(files).forEach((file) => {
@@ -415,34 +577,25 @@ function saveSelectedDepartments() {
 
     });
 
-    function updateDivisionHeaderStyle(division) {
+function updateDivisionHeaderStyle(division) {
+    // Use the correct class name for the header
+    const divisionHeader = division.querySelector(".step1-division-header") || division.querySelector(".step2-division-header");
+    const departmentCheckboxes = division.querySelectorAll(".department");
 
-        const divisionHeader = division.querySelector(".division-header");
+    // Check if any department in this division is checked
+    const hasSelectedDepartments = Array.from(departmentCheckboxes).some(
+        (checkbox) => checkbox.checked
+    );
 
-        const departmentCheckboxes = division.querySelectorAll(".department");
-
-
-
-        // Check if any department in this division is checked
-
-        const hasSelectedDepartments = Array.from(departmentCheckboxes).some(
-
-            (checkbox) => checkbox.checked
-
-        );
-
-
+    // Check if the divisionHeader exists before trying to set its style
+    if (divisionHeader) {
         if (hasSelectedDepartments) {
-
             divisionHeader.style.backgroundColor = "#d5ebfe";
-
         } else {
-
             divisionHeader.style.backgroundColor = "#e9e9ef";
-
         }
-
     }
+}
 
     function updateSelectedCount(division) {
         const selectedCountElement = division.querySelector(".selected-count");
@@ -455,15 +608,20 @@ function saveSelectedDepartments() {
         selectedCountElement.textContent = selectedCount > 0 ? selectedCount : "";
 
         if (selectedCount > 0) {
-            division.querySelector(".division-header").classList.add("selected");
+            division.querySelector(".step1-division-header").classList.add("selected");
         } else {
-            division.querySelector(".division-header").classList.remove("selected");
+            division.querySelector(".step1-division-header").classList.remove("selected");
         }
-    }
+}
+
+
+
 
     document.querySelectorAll(".division").forEach((division) => {
         updateSelectedCount(division);
     });
+
+
 
     // searchable dropdown js
 
@@ -630,6 +788,9 @@ function saveSelectedDepartments() {
         } else {
             division.querySelector(".division-header").classList.remove("selected");
         }
+
+
+
     }
 
     // Add event listeners for system checkboxes
@@ -685,6 +846,18 @@ function saveSelectedDepartments() {
 
         });
 
+
+        const departmentDiv = selectAllCheckbox.closest('.system-list');
+
+        const systemCheckboxes = departmentDiv.querySelectorAll('.system input[type="checkbox"]');
+
+
+        systemCheckboxes.forEach(checkbox => {
+
+            checkbox.checked = selectAllCheckbox.checked; // Check or uncheck based on the Select All checkbox
+
+        });
+
     }
 
     function updateSelectAll(departmentCheckbox) {
@@ -710,46 +883,177 @@ function saveSelectedDepartments() {
     }
 
 
-    function fetchSystems(departmentCheckbox) {
-        const departmentId = departmentCheckbox.getAttribute('data-department-id');
-        const systemsContainer = document.querySelector('.step-2-content .division-container');
+function fetchSystems(departmentCheckbox) {
+    const departmentId = departmentCheckbox.getAttribute('data-department-id');
+    const systemsContainer = document.querySelector('.step-2-content .division-container');
 
-        if (departmentCheckbox.checked) {
-            fetch(`/Upload/GetSystemsByDepartment?departmentId=${departmentId}`)
-                .then(response => response.json())
-                .then(systems => {
-                    // Clear previous systems
-                    const departmentDiv = systemsContainer.querySelector(`.system-list[data-department-id="${departmentId}"]`);
+    if (departmentCheckbox.checked) {
+        fetch(`/Upload/GetSystemsByDepartment?departmentId=${departmentId}`)
+            .then(response => response.json())
+            .then(systems => {
+                console.log(`Fetched systems for department ID ${departmentId}:`, systems); // Debugging line
+                const departmentDiv = systemsContainer.querySelector(`.system-list[data-department-id="${departmentId}"]`);
+
+                if (departmentDiv) {
                     departmentDiv.innerHTML = ''; // Clear previous content
+
+                    // Add Select All checkbox
+                    const selectAllDiv = document.createElement('div');
+                    selectAllDiv.innerHTML = `
+                        <label>
+                            <input type="checkbox" class="select-all-sys" onclick="toggleSelectAll(this)"> Select All
+                        </label>
+                    `;
+                    departmentDiv.appendChild(selectAllDiv);
 
                     if (systems.length > 0) {
                         systems.forEach(system => {
                             const systemDiv = document.createElement('div');
                             systemDiv.classList.add('system');
                             systemDiv.innerHTML = `
-                            <label>
-                                <input type="checkbox" class="system" data-system-id="${system.SystemID}"> ${system.SystemName}
-                            </label>
-                        `;
+                                <label>
+                                    <input type="checkbox" class="system" data-system-id="${system.systemID}"> ${system.systemName}
+                                </label>
+                            `;
                             departmentDiv.appendChild(systemDiv);
                         });
                     } else {
-                        // If no systems are available, show a message
                         departmentDiv.innerHTML = '<span>No systems available</span>';
                     }
-                })
-                .catch(error => {
-                    console.error('Error fetching systems:', error);
-                    const departmentDiv = systemsContainer.querySelector(`.system-list[data-department-id="${departmentId}"]`);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching systems:', error);
+                const departmentDiv = systemsContainer.querySelector(`.system-list[data-department-id="${departmentId}"]`);
+                if (departmentDiv) {
                     departmentDiv.innerHTML = '<span>Error fetching systems</span>';
-                });
-        } else {
-            // If unchecked, clear the systems display
-            const departmentDiv = systemsContainer.querySelector(`.system-list[data-department-id="${departmentId}"]`);
+                }
+            });
+    } else {
+        const departmentDiv = systemsContainer.querySelector(`.system-list[data-department-id="${departmentId}"]`);
+        if (departmentDiv) {
             departmentDiv.innerHTML = '<span>No systems available</span>'; // Reset to default message
         }
     }
+}
+function toggleDivision(header) {
+
+    const divisionContent = header.nextElementSibling; // Get the corresponding division content
+
+    const icon = header.querySelector("i"); // Get the icon for toggling
 
 
+    // Toggle the display of the division content
+
+    if (divisionContent.style.display === "block") {
+
+        divisionContent.style.display = "none";
+
+        icon.classList.replace("fa-chevron-down", "fa-chevron-right");
+
+    } else {
+
+        divisionContent.style.display = "block";
+
+        icon.classList.replace("fa-chevron-right", "fa-chevron-down");
 
 
+        // Check if systems have already been loaded
+
+        const systemList = divisionContent.querySelector('.system-list');
+
+        if (systemList.innerHTML === "No systems available") {
+
+            // Fetch systems for the department if not already loaded
+
+            const departmentId = systemList.getAttribute('data-department-id');
+
+            fetchSystems({ getAttribute: () => departmentId, checked: true }); // Simulate a checked department
+
+        }
+
+    }
+
+}
+
+
+// Ensure the toggle functionality for Step 1 uses the new class name
+
+document.querySelectorAll(".step1-division-header").forEach((header) => {
+
+    header.addEventListener("click", () => {
+
+        const divisionContent = header.nextElementSibling; // Get the corresponding division content
+
+        const icon = header.querySelector("i"); // Get the icon for toggling
+
+
+        // Toggle the display of the division content
+
+        if (divisionContent.style.display === "block") {
+
+            divisionContent.style.display = "none";
+
+            icon.classList.replace("fa-chevron-down", "fa-chevron-right");
+
+        } else {
+
+            divisionContent.style.display = "block";
+
+            icon.classList.replace("fa-chevron-right", "fa-chevron-down");
+
+        }
+
+    });
+
+});
+
+
+function updateSelectedCount1(division1) {
+    const selectedCountElement = division1.querySelector(".selected-count-sys"); // Use the new class name
+    const systemCheckboxes = division1.querySelectorAll(".system");
+    const selectedCount = Array.from(systemCheckboxes).filter(
+        (checkbox) => checkbox.checked
+    ).length;
+
+    // Update the count display
+    if (selectedCountElement) {
+        selectedCountElement.textContent = selectedCount > 0 ? selectedCount : "";
+    }
+
+    // Update the header background color based on the selected count
+    const header = division1.querySelector(".step2-division-header");
+    if (header) {
+        if (selectedCount > 0) {
+            header.style.backgroundColor = "#d5ebfe"; // Set background color if any system is checked
+        } else {
+            header.style.backgroundColor = ""; // Reset background color if no systems are checked
+        }
+    }
+}
+
+
+// Add event listeners for system checkboxes in Step 2
+// Add event listeners for system checkboxes in Step 2
+document.querySelectorAll(".step-2-content .system").forEach((systemCheckbox) => {
+    systemCheckbox.addEventListener("change", (event) => {
+        const division = event.target.closest(".division1"); // Use the new division class
+        updateSystemDivisionHeaderStyle(division); // Update header style based on system selection
+        updateSelectedCount1(division); // Update selected count and header background color
+
+        // Log the entire division and the count of selected systems
+        const selectedCountElement = division.querySelector(".selected-count-sys");
+        console.log("Division:", division); // Log the entire division
+        console.log("Selected systems count:", selectedCountElement.textContent); // Log the count
+    });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const step2Content = document.querySelector(".step-2-content");
+    if (step2Content) {
+        step2Content.querySelectorAll(".division1").forEach((division) => {
+            updateSystemDivisionHeaderStyle(division); // Update header style based on system selection
+            updateSelectedCount1(division); // Initialize the count display
+        });
+    }
+});

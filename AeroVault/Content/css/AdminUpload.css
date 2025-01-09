@@ -55,7 +55,7 @@
 /* Filters Section */
 .filters-section {
     margin-bottom: 20px;
-    z-index: 1000;
+    z-index: 900;
 }
 
 /*.filters-container {

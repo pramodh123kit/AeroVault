@@ -140,7 +140,7 @@
 
     // Call initializeCharts only if the charts are not already initialized
     if (!myChart && !myChart2) {
-        initializeCharts();
+        setTimeout(initializeCharts, 100);
     }
 })();
 
