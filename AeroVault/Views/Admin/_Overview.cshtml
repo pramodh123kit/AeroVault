@@ -17,7 +17,7 @@
             <div class="Card">
                 <img src="/Content/Assets/overview-doc-card1.png" />
                 <h1 class="card-header">Documents</h1>
-            <h1 class="card-count">@Model.DepartmentCount</h1>
+            <h1 class="card-count">@Model.DivisionCount</h1>
             </div>
             <div class="Card">
                 <img src="/Content/Assets/overview-vid-card1.png" />
@@ -98,12 +98,12 @@
                     </div>
                     <div class="separator"></div>
                     <div class="stat-item">
-                        <p class="stat-number">0</p>
+                    <p class="stat-number">@Model.DepartmentCount</p>
                         <p class="stat-label">Depts.</p>
                     </div>
                     <div class="separator"></div>
                     <div class="stat-item">
-                        <p class="stat-number">0</p>
+                    <p class="stat-number">@Model.DivisionCount</p>
                         <p class="stat-label">Divisions</p>
                     </div>
                 </div>
