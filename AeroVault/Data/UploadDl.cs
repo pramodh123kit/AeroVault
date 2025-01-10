@@ -41,9 +41,9 @@ namespace AeroVault.Data
                 v.DivisionName, 
                 d.ADDED_DATE 
             FROM 
-                c##aerovault.DEPARTMENTS d 
+                DEPARTMENTS d 
             JOIN 
-                c##aerovault.DIVISIONS v ON d.DivisionID = v.DivisionID 
+                DIVISIONS v ON d.DivisionID = v.DivisionID 
             WHERE 
                 d.is_deleted = 0 AND v.IsDeleted = 0
             ORDER BY 
@@ -85,12 +85,12 @@ namespace AeroVault.Data
                 connection.Open();
                 var query = @"
         SELECT s.SYSTEMID, s.SYSTEMNAME, s.DESCRIPTION 
-        FROM c##aerovault.SYSTEMS s
+        FROM SYSTEMS s
         WHERE s.IS_DELETED = 0 
         AND EXISTS (
             SELECT 1 
-            FROM c##aerovault.SYSTEM_DEPARTMENTS sd
-            JOIN c##aerovault.DEPARTMENTS d ON sd.DEPARTMENTID = d.DEPARTMENTID
+            FROM SYSTEM_DEPARTMENTS sd
+            JOIN DEPARTMENTS d ON sd.DEPARTMENTID = d.DEPARTMENTID
             WHERE sd.SYSTEMID = s.SYSTEMID AND d.IS_DELETED = 0
         )";
 
@@ -124,7 +124,7 @@ namespace AeroVault.Data
                 connection.Open();
                 var query = @"
             SELECT DivisionID, DivisionName, ADDED_DATE 
-            FROM c##aerovault.DIVISIONS 
+            FROM DIVISIONS 
             WHERE IsDeleted = 0 
             ORDER BY DivisionName";
 
@@ -159,8 +159,8 @@ namespace AeroVault.Data
                 connection.Open();
                 var query = @"
             SELECT s.SYSTEMID, s.SYSTEMNAME, s.DESCRIPTION 
-            FROM c##aerovault.SYSTEMS s
-            JOIN c##aerovault.SYSTEM_DEPARTMENTS sd ON s.SYSTEMID = sd.SYSTEMID
+            FROM SYSTEMS s
+            JOIN SYSTEM_DEPARTMENTS sd ON s.SYSTEMID = sd.SYSTEMID
             WHERE sd.DEPARTMENTID = :departmentId AND s.IS_DELETED = 0"; // Ensure we only get non-deleted systems
 
                 using (var command = new OracleCommand(query, connection))

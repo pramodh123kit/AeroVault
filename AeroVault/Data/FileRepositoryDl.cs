@@ -23,7 +23,7 @@ namespace AeroVault.Data
                 conn.Open();
 
                 //string query = "SELECT DEPARTMENTID, DEPARTMENTNAME FROM DEPARTMENTS WHERE IS_DELETED = 0 ORDER BY DEPARTMENTNAME";
-                string query = "SELECT d.DepartmentID, d.DepartmentName, d.DivisionID, v.DivisionName, d.ADDED_DATE FROM c##aerovault.DEPARTMENTS d JOIN c##aerovault.DIVISIONS v ON d.DivisionID = v.DivisionID WHERE d.is_deleted = 0 AND v.IsDeleted = 0";
+                string query = "SELECT d.DepartmentID, d.DepartmentName, d.DivisionID, v.DivisionName, d.ADDED_DATE FROM DEPARTMENTS d JOIN DIVISIONS v ON d.DivisionID = v.DivisionID WHERE d.is_deleted = 0 AND v.IsDeleted = 0";
 
 
 
@@ -56,8 +56,8 @@ namespace AeroVault.Data
 
                 string query = @"
             SELECT s.SystemID, s.SystemName, s.Description 
-            FROM c##aerovault.SYSTEMS s
-            JOIN c##aerovault.SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
+            FROM SYSTEMS s
+            JOIN SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
             WHERE sd.DepartmentID = :DepartmentID AND s.IS_DELETED = 0";
 
                 using (OracleCommand cmd = new OracleCommand(query, conn))

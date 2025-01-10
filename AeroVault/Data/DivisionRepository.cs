@@ -27,7 +27,7 @@ namespace AeroVault.Data
                 await connection.OpenAsync();
                 using (var command = new OracleCommand(
                     "SELECT DivisionID, DivisionName, IsDeleted, ADDED_DATE " +
-                    "FROM c##aerovault.DIVISIONS " +
+                    "FROM DIVISIONS " +
                     "WHERE IsDeleted = 0",
                     connection))
                 {
@@ -61,7 +61,7 @@ namespace AeroVault.Data
 
             try
             {
-                string sql = "INSERT INTO c##aerovault.DIVISIONS (DivisionName) VALUES (:DivisionName)";
+                string sql = "INSERT INTO DIVISIONS (DivisionName) VALUES (:DivisionName)";
                 var parameter = new OracleParameter(":DivisionName", divisionName);
 
                 int rowsAffected = await _context.Database.ExecuteSqlRawAsync(sql, parameter);
@@ -87,7 +87,7 @@ namespace AeroVault.Data
         public async Task UpdateDivisionNameAsync(string originalName, string newDivisionName)
         {
             string sql = @"
-            UPDATE c##aerovault.DIVISIONS 
+            UPDATE DIVISIONS 
             SET DivisionName = :NewDivisionName 
             WHERE DivisionName = :OriginalName";
 
@@ -110,7 +110,7 @@ namespace AeroVault.Data
             using (var connection = new OracleConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string updateSql = "UPDATE c##aerovault.DIVISIONS SET IsDeleted = 1 WHERE DivisionID = :DivisionId";
+                string updateSql = "UPDATE DIVISIONS SET IsDeleted = 1 WHERE DivisionID = :DivisionId";
 
                 using (var command = new OracleCommand(updateSql, connection))
                 {
@@ -127,7 +127,7 @@ namespace AeroVault.Data
             using (var connection = new OracleConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string sql = "SELECT * FROM c##aerovault.DEPARTMENTS WHERE DivisionID = :DivisionID AND IS_DELETED = 0"; 
+                string sql = "SELECT * FROM DEPARTMENTS WHERE DivisionID = :DivisionID AND IS_DELETED = 0"; 
                 using (var command = new OracleCommand(sql, connection))
                 {
                     command.Parameters.Add(new OracleParameter(":DivisionID", divisionId));
