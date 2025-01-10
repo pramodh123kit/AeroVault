@@ -460,67 +460,67 @@ function filterUploadList(filter) {
     });
 }
 
-function selectCustomOption(element) {
-    var selectedDepartment = element.textContent || element.innerText;
-    var selectedOption = document.getElementById('selected-option');
-    var selectedDepartmentElement = document.getElementById('selected-department');
+//function selectCustomOption(element) {
+//    var selectedDepartment = element.textContent || element.innerText;
+//    var selectedOption = document.getElementById('selected-option');
+//    var selectedDepartmentElement = document.getElementById('selected-department');
 
-    // Update dropdown display
-    selectedOption.textContent = selectedDepartment;
-    selectedDepartmentElement.textContent = selectedDepartment;
+//    // Update dropdown display
+//    selectedOption.textContent = selectedDepartment;
+//    selectedDepartmentElement.textContent = selectedDepartment;
 
-    // Close dropdown
-    document.querySelector('.custom-dropdown-content').style.display = 'none';
-    document.querySelector('.custom-dropdown-toggle').classList.remove('open');
+//    // Close dropdown
+//    document.querySelector('.custom-dropdown-content').style.display = 'none';
+//    document.querySelector('.custom-dropdown-toggle').classList.remove('open');
 
-    // Find the department ID
-    var departmentId = element.getAttribute('data-department-id');
+//    // Find the department ID
+//    var departmentId = element.getAttribute('data-department-id');
 
-    // AJAX call to fetch systems for the selected department
-    fetch(`/UserFileRepository/GetSystemsByDepartment?departmentId=${departmentId}`)
-        .then(response => response.json())
-        .then(systems => {
-            // Clear existing systems
-            var uploadListContainer = document.getElementById('upload-list-container');
-            uploadListContainer.innerHTML = '';
+//    // AJAX call to fetch systems for the selected department
+//    fetch(`/UserFileRepository/GetSystemsByDepartment?departmentId=${departmentId}`)
+//        .then(response => response.json())
+//        .then(systems => {
+//            // Clear existing systems
+//            var uploadListContainer = document.getElementById('upload-list-container');
+//            uploadListContainer.innerHTML = '';
 
-            // Populate systems
-            if (systems && systems.length > 0) {
-                systems.forEach(system => {
-                    var systemDiv = document.createElement('div');
-                    systemDiv.className = 'upload-list-new';
-                    systemDiv.id = system.systemName;
-                    systemDiv.innerHTML = `
-                        <div class="upload-item">
-                            <div class="upload-name-all name">
-                                ${system.systemName}
-                                <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
-                                <div class="tooltip-des">${system.description}</div>
-                            </div>
-                            <div class="upload-info">
-                                <span class="upload-video">Videos: <b>0</b></span>
-                                <span class="upload-doc">Docs: <b>0</b></span>
-                            </div>
-                        </div>
-                    `;
-                    uploadListContainer.appendChild(systemDiv);
-                });
-            } else {
-                uploadListContainer.innerHTML = `
-                    <div class="upload-list-new">
-                        <div class="upload-item">
-                            <div class="upload-name-all name">
-                                No Systems Available
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching systems:', error);
-        });
-}
+//            // Populate systems
+//            if (systems && systems.length > 0) {
+//                systems.forEach(system => {
+//                    var systemDiv = document.createElement('div');
+//                    systemDiv.className = 'upload-list-new';
+//                    systemDiv.id = system.systemName;
+//                    systemDiv.innerHTML = `
+//                        <div class="upload-item">
+//                            <div class="upload-name-all name">
+//                                ${system.systemName}
+//                                <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
+//                                <div class="tooltip-des">${system.description}</div>
+//                            </div>
+//                            <div class="upload-info">
+//                                <span class="upload-video">Videos: <b>0</b></span>
+//                                <span class="upload-doc">Docs: <b>0</b></span>
+//                            </div>
+//                        </div>
+//                    `;
+//                    uploadListContainer.appendChild(systemDiv);
+//                });
+//            } else {
+//                uploadListContainer.innerHTML = `
+//                    <div class="upload-list-new">
+//                        <div class="upload-item">
+//                            <div class="upload-name-all name">
+//                                No Systems Available
+//                            </div>
+//                        </div>
+//                    </div>
+//                `;
+//            }
+//        })
+//        .catch(error => {
+//            console.error('Error fetching systems:', error);
+//        });
+//}
 
 document.addEventListener("DOMContentLoaded", function () {
     var defaultDepartment = document.getElementById('selected-option').textContent;
@@ -645,29 +645,6 @@ window.onclick = function (event) {
         }
     }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1394,14 +1371,6 @@ function filterVideoItems() {
 
 
 
-
-
-
-
-
-
-
-
 document.addEventListener("DOMContentLoaded", function () {
     // Select all view buttons
     const viewButtons = document.querySelectorAll(".action-button");
@@ -1435,36 +1404,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
-
-
-
-
-
 document.addEventListener("DOMContentLoaded", function () {
-    // Select all view buttons
-    const viewButtons = document.querySelectorAll(".action-button1");
+    // Event delegation for upload items
+    const uploadListContainer = document.getElementById("upload-list-container");
+    uploadListContainer.addEventListener("click", function (event) {
+        const item = event.target.closest(".upload-item");
+        if (item) {
+            // Handle the click on the upload item
+            const itemName = item.querySelector(".upload-name-all").childNodes[0].textContent.trim();
+            const titleElement = document.querySelector(".upload-title");
+            titleElement.textContent = itemName; // Update the title with the selected name
 
+            // Highlight the selected item
+            const uploadItems = document.querySelectorAll(".upload-item");
+            uploadItems.forEach(uploadItem => {
+                uploadItem.style.backgroundColor = "white";
+                uploadItem.querySelector(".upload-name-all").style.fontWeight = "normal";
+            });
+            item.style.backgroundColor = "#CFE5F2";
+            item.querySelector(".upload-name-all").style.fontWeight = "bold";
+        }
+    });
+
+    // Event delegation for view buttons
+    const viewButtons = document.querySelectorAll(".action-button, .action-button1");
     viewButtons.forEach(button => {
         button.addEventListener("click", function () {
-            const pdfPath = this.getAttribute("data-pdf"); // Get the PDF path from the button's data attribute
-            const overlay = document.getElementById("overlay-pdf1");
-            const pdfFrame = document.getElementById("pdf-frame1");
+            const pdfPath = this.getAttribute("data-pdf");
+            const overlayId = this.classList.contains("action-button") ? "overlay-pdf" : "overlay-pdf1";
+            const pdfFrameId = this.classList.contains("action-button") ? "pdf-frame" : "pdf-frame1";
 
-            // Set the iframe source to the PDF path
+            const overlay = document.getElementById(overlayId);
+            const pdfFrame = document.getElementById(pdfFrameId);
             pdfFrame.src = pdfPath;
-
-            // Show the overlay
             overlay.style.display = "flex";
         });
     });
 
-    // Close button logic
-    document.getElementById("close-button1").addEventListener("click", function () {
-        const overlay = document.getElementById("overlay-pdf1");
-        overlay.style.display = "none"; // Hide the overlay
-        const pdfFrame = document.getElementById("pdf-frame1");
-        pdfFrame.src = ""; // Clear the src to stop the PDF from loading
+    // Close button logic for overlays
+    document.querySelectorAll(".close-button, .close-button1").forEach(button => {
+        button.addEventListener("click", function () {
+            const overlayId = this.classList.contains("close-button") ? "overlay-pdf" : "overlay-pdf1";
+            const pdfFrameId = this.classList.contains("close-button") ? "pdf-frame" : "pdf-frame1";
+
+            const overlay = document.getElementById(overlayId);
+            overlay.style.display = "none";
+            const pdfFrame = document.getElementById(pdfFrameId);
+            pdfFrame.src = ""; // Clear the src to stop the PDF from loading
+        });
     });
 });
 
@@ -1485,6 +1472,7 @@ function selectCustomOption(element) {
     var departmentId = element.getAttribute('data-department-id');
 
     // AJAX call to fetch systems for the selected department
+    // Assuming this is part of the AJAX call where you fetch systems
     fetch(`/UserFileRepository/GetSystemsByDepartment?departmentId=${departmentId}`)
         .then(response => response.json())
         .then(systems => {
@@ -1499,30 +1487,32 @@ function selectCustomOption(element) {
                     systemDiv.className = 'upload-list-new';
                     systemDiv.id = system.systemName;
                     systemDiv.innerHTML = `
-                        <div class="upload-item">
-                            <div class="upload-name-all name">
-                                ${system.systemName}
-                                <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
-                                <div class="tooltip-des">${system.description}</div>
-                            </div>
-                            <div class="upload-info">
-                                <span class="upload-video">Videos: <b>0</b></span>
-                                <span class="upload-doc">Docs: <b>0</b></span>
-                            </div>
+                    <div class="upload-item">
+                        <div class="upload-name-all name">
+                            ${system.systemName}
+                            <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
+                            <div class="tooltip-des">${system.description}</div>
                         </div>
-                    `;
-                    uploadListContainer.appendChild(systemDiv);
-                });
-            } else {
-                uploadListContainer.innerHTML = `
-                    <div class="upload-list-new">
-                        <div class="upload-item">
-                            <div class="upload-name-all name">
-                                No Systems Available
-                            </div>
+                        <div class="upload-info">
+                            <span class="upload-video">Videos: <b>0</b></span>
+                            <span class="upload-doc">Docs: <b>0</b></span>
                         </div>
                     </div>
                 `;
+                    uploadListContainer.appendChild(systemDiv);
+                });
+            } else {
+                // Display "No Systems Available"
+                uploadListContainer.innerHTML = `
+                <div class="upload-list-new">
+                    <div class="upload-item">
+                        <div class="upload-name-all name no-click"> <!-- Add the no-click class here -->
+                            No Systems Available
+                        </div>
+                    </div>
+                </div>
+            `;
+                
             }
         })
         .catch(error => {
@@ -1530,3 +1520,5 @@ function selectCustomOption(element) {
             // Handle error - maybe show an error message
         });
 }
+
+
