@@ -1,8 +1,10 @@
 using AeroVault.Models;
 using Microsoft.EntityFrameworkCore;
+using Oracle.ManagedDataAccess.Client;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Oracle.ManagedDataAccess.Client;
+using Microsoft.Extensions.Configuration; // Make sure to include this namespace
 
 namespace AeroVault.Data
 {
@@ -11,12 +13,12 @@ namespace AeroVault.Data
         private readonly string _connectionString;
         private readonly ApplicationDbContext _context;
 
-        public DivisionRepository(ApplicationDbContext context)
+        // Update the constructor to accept IConfiguration
+        public DivisionRepository(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
-            _connectionString = "User Id=c##aerovault;Password=123;Data Source=localhost:1521/xe;";
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
-
 
         public async Task<List<DivisionModel>> GetAllDivisionsAsync()
         {

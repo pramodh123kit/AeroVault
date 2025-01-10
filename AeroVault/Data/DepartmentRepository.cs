@@ -4,6 +4,7 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration; // Make sure to include this namespace
 
 namespace AeroVault.Repositories
 {
@@ -12,10 +13,10 @@ namespace AeroVault.Repositories
         private readonly string _connectionString;
         private readonly ApplicationDbContext _context;
 
-        public DepartmentRepository(ApplicationDbContext context)
+        public DepartmentRepository(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
-            _connectionString = "User Id=c##aerovault;Password=123;Data Source=localhost:1521/xe;";
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         public async Task<List<DepartmentModel>> GetAllDepartmentsAsync()
