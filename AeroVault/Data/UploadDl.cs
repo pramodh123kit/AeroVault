@@ -1,16 +1,29 @@
 ﻿using AeroVault.Models;
+
 using Oracle.ManagedDataAccess.Client;
 
+using Microsoft.Extensions.Configuration; // Make sure to include this namespace
+
+
 namespace AeroVault.Data
+
 {
+
     public class UploadDl
+
     {
+
         private readonly string _connectionString;
 
-        public UploadDl()
+
+        // Update the constructor to accept IConfiguration
+
+        public UploadDl(IConfiguration configuration)
+
         {
-            // Hardcoded connection string (same as in your DivisionRepository)
-            _connectionString = "User Id=c##aerovault;Password=123;Data Source=localhost:1521/xe;";
+
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
+
         }
 
         public List<DepartmentModel> GetActiveDepartments()

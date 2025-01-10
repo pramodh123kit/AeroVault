@@ -4,17 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using AeroVault.Models;
 using AeroVault.Business;
+using AeroVault.Services;
 
 namespace AeroVault.Controllers
 {
-    public class SystemsController : Controller
+    public class SystemsController : BaseAdminController
+
     {
         private readonly SystemService _systemService;
 
-        public SystemsController(SystemService systemService)
+
+        public SystemsController(ApplicationDbContext context, SystemService systemService) : base(context)
         {
             _systemService = systemService;
         }
+
+
+
 
         public async Task<IActionResult> Index()
         {

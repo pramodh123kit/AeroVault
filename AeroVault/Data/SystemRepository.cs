@@ -11,12 +11,13 @@ namespace AeroVault.Data
 {
     public class SystemRepository
     {
+        private readonly string _connectionString;
         private readonly ApplicationDbContext _context;
-        private readonly string _connectionString = "User Id=c##aerovault;Password=123;Data Source=localhost:1521/xe;";
 
-        public SystemRepository(ApplicationDbContext context)
+        public SystemRepository(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         public async Task<List<SystemModel>> GetAllSystemsAsync()
