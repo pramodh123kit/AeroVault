@@ -31,5 +31,9 @@ namespace AeroVault.Business
         {
             return _uploadDl.GetActiveSystemsByDepartment(departmentId);
         }
+        public List<FileModel> GetAllFiles()
+        {
+            return _uploadDl.GetAllFiles();
+        }
     }
 }
