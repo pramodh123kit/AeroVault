@@ -16,179 +16,164 @@
         <div class="reviewtitle">
             Select a Department to Review System Activity
         </div>
-        <div class="reviewsidebar">
+        
 
-            <div class="search-box">
-                <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
-                <input id="searchInput" onkeyup="filterDepartments()" placeholder="Search Department" type="text" />
+            <div class="status-form-group">
+                <label class="status-label" for="status-selector">Select Department</label>
+                <div class="status-dropdown">
+                    <div class="status-dropdown-toggle status-selector" onclick="toggleStatusDropdown()">
+                        <span id="selected-status">Information Technology</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="status-dropdown-content">
+                        <div class="status-search-container">
+                            <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                            <input type="text" id="status-search-input" placeholder="Search Status"
+                                onkeyup="filterStatusOptions()" onclick="event.stopPropagation()">
+                        </div>
+                        <div class="status-dropdown-list">
+                            <div onclick="selectStatusOption(this)" class="active">Information Technology</div>
+                            <div onclick="selectStatusOption(this)">Human Resource</div>
+                            <div onclick="selectStatusOption(this)">Flight Operations</div>
+                            <div onclick="selectStatusOption(this)">Safety and Security</div>
+                            <div onclick="selectStatusOption(this)">Finance</div>
+                            <div onclick="selectStatusOption(this)">Marketing</div>
+                            <div onclick="selectStatusOption(this)">Customer Service</div>
+                            <div onclick="selectStatusOption(this)">Logistics</div>
+                            <div onclick="selectStatusOption(this)">Procurement</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <ul class="department-list " id="departmentList">
-                <li onclick="toggleReviewDropdown(event)">
-                    <i class="fas fa-chevron-right icon"></i> Human Resources
-                    <ul class="reviewdropdown">
-                        <li onclick="loadReviewContent('System 1', this.parentElement.parentElement, this)">
-                            System 1
-                        </li>
-                        <li onclick="loadReviewContent('System 1', this.parentElement.parentElement, this)">
-                            System 2
-                        </li>
-                        <li onclick="loadReviewContent('System 1', this.parentElement.parentElement, this)">
-                            System 3
-                        </li>
-                    </ul>
-                </li>
-                <li onclick="toggleReviewDropdown(event)">
-                    <i class="fas fa-chevron-right icon"></i> Engineering &amp; Maintenance
-                    <ul class="reviewdropdown">
-                        <li
-                            onclick="loadReviewContent('engineering_systemA.html', this.parentElement.parentElement, this)">
-                            System A
-                        </li>
-                        <li
-                            onclick="loadReviewContent('engineering_systemB.html', this.parentElement.parentElement, this)">
-                            System B
-                        </li>
-                        <li
-                            onclick="loadReviewContent('engineering_systemC.html', this.parentElement.parentElement, this)">
-                            System C
-                        </li>
-                    </ul>
-                </li>
-                <li onclick="toggleReviewDropdown(event)">
-                    <i class="fas fa-chevron-right icon"></i> Information Technology
-                    <ul class="reviewdropdown">
-                        <li onclick="loadReviewContent('it_systemX.html', this.parentElement.parentElement, this)">
-                            System X
-                        </li>
-                        <li onclick="loadReviewContent('it_systemY.html', this.parentElement.parentElement, this)">
-                            System Y
-                        </li>
-                        <li onclick="loadReviewContent('it_systemZ.html', this.parentElement.parentElement, this)">
-                            System Z
-                        </li>
-                    </ul>
-                </li>
-                <li onclick="toggleReviewDropdown(event)">
-                    <i class="fas fa-chevron-right icon"></i> Ground Handling
-                    <ul class="reviewdropdown">
-                        <li
-                            onclick="loadReviewContent('ground_handling_systemAlpha.html', this.parentElement.parentElement, this)">
-                            System Alpha
-                        </li>
-                        <li
-                            onclick="loadReviewContent('ground_handling_systemBeta.html', this.parentElement.parentElement, this)">
-                            System Beta
-                        </li>
-                        <li
-                            onclick="loadReviewContent('ground_handling_systemGamma.html', this.parentElement.parentElement, this)">
-                            System Gamma
-                        </li>
-                    </ul>
-                </li>
-                <li onclick="toggleReviewDropdown(event)">
-                    <i class="fas fa-chevron-right icon"></i> Flight Operations
-                    <ul class="reviewdropdown">
-                        <li
-                            onclick="loadReviewContent('flight_operations_system1.html', this.parentElement.parentElement, this)">
-                            System 1
-                        </li>
-                        <li
-                            onclick="loadReviewContent('flight_operations_system2.html', this.parentElement.parentElement, this)">
-                            System 2
-                        </li>
-                        <li
-                            onclick="loadReviewContent('flight_operations_system3.html', this.parentElement.parentElement, this)">
-                            System 3
-                        </li>
-                    </ul>
-                </li>
-                <li onclick="toggleReviewDropdown(event)">
-                    <i class="fas fa-chevron-right icon"></i> Cabin Crew
-                    <ul class="reviewdropdown">
-                        <li
-                            onclick="loadReviewContent('cabin_crew_systemA.html', this.parentElement.parentElement, this)">
-                            System A
-                        </li>
-                        <li
-                            onclick="loadReviewContent('cabin_crew_systemB.html', this.parentElement.parentElement, this)">
-                            System B
-                        </li>
-                        <li
-                            onclick="loadReviewContent('cabin_crew_systemC.html', this.parentElement.parentElement, this)">
-                            System C
-                        </li>
-                    </ul>
-                </li>
-                <li onclick="toggleReviewDropdown(event)">
-                    <i class="fas fa-chevron-right icon"></i> Cargo Operations
-                    <ul class="reviewdropdown">
-                        <li
-                            onclick="loadReviewContent('cargo_operations_systemX.html', this.parentElement.parentElement, this)">
-                            System X
-                        </li>
-                        <li
-                            onclick="loadReviewContent('cargo_operations_systemY.html', this.parentElement.parentElement, this)">
-                            System Y
-                        </li>
-                        <li
-                            onclick="loadReviewContent('cargo_operations_systemZ.html', this.parentElement.parentElement, this)">
-                            System Z
-                        </li>
-                    </ul>
-                </li>
-                <li onclick="toggleReviewDropdown(event)">
-                    <i class="fas fa-chevron-right icon"></i> Customer Service
-                    <ul class="reviewdropdown">
-                        <li
-                            onclick="loadReviewContent('customer_service_systemAlpha.html', this.parentElement.parentElement, this)">
-                            System Alpha
-                        </li>
-                        <li
-                            onclick="loadReviewContent('customer_service_systemBeta.html', this.parentElement.parentElement, this)">
-                            System Beta
-                        </li>
-                        <li
-                            onclick="loadReviewContent('customer_service_systemGamma.html', this.parentElement.parentElement, this)">
-                            System Gamma
-                        </li>
-                    </ul>
-                </li>
-                <li onclick="toggleReviewDropdown(event)">
-                    <i class="fas fa-chevron-right icon"></i> Sales &amp; Marketing
-                    <ul class="reviewdropdown">
-                        <li
-                            onclick="loadReviewContent('sales_marketing_system1.html', this.parentElement.parentElement, this)">
-                            System 1
-                        </li>
-                        <li
-                            onclick="loadReviewContent('sales_marketing_system2.html', this.parentElement.parentElement, this)">
-                            System 2
-                        </li>
-                        <li
-                            onclick="loadReviewContent('sales_marketing_system3.html', this.parentElement.parentElement, this)">
-                            System 3
-                        </li>
-                    </ul>
-                </li>
-                <li onclick="toggleReviewDropdown(event)">
-                    <i class="fas fa-chevron-right icon"></i> Finance &amp; Accounting
-                    <ul class="reviewdropdown">
-                        <li
-                            onclick="loadReviewContent('finance_accounting_systemA.html', this.parentElement.parentElement, this)">
-                            System A
-                        </li>
-                        <li
-                            onclick="loadReviewContent('finance_accounting_systemB.html', this.parentElement.parentElement, this)">
-                            System B
-                        </li>
-                        <li
-                            onclick="loadReviewContent('finance_accounting_systemC.html', this.parentElement.parentElement, this)">
-                            System C
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+
+            <div class="staffViewSidebar">
+                <div class="search-box-staff">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInputStaff" onkeyup="filterStaffViewSidebar()"
+                        placeholder="Search System">
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('System 1', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>System 1</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('System 2', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>System 2</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('System 3', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>System 3</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('engineering_systemA.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>System A</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('engineering_systemB.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>System B</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('engineering_systemC.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>System C</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('it_systemX.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>System X</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('it_systemY.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>System Y</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('it_systemZ.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>System Z</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('ground_handling_systemAlpha.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>System Alpha</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('ground_handling_systemBeta.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>System Beta</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('ground_handling_systemGamma.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>System Gamma</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('flight_operations_system1.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>Flight Operations System 1</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('flight_operations_system2.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>Flight Operations System 2</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('flight_operations_system3.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>Flight Operations System 3</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('cabin_crew_systemA.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>Cabin Crew System A</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('cabin_crew_systemB.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>Cabin Crew System B</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('cabin_crew_systemC.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>Cabin Crew System C</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('cargo_operations_systemX.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>Cargo Management System X</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('cargo_operations_systemY.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>Cargo Management System Y</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('cargo_operations_systemZ.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>Cargo Management System Z</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('customer_service_systemAlpha.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>Customer Service System Alpha</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('customer_service_systemBeta.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>Customer Service System Beta</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('customer_service_systemGamma.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>Customer Service System Gamma</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('sales_marketing_system1.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>Sales & Marketing System 1</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('sales_marketing_system2.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>Sales & Marketing System 2</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('sales_marketing_system3.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>Sales & Marketing System 3</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('finance_accounting_systemA.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>Finance & Accounting System A</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('finance_accounting_systemB.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>Finance & Accounting System B</span>
+                </div>
+                <div class="menu-item" onclick="loadReviewContent('finance_accounting_systemC.html', this)">
+                    <i class="fas fa-folder"></i>
+                    <span>Finance & Accounting System C</span>
+                </div>
+            </div>
+        
     </div>
     <div class="reviewcontent" id="system-view-reviewcontent">
         <div class="default-view">
