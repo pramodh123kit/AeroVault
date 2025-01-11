@@ -758,21 +758,36 @@ function updateDivisionHeaderStyle(division) {
 
     // Add these functions to your Adminuploadpopup.js file
 
-    function updateSystemDivisionHeaderStyle(division) {
-        const divisionHeader = division.querySelector(".division-header");
-        const systemCheckboxes = division.querySelectorAll(".system");
-
-        // Check if any system in this division is checked
-        const hasSelectedSystems = Array.from(systemCheckboxes).some(
-            (checkbox) => checkbox.checked
-        );
-
-        if (hasSelectedSystems) {
-            divisionHeader.style.backgroundColor = "#d5ebfe";
-        } else {
-            divisionHeader.style.backgroundColor = "#e9e9ef";
-        }
+function updateSystemDivisionHeaderStyle(division) {
+    if (!division) {
+        console.error("No division element provided to updateSystemDivisionHeaderStyle.");
+        return; // Exit if division is null
     }
+
+    const divisionHeader = division.querySelector(".step2-division-header");
+    const systemCheckboxes = division.querySelectorAll(".system");
+    const selectedCountElement = division.querySelector(".selected-count-sys");
+
+    // Check if any system in this division is checked
+    const hasSelectedSystems = Array.from(systemCheckboxes).some(checkbox => checkbox.checked);
+
+    // Log the state of the systems
+    console.log(`Division: ${divisionHeader.querySelector('.division-name').textContent}`);
+    console.log(`Has selected systems: ${hasSelectedSystems}`);
+
+    // Update background color based on system selection only
+    if (hasSelectedSystems) {
+        divisionHeader.style.backgroundColor = "#d5ebfe"; // Set background color if any system is checked
+        divisionHeader.classList.add('active');
+    } else {
+        divisionHeader.style.backgroundColor = "#e9e9ef"; // Reset background color if no systems are checked
+        divisionHeader.classList.remove('active');
+    }
+
+    // Update selected count
+    const selectedCount = Array.from(systemCheckboxes).filter(checkbox => checkbox.checked).length;
+    selectedCountElement.textContent = selectedCount > 0 ? selectedCount : "";
+}
 
     function updateSystemSelectedCount(division) {
         const selectedCountElement = division.querySelector(".selected-count");
@@ -817,16 +832,15 @@ function updateDivisionHeaderStyle(division) {
         });
     });
 
-    // Initialize system division styles on page load for step 2
-    document.addEventListener("DOMContentLoaded", () => {
-        const step2Content = document.querySelector(".step-2-content");
-        if (step2Content) {
-            step2Content.querySelectorAll(".division").forEach((division) => {
-                updateSystemDivisionHeaderStyle(division);
-                updateSystemSelectedCount(division);
-            });
-        }
-    });
+document.addEventListener("DOMContentLoaded", () => {
+    const step2Content = document.querySelector(".step-2-content");
+    if (step2Content) {
+        step2Content.querySelectorAll(".division1").forEach((division) => {
+            updateSystemDivisionHeaderStyle(division);
+        });
+        attachSystemCheckboxListeners(); // Attach listeners for existing checkboxes
+    }
+});
 
 
     function toggleSelectAll(selectAllCheckbox) {
@@ -891,7 +905,7 @@ function fetchSystems(departmentCheckbox) {
         fetch(`/Upload/GetSystemsByDepartment?departmentId=${departmentId}`)
             .then(response => response.json())
             .then(systems => {
-                console.log(`Fetched systems for department ID ${departmentId}:`, systems); // Debugging line
+                console.log(`Fetched systems for department ID ${departmentId}:`, systems);
                 const departmentDiv = systemsContainer.querySelector(`.system-list[data-department-id="${departmentId}"]`);
 
                 if (departmentDiv) {
@@ -909,7 +923,7 @@ function fetchSystems(departmentCheckbox) {
                     if (systems.length > 0) {
                         systems.forEach(system => {
                             const systemDiv = document.createElement('div');
-                            systemDiv.classList.add('system');
+                            systemDiv.classList.add('system-item');
                             systemDiv.innerHTML = `
                                 <label>
                                     <input type="checkbox" class="system" data-system-id="${system.systemID}"> ${system.systemName}
@@ -917,6 +931,9 @@ function fetchSystems(departmentCheckbox) {
                             `;
                             departmentDiv.appendChild(systemDiv);
                         });
+
+                        // Attach event listeners for the newly created system checkboxes
+                        attachSystemCheckboxListeners();
                     } else {
                         departmentDiv.innerHTML = '<span>No systems available</span>';
                     }
@@ -957,20 +974,16 @@ function toggleDivision(header) {
 
         icon.classList.replace("fa-chevron-right", "fa-chevron-down");
 
+    }
 
-        // Check if systems have already been loaded
 
-        const systemList = divisionContent.querySelector('.system-list');
+    // Update the style based on system selections only
 
-        if (systemList.innerHTML === "No systems available") {
+    const division = header.closest('.division1');
 
-            // Fetch systems for the department if not already loaded
+    if (division) {
 
-            const departmentId = systemList.getAttribute('data-department-id');
-
-            fetchSystems({ getAttribute: () => departmentId, checked: true }); // Simulate a checked department
-
-        }
+        updateSystemDivisionHeaderStyle(division);
 
     }
 
@@ -1033,27 +1046,44 @@ function updateSelectedCount1(division1) {
 }
 
 
-// Add event listeners for system checkboxes in Step 2
-// Add event listeners for system checkboxes in Step 2
 document.querySelectorAll(".step-2-content .system").forEach((systemCheckbox) => {
     systemCheckbox.addEventListener("change", (event) => {
-        const division = event.target.closest(".division1"); // Use the new division class
-        updateSystemDivisionHeaderStyle(division); // Update header style based on system selection
-        updateSelectedCount1(division); // Update selected count and header background color
+        const division = event.target.closest(".division1");
+        console.log(`Checkbox changed: ${event.target.dataset.systemId}, Checked: ${event.target.checked}`); // Log checkbox state
+        console.log("Checkbox parent hierarchy:", event.target.parentElement); // Log the immediate parent
+        console.log("Division found:", division); // Log the division element
 
-        // Log the entire division and the count of selected systems
-        const selectedCountElement = division.querySelector(".selected-count-sys");
-        console.log("Division:", division); // Log the entire division
-        console.log("Selected systems count:", selectedCountElement.textContent); // Log the count
+        if (division) {
+            updateSystemDivisionHeaderStyle(division);
+        } else {
+            console.error("Division not found for the checkbox.");
+        }
     });
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+
     const step2Content = document.querySelector(".step-2-content");
+
     if (step2Content) {
+
         step2Content.querySelectorAll(".division1").forEach((division) => {
-            updateSystemDivisionHeaderStyle(division); // Update header style based on system selection
-            updateSelectedCount1(division); // Initialize the count display
+
+            updateSystemDivisionHeaderStyle(division);
+
         });
+
     }
+
 });
+
+
+function attachSystemCheckboxListeners() {
+    document.querySelectorAll(".step-2-content .system").forEach((systemCheckbox) => {
+        systemCheckbox.addEventListener("change", (event) => {
+            const division = event.target.closest(".division1");
+            console.log(`Checkbox changed: ${event.target.dataset.systemId}, Checked: ${event.target.checked}`); // Log checkbox state
+            updateSystemDivisionHeaderStyle(division);
+        });
+    });
+}
