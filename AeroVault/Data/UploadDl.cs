@@ -184,5 +184,76 @@ namespace AeroVault.Data
 
             return systems;
         }
+
+
+
+        public List<FileModel> GetAllFiles()
+        {
+            var files = new List<FileModel>();
+
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                connection.Open();
+                var query = @"
+            SELECT 
+                f.FileID, 
+                f.SystemID, 
+                f.FileName, 
+                f.FileType, 
+                f.FileCategory, 
+                f.FilePath, 
+                f.Added_Date,
+                s.SystemName,
+                LISTAGG(d.DepartmentName, ', ') WITHIN GROUP (ORDER BY d.DepartmentName) AS DepartmentNames,
+                COUNT(d.DepartmentID) AS DepartmentCount
+            FROM 
+                Files f
+            JOIN 
+                Systems s ON f.SystemID = s.SystemID
+            LEFT JOIN 
+                System_Departments sd ON s.SystemID = sd.SystemID
+            LEFT JOIN 
+                Departments d ON sd.DepartmentID = d.DepartmentID AND d.IS_DELETED = 0  -- Exclude deleted departments
+            WHERE 
+                s.IS_DELETED = 0  -- Exclude deleted systems
+            GROUP BY 
+                f.FileID, f.SystemID, f.FileName, f.FileType, f.FileCategory, f.FilePath, f.Added_Date, s.SystemName
+            ORDER BY 
+                f.Added_Date DESC";
+
+                using (var command = new OracleCommand(query, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var fileModel = new FileModel
+                            {
+                                FileID = Convert.ToInt32(reader["FileID"]),
+                                SystemID = Convert.ToInt32(reader["SystemID"]),
+                                FileName = reader["FileName"].ToString(),
+                                FileType = reader["FileType"] != DBNull.Value ? reader["FileType"].ToString() : string.Empty,
+                                FileCategory = reader["FileCategory"] != DBNull.Value ? reader["FileCategory"].ToString() : string.Empty,
+                                FilePath = reader["FilePath"] != DBNull.Value ? reader["FilePath"].ToString() : string.Empty,
+                                AddedDate = reader["Added_Date"] != DBNull.Value ? Convert.ToDateTime(reader["Added_Date"]) : (DateTime?)null,
+                                System = new SystemModel
+                                {
+                                    SystemID = Convert.ToInt32(reader["SystemID"]),
+                                    SystemName = reader["SystemName"].ToString()
+                                },
+                                DepartmentNames = reader["DepartmentNames"].ToString() // Populate the DepartmentNames property
+                            };
+
+                            // Set DepartmentName based on the count of departments
+                            fileModel.DepartmentName = Convert.ToInt32(reader["DepartmentCount"]) > 1 ? "Multi-Departmental" : fileModel.DepartmentNames;
+
+                            files.Add(fileModel);
+                        }
+                    }
+                }
+            }
+
+            return files;
+        }
     }
 }

@@ -546,3 +546,79 @@ document.addEventListener("click", function () {
     const tooltip = document.querySelector(".tooltip");
     tooltip.style.display = "none"; // Hide the tooltip
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function showDepartmentTooltip(event, departmentNames) {
+
+    const tooltip = document.getElementById('departmentTooltip');
+
+    const departments = departmentNames.split(', '); // Split the department names into an array
+
+
+    // Log the department names to the console
+
+    console.log("Department Names:", departmentNames);
+
+
+    // Populate the tooltip with department names
+
+    tooltip.innerHTML = "<ul>" + departments.map(dept => `<li>${dept}</li>`).join('') + "</ul>";
+
+
+
+    // Position the tooltip
+
+    tooltip.style.display = "block";
+
+    tooltip.style.position = "absolute";
+
+    tooltip.style.top = `${event.clientY}px`;
+
+    tooltip.style.left = `${event.clientX + 10}px`; // Adjust position as needed
+
+
+    // Optional: Add a small delay to hide the tooltip when clicking outside
+
+    setTimeout(() => {
+
+        document.addEventListener('click', function (e) {
+
+            if (!tooltip.contains(e.target) && !event.target.classList.contains('multi-departmental')) {
+
+                tooltip.style.display = 'none';
+
+            }
+
+        }, { once: true }); // Use { once: true } to remove the event listener after it runs
+
+    }, 0);
+
+}
+
+
+// Hide tooltip when clicking outside
+
+document.addEventListener('click', function (event) {
+
+    const tooltip = document.getElementById('departmentTooltip');
+
+    if (!tooltip.contains(event.target) && !event.target.classList.contains('multi-departmental')) {
+
+        tooltip.style.display = 'none'; // Hide the tooltip
+
+    }
+
+});

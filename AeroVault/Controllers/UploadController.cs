@@ -16,18 +16,12 @@ public class UploadController : BaseAdminController
 
     public IActionResult Index()
     {
-        // Fetch active divisions
-        var activeDivisions = _uploadBl.GetActiveDivisions();
-
-        // Fetch active departments
-        var activeDepartments = _uploadBl.GetActiveDepartments();
-
-        // Create a view model
         var viewModel = new DepartmentViewModel
         {
-            Divisions = activeDivisions,
-            Departments = activeDepartments,
-            Systems = _uploadBl.GetActiveSystems() // Assuming you want to keep this as well
+            Divisions = _uploadBl.GetActiveDivisions(),
+            Departments = _uploadBl.GetActiveDepartments(),
+            Systems = _uploadBl.GetActiveSystems(),
+            Files = _uploadBl.GetAllFiles() ?? new List<FileModel>() // Ensure it's never null
         };
 
         return PartialView("~/Views/Admin/_Upload.cshtml", viewModel);

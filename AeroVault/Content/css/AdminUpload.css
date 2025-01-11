@@ -7,6 +7,7 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
+    height:100%;
 
 }
 
@@ -127,6 +128,7 @@
     overflow-y: auto;
     overflow-x: auto;
     max-height: calc(100vh - 340px);
+    height:100vh;
 }
 
 .file-table {
@@ -727,4 +729,38 @@
 
     .system-dropdown-list::-webkit-scrollbar-track {
         background: transparent; /* No background for the track */
+    }
+
+
+.multi-departmental {
+    text-decoration: underline;
+    cursor: pointer;
+    color: black; /* Change color as needed */
+}
+
+
+
+
+
+
+.tooltip {
+    border: 1px solid #ccc;
+    background-color: #000;
+    padding: 10px;
+    color:white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: none; 
+    width: 200px; 
+    border-radius: 5px; 
+}
+
+    .tooltip ul {
+        list-style-type: none; /* Remove bullet points */
+        padding: 0; /* Remove padding */
+        margin: 0; /* Remove margin */
+    }
+
+    .tooltip li {
+        padding: 5px 0; /* Add some padding to list items */
     }
