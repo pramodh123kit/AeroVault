@@ -89,21 +89,32 @@ function toggleReviewDropdown(event) {
 }
 
 function loadReviewContent(systemName, department, system) {
-    document.querySelector('.default-view').style.display = 'none';
+    // Hide the default view and show the review table
+    document.querySelector('.default-view').style.display = 'none'; // Hide the image
     const systemReviewTable = document.getElementById('system-review-table');
-    systemReviewTable.style.display = 'block';
+    systemReviewTable.style.display = 'block'; // Show the table
+
+    // Update the header with the selected department and system name
     const headerElement = document.getElementById('system-header');
     const departmentName = department.querySelector(':scope > :first-child').textContent.trim();
     headerElement.innerHTML = `<b>${departmentName} / </b>${systemName}`;
-    var departments = document.querySelectorAll('.department-list li');
+
+    // Remove the active class from all department items
+    var departments = document.querySelectorAll('.reviewsidebar-reviewcontainer .menu-item');
     departments.forEach(function (dept) {
         dept.classList.remove('active');
     });
+
+    // Add the active class to the currently selected department
     department.classList.add('active');
+
+    // Remove the active class from all system items
     var systems = department.querySelectorAll('.reviewdropdown li');
     systems.forEach(function (sys) {
         sys.classList.remove('active');
     });
+
+    // Add the active class to the currently selected system
     system.classList.add('active');
 }
 
@@ -317,22 +328,21 @@ function filterStaffViewSidebar() {
 function staffViewDropdown() {
     var cardBody = document.getElementById('staff-card-body');
     var dropdownIcon = document.getElementById('staff-dropdown-icon');
-    if (cardBody.style.maxHeight === '0px' || cardBody.style.maxHeight === '') {
-        cardBody.style.maxHeight = cardBody.scrollHeight + "5px";
-        cardBody.style.borderTop = '2px solid #ddd'; /* Increased border size */
-        cardBody.style.padding = '10px'; /* Increased padding */
-        dropdownIcon.classList.remove('fa-chevron-down');
-        dropdownIcon.classList.add('fa-chevron-up');
-    } else {
-        cardBody.style.maxHeight = '0px';
-        cardBody.style.borderTop = 'none';
-        cardBody.style.padding = '0 0px'; /* Reset padding */
+
+    if (cardBody.classList.contains('expanded')) {
+        // Collapse the card
+        cardBody.classList.remove('expanded');
+        cardBody.style.maxHeight = '0px'; // Collapse the height
         dropdownIcon.classList.remove('fa-chevron-up');
         dropdownIcon.classList.add('fa-chevron-down');
+    } else {
+        // Expand the card
+        cardBody.classList.add('expanded');
+        cardBody.style.maxHeight = cardBody.scrollHeight + "px"; // Set to the scroll height
+        dropdownIcon.classList.remove('fa-chevron-down');
+        dropdownIcon.classList.add('fa-chevron-up');
     }
 }
-
-
 
 
 
@@ -386,3 +396,94 @@ function staffViewActive(event) {
     showFlightPlanningTable();
 }
 
+function toggleStatusDropdown() {
+    var dropdownContent = document.querySelector('.status-dropdown-content');
+    var dropdownToggle = document.querySelector('.status-dropdown-toggle');
+    var selector = document.querySelector('.status-selector');
+
+    if (dropdownContent.style.display === 'block') {
+        dropdownContent.style.display = 'none';
+        dropdownToggle.classList.remove('open');
+
+        selector.style.borderBottomLeftRadius = '10px';
+        selector.style.borderBottomRightRadius = '10px';
+        selector.style.borderBottom = '1px solid #6D6D6D';
+    } else {
+        dropdownContent.style.display = 'block';
+        dropdownToggle.classList.add('open');
+
+        selector.style.borderBottomLeftRadius = '0';
+        selector.style.borderBottomRightRadius = '0';
+        selector.style.borderBottom = 'none';
+        document.getElementById('status-search-input').value = '';
+        showAllStatusOptions();
+    }
+}
+
+function filterStatusOptions() {
+    var input, filter, div, i, txtValue;
+    input = document.getElementById('status-search-input');
+    filter = input.value.toUpperCase();
+    div = document.querySelectorAll('.status-dropdown-list div');
+    for (i = 0; i < div.length; i++) {
+        txtValue = div[i].textContent || div[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            div[i].style.display = "";
+        } else {
+            div[i].style.display = "none";
+        }
+    }
+}
+
+function selectStatusOption(element) {
+    var selectedStatus = element.textContent || element.innerText;
+    document.getElementById('selected-status').textContent = selectedStatus;
+    document.querySelector('.status-dropdown-content').style.display = 'none';
+    document.querySelector('.status-dropdown-toggle').classList.remove('open');
+
+    var selector = document.querySelector('.status-selector');
+    selector.style.borderBottomLeftRadius = '10px';
+    selector.style.borderBottomRightRadius = '10px';
+    selector.style.borderBottom = '1px solid #6D6D6D';
+
+    var divs = document.querySelectorAll('.status-dropdown-list div');
+    divs.forEach(function (div) {
+        div.classList.remove('active');
+    });
+    element.classList.add('active');
+}
+
+function showAllStatusOptions() {
+    var divs = document.querySelectorAll('.status-dropdown-list div');
+    divs.forEach(function (div) {
+        div.style.display = "";
+    });
+}
+
+document.getElementById('status-search-input').addEventListener('blur', function () {
+    const selector = document.querySelector('.status-selector');
+
+    selector.style.borderBottomLeftRadius = '10px';
+    selector.style.borderBottomRightRadius = '10px';
+
+    selector.style.border = '1px solid #6D6D6D';
+});
+
+window.onclick = function (event) {
+    const dropdownContent = document.querySelector('.status-dropdown-content');
+    const selector = document.querySelector('.status-selector');
+
+    if (!event.target.matches('.status-dropdown-toggle') && !event.target.matches('.status-dropdown-toggle *') && !event.target.matches('#status-search-input')) {
+
+        if (dropdownContent.style.display === 'block') {
+            dropdownContent.style.display = 'none';
+            document.getElementById('status-search-input').value = '';
+            filterStatusOptions();
+            document.querySelector('.status-dropdown-toggle').classList.remove('open');
+
+            selector.style.borderBottomLeftRadius = '10px';
+            selector.style.borderBottomRightRadius = '10px';
+            selector.style.borderBottom = '1px solid #6D6D6D';
+        }
+    }
+};

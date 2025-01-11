@@ -15,17 +15,11 @@
 .reviewsidebar-reviewcontainer {
     display: flex;
     flex-direction: column;
- 
     background-color: #fff;
     position: relative;
 }
 
-.reviewsidebar {
-    flex-grow: 1;
-    padding: 10px;
-    overflow-y: auto;
-    border-right: 1px solid #585656;
-}
+
 
 .reviewcontent {
     flex-grow: 1; /* Allow it to grow and fill available space */
@@ -87,7 +81,7 @@
 
 
 
-.department-list {
+/* .department-list {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -101,7 +95,7 @@
     .department-list li i {
         margin-right: 5px;
         margin-left: 5px;
-        transition: transform 0.3s ease; /* Smooth icon rotation */
+        transition: transform 0.3s ease; 
     }
     .department-list li.active {
         background-color: #DEF1FF;
@@ -110,7 +104,7 @@
     }
     .department-list > li {
         padding: 15px 0 15px 0;
-        border-bottom: 1px solid #ddd; /* Bottom border only for department-list items */
+        border-bottom: 1px solid #ddd; 
         cursor: pointer;
         position: relative;
         display: block; 
@@ -120,7 +114,7 @@
     .department-list li.open > i {
         transform: rotate(90deg);
 
-    }
+    } */
 
 .reviewdropdown {
     display: none;
@@ -174,19 +168,122 @@
         transform: rotate(90deg);
     }
 /* Custom scrollbar styles */
-.reviewsidebar::-webkit-scrollbar {
-    width: 10px;
+
+
+
+
+
+
+.status-form-group {
+    margin-bottom: 0px;
+    width: 300px;
+    padding-left: 20px;
     
 }
 
-.reviewsidebar::-webkit-scrollbar-track {
-    background: #fff;
+.status-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-top: 10px;
 }
 
-.reviewsidebar::-webkit-scrollbar-thumb {
+.status-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 100%;
+    border: 1px solid #6D6D6D;
+    border-top: none;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 1;
+}
+
+.status-dropdown-list {
+    height: 150px;
+    overflow-y: scroll;
+}
+
+.status-dropdown-list::-webkit-scrollbar {
+    width: 10px;
+    background-color: #fff;
+}
+
+.status-dropdown-list::-webkit-scrollbar-thumb {
     background-color: #135176;
     border-radius: 100px;
     height: 20px;
+}
+
+.status-dropdown-list div {
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.status-dropdown-list div:hover {
+    background-color: #BBDCF9;
+}
+
+.status-dropdown-list .active {
+    font-weight: bold;
+}
+
+.status-dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #6D6D6D;
+    border-bottom: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.status-dropdown-toggle i {
+    margin-left: 10px;
+    transition: transform 0.3s;
+}
+
+.status-dropdown-toggle.open i {
+    transform: rotate(180deg);
+}
+
+.status-selector {
+    border: 1px solid #6D6D6D;
+    border-radius: 10px;
+}
+
+.status-search-container {
+    display: flex;
+    border-bottom: 1px solid #938C8C;
+    margin: 20px;
+    margin-top: 0px;
+}
+
+.status-search-container img {
+    color: #999;
+    margin-right: 5px;
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+.status-search-container input {
+    border: none;
+    color: #000;
+    font-size: 16px;
+    outline: none;
+    flex: 1;
+    padding: 5px;
+}
+
+#status-search-input {
+    margin-left: 0px;
+    border: none;
+}
+
+.status-dropdown-toggle::after {
+    content: none;
 }
 
 .staffView-container {
@@ -290,7 +387,9 @@
     margin-bottom: 5px;
     font-size: 14px;
     color: #333333;
-    margin-top: -0.5rem;
+    font-weight:bold;
+
+    
 }
 
 .staffViewDropdown-status-select {
@@ -303,11 +402,12 @@
 }
 
 .staffViewSidebar {
-    width: 25%;
+   
     height: 100%; /* Ensure sidebar takes full height */
     padding: 6px;
     overflow-y: auto; /* Allow scrolling within the sidebar */
     border-right: 1px solid #585656;
+    padding-left: 20px;
 }
 
     .staffViewSidebar::-webkit-scrollbar {
@@ -374,7 +474,7 @@
 
     .staffViewContent img {
         transform: scale(0.65);
-        margin-left: 20%;
+       
     }
 
 .staffcontentLayout {
@@ -499,6 +599,8 @@ h1 {
         padding: 5px;
     }
  
+
+    
 
 .table-container {
     max-height: 350px;
