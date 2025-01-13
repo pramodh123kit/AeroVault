@@ -717,6 +717,7 @@
 @media (max-width: 768px) {
 
     .file-search-container1{
-     width: 100%; 
+         width: 100%; 
+         margin-top:30px;
     }
 }
