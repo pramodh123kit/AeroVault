@@ -539,7 +539,7 @@
 
 .status-form-group {
   margin-bottom: 0px;
-  width: 100%; /* Make dropdown full width */
+  width: 300px /* Make dropdown full width */
 /*  margin-top: 10px;*/
 }
 
@@ -703,4 +703,20 @@
 
 .select-all-sys {
     margin-bottom:20px;
+}
+
+@media (max-width: 768px) {
+
+    .status-form-group,
+    .system-form-group,
+    .category-form-group {
+        width: 100% /* Set a fixed width */
+    }
+}
+
+@media (max-width: 768px) {
+
+    .file-search-container1{
+     width: 100%; 
+    }
 }
