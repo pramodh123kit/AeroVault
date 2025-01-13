@@ -175,122 +175,224 @@ function selectcategoryOption(element) {
 }
 
 function setupPagination() {
+
     const totalRows = document.querySelectorAll(".file-table tbody tr").length;
+
     const totalPages = Math.ceil(totalRows / rowsPerPage);
+
     const paginationContainer = document.querySelector(".page-numbers");
+
     paginationContainer.innerHTML = "";
 
+
     // Previous button
-    document.querySelector(".prev").addEventListener("click", () => {
+
+    const prevButton = document.querySelector(".prev");
+
+    prevButton.onclick = () => {
+
         if (currentPage > 1) {
+
             currentPage--;
+
             updateTable();
-            setupPagination(); // Regenerate pagination
+
+            setupPagination();
+
         }
-    });
+
+    };
+
 
     // Next button
-    document.querySelector(".next").addEventListener("click", () => {
+
+    const nextButton = document.querySelector(".next");
+
+    nextButton.onclick = () => {
+
         if (currentPage < totalPages) {
+
             currentPage++;
+
             updateTable();
-            setupPagination(); // Regenerate pagination
+
+            setupPagination();
+
         }
-    });
+
+    };
+
 
     // Determine the range of page numbers to show
+
     let startPage, endPage;
+
     if (totalPages <= 5) {
+
         startPage = 1;
+
         endPage = totalPages;
+
     } else {
+
         if (currentPage <= 3) {
+
             startPage = 1;
+
             endPage = 5;
+
         } else if (currentPage >= totalPages - 2) {
+
             startPage = totalPages - 4;
+
             endPage = totalPages;
+
         } else {
+
             startPage = currentPage - 2;
+
             endPage = currentPage + 2;
+
         }
+
     }
+
 
     // Generate page numbers
+
     for (let i = startPage; i <= endPage; i++) {
+
         const pageNum = document.createElement("span");
+
         pageNum.className = `page-number ${i === currentPage ? "active" : ""}`;
+
         pageNum.textContent = i;
+
         pageNum.addEventListener("click", () => {
+
             currentPage = i;
+
             updateTable();
-            setupPagination(); 
+
+            setupPagination();
+
         });
+
         paginationContainer.appendChild(pageNum);
+
     }
+
+
+    // Add first page and ellipsis if needed
 
     if (startPage > 1) {
+
         const firstPage = document.createElement("span");
+
         firstPage.className = "page-number";
+
         firstPage.textContent = "1";
+
         firstPage.addEventListener("click", () => {
+
             currentPage = 1;
+
             updateTable();
+
             setupPagination();
+
         });
+
         paginationContainer.insertBefore(firstPage, paginationContainer.firstChild);
 
+
         if (startPage > 2) {
+
             const startEllipsis = document.createElement("span");
+
             startEllipsis.className = "page-number ellipsis";
+
             startEllipsis.textContent = "...";
+
             paginationContainer.insertBefore(startEllipsis, paginationContainer.firstChild.nextSibling);
+
         }
+
     }
+
+
+    // Add last page and ellipsis if needed
 
     if (endPage < totalPages) {
+
         if (endPage < totalPages - 1) {
+
             const endEllipsis = document.createElement("span");
+
             endEllipsis.className = "page-number ellipsis";
+
             endEllipsis.textContent = "...";
+
             paginationContainer.appendChild(endEllipsis);
+
         }
 
+
         const lastPage = document.createElement("span");
+
         lastPage.className = "page-number";
+
         lastPage.textContent = totalPages;
+
         lastPage.addEventListener("click", () => {
+
             currentPage = totalPages;
+
             updateTable();
+
             setupPagination();
+
         });
+
         paginationContainer.appendChild(lastPage);
+
     }
 
-    const prevButton = document.querySelector(".pagination-btn.prev");
-    const nextButton = document.querySelector(".pagination-btn.next");
+
+    // Disable/enable prev and next buttons
+
     prevButton.disabled = currentPage === 1;
+
     nextButton.disabled = currentPage === totalPages;
+
 }
+
 
 var currentPage = 1;
+
 var rowsPerPage = 10;
 
+
 function updateTable() {
+
     const rows = document.querySelectorAll(".file-table tbody tr");
+
     const start = (currentPage - 1) * rowsPerPage;
+
     const end = start + rowsPerPage;
 
+
     rows.forEach((row, index) => {
+
         row.style.display = index >= start && index < end ? "" : "none";
+
     });
+
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    updateTable();
-    setupPagination(); 
-});
 
+
+updateTable();
 setupPagination();
 
 
