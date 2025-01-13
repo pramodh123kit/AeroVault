@@ -285,6 +285,12 @@
         gap: 15px;
     }
 
+    .status-form-group,
+    .system-form-group,
+    .category-form-group {
+        width: 1000px /* Set a fixed width */
+    }
+
     .upload-btn {
         width: 100%;
     }
@@ -829,4 +835,74 @@
 .pagination-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+.dropdown-group {
+    display: flex;
+    gap: 15px;
+    align-items: flex-end; /* Align items at the bottom */
+}
+
+.status-form-group,
+.system-form-group,
+.category-form-group {
+    width: 300px; /* Set a fixed width */
+    margin-bottom: 0px;
+    margin-top: 30px;
+    position: relative;
+}
+
+.status-dropdown,
+.system-dropdown,
+.category-dropdown {
+    width: 100%; /* Make dropdowns fill their container */
+}
+
+.status-dropdown-toggle,
+.system-dropdown-toggle,
+.category-dropdown-toggle {
+    width: 100%; /* Ensure dropdown toggles fill their container */
+}
+
+.status-dropdown-content,
+.system-dropdown-content,
+.category-dropdown-content {
+    width: 100%; /* Ensure dropdown contents match the width of their containers */
+    min-width: 200px; /* Minimum width to match the container */
+}
+
+
+.file-search-container1 {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #c0bebe;
+    padding: 5px 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid #938C8C;
+    width: auto; /* Adjust width as needed */
+    margin-left:50px;
+}
+
+.search-icon1 {
+    margin-right: 08px;
+    width: 16px; /* Adjust the icon size */
+    height: 16px;
+    padding-left:10px;
+}
+
+.file-search-input1 {
+    border: none;
+    outline: none;
+    border:none;
+    font-size:16px;
+    font-size: 14px; /* Adjust the font size */
+    flex: 1;
+}
+
+
+@media (max-width: 768px) {
+
+    .file-search-container1 {
+        width: 100%;
+    }
 }
