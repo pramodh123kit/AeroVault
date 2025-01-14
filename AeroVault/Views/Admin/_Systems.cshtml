@@ -26,6 +26,14 @@
                     <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search System" type="text" />
                 </div>
                 <div class="scrollable-content scrollable-content-list">
+
+
+
+
+
+
+               
+
                     <div id="systemListContainer">
                     @{
                         var systemList = Model ?? new List<SystemModel>();
@@ -39,24 +47,15 @@
                         else
                         {
                             @foreach (var system in systemList)
-
                             {
-
                                 <li onclick="highlightSystem(this)"
                                     data-system-id="@system.SystemID"
                                     data-system-description="@(system.Description ?? string.Empty)">
-
                                     <a href="#">
-
                                         <img src="/Content/Assets/folder-icon.svg" alt="Folder icon" class="folder-icon" />
-
                                         @system.SystemName
-
                                     </a>
-
                                 </li>
-
-
                             }
                         }
                     </ul>  
@@ -76,20 +75,14 @@
                                         <input type="text" id="custom-search-input" placeholder="Search system" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
                                     </div>
                                     <div class="custom-dropdown-list">
-                                        @* <div onclick="selectCustomOption(this)"></div> *@
-
-                                            @foreach (var system in systemList)
-
-                                            {
-
-                                                <div onclick="selectCustomOption(this)"
-                                                     data-system-description="@(system.Description ?? string.Empty)">
-
-                                                    @system.SystemName
-
-                                                </div>
-
-                                            }
+                                        @foreach (var system in systemList)
+                                        {
+                                            <div onclick="selectCustomOption(this)"
+                                                 data-system-id="@system.SystemID"
+                                                 data-system-description="@(system.Description ?? string.Empty)">
+                                                @system.SystemName
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -138,152 +131,10 @@
                                     <th>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td><img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
-                                    <td>Training</td>
-                                    <td>
-                                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-                                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Content/Assets/system-doc-icon.svg" alt="Document Icon" class="file-icon" /> Aircraft Maintenance Checklist</td>
-                                    <td>Technical</td>
-                                    <td>
-                                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-                                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
-                                    <td>Training</td>
-                                    <td>
-                                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-                                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
-                                    <td>Training</td>
-                                    <td>
-                                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-                                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Content/Assets/system-doc-icon.svg" alt="Document Icon" class="file-icon" /> Aircraft Maintenance Checklist</td>
-                                    <td>Technical</td>
-                                    <td>
-                                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-                                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
-                                    <td>Training</td>
-                                    <td>
-                                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-                                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
-                                    <td>Training</td>
-                                    <td>
-                                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-                                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Content/Assets/system-doc-icon.svg" alt="Document Icon" class="file-icon" /> Aircraft Maintenance Checklist</td>
-                                    <td>Technical</td>
-                                    <td>
-                                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-                                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
-                                    <td>Training</td>
-                                    <td>
-                                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-                                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
-                                    <td>Training</td>
-                                    <td>
-                                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-                                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Content/Assets/system-doc-icon.svg" alt="Document Icon" class="file-icon" /> Aircraft Maintenance Checklist</td>
-                                    <td>Technical</td>
-                                    <td>
-                                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-                                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
-                                    <td>Training</td>
-                                    <td>
-                                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-                                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
-                                    <td>Training</td>
-                                    <td>
-                                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-                                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Content/Assets/system-doc-icon.svg" alt="Document Icon" class="file-icon" /> Aircraft Maintenance Checklist</td>
-                                    <td>Technical</td>
-                                    <td>
-                                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-                                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
-                                    <td>Training</td>
-                                    <td>
-                                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-                                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
-                                    <td>Training</td>
-                                    <td>
-                                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-                                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Content/Assets/system-doc-icon.svg" alt="Document Icon" class="file-icon" /> Aircraft Maintenance Checklist</td>
-                                    <td>Technical</td>
-                                    <td>
-                                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-                                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-icon" /> Maintenance Procedure Overview</td>
-                                    <td>Training</td>
-                                    <td>
-                                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-                                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-                                    </td>
-                                </tr>
-                            </tbody>
+                        <tbody>
+                            <!-- Files will be dynamically added here by JavaScript -->
+                        </tbody>
+                            
                         </table>
                     </div>
                 </div>
