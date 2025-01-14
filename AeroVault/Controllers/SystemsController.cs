@@ -163,5 +163,20 @@ namespace AeroVault.Controllers
             public string SystemName { get; set; }
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> GetSystemFiles(int systemId)
+        {
+            try
+            {
+                var files = await _systemService.GetFilesBySystemIdAsync(systemId);
+                return Ok(files);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error retrieving system files", error = ex.Message });
+            }
+        }
+
     }
 }

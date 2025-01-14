@@ -38,6 +38,9 @@ async function highlightSystem(selectedItem) {
     selectedSystemName = systemName;
     selectedSystemId = selectedItem.getAttribute('data-system-id'); // Ensure you have this attribute in your HTML
 
+    const systemId = selectedItem.getAttribute('data-system-id');
+    await loadSystemFiles(systemId);
+
     try {
 
         // Fetch system departments
@@ -1086,6 +1089,9 @@ async function selectCustomOption(element) {
     const systemName = element.textContent.trim();
     selectedSystemName = systemName; // Store the selected system name
 
+    const systemId = element.getAttribute('data-system-id'); // You'll need to add this attribute
+    await loadSystemFiles(systemId);
+
     try {
         // Fetch system departments
         const response = await fetch(`/Systems/GetSystemDepartments?systemName=${encodeURIComponent(systemName)}`);
@@ -1701,3 +1707,111 @@ function resetEditPopupToOriginalValues() {
 
 document.getElementById('edit-reset-btn').addEventListener('click', resetEditPopupToOriginalValues);
 
+
+
+async function loadSystemFiles(systemId) {
+
+    try {
+
+        const response = await fetch(`/Systems/GetSystemFiles?systemId=${systemId}`);
+
+        const files = await response.json();
+
+
+        const fileTableBody = document.querySelector('.file-table tbody');
+
+        const tableContainer = document.querySelector('.table-container');
+
+        const systemContainer = document.querySelector('.system-container');
+
+
+        if (files.length > 0) {
+
+            // Clear existing rows
+
+            fileTableBody.innerHTML = '';
+
+
+            // Populate file table
+
+            files.forEach(file => {
+
+                const row = document.createElement('tr');
+
+
+
+                // Determine file icon based on file type
+
+                let fileIcon = '/Content/Assets/system-doc-icon.svg'; // default
+
+                if (file.fileType && file.fileType.toLowerCase().includes('video')) {
+
+                    fileIcon = '/Content/Assets/system-video-icon.svg';
+
+                }
+
+
+                row.innerHTML = `
+
+                    <td>
+
+                        <img src="${fileIcon}" alt="File Icon" class="file-icon" /> 
+
+                        ${file.fileName}
+
+                    </td>
+
+                    <td>${file.fileCategory || 'Uncategorized'}</td>
+
+                    <td>
+
+                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
+
+                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
+
+                    </td>
+
+                `;
+
+
+                fileTableBody.appendChild(row);
+
+            });
+
+
+            // Show table container
+
+            tableContainer.style.display = 'block';
+
+        } else {
+
+            // No files found
+
+            fileTableBody.innerHTML = `
+
+                <tr>
+
+                    <td colspan="3" style="text-align: center; padding: 20px;">
+
+                        No files found in this system
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+
+
+        // Ensure system container is visible
+
+        systemContainer.style.display = 'block';
+
+    } catch (error) {
+
+        console.error('Error loading system files:', error);
+
+    }
+
+}
