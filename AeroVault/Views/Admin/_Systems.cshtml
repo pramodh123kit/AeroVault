@@ -25,15 +25,7 @@
                     <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
                     <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search System" type="text" />
                 </div>
-                <div class="scrollable-content scrollable-content-list">
-
-
-
-
-
-
-               
-
+                <div class="scrollable-content scrollable-content-list">             
                     <div id="systemListContainer">
                     @{
                         var systemList = Model ?? new List<SystemModel>();
@@ -58,8 +50,7 @@
                                 </li>
                             }
                         }
-                    </ul>  
-
+                    </ul> 
                         <div class="custom-form-group">
                             <h2 class="systems-header systems-header-label">
                                 Select a System to Manage
@@ -89,7 +80,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="image-container">
                 <img src="/Content/Assets/system-background-icon.svg" alt="System Background Image" />
@@ -132,9 +122,7 @@
                                 </tr>
                             </thead>
                         <tbody>
-                            <!-- Files will be dynamically added here by JavaScript -->
-                        </tbody>
-                            
+                        </tbody>                            
                         </table>
                     </div>
                 </div>
@@ -166,7 +154,7 @@
     <div id="dark-overlay2" class="dark-overlay" style="display: none;"></div>
     @Html.Partial("AdminSystemPopups/_AdminSystemDelete", new AeroVault.Views.Shared.AdminSystemPopups._AdminSystemDeleteModel())
 
-<div id="dark-overlay3" class="dark-overlay-success" style="display: none;"></div>
+    <div id="dark-overlay3" class="dark-overlay-success" style="display: none;"></div>
     @Html.Partial("AdminSystemPopups/_AdminSystemSuccessfullyAdded", new AeroVault.Views.Shared.AdminSystemPopups._AdminSystemSuccessfullyAddedModel())
 
     <div id="dark-overlay4" class="dark-overlay" style="display: none;"></div>
@@ -177,13 +165,7 @@
 
     <script src="/Scripts/AdminSystemScripts.js"></script>
 <script>
-
-    // Attach the event listener for the save button directly
-
     document.getElementById('edit-save-btn').addEventListener('click', async function () {
-
         await editSystem();
-
     });
-
 </script>
