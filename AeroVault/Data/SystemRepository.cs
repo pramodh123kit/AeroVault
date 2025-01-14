@@ -480,7 +480,7 @@ namespace AeroVault.Data
             string sql = @"
     SELECT FileID, FileName, FileType, FileCategory, FilePath, Added_Date
     FROM FILES 
-    WHERE SystemID = :SystemID";
+    WHERE SystemID = :SystemID AND IS_DELETED = 0";  // Add this condition
 
             using (var connection = new OracleConnection(_connectionString))
             {

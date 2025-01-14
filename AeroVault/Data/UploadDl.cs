@@ -195,31 +195,32 @@ namespace AeroVault.Data
             {
                 connection.Open();
                 var query = @"
-            SELECT 
-                f.FileID, 
-                f.SystemID, 
-                f.FileName, 
-                f.FileType, 
-                f.FileCategory, 
-                f.FilePath, 
-                f.Added_Date,
-                s.SystemName,
-                LISTAGG(d.DepartmentName, ', ') WITHIN GROUP (ORDER BY d.DepartmentName) AS DepartmentNames,
-                COUNT(d.DepartmentID) AS DepartmentCount
-            FROM 
-                Files f
-            JOIN 
-                Systems s ON f.SystemID = s.SystemID
-            LEFT JOIN 
-                System_Departments sd ON s.SystemID = sd.SystemID
-            LEFT JOIN 
-                Departments d ON sd.DepartmentID = d.DepartmentID AND d.IS_DELETED = 0  -- Exclude deleted departments
-            WHERE 
-                s.IS_DELETED = 0  -- Exclude deleted systems
-            GROUP BY 
-                f.FileID, f.SystemID, f.FileName, f.FileType, f.FileCategory, f.FilePath, f.Added_Date, s.SystemName
-            ORDER BY 
-                f.Added_Date DESC";
+    SELECT 
+        f.FileID, 
+        f.SystemID, 
+        f.FileName, 
+        f.FileType, 
+        f.FileCategory, 
+        f.FilePath, 
+        f.Added_Date,
+        s.SystemName,
+        LISTAGG(d.DepartmentName, ', ') WITHIN GROUP (ORDER BY d.DepartmentName) AS DepartmentNames,
+        COUNT(d.DepartmentID) AS DepartmentCount
+    FROM 
+        Files f
+    JOIN 
+        Systems s ON f.SystemID = s.SystemID
+    LEFT JOIN 
+        System_Departments sd ON s.SystemID = sd.SystemID
+    LEFT JOIN 
+        Departments d ON sd.DepartmentID = d.DepartmentID AND d.IS_DELETED = 0  -- Exclude deleted departments
+    WHERE 
+        s.IS_DELETED = 0  -- Exclude deleted systems
+        AND f.IS_DELETED = 0  -- Exclude deleted files
+    GROUP BY 
+        f.FileID, f.SystemID, f.FileName, f.FileType, f.FileCategory, f.FilePath, f.Added_Date, s.SystemName
+    ORDER BY 
+        f.Added_Date DESC";
 
                 using (var command = new OracleCommand(query, connection))
                 {

@@ -34,12 +34,14 @@ public class FileModel
     [Column("Added_Time")]
     public DateTime? AddedTime { get; set; } = DateTime.Now;
 
-    // Navigation property
     public SystemModel System { get; set; }
 
-    [NotMapped] // This property won't be mapped to the database
+    [NotMapped] 
     public string DepartmentName { get; set; }
 
-    [NotMapped] // This property won't be mapped to the database
-    public string DepartmentNames { get; set; } // Add this property to hold multiple department names
+    [NotMapped] 
+    public string DepartmentNames { get; set; } 
+
+    [Column("IS_DELETED")]
+    public int IsDeleted { get; set; } = 0;
 }
