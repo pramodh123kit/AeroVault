@@ -350,7 +350,7 @@ function systemDeleteClosePopup() {
 document.querySelector('.delete-system-button').onclick = systemDeleteopenPopup;
 
 document.getElementById('close-icon2').onclick = systemDeleteClosePopup;
-document.getElementById('dark-overlay2').onclick = systemDeleteClosePopup;
+document.getElementById('cancel-dep-del').onclick = systemDeleteClosePopup;
 
 
 // FILE DELETE POPUP
@@ -1376,7 +1376,7 @@ function closeDeletePopup() {
     document.getElementById('dark-overlay2').style.display = 'none';
 }
 
-document.querySelector('.delete-system-button').onclick = function () {
+document.querySelector('.delete-system-button').onclick = async function () {
     if (!selectedSystemName) {
         alert("Please select a system to delete.");
         return;
@@ -1385,6 +1385,9 @@ document.querySelector('.delete-system-button').onclick = function () {
     // Set the system name in the delete confirmation popup
     document.getElementById('system-name-to-delete').textContent = selectedSystemName;
 
+    // Fetch files associated with the selected system
+    await loadFilesForDeletePopup(selectedSystemId);
+
     // Show the delete confirmation popup
     document.getElementById('deletesystem-popup').style.display = 'block';
     document.getElementById('dark-overlay2').style.display = 'block';
@@ -1392,9 +1395,29 @@ document.querySelector('.delete-system-button').onclick = function () {
 
 
 
+async function loadFilesForDeletePopup(systemId) {
+    try {
+        const response = await fetch(`/Systems/GetSystemFiles?systemId=${systemId}`);
+        const files = await response.json();
 
+        const fileListDiv = document.querySelector('.file-list');
+        fileListDiv.innerHTML = ''; // Clear existing content
 
-
+        if (files.length > 0) {
+            files.forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.classList.add('file-item'); // Add the class name 'file-item'
+                fileItem.textContent = file.fileName; // Display the file name
+                fileListDiv.appendChild(fileItem);
+            });
+        } else {
+            fileListDiv.innerHTML = '<p>No files found for this system.</p>';
+        }
+    } catch (error) {
+        console.error('Error loading files for delete popup:', error);
+        document.querySelector('.file-list').innerHTML = '<p>Error loading files.</p>';
+    }
+}
 
 
 
