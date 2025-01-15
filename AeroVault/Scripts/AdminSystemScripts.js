@@ -360,8 +360,8 @@ function fileDeleteopenPopup() {
 }
 
 function fileDeleteClosePopup() {
-    document.getElementById('dark-overlay4').style.display = 'none'; 
-    document.getElementById('deletefile-popup').style.display = 'none'; 
+    document.getElementById('deletefile-popup').style.display = 'none';
+    document.getElementById('dark-overlay4').style.display = 'none';
 }
 
 document.querySelectorAll(".file-delete-icon").forEach(function (icon) {
@@ -369,9 +369,10 @@ document.querySelectorAll(".file-delete-icon").forEach(function (icon) {
 });
 
 document.getElementById('close-icon4').onclick = fileDeleteClosePopup;
+
 document.getElementById('dark-overlay4').onclick = fileDeleteClosePopup;
 
-
+document.querySelector('.file-cancel').onclick = fileDeleteClosePopup;
 
 // FILE EDIT POPUP
 function fileEditopenPopup() {
@@ -1752,26 +1753,19 @@ async function loadSystemFiles(systemId) {
 
 
                 row.innerHTML = `
-
-                    <td>
-
-                        <img src="${fileIcon}" alt="File Icon" class="file-icon" /> 
-
-                        ${file.fileName}
-
-                    </td>
-
-                    <td>${file.fileCategory || 'Uncategorized'}</td>
-
-                    <td>
-
-                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-
-                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-
-                    </td>
-
-                `;
+    <td>
+        <img src="${fileIcon}" alt="File Icon" class="file-icon" /> 
+        ${file.fileName}
+    </td>
+    <td>${file.fileCategory || 'Uncategorized'}</td>
+    <td>
+        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" onclick="openFileEditPopup(${file.fileID})"/>
+        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" 
+             data-file-id="${file.fileID}" 
+             data-file-name="${file.fileName}" 
+             onclick="openFileDeletePopup(${file.fileID}, '${file.fileName}')"/>
+    </td>
+`;
 
 
                 fileTableBody.appendChild(row);
@@ -1815,3 +1809,66 @@ async function loadSystemFiles(systemId) {
     }
 
 }
+
+
+
+async function deleteFile() {
+    const fileId = document.getElementById('file-to-delete-id').value;
+
+    try {
+        const response = await fetch('/Systems/DeleteFile', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('input[name="__RequestVerificationToken"]').value
+            },
+            body: JSON.stringify({ fileId: parseInt(fileId) })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            // Close the popup
+            fileDeleteClosePopup();
+
+            // Refresh the files list for the current system
+            await loadSystemFiles(selectedSystemId); // Ensure you have a global selectedSystemId variable
+
+            // Show success notification
+            showDeleteSuccessNotification('File deleted successfully');
+        } else {
+            // Show error message
+            showCustomAlert(result.message || 'Failed to delete file');
+        }
+    } catch (error) {
+        console.error('Error deleting file:', error);
+        showCustomAlert('An error occurred while deleting the file');
+    }
+}
+
+// Add this to your existing code or in the file delete popup section
+document.querySelector('.file-delete-btn').addEventListener('click', deleteFile);
+
+
+function openFileDeletePopup(fileId, fileName) {
+    // Set the file name in the delete confirmation popup
+    document.getElementById('file-name-to-delete').textContent = fileName;
+
+    // Store the file ID for deletion
+    document.getElementById('file-to-delete-id').value = fileId;
+
+    // Show the delete confirmation popup
+    document.getElementById('deletefile-popup').style.display = 'block';
+    document.getElementById('dark-overlay4').style.display = 'block';
+}
+
+
+
+
+document.querySelectorAll(".file-delete-icon").forEach(function (icon) {
+    icon.onclick = function () {
+        const fileId = this.getAttribute('data-file-id');
+        const fileName = this.getAttribute('data-file-name');
+        openFileDeletePopup(fileId, fileName);
+    };
+});

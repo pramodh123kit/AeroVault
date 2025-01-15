@@ -178,5 +178,33 @@ namespace AeroVault.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteFile([FromBody] DeleteFileRequest request)
+        {
+            try
+            {
+                var result = await _systemService.SoftDeleteFileAsync(request.FileId);
+
+                if (result)
+                {
+                    return Ok(new { success = true, message = "File deleted successfully" });
+                }
+                else
+                {
+                    return NotFound(new { success = false, message = "File not found" });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting file: {ex.Message}");
+                return StatusCode(500, new { success = false, message = "An error occurred while deleting the file" });
+            }
+        }
+
+        public class DeleteFileRequest
+        {
+            public int FileId { get; set; }
+        }
+
     }
 }

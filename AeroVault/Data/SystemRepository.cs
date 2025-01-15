@@ -478,9 +478,9 @@ namespace AeroVault.Data
             var files = new List<FileModel>();
 
             string sql = @"
-    SELECT FileID, FileName, FileType, FileCategory, FilePath, Added_Date
-    FROM FILES 
-    WHERE SystemID = :SystemID AND IS_DELETED = 0";  // Add this condition
+                SELECT FileID, FileName, FileType, FileCategory, FilePath, Added_Date
+                FROM FILES 
+                WHERE SystemID = :SystemID AND IS_DELETED = 0"; 
 
             using (var connection = new OracleConnection(_connectionString))
             {
@@ -507,6 +507,49 @@ namespace AeroVault.Data
                 }
             }
             return files;
+        }
+
+        public async Task<bool> SoftDeleteFileAsync(int fileId)
+        {
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        string updateFileSql = @"
+                            UPDATE FILES 
+                            SET IS_DELETED = 1 
+                            WHERE FileID = :FileId";
+
+                        using (var updateCommand = new OracleCommand(updateFileSql, connection))
+                        {
+                            updateCommand.Transaction = transaction;
+                            updateCommand.Parameters.Add(new OracleParameter(":FileId", fileId));
+
+                            int rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+
+                            Console.WriteLine($"Rows affected by soft delete: {rowsAffected}");
+
+                            if (rowsAffected == 0)
+                            {
+                                transaction.Rollback();
+                                return false;
+                            }
+                        }
+
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        Console.WriteLine($"Error in SoftDeleteFileAsync: {ex.Message}");
+                        throw;
+                    }
+                }
+            }
         }
     }
 }
