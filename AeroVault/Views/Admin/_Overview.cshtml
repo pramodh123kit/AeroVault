@@ -82,28 +82,28 @@
                 </div>
 
                 <div class="stats-container">
-                    <div class="stat-item">
-                    <p class="stat-number">@Model.DocumentCount</p>
+                    <div class="stat-item" data-all-time-docs="@Model.DocumentCount" data-last-month-docs="@Model.Document_1_Count" data-last-3-months-docs="@Model.Document_3_Count" data-last-6-months-docs="@Model.Document_6_Count" data-last-year-docs="@Model.Document_12_Count">
+                        <p class="stat-number">@Model.DocumentCount</p>
                         <p class="stat-label">Docs</p>
                     </div>
                     <div class="separator"></div>
-                    <div class="stat-item">
-                    <p class="stat-number">@Model.VideoCount</p>
+                    <div class="stat-item" data-all-time-videos="@Model.VideoCount" data-last-month-videos="@Model.Video_1_Count" data-last-3-months-videos="@Model.Video_3_Count" data-last-6-months-videos="@Model.Video_6_Count" data-last-year-videos="@Model.Video_12_Count">
+                        <p class="stat-number">@Model.VideoCount</p>
                         <p class="stat-label">Videos</p>
                     </div>
                     <div class="separator"></div>
-                    <div class="stat-item">
-                    <p class="stat-number">@Model.SystemCount</p>
+                    <div class="stat-item" data-all-time-systems="@Model.SystemCount">
+                        <p class="stat-number">@Model.SystemCount</p>
                         <p class="stat-label">Systems</p>
                     </div>
                     <div class="separator"></div>
-                    <div class="stat-item">
-                    <p class="stat-number">@Model.DepartmentCount</p>
+                    <div class="stat-item" data-all-time-departments="@Model.DepartmentCount">
+                        <p class="stat-number">@Model.DepartmentCount</p>
                         <p class="stat-label">Depts.</p>
                     </div>
                     <div class="separator"></div>
-                    <div class="stat-item">
-                    <p class="stat-number">@Model.DivisionCount</p>
+                    <div class="stat-item" data-all-time-divisions="@Model.DivisionCount">
+                        <p class="stat-number">@Model.DivisionCount</p>
                         <p class="stat-label">Divisions</p>
                     </div>
                 </div>
