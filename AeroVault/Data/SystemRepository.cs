@@ -551,5 +551,84 @@ namespace AeroVault.Data
                 }
             }
         }
+
+
+        public async Task<bool> UpdateFileAsync(UpdateFileRequest request)
+        {
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        // First, fetch the current file details
+                        string fetchSql = @"
+                    SELECT FileName, FileCategory 
+                    FROM Files 
+                    WHERE FileID = :FileId";
+
+                        string currentFileName = "";
+                        string currentFileCategory = "";
+
+                        using (var fetchCommand = new OracleCommand(fetchSql, connection))
+                        {
+                            fetchCommand.Transaction = transaction;
+                            fetchCommand.Parameters.Add(new OracleParameter(":FileId", request.FileId));
+
+                            using (var reader = await fetchCommand.ExecuteReaderAsync())
+                            {
+                                if (await reader.ReadAsync())
+                                {
+                                    currentFileName = reader.GetString(0);
+                                    currentFileCategory = reader.IsDBNull(1) ? null : reader.GetString(1);
+                                }
+                                else
+                                {
+                                    transaction.Rollback();
+                                    return false; // File not found
+                                }
+                            }
+                        }
+
+                        // Determine which fields to update
+                        string updateSql;
+                        OracleCommand updateCommand;
+
+                        // Use the current values if not provided in the request
+                        string fileNameToUpdate = request.FileName ?? currentFileName;
+                        string fileCategoryToUpdate = request.FileCategory ?? currentFileCategory;
+
+                        updateSql = @"
+                    UPDATE Files 
+                    SET FileName = :FileName, 
+                        FileCategory = :FileCategory 
+                    WHERE FileID = :FileId";
+
+                        updateCommand = new OracleCommand(updateSql, connection);
+                        updateCommand.Transaction = transaction;
+                        updateCommand.Parameters.Add(new OracleParameter(":FileName", fileNameToUpdate));
+                        updateCommand.Parameters.Add(new OracleParameter(":FileCategory", fileCategoryToUpdate));
+                        updateCommand.Parameters.Add(new OracleParameter(":FileId", request.FileId));
+
+                        int rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+                        if (rowsAffected == 0)
+                        {
+                            transaction.Rollback();
+                            return false; // No rows updated, file not found
+                        }
+
+                        transaction.Commit();
+                        return true; // Update successful
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        Console.WriteLine($"Error in UpdateFileAsync: {ex.Message}");
+                        throw;
+                    }
+                }
+            }
+        }
     }
 }
