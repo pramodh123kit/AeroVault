@@ -1774,7 +1774,6 @@ async function loadSystemFiles(systemId) {
 
                 }
 
-
                 row.innerHTML = `
     <td>
         <img src="${fileIcon}" alt="File Icon" class="file-icon" /> 
@@ -1782,14 +1781,15 @@ async function loadSystemFiles(systemId) {
     </td>
     <td>${file.fileCategory || 'Uncategorized'}</td>
     <td>
-        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" onclick="openFileEditPopup(${file.fileID})"/>
+        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" 
+             onclick="openFileEditPopup(${file.fileID}, '${file.fileName}', '${file.fileCategory || ''}')"/>
         <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" 
              data-file-id="${file.fileID}" 
              data-file-name="${file.fileName}" 
              onclick="openFileDeletePopup(${file.fileID}, '${file.fileName}')"/>
     </td>
 `;
-
+                
 
                 fileTableBody.appendChild(row);
 
@@ -1895,3 +1895,20 @@ document.querySelectorAll(".file-delete-icon").forEach(function (icon) {
         openFileDeletePopup(fileId, fileName);
     };
 });
+
+
+function openFileEditPopup(fileId, fileName, fileCategory) {
+    // Set the file ID in a hidden input
+    document.getElementById('file-id-to-edit').value = fileId;
+
+    // Set the file name in the input field
+    document.getElementById('file-name').value = fileName;
+
+    // Set the file category in the dropdown
+    const categoryDropdown = document.getElementById('category');
+    categoryDropdown.value = fileCategory; // Set the selected value
+
+    // Open the file edit popup
+    document.getElementById('dark-overlay5').style.display = 'block';
+    document.getElementById('editfile-popup').style.display = 'block';
+}
