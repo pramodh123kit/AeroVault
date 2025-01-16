@@ -257,7 +257,7 @@ namespace AeroVault.Data
         }
 
 
-        public List<FileModel> GetFilesByType(string fileType)
+        public List<FileModel> GetFilesByType(string fileType, DateTime? fromDate = null)
         {
             var files = new List<FileModel>();
 
@@ -265,37 +265,51 @@ namespace AeroVault.Data
             {
                 connection.Open();
                 var query = @"
-                    SELECT 
-                        f.FileID, 
-                        f.SystemID, 
-                        f.FileName, 
-                        f.FileType, 
-                        f.FileCategory, 
-                        f.FilePath, 
-                        f.Added_Date,
-                        s.SystemName,
-                        LISTAGG(d.DepartmentName, ', ') WITHIN GROUP (ORDER BY d.DepartmentName) AS DepartmentNames,
-                        COUNT(d.DepartmentID) AS DepartmentCount
-                    FROM 
-                        Files f
-                    JOIN 
-                        Systems s ON f.SystemID = s.SystemID
-                    LEFT JOIN 
-                        System_Departments sd ON s.SystemID = sd.SystemID
-                    LEFT JOIN 
-                        Departments d ON sd.DepartmentID = d.DepartmentID AND d.IS_DELETED = 0
-                    WHERE 
-                        s.IS_DELETED = 0 
-                        AND f.IS_DELETED = 0
-                        AND f.FileType = :fileType
-                    GROUP BY 
-                        f.FileID, f.SystemID, f.FileName, f.FileType, f.FileCategory, f.FilePath, f.Added_Date, s.SystemName
-                    ORDER BY 
-                        f.Added_Date DESC";
+            SELECT 
+                f.FileID, 
+                f.SystemID, 
+                f.FileName, 
+                f.FileType, 
+                f.FileCategory, 
+                f.FilePath, 
+                f.Added_Date,
+                s.SystemName,
+                LISTAGG(d.DepartmentName, ', ') WITHIN GROUP (ORDER BY d.DepartmentName) AS DepartmentNames,
+                COUNT(d.DepartmentID) AS DepartmentCount
+            FROM 
+                Files f
+            JOIN 
+                Systems s ON f.SystemID = s.SystemID
+            LEFT JOIN 
+                System_Departments sd ON s.SystemID = sd.SystemID
+            LEFT JOIN 
+                Departments d ON sd.DepartmentID = d.DepartmentID AND d.IS_DELETED = 0
+            WHERE 
+                s.IS_DELETED = 0 
+                AND f.IS_DELETED = 0
+                AND f.FileType = :fileType";
+
+                // Add date filter if fromDate is provided
+                if (fromDate.HasValue)
+                {
+                    query += " AND f.Added_Date >= :fromDate";
+                }
+
+                query += @"
+            GROUP BY 
+                f.FileID, f.SystemID, f.FileName, f.FileType, f.FileCategory, f.FilePath, f.Added_Date, s.SystemName
+            ORDER BY 
+                f.Added_Date DESC";
 
                 using (var command = new OracleCommand(query, connection))
                 {
                     command.Parameters.Add(new OracleParameter("fileType", fileType));
+
+                    // Add the fromDate parameter if it exists
+                    if (fromDate.HasValue)
+                    {
+                        command.Parameters.Add(new OracleParameter("fromDate", fromDate.Value));
+                    }
 
                     using (var reader = command.ExecuteReader())
                     {

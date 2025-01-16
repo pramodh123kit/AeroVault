@@ -37,14 +37,14 @@ namespace AeroVault.Business
             return _uploadDl.GetAllFiles();
         }
 
-        public List<FileModel> GetDocuments()
+        public List<FileModel> GetDocuments(DateTime? fromDate = null)
         {
-            return _uploadDl.GetFilesByType("Document");
+            return _uploadDl.GetFilesByType("Document", fromDate);
         }
 
-        public List<FileModel> GetVideos()
+        public List<FileModel> GetVideos(DateTime? fromDate = null)
         {
-            return _uploadDl.GetFilesByType("Video");
+            return _uploadDl.GetFilesByType("Video", fromDate);
         }
     }
 }
