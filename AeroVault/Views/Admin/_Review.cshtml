@@ -18,8 +18,8 @@
         </div>
         
 
+        <div class="sidebar-line">
             <div class="status-form-group">
-                <label class="status-label" for="status-selector">Select Department</label>
                 <div class="status-dropdown">
                     <div class="status-dropdown-toggle status-selector" onclick="toggleStatusDropdown()">
                         <span id="selected-status">Information Technology</span>
@@ -28,7 +28,7 @@
                     <div class="status-dropdown-content">
                         <div class="status-search-container">
                             <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
-                            <input type="text" id="status-search-input" placeholder="Search Status"
+                            <input type="text" id="status-search-input" placeholder="Search Department"
                                 onkeyup="filterStatusOptions()" onclick="event.stopPropagation()">
                         </div>
                         <div class="status-dropdown-list">
@@ -43,15 +43,15 @@
                             <div onclick="selectStatusOption(this)">Procurement</div>
                         </div>
                     </div>
+                    <div class="file-search-container1" style="margin-bottom:0px;">
+                        <img src="/Content/Assets/search-icon.svg" class="search-icon1" alt="Search Icon" />
+                        <input id="searchInputStaff" onkeyup="filterStaffViewSidebar()" placeholder="Search System" type="text"
+                               class="file-search-input1" style="width:200px;" />
+                    </div>
                 </div>
             </div>
 
-            <div class="staffViewSidebar">
-                <div class="search-box-staff">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="searchInputStaff" onkeyup="filterStaffViewSidebar()"
-                        placeholder="Search System">
-                </div>
+            <div class="staffViewSidebar">                
                 <div class="menu-item" onclick="loadReviewContent('System 1', this)">
                     <i class="fas fa-folder"></i>
                     <span>System 1</span>
@@ -173,54 +173,156 @@
                     <span>Finance & Accounting System C</span>
                 </div>
             </div>
-        
+        </div>        
     </div>
     <div class="reviewcontent" id="system-view-reviewcontent">
-        <div class="default-view">
-            <img src="/Content/Assets/PCpic.svg" style="max-width: 100%; height: auto;" />
-        </div>
+
+
+
+        <div class="image-container">
+                <img src="/Content/Assets/system-background-icon.svg" alt="System Background Image" />
+            </div>
 
         <div id="system-review-table" style="display:none;">
             <div class="header-container-unique">
                 <div class="header-unique" id="system-header">
-                    <b>Department / </b>System Name
+                    System Name
                 </div>
-                <div class="search-bar-unique">
-                    <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
-                    <input type="text" id="searchInputUnique" placeholder="Search Department"
-                        onkeyup="searchTableUnique()" />
+                @* <div class="search-bar-unique"> *@
+                @*     <img src="/Content/Assets/search-icon.svg" alt="Search Icon" /> *@
+                @*     <input type="text" id="searchInputUnique" placeholder="Search Department" *@
+                @*         onkeyup="searchTableUnique()" /> *@
+                @* </div> *@
+
+                <div class="file-search-container2" style="margin-bottom:0px;">
+                    <img src="/Content/Assets/search-icon.svg" class="search-icon2" alt="Search Icon" />
+                    <input id="SystemfileSearch" onkeyup="filterFiles()" placeholder="Search" type="text"
+                           class="file-search-input2" style="width:200px;" />
                 </div>
+
             </div>
             <div class="table-container-unique">
-                <table id="fileTableUnique">
-                    <thead>
-                        <tr>
-                            <th>File Name</th>
-                            <th>Category</th>
-                            <th>Read by</th>
-                            <th>Pending by</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><i class="fas fa-file icon-unique"></i> Document1.pdf</td>
-                            <td>Reports</td>
-                            <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
-                                    onclick="openReadModalUnique()"></span></td>
-                            <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span
-                                    class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-file icon-unique"></i> Document2.pdf</td>
-                            <td>Invoices</td>
-                            <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
-                                    onclick="openReadModalUnique()"></span></td>
-                            <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span
-                                    class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
-                        </tr>
-                        <!-- Add more rows as needed -->
-                    </tbody>
-                </table>
+                <div class="scrollable-tbody">
+                    <table id="fileTableUnique">
+                        <thead>
+                            <tr>
+                                <th>File Name</th>
+                                <th>Category</th>
+                                <th>Read by</th>
+                                <th>Pending by</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
+                                <td>Reports</td>
+                                <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
+                                        onclick="openReadModalUnique()"></span></td>
+                                <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span
+                                        class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                            </tr>
+                            <tr>
+                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document2.pdf </td>
+                                <td>Invoices</td>
+                                <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
+                                        onclick="openReadModalUnique()"></span></td>
+                                <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span
+                                        class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                            </tr>
+                            <tr>
+                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
+                                <td>Reports</td>
+                                <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
+                                        onclick="openReadModalUnique()"></span></td>
+                                <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span
+                                        class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                            </tr>
+                            <tr>
+                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
+                                <td>Reports</td>
+                                <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
+                                        onclick="openReadModalUnique()"></span></td>
+                                <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span
+                                        class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                            </tr>
+                            <tr>
+                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
+                                <td>Reports</td>
+                                <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
+                                        onclick="openReadModalUnique()"></span></td>
+                                <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span
+                                        class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                            </tr>
+                            <tr>
+                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
+                                <td>Reports</td>
+                                <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
+                                        onclick="openReadModalUnique()"></span></td>
+                                <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span
+                                        class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                            </tr>
+                            <tr>
+                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
+                                <td>Reports</td>
+                                <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
+                                        onclick="openReadModalUnique()"></span></td>
+                                <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span
+                                        class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                            </tr>
+                            <tr>
+                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
+                                <td>Reports</td>
+                                <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
+                                        onclick="openReadModalUnique()"></span></td>
+                                <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span
+                                        class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                            </tr>
+                            <tr>
+                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
+                                <td>Reports</td>
+                                <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
+                                        onclick="openReadModalUnique()"></span></td>
+                                <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span
+                                        class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                            </tr>
+                            <tr>
+                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
+                                <td>Reports</td>
+                                <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
+                                        onclick="openReadModalUnique()"></span></td>
+                                <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span
+                                        class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                            </tr>
+                            <tr>
+                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
+                                <td>Reports</td>
+                                <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
+                                        onclick="openReadModalUnique()"></span></td>
+                                <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span
+                                        class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                            </tr>
+                            <tr>
+                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
+                                <td>Reports</td>
+                                <td class="read-by-unique"><i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
+                                        onclick="openReadModalUnique()"></span></td>
+                                <td class="pending-by-unique"><i class="fas fa-hourglass-half"></i>233 <span
+                                        class="clickable-icon-unique" onclick="openPendingModalUnique()"></span></td>
+                            </tr>
+                            <tr>
+                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
+                                <td>Reports</td>
+                                <td class="read-by-unique">
+                                    <i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
+                                                                        onclick="openReadModalUnique()"></span>
+                                </td>
+                                <td class="pending-by-unique">
+                                    <i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div id="readModalUnique" class="modal-unique" style="display:none;">
