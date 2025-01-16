@@ -354,7 +354,7 @@ document.getElementById('cancel-dep-del').onclick = systemDeleteClosePopup;
 
 
 // FILE DELETE POPUP
-function fileDeleteopenPopup() {
+function fileDeleteopenPopup() {   
     document.getElementById('dark-overlay4').style.display = 'block'; 
     document.getElementById('deletefile-popup').style.display = 'block'; 
 }
@@ -370,7 +370,7 @@ document.querySelectorAll(".file-delete-icon").forEach(function (icon) {
 
 document.getElementById('close-icon4').onclick = fileDeleteClosePopup;
 
-document.getElementById('dark-overlay4').onclick = fileDeleteClosePopup;
+//document.getElementById('dark-overlay4').onclick = fileDeleteClosePopup;
 
 document.querySelector('.file-cancel').onclick = fileDeleteClosePopup;
 
@@ -391,7 +391,7 @@ document.querySelectorAll(".file-edit-icon").forEach(function (icon) {
 });
 
 document.getElementById('close-icon5').onclick = fileEditClosePopup;
-document.getElementById('dark-overlay5').onclick = fileEditClosePopup;
+//document.getElementById('dark-overlay5').onclick = fileEditClosePopup;
 
 document.querySelectorAll('.division-header').forEach(header => {
     header.addEventListener('click', () => {
@@ -1897,18 +1897,218 @@ document.querySelectorAll(".file-delete-icon").forEach(function (icon) {
 });
 
 
+var selectedFileCategory = ''; // Variable to store the selected file category
+
+var originalFileName = ''; // Variable to store the original file name
+
+var originalFileCategory = ''; // Variable to store the original file category
+
+
 function openFileEditPopup(fileId, fileName, fileCategory) {
+
     // Set the file ID in a hidden input
+
     document.getElementById('file-id-to-edit').value = fileId;
 
+
     // Set the file name in the input field
+
     document.getElementById('file-name').value = fileName;
 
+
     // Set the file category in the dropdown
+
     const categoryDropdown = document.getElementById('category');
+
     categoryDropdown.value = fileCategory; // Set the selected value
 
+
+    // Store the original values
+
+    originalFileName = fileName;
+
+    originalFileCategory = fileCategory;
+
+
     // Open the file edit popup
+
     document.getElementById('dark-overlay5').style.display = 'block';
+
     document.getElementById('editfile-popup').style.display = 'block';
+
+
+    // Initially disable the save button
+
+    document.querySelector('.save-btn-file-edit').disabled = true;
+
+
+    // Add event listeners to detect changes
+
+    document.getElementById('file-name').addEventListener('input', checkForChangesEditFile);
+
+    categoryDropdown.addEventListener('change', checkForChangesEditFile);
+
 }
+
+document.querySelector('.save-btn-file-edit').addEventListener('click', async function () {
+
+    const fileId = document.getElementById('file-id-to-edit').value;
+
+    const fileName = document.getElementById('file-name').value;
+
+    const fileCategory = document.getElementById('category').value;
+
+
+    const updatedFields = {};
+
+
+    // Check if file name has changed
+
+    if (fileName !== originalFileName) {
+
+        updatedFields.fileName = fileName;
+
+    }
+
+
+    // Check if file category has changed
+
+    if (fileCategory !== originalFileCategory) {
+
+        updatedFields.fileCategory = fileCategory;
+
+    }
+
+
+    // Only update if there are changes
+
+    if (Object.keys(updatedFields).length > 0) {
+
+        await updateFile(fileId, updatedFields);
+
+    }
+
+});
+
+async function updateFile(fileId, updatedFields) {
+
+    try {
+
+        // Prepare the request body
+
+        const requestBody = {
+
+            fileId: parseInt(fileId)
+
+        };
+
+
+        // Always include both fields, using the original values if not changed
+
+        requestBody.fileName = updatedFields.fileName || originalFileName;
+
+        requestBody.fileCategory = updatedFields.fileCategory || originalFileCategory;
+
+
+        const response = await fetch('/Systems/UpdateFile', {
+
+            method: 'PUT',
+
+            headers: {
+
+                'Content-Type': 'application/json',
+
+                'X-CSRF-TOKEN': document.querySelector('input[name="__RequestVerificationToken"]').value
+
+            },
+
+            body: JSON.stringify(requestBody)
+
+        });
+
+
+        if (!response.ok) {
+
+            const errorData = await response.json();
+
+            throw new Error(errorData.message || 'Failed to update file');
+
+        }
+
+
+        // Close the popup
+
+        fileEditClosePopup();
+
+
+        // Show success notification
+
+        showSuccessNotification('File updated successfully');
+
+
+        // Refresh the file list
+
+        await loadSystemFiles(selectedSystemId);
+
+
+    } catch (error) {
+
+        console.error('Error updating file:', error);
+
+        showCustomAlert(`Error: ${error.message}`);
+
+    }
+
+}
+
+var selectedFileCategory = ''; // Variable to store the selected file category
+
+document.getElementById('category').addEventListener('change', function () {
+    selectedFileCategory = this.value; // Store the selected category
+});
+
+
+// Initially disable the save button
+document.querySelector('.save-btn-file-edit').disabled = true;
+
+// Function to check for changes and enable the save button
+function checkForChangesEditFile() {
+
+    const currentFileName = document.getElementById('file-name').value.trim();
+
+    const currentFileCategory = document.getElementById('category').value;
+
+
+    // Enable the save button if either the file name or category has changed
+
+    const isChanged = currentFileName !== originalFileName || currentFileCategory !== originalFileCategory;
+
+
+    document.querySelector('.save-btn-file-edit').disabled = !isChanged;
+
+}
+
+
+
+// Add event listeners to the input fields
+
+document.getElementById('file-name').addEventListener('input', checkForChangesEditFile);
+
+document.getElementById('category').addEventListener('change', checkForChangesEditFile);
+
+// Add this code to your AdminSystemScripts.js
+
+document.querySelector('.reset-btn-file-edit').addEventListener('click', function () {
+
+    // Restore original values to input fields
+
+    document.getElementById('file-name').value = originalFileName;
+
+    document.getElementById('category').value = originalFileCategory;
+
+
+    // Disable the save button since we are resetting to original values
+
+    document.querySelector('.save-btn-file-edit').disabled = true;
+
+});
