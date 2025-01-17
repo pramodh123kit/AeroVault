@@ -186,7 +186,6 @@ namespace AeroVault.Data
         }
 
 
-
         public List<FileModel> GetAllFiles()
         {
             var files = new List<FileModel>();
@@ -201,7 +200,6 @@ namespace AeroVault.Data
         f.FileName, 
         f.FileType, 
         f.FileCategory, 
-        f.FilePath, 
         f.Added_Date,
         s.SystemName,
         LISTAGG(d.DepartmentName, ', ') WITHIN GROUP (ORDER BY d.DepartmentName) AS DepartmentNames,
@@ -218,7 +216,7 @@ namespace AeroVault.Data
         s.IS_DELETED = 0  -- Exclude deleted systems
         AND f.IS_DELETED = 0  -- Exclude deleted files
     GROUP BY 
-        f.FileID, f.SystemID, f.FileName, f.FileType, f.FileCategory, f.FilePath, f.Added_Date, s.SystemName
+        f.FileID, f.SystemID, f.FileName, f.FileType, f.FileCategory, f.Added_Date, s.SystemName
     ORDER BY 
         f.Added_Date DESC";
 
@@ -235,14 +233,13 @@ namespace AeroVault.Data
                                 FileName = reader["FileName"].ToString(),
                                 FileType = reader["FileType"] != DBNull.Value ? reader["FileType"].ToString() : string.Empty,
                                 FileCategory = reader["FileCategory"] != DBNull.Value ? reader["FileCategory"].ToString() : string.Empty,
-                                FilePath = reader["FilePath"] != DBNull.Value ? reader["FilePath"].ToString() : string.Empty,
                                 AddedDate = reader["Added_Date"] != DBNull.Value ? Convert.ToDateTime(reader["Added_Date"]) : (DateTime?)null,
                                 System = new SystemModel
                                 {
                                     SystemID = Convert.ToInt32(reader["SystemID"]),
                                     SystemName = reader["SystemName"].ToString()
                                 },
-                                DepartmentNames = reader["DepartmentNames"].ToString() // Populate the DepartmentNames property
+                                DepartmentNames = reader["DepartmentNames"].ToString()
                             };
 
                             // Set DepartmentName based on the count of departments

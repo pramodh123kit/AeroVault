@@ -478,9 +478,9 @@ namespace AeroVault.Data
             var files = new List<FileModel>();
 
             string sql = @"
-                SELECT FileID, FileName, FileType, FileCategory, FilePath, Added_Date
-                FROM FILES 
-                WHERE SystemID = :SystemID AND IS_DELETED = 0"; 
+        SELECT FileID, FileName, FileType, FileCategory, Added_Date
+        FROM FILES 
+        WHERE SystemID = :SystemID AND IS_DELETED = 0";
 
             using (var connection = new OracleConnection(_connectionString))
             {
@@ -499,8 +499,7 @@ namespace AeroVault.Data
                                 FileName = reader.GetString(1),
                                 FileType = reader.IsDBNull(2) ? null : reader.GetString(2),
                                 FileCategory = reader.IsDBNull(3) ? null : reader.GetString(3),
-                                FilePath = reader.IsDBNull(4) ? null : reader.GetString(4),
-                                AddedDate = reader.IsDBNull(5) ? (DateTime?)null : reader.GetDateTime(5)
+                                AddedDate = reader.IsDBNull(4) ? (DateTime?)null : reader.GetDateTime(4)
                             });
                         }
                     }
@@ -508,7 +507,6 @@ namespace AeroVault.Data
             }
             return files;
         }
-
         public async Task<bool> SoftDeleteFileAsync(int fileId)
         {
             using (var connection = new OracleConnection(_connectionString))
