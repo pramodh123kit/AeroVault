@@ -460,3 +460,95 @@ document.querySelectorAll(".upload-btn").forEach(function (icon) {
 });
 
 document.getElementById("close-logout8").onclick = fileEditClosePopup8;
+
+
+function viewFile(fileName) {
+    const overlayPdf = document.getElementById('overlay-pdf');
+    const pdfFrame = document.getElementById('pdf-frame');
+    const closePdfButton = document.getElementById('close-pdf-button');
+    const darkOverlay = document.getElementById('dark-overlay8');
+    const loadingIndicator = document.getElementById('pdf-loading-indicator');
+
+    // Supported file types
+    const supportedFileTypes = ['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.txt'];
+
+    // Try to find the file with different extensions
+    function findFileWithExtension(baseName) {
+        const possibleFiles = supportedFileTypes.map(ext => baseName + ext);
+
+        // You'll need to add an AJAX call to check which file exists
+        return new Promise((resolve, reject) => {
+            fetch(`/Upload/FindFile?fileName=${encodeURIComponent(baseName)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.foundFileName) {
+                        resolve(data.foundFileName);
+                    } else {
+                        reject('File not found');
+                    }
+                })
+                .catch(error => {
+                    reject('Error finding file');
+                });
+        });
+    }
+
+    // Find the file with the correct extension
+    findFileWithExtension(fileName)
+        .then(foundFileName => {
+            // Construct the URL to view the file
+            const fileUrl = `/Upload/ViewFile?fileName=${encodeURIComponent(foundFileName)}`;
+
+            // Show loading indicator
+            loadingIndicator.style.display = 'block';
+            pdfFrame.style.display = 'none';
+
+            // Set the iframe source
+            pdfFrame.src = fileUrl;
+
+            // Handle iframe load
+            pdfFrame.onload = function () {
+                loadingIndicator.style.display = 'none';
+                pdfFrame.style.display = 'block';
+            };
+
+            // Handle iframe error
+            pdfFrame.onerror = function () {
+                loadingIndicator.style.display = 'none';
+                alert('Error loading document. Please try again.');
+            };
+
+            // Show the overlay and dark background
+            overlayPdf.style.display = 'flex';
+            darkOverlay.style.display = 'block';
+        })
+        .catch(error => {
+            alert(error);
+        });
+
+    // Close button functionality
+    const closePdfButtonHandler = function () {
+        overlayPdf.style.display = 'none';
+        darkOverlay.style.display = 'none';
+        pdfFrame.src = ''; // Clear the source
+        loadingIndicator.style.display = 'none';
+
+        // Remove the event listener to prevent multiple bindings
+        closePdfButton.removeEventListener('click', closePdfButtonHandler);
+    };
+
+    // Add event listener to close button
+    closePdfButton.addEventListener('click', closePdfButtonHandler);
+
+    // Optional: Close when clicking outside the PDF viewer
+    const darkOverlayHandler = function (event) {
+        if (event.target === darkOverlay) {
+            overlayPdf.style.display = 'none';
+            darkOverlay.style.display = 'none';
+            pdfFrame.src = ''; // Clear the source
+            loadingIndicator.style.display = 'none';
+        }
+    };
+
+    darkOverlay.onclick = darkOverlayHandler;
+}
