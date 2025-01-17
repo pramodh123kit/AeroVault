@@ -35,6 +35,12 @@ namespace AeroVault
             builder.Services.AddScoped<UploadDl>();
             builder.Services.AddScoped<UploadBl>();
 
+            builder.Logging.ClearProviders();
+
+            builder.Logging.AddConsole();
+
+            builder.Logging.AddDebug();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
