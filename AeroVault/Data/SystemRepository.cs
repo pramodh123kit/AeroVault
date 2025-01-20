@@ -20,6 +20,40 @@ namespace AeroVault.Data
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
+        public async Task<List<SystemModel>> GetSystemsAddedAfterAsync(DateTime fromDate)
+        {
+            var systems = new List<SystemModel>();
+
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string sql = @"
+            SELECT SystemID, SystemName, Description, added_date
+            FROM SYSTEMS
+            WHERE IS_DELETED = 0 AND added_date >= :fromDate";
+
+                using (var command = new OracleCommand(sql, connection))
+                {
+                    command.Parameters.Add(new OracleParameter(":fromDate", fromDate));
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            systems.Add(new SystemModel
+                            {
+                                SystemID = reader.GetInt32(0),
+                                SystemName = reader.GetString(1),
+                                Description = reader.IsDBNull(2) ? string.Empty : reader.GetString(2),
+                                AddedDate = reader.IsDBNull(3) ? (DateTime?)null : reader.GetDateTime(3)
+                            });
+                        }
+                    }
+                }
+            }
+            return systems;
+        }
+
         public async Task<List<SystemModel>> GetAllSystemsAsync()
         {
             var systems = new List<SystemModel>();

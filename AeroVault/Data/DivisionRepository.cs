@@ -20,6 +20,42 @@ namespace AeroVault.Data
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
+        public async Task<List<DivisionModel>> GetDivisionsAddedAfterAsync(DateTime fromDate)
+        {
+            var divisions = new List<DivisionModel>();
+
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string sql = @"
+            SELECT DivisionID, DivisionName, IsDeleted, ADDED_DATE
+            FROM DIVISIONS
+            WHERE IsDeleted = 0 AND ADDED_DATE >= :fromDate";
+
+                using (var command = new OracleCommand(sql, connection))
+                {
+                    command.Parameters.Add(new OracleParameter(":fromDate", fromDate));
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            divisions.Add(new DivisionModel
+                            {
+                                DivisionID = reader.GetInt32(0),
+                                DivisionName = reader.GetString(1),
+                                IsDeleted = reader.GetInt32(2),
+                                AddedDate = reader["ADDED_DATE"] != DBNull.Value
+                                    ? Convert.ToDateTime(reader["ADDED_DATE"])
+                                    : (DateTime?)null
+                            });
+                        }
+                    }
+                }
+            }
+            return divisions;
+        }
+
         public async Task<List<DivisionModel>> GetAllDivisionsAsync()
         {
             using (var connection = new OracleConnection(_connectionString))
