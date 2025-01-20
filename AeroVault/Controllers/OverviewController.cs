@@ -15,12 +15,17 @@ public class OverviewController : BaseAdminController
 
     public async Task<IActionResult> Index()
     {
-        var divisions = await _divisionRepository.GetAllDivisionsAsync();
 
         DateTime onemonthago = DateTime.Now.AddMonths(-1);
         DateTime threeMonthsAgo = DateTime.Now.AddMonths(-3);
         DateTime sixMonthsAgo = DateTime.Now.AddMonths(-6);
         DateTime oneYearAgo = DateTime.Now.AddMonths(-12);
+
+        var divisions = await _divisionRepository.GetAllDivisionsAsync();
+        var divisionsForOne = await _divisionRepository.GetDivisionsAddedAfterAsync(onemonthago);
+        var divisionsForThree = await _divisionRepository.GetDivisionsAddedAfterAsync(threeMonthsAgo);
+        var divisionsForSix = await _divisionRepository.GetDivisionsAddedAfterAsync(sixMonthsAgo);
+        var divisionsForYear = await _divisionRepository.GetDivisionsAddedAfterAsync(oneYearAgo);
 
         var systems = await _systemRepository.GetAllSystemsAsync();
         var systemsForOne = await _systemRepository.GetSystemsAddedAfterAsync(onemonthago);
@@ -73,7 +78,11 @@ public class OverviewController : BaseAdminController
             Video_6_Count = videosForSix.Count,
             Video_12_Count = videosForYear.Count,
 
-            DivisionCount = divisions.Count
+            DivisionCount = divisions.Count,
+            Division_1_Count = divisionsForOne.Count,
+            Division_3_Count = divisionsForThree.Count,
+            Division_6_Count = divisionsForSix.Count,
+            Division_12_Count = divisionsForYear.Count
         };
 
         // Log the counts for debugging

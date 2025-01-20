@@ -216,29 +216,29 @@ function updateStats(option) {
             selectedDocs = docs ? docs.getAttribute('data-last-month-docs') : null;
             selectedVideos = videos ? videos.getAttribute('data-last-month-videos') : null;
             selectedSystems = systems ? systems.getAttribute('data-last-month-systems') : null;
-            selectedDepartments = departments ? departments.getAttribute('data-last-month-departments') : null; // Assuming no change for departments
-            selectedDivisions = divisions ? divisions.getAttribute('data-all-time-divisions') : null; // Assuming no change for divisions
+            selectedDepartments = departments ? departments.getAttribute('data-last-month-departments') : null; 
+            selectedDivisions = divisions ? divisions.getAttribute('data-last-month-divisions') : null; 
             break;
         case "Last 3 Months":
             selectedDocs = docs ? docs.getAttribute('data-last-3-months-docs') : null;
             selectedVideos = videos ? videos.getAttribute('data-last-3-months-videos') : null;
             selectedSystems = systems ? systems.getAttribute('data-last-3-months-systems') : null;
-            selectedDepartments = departments ? departments.getAttribute('data-last-3-months-departments') : null; // Assuming no change for departments
-            selectedDivisions = divisions ? divisions.getAttribute('data-all-time-divisions') : null; // Assuming no change for divisions
+            selectedDepartments = departments ? departments.getAttribute('data-last-3-months-departments') : null; 
+            selectedDivisions = divisions ? divisions.getAttribute('data-last-3-months-divisions') : null;
             break;
         case "Last 6 Months":
             selectedDocs = docs ? docs.getAttribute('data-last-6-months-docs') : null;
             selectedVideos = videos ? videos.getAttribute('data-last-6-months-videos') : null;
             selectedSystems = systems ? systems.getAttribute('data-last-6-months-systems') : null;
-            selectedDepartments = departments ? departments.getAttribute('data-last-6-months-departments') : null; // Assuming no change for departments
-            selectedDivisions = divisions ? divisions.getAttribute('data-all-time-divisions') : null; // Assuming no change for divisions
+            selectedDepartments = departments ? departments.getAttribute('data-last-6-months-departments') : null; 
+            selectedDivisions = divisions ? divisions.getAttribute('data-last-6-months-divisions') : null; 
             break;
         case "Last Year":
             selectedDocs = docs ? docs.getAttribute('data-last-year-docs') : null;
             selectedVideos = videos ? videos.getAttribute('data-last-year-videos') : null;
             selectedSystems = systems ? systems.getAttribute('data-last-year-systems') : null;
-            selectedDepartments = departments ? departments.getAttribute('data-last-year-departments') : null; // Assuming no change for departments
-            selectedDivisions = divisions ? divisions.getAttribute('data-all-time-divisions') : null; // Assuming no change for divisions
+            selectedDepartments = departments ? departments.getAttribute('data-last-year-departments') : null;
+            selectedDivisions = divisions ? divisions.getAttribute('data-last-year-divisions') : null;
             break;
     }
 

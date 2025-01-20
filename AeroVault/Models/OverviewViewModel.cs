@@ -20,6 +20,10 @@ namespace AeroVault.Models
 
 
         public int DivisionCount { get; set; }
+        public int Division_1_Count { get; set; }
+        public int Division_3_Count { get; set; }
+        public int Division_6_Count { get; set; }
+        public int Division_12_Count { get; set; }
 
 
         public int DocumentCount { get; set; }
