@@ -28,16 +28,9 @@ namespace AeroVault.Data
             {
                 await connection.OpenAsync();
                 string sql = @"
-            SELECT s.SystemID, s.SystemName, s.Description, s.added_date
-            FROM SYSTEMS s
-            WHERE s.IS_DELETED = 0 
-            AND s.added_date >= :fromDate
-            AND EXISTS (
-                SELECT 1 
-                FROM SYSTEM_DEPARTMENTS sd
-                JOIN DEPARTMENTS d ON sd.DepartmentID = d.DepartmentID
-                WHERE sd.SystemID = s.SystemID AND d.is_deleted = 0
-            )";
+            SELECT SystemID, SystemName, Description, added_date
+            FROM SYSTEMS
+            WHERE IS_DELETED = 0 AND added_date >= :fromDate";
 
                 using (var command = new OracleCommand(sql, connection))
                 {
