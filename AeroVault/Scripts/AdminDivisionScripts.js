@@ -465,8 +465,8 @@ function confirmDeleteDivision() {
             // Close the delete popup
             depDeleteClosePopup();
 
-            // Optionally show a success message
-            alert('Division deleted successfully');
+            // Show a success message
+            alert('Division and its associated departments deleted successfully');
 
             // Reset the selected division
             currentSelectedDivisionId = null;
@@ -475,9 +475,9 @@ function confirmDeleteDivision() {
             // Hide the system container and show the image container
             document.querySelector('.system-container').style.display = 'none';
             document.querySelector('.image-container').style.display = 'flex';
-            const selectedOptionSpan = document.getElementById('selected-option');            
+            const selectedOptionSpan = document.getElementById('selected-option');
             selectedOptionSpan.textContent = "Select a division";
-           
+
         },
         error: function (xhr, status, error) {
             console.error('Error deleting division:', error);
