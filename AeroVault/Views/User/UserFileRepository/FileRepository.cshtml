@@ -177,11 +177,18 @@
                         @{
                             var systems = ViewBag.Systems as List<SystemModel>;
                         }
+                        
+
+
+
+
+
+
                         @if (systems != null && systems.Any())
                         {
                             foreach (var system in systems)
                             {
-                                <div class="upload-list-new" id="@system.SystemName">
+                                <div class="upload-list-new" id="@system.SystemName" data-system-id="@system.SystemID">
                                     <div class="upload-item">
                                         <div class="upload-name-all name">
                                             @system.SystemName
@@ -196,6 +203,23 @@
                                 </div>
                             }
                         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         else
                         {
                             <div class="upload-list-new">

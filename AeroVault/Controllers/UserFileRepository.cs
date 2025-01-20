@@ -53,6 +53,14 @@ namespace AeroVault.Controllers
             var systems = _fileRepositoryBl.GetSystemsByDepartment(departmentId);
             return Json(systems);
         }
+
+
+        [HttpGet]
+        public IActionResult GetFilesBySystem(int systemId)
+        {
+            var files = _fileRepositoryBl.GetFilesBySystem(systemId);
+            return Json(files);
+        }
     }
 
 }

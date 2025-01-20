@@ -124,12 +124,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
-
-
 document.addEventListener("DOMContentLoaded", function () {
     const uploadItems = document.querySelectorAll("#upload-list-container .upload-item");
-    const titleElement = document.querySelector(".upload-title");
+    const documentContainer = document.querySelector(".scrollable-item-list.content-container.Document");
+    const videoContainer = document.querySelector(".scrollable-item-list.content-container.Video");
 
     uploadItems.forEach(item => {
         item.addEventListener("click", function (event) {
@@ -138,46 +136,72 @@ document.addEventListener("DOMContentLoaded", function () {
                 event.target.classList.contains("tooltip-des");
             if (isTooltipOrIcon) return;
 
-            // Retrieve the item name
-            const itemName = item.querySelector(".upload-name-all").childNodes[0].textContent.trim();
-            const updateAllUploadsCount = () => {
-                let totalVideos = 0;
-                let totalDocs = 0;
+            // Retrieve the system name
+            const systemName = item.querySelector(".upload-name-all").childNodes[0].textContent.trim();
 
-                uploadItems.forEach(item => {
-                    const videosCount = parseInt(item.querySelector(".upload-video b").textContent) || 0;
-                    const docsCount = parseInt(item.querySelector(".upload-doc b").textContent) || 0;
+            // Find the system ID (you might need to modify this based on how you store system IDs)
+            const systemId = item.closest('.upload-list-new').getAttribute('data-system-id');
 
-                    totalVideos += videosCount;
-                    totalDocs += docsCount;
+            // Fetch files for the selected system
+            fetch(`/UserFileRepository/GetFilesBySystem?systemId=${systemId}`)
+                .then(response => response.json())
+                .then(files => {
+                    // Clear existing files
+                    documentContainer.innerHTML = '';
+                    videoContainer.innerHTML = '';
+
+                    // Count documents and videos
+                    let documentCount = 0;
+                    let videoCount = 0;
+
+                    // Populate files
+                    files.forEach(file => {
+                        const itemList = document.createElement('div');
+                        itemList.className = 'item-list';
+
+                        let containerToUse, titleClass;
+                        if (file.fileType.toLowerCase() === 'document') {
+                            containerToUse = documentContainer;
+                            titleClass = 'item-title';
+                            documentCount++;
+                        } else if (file.fileType.toLowerCase() === 'video') {
+                            containerToUse = videoContainer;
+                            titleClass = 'item-title1';
+                            videoCount++;
+                        } else {
+                            return; // Skip files that are neither documents nor videos
+                        }
+
+                        itemList.innerHTML = `
+                            <div class="item-info">
+                                <img class="read-icon" src="/Content/Assets/readIcon.svg" alt="read Icon" />
+                                <span class="${titleClass}">${file.fileName}</span>
+                                <span class="item-meta">${file.fileCategory || 'Uncategorized'}</span>
+                                <span class="item-date">${new Date(file.addedDate).toLocaleDateString()}</span>
+                                <button class="action-button" data-pdf="${file.filePath}">View</button>
+                            </div>
+                        `;
+
+                        containerToUse.appendChild(itemList);
+                    });
+
+                    // Update document and video counts
+                    document.querySelector('.tab-button.document-btn').textContent = `Documents (${documentCount})`;
+                    document.querySelector('.tab-button.video-btn').textContent = `Videos (${videoCount})`;
+
+                    // Update the system name in the title
+                    document.querySelector(".upload-title").textContent = systemName;
+
+                    // Update upload info for the clicked system
+                    item.querySelector('.upload-video b').textContent = videoCount;
+                    item.querySelector('.upload-doc b').textContent = documentCount;
+
+                    // Ensure the document section is shown
+                    showDocuments();
+                })
+                .catch(error => {
+                    console.error('Error fetching files:', error);
                 });
-
-
-            };
-            // Retrieve and sum "Videos" and "Docs" values
-            const videosCount = parseInt(item.querySelector(".upload-video b").textContent) || 0;
-            const docsCount = parseInt(item.querySelector(".upload-doc b").textContent) || 0;
-            const totalCount = videosCount + docsCount;
-
-            // Update the title with item name and total count
-            titleElement.textContent = `${itemName}`;
-        });
-    });
-
-    // Tooltip hover logic
-    const icons = document.querySelectorAll('.systemIcon');
-    icons.forEach((icon) => {
-        const tooltip = icon.nextElementSibling; // Get the sibling tooltip
-        icon.addEventListener("mouseenter", () => {
-            if (tooltip && tooltip.classList.contains("tooltip-des")) {
-                tooltip.style.display = "block"; // Show tooltip
-            }
-        });
-
-        icon.addEventListener("mouseleave", () => {
-            if (tooltip && tooltip.classList.contains("tooltip-des")) {
-                tooltip.style.display = "none"; // Hide tooltip
-            }
         });
     });
 });

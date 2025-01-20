@@ -81,5 +81,44 @@ namespace AeroVault.Data
 
             return systems;
         }
+
+
+        public List<FileModel> GetFilesBySystem(int systemId)
+        {
+            List<FileModel> files = new List<FileModel>();
+
+            using (OracleConnection conn = new OracleConnection(_connectionString))
+            {
+                conn.Open();
+
+                string query = @"
+            SELECT FileID, SystemID, FileName, FileType, FileCategory, Added_Date 
+            FROM Files 
+            WHERE SystemID = :SystemID AND IS_DELETED = 0";
+
+                using (OracleCommand cmd = new OracleCommand(query, conn))
+                {
+                    cmd.Parameters.Add(":SystemID", OracleDbType.Int32).Value = systemId;
+
+                    using (OracleDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            files.Add(new FileModel
+                            {
+                                FileID = reader.GetInt32(reader.GetOrdinal("FileID")),
+                                SystemID = reader.GetInt32(reader.GetOrdinal("SystemID")),
+                                FileName = reader.GetString(reader.GetOrdinal("FileName")),
+                                FileType = reader.GetString(reader.GetOrdinal("FileType")),
+                                FileCategory = reader.GetString(reader.GetOrdinal("FileCategory")),
+                                AddedDate = reader.GetDateTime(reader.GetOrdinal("Added_Date"))
+                            });
+                        }
+                    }
+                }
+            }
+
+            return files;
+        }
     }
 }
