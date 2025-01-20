@@ -146,52 +146,18 @@ namespace AeroVault.Data
             using (var connection = new OracleConnection(_connectionString))
             {
                 await connection.OpenAsync();
+                string updateSql = "UPDATE DIVISIONS SET IsDeleted = 1 WHERE DivisionID = :DivisionId";
 
-                // Start a transaction
-                using (var transaction = connection.BeginTransaction())
+                using (var command = new OracleCommand(updateSql, connection))
                 {
-                    try
-                    {
-                        // First, soft delete all departments associated with this division
-                        string deleteDepartmentsSql = @"
-                    UPDATE DEPARTMENTS 
-                    SET IS_DELETED = 1 
-                    WHERE DIVISIONID = :DivisionId";
+                    command.Parameters.Add(new OracleParameter(":DivisionId", divisionId));
 
-                        using (var departmentsCommand = new OracleCommand(deleteDepartmentsSql, connection))
-                        {
-                            departmentsCommand.Transaction = transaction;
-                            departmentsCommand.Parameters.Add(new OracleParameter(":DivisionId", divisionId));
-                            await departmentsCommand.ExecuteNonQueryAsync();
-                        }
-
-                        // Then, soft delete the division
-                        string updateDivisionSql = @"
-                    UPDATE DIVISIONS 
-                    SET IsDeleted = 1 
-                    WHERE DivisionID = :DivisionId";
-
-                        using (var divisionCommand = new OracleCommand(updateDivisionSql, connection))
-                        {
-                            divisionCommand.Transaction = transaction;
-                            divisionCommand.Parameters.Add(new OracleParameter(":DivisionId", divisionId));
-                            int rowsAffected = await divisionCommand.ExecuteNonQueryAsync();
-
-                            // Commit the transaction
-                            transaction.Commit();
-
-                            return rowsAffected > 0;
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        // Rollback the transaction in case of any error
-                        transaction.Rollback();
-                        throw;
-                    }
+                    int rowsAffected = await command.ExecuteNonQueryAsync();
+                    return rowsAffected > 0;
                 }
             }
         }
+
         public async Task<List<DepartmentModel>> GetDepartmentsByDivisionAsync(int divisionId)
         {
             using (var connection = new OracleConnection(_connectionString))
