@@ -1,48 +1,55 @@
-﻿(function () {
-    // Check if the variables are already defined
-    if (typeof myChart === 'undefined') {
-        var myChart; // Declare myChart in the local scope
-    }
-    if (typeof myChart2 === 'undefined') {
-        var myChart2; // Declare myChart2 in the local scope
-    }
+﻿let myChart; // Declare myChart in the global scope
+let myChart2; // Declare myChart2 in the global scope
+
+(function () {
+    const docs = document.querySelector('.stats-container .stat-item[data-all-time-docs]');
+    const videos = document.querySelector('.stats-container .stat-item[data-all-time-videos]');
+    const systems = document.querySelector('.stats-container .stat-item[data-all-time-systems]');
+    const departments = document.querySelector('.stats-container .stat-item[data-all-time-departments]');
+    const divisions = document.querySelector('.stats-container .stat-item[data-all-time-divisions]');
 
     function initializeCharts() {
         const ctx = document.getElementById('myChart').getContext('2d');
         const ctx2 = document.getElementById('myChart2').getContext('2d');
 
         // Create gradients
-        var gradient1 = ctx.createLinearGradient(0, 0, 400, 400);
+        const gradient1 = ctx.createLinearGradient(0, 0, 400, 400);
         gradient1.addColorStop(0, '#36A2EB'); // Start color blue
         gradient1.addColorStop(1, '#05448B'); // End color
 
-        var gradient2 = ctx.createLinearGradient(0, 0, 800, 400);
+        const gradient2 = ctx.createLinearGradient(0, 0, 800, 400);
         gradient2.addColorStop(0, '#C9AA22'); // Start color yellow
         gradient2.addColorStop(1, '#635411'); // End color
 
-        var gradient3 = ctx.createLinearGradient(0, 0, 800, 400);
+        const gradient3 = ctx.createLinearGradient(0, 0, 800, 400);
         gradient3.addColorStop(0, '#CE1D1D'); // Start color red
         gradient3.addColorStop(1, '#680F0F'); // End color
 
-        var gradient4 = ctx.createLinearGradient(0, 0, 800, 400);
+        const gradient4 = ctx.createLinearGradient(0, 0, 800, 400);
         gradient4.addColorStop(0, '#2E8D58'); // Start color Green
         gradient4.addColorStop(1, '#04612D'); // End color
 
-        var gradient5 = ctx.createLinearGradient(0, 0, 800, 400);
+        const gradient5 = ctx.createLinearGradient(0, 0, 800, 400);
         gradient5.addColorStop(0, '#FF6333'); // Start color orange
         gradient5.addColorStop(1, '#993B1F'); // End color
 
-        var gradient6 = ctx.createLinearGradient(0, 0, 800, 400);
+        const gradient6 = ctx.createLinearGradient(0, 0, 800, 400);
         gradient6.addColorStop(0, '#053C7A'); // Start color orange
         gradient6.addColorStop(1, '#052850'); // End color
 
-        var gradient7 = ctx2.createLinearGradient(0, 0, 800, 0);
+        const gradient7 = ctx2.createLinearGradient(0, 0, 800, 0);
         gradient7.addColorStop(0, 'rgba(5, 60, 122, 0.90)');
         gradient7.addColorStop(1, 'rgba(5, 40, 80, 0.90)');
 
-        var dataset = [{
+        let selectedDocs = docs ? docs.getAttribute('data-all-time-docs') : null;
+        let selectedVideos = videos ? videos.getAttribute('data-all-time-videos') : null;
+        let selectedSystems = systems ? systems.getAttribute('data-all-time-systems') : null;
+        let selectedDepartments = departments ? departments.getAttribute('data-all-time-departments') : null;
+        let selectedDivisions = divisions ? divisions.getAttribute('data-all-time-divisions') : null;
+
+        const dataset = [{
             label: 'Total ',
-            data: [12, 19, 10, 20, 10],
+            data: [selectedSystems, selectedDepartments, selectedDocs, selectedVideos, selectedDivisions],
             borderWidth: 0,
             backgroundColor: [gradient3, gradient4, gradient5, gradient2, gradient1], // Segment colors
             hoverBackgroundColor: ['#CE1D1D', '#2E8D58', '#FF6333', '#C9AA22', '#36A2EB'] // Hover colors
@@ -56,7 +63,7 @@
         function renderCharts() {
             const barThickness = calculateBarThickness();
 
-            var dataset2 = [{
+            const dataset2 = [{
                 label: 'Logged In Staff  ',
                 data: [120, 190, 100, 200, 100],
                 borderWidth: 0,
@@ -73,7 +80,7 @@
 
             // Clear existing charts
             if (myChart) {
-                myChart.destroy(); // Call destroy on the existing dough nut chart instance
+                myChart.destroy(); // Call destroy on the existing doughnut chart instance
             }
             if (myChart2) {
                 myChart2.destroy(); // Call destroy on the existing bar chart instance
@@ -144,11 +151,10 @@
     }
 })();
 
-
 function toggleCustomDropdown() {
-    var dropdownContent = document.querySelector('.custom-dropdown-content');
-    var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
-    var selector = document.querySelector('.custom-selector');
+    const dropdownContent = document.querySelector('.custom-dropdown-content');
+    const dropdownToggle = document.querySelector('.custom-dropdown-toggle');
+    const selector = document.querySelector('.custom-selector');
 
     if (dropdownContent.style.display === 'block') {
         dropdownContent.style.display = 'none';
@@ -165,20 +171,17 @@ function toggleCustomDropdown() {
         selector.style.borderBottomRightRadius = '0';
         selector.style.borderBottom = 'none';
 
-        // Remove or comment out this line if the input doesn't exist
-        // document.getElementById('custom-search-input').value = ''; 
         showAllCustomOptions();
     }
 }
 
-
 function selectCustomOption(element) {
-    var selectedOption = element.textContent || element.innerText;
+    const selectedOption = element.textContent || element.innerText;
     document.getElementById('selected-option').textContent = selectedOption;
     document.querySelector('.custom-dropdown-content').style.display = 'none';
     document.querySelector('.custom-dropdown-toggle').classList.remove('open');
 
-    var divs = document.querySelectorAll('.custom-dropdown-list div');
+    const divs = document.querySelectorAll('.custom-dropdown-list div');
     divs.forEach(function (div) {
         div.classList.remove('active');
     });
@@ -188,19 +191,20 @@ function selectCustomOption(element) {
     updateStats(selectedOption);
 }
 
+function updateChartData(selectedDocs, selectedVideos, selectedSystems, selectedDepartments, selectedDivisions) {
+    // Update the dataset for the doughnut chart
+    if (myChart) {
+        myChart.data.datasets[0].data = [selectedSystems, selectedDepartments, selectedDocs, selectedVideos, selectedDivisions];
+        myChart.update(); // Update the chart
+    }
+}
+
 function updateStats(option) {
     const docs = document.querySelector('.stats-container .stat-item[data-all-time-docs]');
     const videos = document.querySelector('.stats-container .stat-item[data-all-time-videos]');
     const systems = document.querySelector('.stats-container .stat-item[data-all-time-systems]');
     const departments = document.querySelector('.stats-container .stat-item[data-all-time-departments]');
     const divisions = document.querySelector('.stats-container .stat-item[data-all-time-divisions]');
-
-    // Log the selected elements to check if they are found
-    console.log('Docs Element:', docs);
-    console.log('Videos Element:', videos);
-    console.log('Systems Element:', systems);
-    console.log('Departments Element:', departments);
-    console.log('Divisions Element:', divisions);
 
     let selectedDocs, selectedVideos, selectedSystems, selectedDepartments, selectedDivisions;
 
@@ -216,22 +220,22 @@ function updateStats(option) {
             selectedDocs = docs ? docs.getAttribute('data-last-month-docs') : null;
             selectedVideos = videos ? videos.getAttribute('data-last-month-videos') : null;
             selectedSystems = systems ? systems.getAttribute('data-last-month-systems') : null;
-            selectedDepartments = departments ? departments.getAttribute('data-last-month-departments') : null; 
-            selectedDivisions = divisions ? divisions.getAttribute('data-last-month-divisions') : null; 
+            selectedDepartments = departments ? departments.getAttribute('data-last-month-departments') : null;
+            selectedDivisions = divisions ? divisions.getAttribute('data-last-month-divisions') : null;
             break;
         case "Last 3 Months":
             selectedDocs = docs ? docs.getAttribute('data-last-3-months-docs') : null;
             selectedVideos = videos ? videos.getAttribute('data-last-3-months-videos') : null;
             selectedSystems = systems ? systems.getAttribute('data-last-3-months-systems') : null;
-            selectedDepartments = departments ? departments.getAttribute('data-last-3-months-departments') : null; 
+            selectedDepartments = departments ? departments.getAttribute('data-last-3-months-departments') : null;
             selectedDivisions = divisions ? divisions.getAttribute('data-last-3-months-divisions') : null;
             break;
         case "Last 6 Months":
             selectedDocs = docs ? docs.getAttribute('data-last-6-months-docs') : null;
             selectedVideos = videos ? videos.getAttribute('data-last-6-months-videos') : null;
             selectedSystems = systems ? systems.getAttribute('data-last-6-months-systems') : null;
-            selectedDepartments = departments ? departments.getAttribute('data-last-6-months-departments') : null; 
-            selectedDivisions = divisions ? divisions.getAttribute('data-last-6-months-divisions') : null; 
+            selectedDepartments = departments ? departments.getAttribute('data-last-6-months-departments') : null;
+            selectedDivisions = divisions ? divisions.getAttribute('data-last-6-months-divisions') : null;
             break;
         case "Last Year":
             selectedDocs = docs ? docs.getAttribute('data-last-year-docs') : null;
@@ -268,9 +272,13 @@ function updateStats(option) {
     } else {
         console.warn('Divisions element not found');
     }
+
+    // Update the chart data
+    updateChartData(selectedDocs, selectedVideos, selectedSystems, selectedDepartments, selectedDivisions);
 }
+
 function showAllCustomOptions() {
-    var divs = document.querySelectorAll('.custom-dropdown-list div');
+    const divs = document.querySelectorAll('.custom-dropdown-list div');
     divs.forEach(function (div) {
         div.style.display = "";
     });
