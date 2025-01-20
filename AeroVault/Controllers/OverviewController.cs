@@ -16,34 +16,41 @@ public class OverviewController : BaseAdminController
     public async Task<IActionResult> Index()
     {
         var departments = await _departmentRepository.GetAllDepartmentsAsync();
-        var systems = await _systemRepository.GetAllSystemsAsync();
         var divisions = await _divisionRepository.GetAllDivisionsAsync();
 
-        DateTime onemonthagoVid = DateTime.Now.AddMonths(-1);
-        DateTime threeMonthsAgoVid = DateTime.Now.AddMonths(-3);
-        DateTime sixMonthsAgoVid = DateTime.Now.AddMonths(-6);
-        DateTime oneYearAgoVid = DateTime.Now.AddMonths(-12);
-        var videosForOne = _uploadDl.GetVideos(threeMonthsAgoVid);
-        var videosForThree = _uploadDl.GetVideos(threeMonthsAgoVid);
-        var videosForSix = _uploadDl.GetVideos(threeMonthsAgoVid);
-        var videosForYear = _uploadDl.GetVideos(threeMonthsAgoVid);
-        var videos = _uploadDl.GetVideos();
+        DateTime onemonthago = DateTime.Now.AddMonths(-1);
+        DateTime threeMonthsAgo = DateTime.Now.AddMonths(-3);
+        DateTime sixMonthsAgo = DateTime.Now.AddMonths(-6);
+        DateTime oneYearAgo = DateTime.Now.AddMonths(-12);
 
-        // Calculate the date for three months ago
-        DateTime onemonthagoDoc = DateTime.Now.AddMonths(-1);
-        DateTime threeMonthsAgoDoc = DateTime.Now.AddMonths(-3);
-        DateTime sixMonthsAgoDoc = DateTime.Now.AddMonths(-6);
-        DateTime oneYearAgoDoc = DateTime.Now.AddYears(-1);
-        var documentsForOne = _uploadDl.GetDocuments(onemonthagoDoc);
-        var documentsForThree = _uploadDl.GetDocuments(threeMonthsAgoDoc);
-        var documentsForSix = _uploadDl.GetDocuments(sixMonthsAgoDoc);
-        var documentsForYear = _uploadDl.GetDocuments(oneYearAgoDoc);
+        var systems = await _systemRepository.GetAllSystemsAsync();
+        var systemsForOne = await _systemRepository.GetSystemsAddedAfterAsync(onemonthago);
+        var systemsForThree = await _systemRepository.GetSystemsAddedAfterAsync(threeMonthsAgo);
+        var systemsForSix = await _systemRepository.GetSystemsAddedAfterAsync(sixMonthsAgo);
+        var systemsForYear = await _systemRepository.GetSystemsAddedAfterAsync(oneYearAgo);
+
+        var videos = _uploadDl.GetVideos();
+        var videosForOne = _uploadDl.GetVideos(onemonthago);
+        var videosForThree = _uploadDl.GetVideos(threeMonthsAgo);
+        var videosForSix = _uploadDl.GetVideos(sixMonthsAgo);
+        var videosForYear = _uploadDl.GetVideos(oneYearAgo);
+
         var documents = _uploadDl.GetDocuments();
+        var documentsForOne = _uploadDl.GetDocuments(onemonthago);
+        var documentsForThree = _uploadDl.GetDocuments(threeMonthsAgo);
+        var documentsForSix = _uploadDl.GetDocuments(sixMonthsAgo);
+        var documentsForYear = _uploadDl.GetDocuments(oneYearAgo);
 
         var viewModel = new OverviewViewModel
         {
             DepartmentCount = departments.Count,
+
+
             SystemCount = systems.Count,
+            System_1_Count = systemsForOne.Count,
+            System_3_Count = systemsForThree.Count,
+            System_6_Count = systemsForSix.Count,
+            System_12_Count = systemsForYear.Count,
 
             DocumentCount = documents.Count,
             Document_1_Count = documentsForOne.Count,
