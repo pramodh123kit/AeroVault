@@ -15,7 +15,6 @@ public class OverviewController : BaseAdminController
 
     public async Task<IActionResult> Index()
     {
-        var departments = await _departmentRepository.GetAllDepartmentsAsync();
         var divisions = await _divisionRepository.GetAllDivisionsAsync();
 
         DateTime onemonthago = DateTime.Now.AddMonths(-1);
@@ -41,9 +40,19 @@ public class OverviewController : BaseAdminController
         var documentsForSix = _uploadDl.GetDocuments(sixMonthsAgo);
         var documentsForYear = _uploadDl.GetDocuments(oneYearAgo);
 
+        var departments = await _departmentRepository.GetAllDepartmentsAsync();
+        var departmentsForOne = await _departmentRepository.GetDepartmentsAddedAfterAsync(onemonthago);
+        var departmentsForThree = await _departmentRepository.GetDepartmentsAddedAfterAsync(threeMonthsAgo);
+        var departmentsForSix = await _departmentRepository.GetDepartmentsAddedAfterAsync(sixMonthsAgo);
+        var departmentsForYear = await _departmentRepository.GetDepartmentsAddedAfterAsync(oneYearAgo);
+
         var viewModel = new OverviewViewModel
         {
             DepartmentCount = departments.Count,
+            Department_1_Count = departmentsForOne.Count,
+            Department_3_Count = departmentsForThree.Count,
+            Department_6_Count = departmentsForSix.Count,
+            Department_12_Count = departmentsForYear.Count,
 
 
             SystemCount = systems.Count,
