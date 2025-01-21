@@ -203,14 +203,17 @@
   margin: 10px 0;
 }
 
+.upload-label {
+    margin: auto auto;
+}
 
 .next-button.upload-final-button {
-  background-color: #318d56;
-  border-radius: 10px;
-  color: white;
-  border: none;
-  cursor: pointer;
-  padding: 10px 20px; /* Optional: adjust padding for button size */
+    background-color: #318d56;
+    border-radius: 10px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px; /* Optional: adjust padding for button size */
 }
 
 .next-button.upload-final-button:hover {
@@ -731,4 +734,178 @@
     justify-content: flex-end; /* This will align the button to the right */
     gap: 10px;
     margin-top: 20px;
+}
+
+
+
+.fileCategory-form-group {
+    margin-bottom: 0px;
+/*    width: 300px;*/
+/*    margin-top: 30px;*/
+}
+
+
+.fileCategory-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-top: 10px;
+}
+
+
+.fileCategory-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 100%;
+    border: 1px solid #6D6D6D;
+    border-top: none;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 1;
+}
+
+
+.fileCategory-dropdown-list {
+    height: 150px;
+    overflow-y: scroll;
+}
+.fileCategory-dropdown-list {
+    /* For Firefox */
+    scrollbar-width: thin; /* Options: auto, thin */
+    scrollbar-color: #00436C transparent; /* thumb color, track color */
+}
+
+    /* WebKit Browsers (Chrome, Safari) */
+    .fileCategory-dropdown-list::-webkit-scrollbar {
+        width: 8px; /* Width of the scrollbar */
+    }
+
+    .fileCategory-dropdown-list::-webkit-scrollbar-thumb {
+        background-color: #00436C; /* Color of the scrollbar thumb */
+        border-radius: 10px; /* Rounded corners */
+    }
+
+    .fileCategory-dropdown-list::-webkit-scrollbar-track {
+        background: transparent; /* No background for the track */
+    }
+
+
+
+    .fileCategory-dropdown-list div {
+        padding: 8px 16px;
+        cursor: pointer;
+    }
+
+
+        .fileCategory-dropdown-list div:hover {
+            background-color: #BBDCF9;
+        }
+
+
+    .fileCategory-dropdown-list .active {
+        font-weight: bold;
+    }
+
+
+.fileCategory-dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #6D6D6D;
+    border-bottom: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+    .fileCategory-dropdown-toggle i {
+        margin-left: 10px;
+        transition: transform 0.3s;
+    }
+
+
+    .fileCategory-dropdown-toggle.open i {
+        transform: rotate(180deg);
+    }
+
+
+.fileCategory-selector {
+    border: 1px solid #6D6D6D;
+    border-radius: 10px;
+}
+
+
+.fileCategory-search-container {
+    display: flex;
+    border-bottom: 1px solid #938C8C;
+    margin: 20px;
+    margin-top: 0px;
+}
+
+
+    .fileCategory-search-container img {
+        color: #999;
+        margin-right: 5px;
+        font-size: 20px;
+        margin-left: 5px;
+    }
+
+
+    .fileCategory-search-container input {
+        border: none;
+        color: #000;
+        font-size: 16px;
+        outline: none;
+        flex: 1;
+        padding: 5px;
+    }
+
+
+#fileCategory-search-input {
+    margin-left: 0px;
+    border: none;
+}
+
+
+.fileCategory-dropdown-toggle::after {
+    content: none;
+}
+
+
+.upload-area {
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.upload-label {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+    .upload-label img {
+        max-width: 50px;
+        margin-bottom: 10px;
+    }
+
+    .upload-label p {
+        margin: 10px 0;
+    }
+
+.browse-btn {
+    border-color: #00436C;
+    border-radius: 10px;
+    background-color: white;
+    color: #00436C;
+    cursor: pointer;
 }
