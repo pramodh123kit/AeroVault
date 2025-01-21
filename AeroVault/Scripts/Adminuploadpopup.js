@@ -387,55 +387,144 @@ function handleDrop(e) {
         else return (bytes / 1048576).toFixed(1) + " MB";
     }
 
-    function uploadFiles() {
-        for (let step = 1; step < 4; step++) {
-            if (!validateStep(step)) {
-                alert(`Please complete step ${step} before uploading`);
-                goToStep(step);
-                return;
-            }
-        }
+function uploadFiles() {
 
-        if (selectedFiles.length === 0) {
-            alert("Please select files to upload");
+    // Validate steps
+
+    for (let step = 1; step < 4; step++) {
+
+        if (!validateStep(step)) {
+
+            alert(`Please complete step ${step} before uploading`);
+
+            goToStep(step);
+
             return;
+
         }
 
-        const uploadData = {
-            departments: selectedDepartments,
-            system: selectedSystem ? selectedSystem.value : null,
-            category: selectedCategory ? selectedCategory.value : null,
-            files: selectedFiles,
-        };
+    }
 
-        console.log("Preparing to upload:", uploadData);
 
-        const formData = new FormData();
-        formData.append("departments", JSON.stringify(uploadData.departments));
-        formData.append("system", uploadData.system);
-        formData.append("category", uploadData.category);
+    if (selectedFiles.length === 0) {
 
-        selectedFiles.forEach((file) => {
-            formData.append("files", file);
+        alert("Please select files to upload");
+
+        return;
+
+    }
+
+
+    // Get selected system and category
+
+    const selectedSystemCheckbox = document.querySelector('.system:checked');
+
+    const selectedCategoryElement = document.getElementById('selected-fileCategory');
+
+
+    if (!selectedSystemCheckbox) {
+
+        alert("Please select a system");
+
+        goToStep(2);
+
+        return;
+
+    }
+
+
+    if (selectedCategoryElement.textContent === 'Select File Category') {
+
+        alert("Please select a file category");
+
+        goToStep(3);
+
+        return;
+
+    }
+
+
+    // Create FormData for upload
+
+    const formData = new FormData();
+
+
+
+    // Add system ID
+
+    const systemId = selectedSystemCheckbox.getAttribute('data-system-id');
+
+    formData.append('SystemId', systemId);
+
+
+
+    // Add category
+
+    const category = selectedCategoryElement.textContent;
+
+    formData.append('Category', category);
+
+
+
+    // Add files
+
+    selectedFiles.forEach(file => {
+
+        formData.append('Files', file);
+
+    });
+
+
+    // Show loading indicator
+
+    alert(`Uploading ${selectedFiles.length} file(s)...`);
+
+
+    // Perform the upload
+
+    fetch('/Upload/UploadFiles', {
+
+        method: 'POST',
+
+        body: formData
+
+    })
+
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error('Upload failed');
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(result => {
+
+            alert(result.message);
+
+            // Reset the upload form
+
+            resetFiles();
+
+            // Close the popup or reset steps
+
+            // You might want to add a method to reset the entire upload process
+
+        })
+
+        .catch(error => {
+
+            console.error('Upload error:', error);
+
+            alert('File upload failed: ' + error.message);
+
         });
 
-        alert(`Uploading ${selectedFiles.length} file(s)`);
-
-        // Uncomment and modify the following for actual upload
-        // fetch('/your-upload-endpoint', {
-        //     method: 'POST',
-        //     body: formData
-        // })
-        // .then(response => response.json())
-        // .then(result => {
-        //     alert('Upload successful');
-        //     resetFiles();
-        // })
-        // .catch(error => {
-        //     alert('Upload failed');
-        //     console.error('Error:', error);
-        // });
-    }
+}
 
     function filterDepartments(searchTerm) {
         const departments = document.querySelectorAll(".department-list li");

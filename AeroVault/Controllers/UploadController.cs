@@ -88,7 +88,6 @@ public class UploadController : BaseAdminController
         catch (Exception ex)
         {
             // Log the exception
-            //_logger.LogError(ex, $"Error viewing file: {fileName}");
             return StatusCode(500, "An error occurred while trying to view the file");
         }
     }
@@ -165,5 +164,103 @@ public class UploadController : BaseAdminController
             //_logger.LogError(ex, $"Error finding file: {fileName}");
             return StatusCode(500, "An error occurred while searching for the file");
         }
+    }
+
+
+    [HttpPost]
+    public async Task<IActionResult> UploadFiles([FromForm] UploadRequest uploadRequest)
+    {
+        try
+        {
+            // Validate input
+            if (uploadRequest.Files == null || uploadRequest.Files.Count == 0)
+            {
+                return BadRequest("No files uploaded");
+            }
+
+            // Get base upload path from configuration
+            var basePath = _configuration["FileSettings:BasePath"];
+
+            // Prepare to store uploaded files and file records
+            var fileRecords = new List<FileModel>();
+
+            foreach (var file in uploadRequest.Files)
+            {
+                if (file.Length == 0) continue;
+
+                // Use the original filename without modification
+                var fileName = file.FileName;
+                var filePath = Path.Combine(basePath, fileName);
+
+                // Ensure directory exists
+                Directory.CreateDirectory(basePath);
+
+                // Save file to disk
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                // Determine the file type based on the file extension
+                var fileType = Path.GetExtension(fileName).ToLowerInvariant();
+                string fileTypeString;
+
+                if (fileType == ".pdf" || fileType == ".doc" || fileType == ".docx" ||
+                    fileType == ".txt" || fileType == ".xls" || fileType == ".xlsx")
+                {
+                    fileTypeString = "Document";
+                }
+                else if (fileType == ".mp4" || fileType == ".avi" || fileType == ".mov" ||
+                         fileType == ".wmv" || fileType == ".mkv")
+                {
+                    fileTypeString = "Video";
+                }
+                else
+                {
+                    return BadRequest("Unsupported file type. Only documents and videos are allowed.");
+                }
+
+                // Create file record
+                var fileRecord = new FileModel
+                {
+                    FileName = fileName,
+                    SystemID = uploadRequest.SystemId,
+                    FileType = fileTypeString, // Set the determined file type
+                    FileCategory = uploadRequest.Category,
+                    AddedDate = DateTime.Now,
+                    AddedTime = DateTime.Now,
+                    IsDeleted = 0
+                };
+
+                // Save file record to database
+                fileRecords.Add(fileRecord);
+            }
+
+            // Use your data layer to insert file records
+            _uploadBl.SaveFileRecords(fileRecords);
+
+            return Ok(new
+            {
+                message = $"{fileRecords.Count} files uploaded successfully",
+                files = fileRecords.Select(f => f.FileName)
+            });
+        }
+        catch (Exception ex)
+        {
+            // Log the exception
+            return StatusCode(500, $"Upload failed: {ex.Message}");
+        }
+    }
+
+    public class UploadRequest
+
+    {
+
+        public int SystemId { get; set; }
+
+        public string Category { get; set; }
+
+        public List<IFormFile> Files { get; set; }
+
     }
 }

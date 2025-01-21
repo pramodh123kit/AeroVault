@@ -46,5 +46,10 @@ namespace AeroVault.Business
         {
             return _uploadDl.GetFilesByType("Video", fromDate);
         }
+
+        public void SaveFileRecords(List<FileModel> fileRecords)
+        {
+            _uploadDl.SaveFileRecords(fileRecords);
+        }
     }
 }

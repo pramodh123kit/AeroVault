@@ -494,6 +494,7 @@ document.getElementById("close-logout8").onclick = fileEditClosePopup8;
 
 
 function viewFile(fileName) {
+    console.log("Attempting to view file:", fileName); // Log the file name
     const overlayPdf = document.getElementById('overlay-pdf');
     const pdfFrame = document.getElementById('pdf-frame');
     const closePdfButton = document.getElementById('close-pdf-button');
