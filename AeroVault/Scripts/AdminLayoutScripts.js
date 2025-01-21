@@ -44,17 +44,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const dropdownIcon = document.getElementById('dropdown-icon');
 
     const profileInfo = document.querySelector('.profile-info');
-    const originalContent = profileInfo.innerHTML;
-    const newContent = `
+    const profileDetails = document.querySelector('.profile-details');
 
-            <div class="profile-info" style="margin-top:0px; border:none; display: flex; flex-direction: column; align-items: center; padding-top:0px; padding-bottom:0px;">
-                <img src="Content/Assets/AdminProf.svg" alt="New Profile Picture" style="width: 50px; height: 50px; margin-bottom: 10px; padding-top:0px;">
-                <span class="name" style="padding: 5px 0;">IN1957</span>
-                <span class="name" style="padding: 5px 0;">Pramodh Lihinikaduwa</span>
-                <span class="name" style="padding-bottom:0px">Information Technology</span>
-            </div>
-
-        `;
+    
     profileInfo.addEventListener('click', function () {
         if (profileInfo.innerHTML === originalContent) {
             profileInfo.innerHTML = newContent;
@@ -62,6 +54,16 @@ document.addEventListener("DOMContentLoaded", function () {
             profileInfo.innerHTML = originalContent;
         }
     });
+
+    profileInfo.addEventListener('click', function () {
+        // Toggle the visibility of profile details
+        if (profileDetails.style.display === 'none' || profileDetails.style.display === '') {
+            profileDetails.style.display = 'block';
+        } else {
+            profileDetails.style.display = 'none';
+        }
+    });
+
 
     sidebarToggle.addEventListener("click", function () {
         if (window.innerWidth >= 1024) {
