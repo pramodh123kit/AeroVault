@@ -373,6 +373,10 @@
   margin-top: 10px;
 }
 
+.system-item {
+    margin-bottom: 20px;
+}
+
 .file-search-container {
   display: flex;
   align-items: center;
@@ -385,7 +389,7 @@
   color: #999;
   margin-right: 5px;
   width: 20px;
-  margin-left: 255px;
+  /*margin-left: 255px;*/
 }
 
 .file-search-input {
@@ -397,7 +401,7 @@
     font-size: 16px;
     outline: none;
     flex: 1;
-    margin-left: 250px;
+/*    margin-left: 250px;*/
 }
 
 .division-container {
@@ -697,9 +701,9 @@
         font-weight: bold;
     }
 
-.system {
+/*.system {
     margin-bottom:10px;
-}
+}*/
 
 .select-all-sys {
     margin-bottom:20px;
@@ -720,4 +724,11 @@
          width: 100%; 
          margin-top:30px;
     }
+}
+
+.step-1-content .button-container {
+    display: flex;
+    justify-content: flex-end; /* This will align the button to the right */
+    gap: 10px;
+    margin-top: 20px;
 }

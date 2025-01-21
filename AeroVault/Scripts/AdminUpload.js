@@ -451,8 +451,39 @@ function fileEditopenPopup8() {
 }
 
 function fileEditClosePopup8() {
+
     document.getElementById("dark-overlay8").style.display = "none";
+
     document.getElementById("editfile-popup8").style.display = "none";
+
+
+
+    // Reset persistent selections
+
+    persistentSelectedDepartments = [];
+
+
+
+    // Uncheck all department checkboxes
+
+    document.querySelectorAll(".department").forEach(checkbox => {
+
+        checkbox.checked = false;
+
+    });
+
+
+
+    // Reset division styles
+
+    document.querySelectorAll(".division").forEach(division => {
+
+        updateDivisionHeaderStyle(division);
+
+        updateSelectedCount(division);
+
+    });
+
 }
 
 document.querySelectorAll(".upload-btn").forEach(function (icon) {

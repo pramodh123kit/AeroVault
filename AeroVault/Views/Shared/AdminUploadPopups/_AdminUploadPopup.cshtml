@@ -112,7 +112,13 @@
                                                 @foreach (var department in Model.Departments.Where(d => d.DivisionID == division.DivisionID))
                                                 {
                                                     <label>
-                                                        <input type="checkbox" class="department" data-division-id="@division.DivisionID" data-department-id="@department.DepartmentID" onchange="updateSelectAll(this)" onclick="fetchSystems(this)">
+                                                        <input type="checkbox"
+                                                               class="department"
+                                                               data-division-id="@division.DivisionID"
+                                                               data-department-id="@department.DepartmentID"
+                                                               data-department-name="@department.DepartmentName"
+                                                               onchange="updateSelectAll(this)"
+                                                               onclick="fetchSystems(this)">
                                                         @department.DepartmentName
                                                     </label>
                                                 }
@@ -135,6 +141,13 @@
                 <!-- Step 2: Select System -->
                 <div class="step-content step-2-content" style="display: none;">
                     <div class="section-title">Select the systems you want to upload your files</div>
+                    <div class="add-system-searchbar">
+                        <div class="file-search-container">
+                            <img src="/Content/Assets/search-icon.svg" class="search-icon" alt="Search Icon" />
+                            <input id="DepartmentsDivisionsSearch" onkeyup="filterDepartmentsDivisions()"
+                                   placeholder="Search" type="text" class="file-search-input" />
+                        </div>
+                    </div>
                     <div class="division-container">
                         <div class="division1">
                             <div class="step2-division-header" onclick="toggleDivision(this)">

@@ -101,7 +101,7 @@ function restoreSelectedDepartments() {
 
 }
 
-
+var persistentSelectedDepartments = [];
 function goToStep(step) {
 
     const currentStep = parseInt(
@@ -122,56 +122,38 @@ function goToStep(step) {
     }
 
 
-    // Save selected departments when moving to Step 2
+    // Save selected departments and their systems when moving to Step 2
 
     if (currentStep === 1) {
 
-        saveSelectedDepartments();
+        // Clear previous persistent selections
 
-    }
+        persistentSelectedDepartments = [];
 
 
-    // Clear inputs for forward steps
+        // Collect currently selected departments
 
-    if (step < currentStep) {
+        const selectedDepartmentCheckboxes = document.querySelectorAll(".department:checked");
 
-        if (step === 1) {
 
-            // Clear selections for steps 2, 3, and 4
 
-            selectedDepartments = [];
+        selectedDepartmentCheckboxes.forEach(checkbox => {
 
-            document.querySelectorAll(".department").forEach(department => {
+            const departmentEntry = {
 
-                department.checked = false;
+                id: checkbox.getAttribute('data-department-id'),
 
-            });
+                name: checkbox.getAttribute('data-department-name'),
 
-        } else if (step === 2) {
+                divisionId: checkbox.getAttribute('data-division-id'),
 
-            // Clear selections for steps 3 and 4
+                selectedSystems: [] // Will be populated in the next step
 
-            selectedCategory = null;
+            };
 
-            selectedFiles = [];
+            persistentSelectedDepartments.push(departmentEntry);
 
-            updateFileDisplay(); // Update file display
-
-            document.querySelectorAll('.category-selection input[type="radio"]').forEach(radio => {
-
-                radio.checked = false;
-
-            });
-
-        } else if (step === 3) {
-
-            // Clear selection for step 4
-
-            selectedFiles = [];
-
-            updateFileDisplay(); // Update file display
-
-        }
+        });
 
     }
 
@@ -180,63 +162,35 @@ function goToStep(step) {
 
     if (step === 2) {
 
-        const selectedDepartmentCheckboxes = document.querySelectorAll(".department:checked");
-
         const systemsContainer = document.querySelector('.step-2-content .division-container');
 
         systemsContainer.innerHTML = ''; // Clear previous systems
 
 
-        selectedDepartmentCheckboxes.forEach(departmentCheckbox => {
+        // Restore or fetch systems for previously selected departments
 
-            const departmentId = departmentCheckbox.getAttribute('data-department-id');
+        persistentSelectedDepartments.forEach(department => {
 
-            const departmentName = departmentCheckbox.nextSibling.textContent.trim();
-
-
-            // Create a new division for the selected department
-
-            const departmentDiv = document.createElement('div');
-
-            departmentDiv.classList.add('division');
-
-            departmentDiv.innerHTML = `
-    <div class="step2-division-header" onclick="toggleDivision(this)">
-        <div>
-            <i class="fas fa-chevron-right division-name"></i>
-            <span class="division-name">${departmentName}</span>
-        </div>
-        <span class="selected-count-sys"></span>
-    </div>
-    <div class="division-content" style="display: none;">
-        <div class="system-list" data-department-id="${departmentId}">
-            <span>Loading systems...</span> <!-- Placeholder while loading -->
-        </div>
-    </div>
-`;
-
-            systemsContainer.appendChild(departmentDiv);
+            const departmentCheckbox = document.querySelector(`.department[data-department-id="${department.id}"]`);
 
 
-            // Fetch systems for the selected department
 
-            fetchSystems(departmentCheckbox);
+            if (departmentCheckbox) {
+
+                departmentCheckbox.checked = true;
+
+                fetchSystems(departmentCheckbox);
+
+            }
 
         });
 
     }
 
 
-    // Restore selected departments when going back to Step 1
+    // Rest of the existing goToStep logic...
 
-    if (step === 1) {
-
-        restoreSelectedDepartments();
-
-    }
-
-
-    // Update the active step
+    // (Update active steps, show/hide contents, etc.)
 
     document.querySelectorAll(".step").forEach(function (el) {
 
@@ -898,60 +852,194 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 function fetchSystems(departmentCheckbox) {
+
     const departmentId = departmentCheckbox.getAttribute('data-department-id');
+
     const systemsContainer = document.querySelector('.step-2-content .division-container');
 
+
     if (departmentCheckbox.checked) {
+
         fetch(`/Upload/GetSystemsByDepartment?departmentId=${departmentId}`)
+
             .then(response => response.json())
+
             .then(systems => {
+
                 console.log(`Fetched systems for department ID ${departmentId}:`, systems);
-                const departmentDiv = systemsContainer.querySelector(`.system-list[data-department-id="${departmentId}"]`);
 
-                if (departmentDiv) {
-                    departmentDiv.innerHTML = ''; // Clear previous content
 
-                    // Add Select All checkbox
-                    const selectAllDiv = document.createElement('div');
-                    selectAllDiv.innerHTML = `
-                        <label>
-                            <input type="checkbox" class="select-all-sys" onclick="toggleSelectAll(this)"> Select All
-                        </label>
-                    `;
-                    departmentDiv.appendChild(selectAllDiv);
+                // Check if a division for this department already exists
 
-                    if (systems.length > 0) {
-                        systems.forEach(system => {
-                            const systemDiv = document.createElement('div');
-                            systemDiv.classList.add('system-item');
-                            systemDiv.innerHTML = `
+                let departmentDiv = systemsContainer.querySelector(`.division1[data-department-id="${departmentId}"]`);
+
+
+                // If department div doesn't exist, create it
+
+                if (!departmentDiv) {
+
+                    departmentDiv = document.createElement('div');
+
+                    departmentDiv.classList.add('division1');
+
+                    departmentDiv.setAttribute('data-department-id', departmentId);
+
+                    departmentDiv.innerHTML = `
+
+                        <div class="step2-division-header" onclick="toggleDivision(this)">
+
+                            <div>
+
+                                <i class="fas fa-chevron-right division-name"></i>
+
+                                <span class="division-name">${departmentCheckbox.getAttribute('data-department-name')}</span>
+
+                            </div>
+
+                            <span class="selected-count-sys"></span>
+
+                        </div>
+
+                        <div class="division-content" style="display: none;">
+
+                            <div class="system-list" data-department-id="${departmentId}">
+
                                 <label>
-                                    <input type="checkbox" class="system" data-system-id="${system.systemID}"> ${system.systemName}
-                                </label>
-                            `;
-                            departmentDiv.appendChild(systemDiv);
-                        });
 
-                        // Attach event listeners for the newly created system checkboxes
-                        attachSystemCheckboxListeners();
-                    } else {
-                        departmentDiv.innerHTML = '<span>No systems available</span>';
+                                    <input type="checkbox" class="select-all-sys" onclick="toggleSelectAll(this)"> Select All
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                    systemsContainer.appendChild(departmentDiv);
+
+                }
+
+
+                const systemList = departmentDiv.querySelector('.system-list');
+
+
+                if (systems.length > 0) {
+
+                    systems.forEach(system => {
+
+                        // Check if system already exists to prevent duplicates
+
+                        const existingSystem = systemList.querySelector(`.system-item[data-system-id="${system.systemID}"]`);
+
+
+
+                        if (!existingSystem) {
+
+                            const systemDiv = document.createElement('div');
+
+                            systemDiv.classList.add('system-item');
+
+                            systemDiv.setAttribute('data-system-id', system.systemID);
+
+                            systemDiv.innerHTML = `
+
+                                <label>
+
+                                    <input type="checkbox" class="system" data-system-id="${system.systemID}"> ${system.systemName}
+
+                                </label>
+
+                            `;
+
+                            systemList.appendChild(systemDiv);
+
+                        }
+
+                    });
+
+
+                    // Attach event listeners for the newly created system checkboxes
+
+                    attachSystemCheckboxListeners();
+
+                } else {
+
+                    // If no systems, show a message
+
+                    const noSystemsSpan = systemList.querySelector('span.no-systems');
+
+                    if (!noSystemsSpan) {
+
+                        const noSystemsMessage = document.createElement('span');
+
+                        noSystemsMessage.classList.add('no-systems');
+
+                        noSystemsMessage.textContent = 'No systems available';
+
+                        systemList.appendChild(noSystemsMessage);
+
                     }
+
                 }
+
+
+                // Restore previously selected systems if any
+
+                const selectedSystems = persistentSelectedDepartments.find(
+
+                    dept => dept.id === departmentId
+
+                )?.selectedSystems || [];
+
+
+                selectedSystems.forEach(systemId => {
+
+                    const systemCheckbox = systemList.querySelector(`.system[data-system-id="${systemId}"]`);
+
+                    if (systemCheckbox) {
+
+                        systemCheckbox.checked = true;
+
+                    }
+
+                });
+
+
+                // Update division styling
+
+                updateSystemDivisionHeaderStyle(departmentDiv);
+
             })
+
             .catch(error => {
+
                 console.error('Error fetching systems:', error);
-                const departmentDiv = systemsContainer.querySelector(`.system-list[data-department-id="${departmentId}"]`);
-                if (departmentDiv) {
-                    departmentDiv.innerHTML = '<span>Error fetching systems</span>';
+
+                const systemList = systemsContainer.querySelector(`.system-list[data-department-id="${departmentId}"]`);
+
+                if (systemList) {
+
+                    systemList.innerHTML = '<span>Error fetching systems</span>';
+
                 }
+
             });
+
     } else {
-        const departmentDiv = systemsContainer.querySelector(`.system-list[data-department-id="${departmentId}"]`);
+
+        // Remove the department's systems when unchecked
+
+        const departmentDiv = systemsContainer.querySelector(`.division1[data-department-id="${departmentId}"]`);
+
         if (departmentDiv) {
-            departmentDiv.innerHTML = '<span>No systems available</span>'; // Reset to default message
+
+            systemsContainer.removeChild(departmentDiv);
+
         }
+
     }
+
 }
 function toggleDivision(header) {
 
@@ -1079,11 +1167,62 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 function attachSystemCheckboxListeners() {
+
     document.querySelectorAll(".step-2-content .system").forEach((systemCheckbox) => {
+
         systemCheckbox.addEventListener("change", (event) => {
-            const division = event.target.closest(".division1");
-            console.log(`Checkbox changed: ${event.target.dataset.systemId}, Checked: ${event.target.checked}`); // Log checkbox state
+
+            const division = event.target.closest('.division1');
+
+            const departmentId = division.getAttribute('data-department-id');
+
+            const systemId = event.target.getAttribute('data-system-id');
+
+
+            // Update persistent selected systems
+
+            const departmentIndex = persistentSelectedDepartments.findIndex(
+
+                dept => dept.id === departmentId
+
+            );
+
+
+            if (departmentIndex !== -1) {
+
+                const selectedSystems = persistentSelectedDepartments[departmentIndex].selectedSystems;
+
+
+
+                if (event.target.checked) {
+
+                    if (!selectedSystems.includes(systemId)) {
+
+                        selectedSystems.push(systemId);
+
+                    }
+
+                } else {
+
+                    const systemIndex = selectedSystems.indexOf(systemId);
+
+                    if (systemIndex !== -1) {
+
+                        selectedSystems.splice(systemIndex, 1);
+
+                    }
+
+                }
+
+            }
+
+
+            // Update the division header style
+
             updateSystemDivisionHeaderStyle(division);
+
         });
+
     });
-}
+
+} 
