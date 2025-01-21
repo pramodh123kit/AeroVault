@@ -1226,3 +1226,162 @@ function attachSystemCheckboxListeners() {
     });
 
 } 
+
+
+function toggleFileCategoryDropdown() {
+
+    var dropdownContent = document.querySelector('.fileCategory-dropdown-content');
+
+    var dropdownToggle = document.querySelector('.fileCategory-dropdown-toggle');
+
+    var selector = document.querySelector('.fileCategory-selector');
+
+
+    if (dropdownContent.style.display === 'block') {
+
+        dropdownContent.style.display = 'none';
+
+        dropdownToggle.classList.remove('open');
+
+
+        selector.style.borderBottomLeftRadius = '10px';
+
+        selector.style.borderBottomRightRadius = '10px';
+
+        selector.style.borderBottom = '1px solid #6D6D6D';
+
+    } else {
+
+        dropdownContent.style.display = 'block';
+
+        dropdownToggle.classList.add('open');
+
+
+        selector.style.borderBottomLeftRadius = '0';
+
+        selector.style.borderBottomRightRadius = '0';
+
+        selector.style.borderBottom = 'none';
+
+        document.getElementById('fileCategory-search-input').value = '';
+
+        showAllFileCategoryOptions();
+
+    }
+
+}
+
+
+function filterFileCategoryOptions() {
+
+    var input, filter, div, i, txtValue;
+
+    input = document.getElementById('fileCategory-search-input');
+
+    filter = input.value.toUpperCase();
+
+    div = document.querySelectorAll('.fileCategory-dropdown-list div');
+
+    for (i = 0; i < div.length; i++) {
+
+        txtValue = div[i].textContent || div[i].innerText;
+
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+
+            div[i].style.display = "";
+
+        } else {
+
+            div[i].style.display = "none";
+
+        }
+
+    }
+
+}
+
+
+function selectFileCategoryOption(element) {
+
+    var selectedFileCategory = element.textContent || element.innerText;
+
+    document.getElementById('selected-fileCategory').textContent = selectedFileCategory;
+
+    document.querySelector('.fileCategory-dropdown-content').style.display = 'none';
+
+    document.querySelector('.fileCategory-dropdown-toggle').classList.remove('open');
+
+
+    var selector = document.querySelector('.fileCategory-selector');
+
+    selector.style.borderBottomLeftRadius = '10px';
+
+    selector.style.borderBottomRightRadius = '10px';
+
+    selector.style.borderBottom = '1px solid #6D6D6D';
+
+
+    var divs = document.querySelectorAll('.fileCategory-dropdown-list div');
+
+    divs.forEach(function (div) {
+
+        div.classList.remove('active');
+
+    });
+
+    element.classList.add('active');
+
+}
+
+
+function showAllFileCategoryOptions() {
+
+    var divs = document.querySelectorAll('.fileCategory-dropdown-list div');
+
+    divs.forEach(function (div) {
+
+        div.style.display = "";
+
+    });
+
+}
+
+
+document.getElementById('fileCategory-search-input').addEventListener('blur', function () {
+
+    const selector = document.querySelector('.fileCategory-selector');
+
+
+    selector.style.borderBottomLeftRadius = '10px';
+
+    selector.style.borderBottomRightRadius = '10px';
+
+
+    selector.style.border = '1px solid #6D6D6D';
+
+});
+
+
+window.onclick = function (event) {
+    const dropdownContent = document.querySelector('.fileCategory-dropdown-content');
+    const selector = document.querySelector('.fileCategory-selector');
+
+    // Check if the click is NOT on the dropdown toggle, its children, or search input
+    if (!event.target.matches('.fileCategory-dropdown-toggle') &&
+        !event.target.matches('.fileCategory-dropdown-toggle *') &&
+        !event.target.matches('#fileCategory-search-input')) {
+
+        // If dropdown is open
+        if (dropdownContent.style.display === 'block') {
+            dropdownContent.style.display = 'none';
+            document.getElementById('fileCategory-search-input').value = '';
+            filterFileCategoryOptions();
+            document.querySelector('.fileCategory-dropdown-toggle').classList.remove('open');
+
+            // Reset selector styling
+            selector.style.borderBottomLeftRadius = '10px';
+            selector.style.borderBottomRightRadius = '10px';
+            selector.style.borderBottom = '1px solid #6D6D6D';
+        }
+    }
+};
