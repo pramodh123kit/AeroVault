@@ -46,14 +46,16 @@
                                 <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
                                 <input type="text" id="custom-search-input" placeholder="Search System" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
                             </div>
+                            <!-- Replace the existing custom-dropdown-list div with this -->
                             <div class="custom-dropdown-list">
                                 <div onclick="selectCustomOption(this)" class="active">All</div>
-                                <div onclick="selectCustomOption(this)">Charika</div>
-                                <div onclick="selectCustomOption(this)">AeroDocs</div>
-                                <div onclick="selectCustomOption(this)">EasyPass</div>
-                                <div onclick="selectCustomOption(this)">AeroLetters</div>
-                                <div onclick="selectCustomOption(this)">AMOS</div>
-                                <div onclick="selectCustomOption(this)">Qbank</div>
+                                @if (ViewBag.Systems != null)
+                                {
+                                    @foreach (var system in ViewBag.Systems)
+                                    {
+                                        <div onclick="selectCustomOption(this)">@system</div>
+                                    }
+                                }
                             </div>
                         </div>
                     </div>

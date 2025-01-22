@@ -451,8 +451,39 @@ function fileEditopenPopup8() {
 }
 
 function fileEditClosePopup8() {
+
     document.getElementById("dark-overlay8").style.display = "none";
+
     document.getElementById("editfile-popup8").style.display = "none";
+
+
+
+    // Reset persistent selections
+
+    persistentSelectedDepartments = [];
+
+
+
+    // Uncheck all department checkboxes
+
+    document.querySelectorAll(".department").forEach(checkbox => {
+
+        checkbox.checked = false;
+
+    });
+
+
+
+    // Reset division styles
+
+    document.querySelectorAll(".division").forEach(division => {
+
+        updateDivisionHeaderStyle(division);
+
+        updateSelectedCount(division);
+
+    });
+
 }
 
 document.querySelectorAll(".upload-btn").forEach(function (icon) {
@@ -462,68 +493,58 @@ document.querySelectorAll(".upload-btn").forEach(function (icon) {
 document.getElementById("close-logout8").onclick = fileEditClosePopup8;
 
 
-function viewFile(fileName) {
+function viewFile(fileName, uniqueIdentifier) {
+    console.log("Attempting to view file:", fileName); // Log the file name
     const overlayPdf = document.getElementById('overlay-pdf');
     const pdfFrame = document.getElementById('pdf-frame');
     const closePdfButton = document.getElementById('close-pdf-button');
     const darkOverlay = document.getElementById('dark-overlay8');
     const loadingIndicator = document.getElementById('pdf-loading-indicator');
 
-    // Supported file types
-    const supportedFileTypes = ['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.txt'];
-
-    // Try to find the file with different extensions
-    function findFileWithExtension(baseName) {
-        const possibleFiles = supportedFileTypes.map(ext => baseName + ext);
-
-        // You'll need to add an AJAX call to check which file exists
-        return new Promise((resolve, reject) => {
-            fetch(`/Upload/FindFile?fileName=${encodeURIComponent(baseName)}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.foundFileName) {
-                        resolve(data.foundFileName);
-                    } else {
-                        reject('File not found');
-                    }
-                })
-                .catch(error => {
-                    reject('Error finding file');
-                });
-        });
-    }
+    // Remove file extension if present
+    fileName = fileName.replace(/\.[^/.]+$/, "");
 
     // Find the file with the correct extension
-    findFileWithExtension(fileName)
-        .then(foundFileName => {
-            // Construct the URL to view the file
-            const fileUrl = `/Upload/ViewFile?fileName=${encodeURIComponent(foundFileName)}`;
+    fetch(`/Upload/FindFile?fileName=${encodeURIComponent(fileName)}&uniqueIdentifier=${encodeURIComponent(uniqueIdentifier)}`)        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.foundFileName) {
+                // Construct the URL to view the file
+                const fileUrl = `/Upload/ViewFile?fileName=${encodeURIComponent(data.foundFileName)}`;
 
-            // Show loading indicator
-            loadingIndicator.style.display = 'block';
-            pdfFrame.style.display = 'none';
+                // Show loading indicator
+                loadingIndicator.style.display = 'block';
+                pdfFrame.style.display = 'none';
 
-            // Set the iframe source
-            pdfFrame.src = fileUrl;
+                // Set the iframe source
+                pdfFrame.src = fileUrl;
 
-            // Handle iframe load
-            pdfFrame.onload = function () {
-                loadingIndicator.style.display = 'none';
-                pdfFrame.style.display = 'block';
-            };
+                // Handle iframe load
+                pdfFrame.onload = function () {
+                    loadingIndicator.style.display = 'none';
+                    pdfFrame.style.display = 'block';
+                };
 
-            // Handle iframe error
-            pdfFrame.onerror = function () {
-                loadingIndicator.style.display = 'none';
-                alert('Error loading document. Please try again.');
-            };
+                // Handle iframe error
+                pdfFrame.onerror = function () {
+                    loadingIndicator.style.display = 'none';
+                    alert('Error loading document. Please try again.');
+                };
 
-            // Show the overlay and dark background
-            overlayPdf.style.display = 'flex';
-            darkOverlay.style.display = 'block';
+                // Show the overlay and dark background
+                overlayPdf.style.display = 'flex';
+                darkOverlay.style.display = 'block';
+            } else {
+                alert('File not found. Please check the file name.');
+            }
         })
         .catch(error => {
-            alert(error);
+            console.error('Error:', error);
+            alert('An error occurred while trying to view the file.');
         });
 
     // Close button functionality

@@ -140,7 +140,7 @@
 
     // Call initializeCharts only if the charts are not already initialized
     if (!myChart && !myChart2) {
-        setTimeout(initializeCharts, 100);
+        setTimeout(initializeCharts, 900);
     }
 })();
 
@@ -164,7 +164,9 @@ function toggleCustomDropdown() {
         selector.style.borderBottomLeftRadius = '0';
         selector.style.borderBottomRightRadius = '0';
         selector.style.borderBottom = 'none';
-        document.getElementById('custom-search-input').value = '';
+
+        // Remove or comment out this line if the input doesn't exist
+        // document.getElementById('custom-search-input').value = ''; 
         showAllCustomOptions();
     }
 }
@@ -176,18 +178,97 @@ function selectCustomOption(element) {
     document.querySelector('.custom-dropdown-content').style.display = 'none';
     document.querySelector('.custom-dropdown-toggle').classList.remove('open');
 
-    var selector = document.querySelector('.custom-selector');
-    selector.style.borderBottomLeftRadius = '10px';
-    selector.style.borderBottomRightRadius = '10px';
-    selector.style.borderBottom = '1px solid #6D6D6D';
-
     var divs = document.querySelectorAll('.custom-dropdown-list div');
     divs.forEach(function (div) {
         div.classList.remove('active');
     });
     element.classList.add('active');
+
+    // Call the updateStats function with the selected option
+    updateStats(selectedOption);
 }
 
+function updateStats(option) {
+    const docs = document.querySelector('.stats-container .stat-item[data-all-time-docs]');
+    const videos = document.querySelector('.stats-container .stat-item[data-all-time-videos]');
+    const systems = document.querySelector('.stats-container .stat-item[data-all-time-systems]');
+    const departments = document.querySelector('.stats-container .stat-item[data-all-time-departments]');
+    const divisions = document.querySelector('.stats-container .stat-item[data-all-time-divisions]');
+
+    // Log the selected elements to check if they are found
+    console.log('Docs Element:', docs);
+    console.log('Videos Element:', videos);
+    console.log('Systems Element:', systems);
+    console.log('Departments Element:', departments);
+    console.log('Divisions Element:', divisions);
+
+    let selectedDocs, selectedVideos, selectedSystems, selectedDepartments, selectedDivisions;
+
+    switch (option) {
+        case "All Time":
+            selectedDocs = docs ? docs.getAttribute('data-all-time-docs') : null;
+            selectedVideos = videos ? videos.getAttribute('data-all-time-videos') : null;
+            selectedSystems = systems ? systems.getAttribute('data-all-time-systems') : null;
+            selectedDepartments = departments ? departments.getAttribute('data-all-time-departments') : null;
+            selectedDivisions = divisions ? divisions.getAttribute('data-all-time-divisions') : null;
+            break;
+        case "Last Month":
+            selectedDocs = docs ? docs.getAttribute('data-last-month-docs') : null;
+            selectedVideos = videos ? videos.getAttribute('data-last-month-videos') : null;
+            selectedSystems = systems ? systems.getAttribute('data-last-month-systems') : null;
+            selectedDepartments = departments ? departments.getAttribute('data-last-month-departments') : null; 
+            selectedDivisions = divisions ? divisions.getAttribute('data-last-month-divisions') : null; 
+            break;
+        case "Last 3 Months":
+            selectedDocs = docs ? docs.getAttribute('data-last-3-months-docs') : null;
+            selectedVideos = videos ? videos.getAttribute('data-last-3-months-videos') : null;
+            selectedSystems = systems ? systems.getAttribute('data-last-3-months-systems') : null;
+            selectedDepartments = departments ? departments.getAttribute('data-last-3-months-departments') : null; 
+            selectedDivisions = divisions ? divisions.getAttribute('data-last-3-months-divisions') : null;
+            break;
+        case "Last 6 Months":
+            selectedDocs = docs ? docs.getAttribute('data-last-6-months-docs') : null;
+            selectedVideos = videos ? videos.getAttribute('data-last-6-months-videos') : null;
+            selectedSystems = systems ? systems.getAttribute('data-last-6-months-systems') : null;
+            selectedDepartments = departments ? departments.getAttribute('data-last-6-months-departments') : null; 
+            selectedDivisions = divisions ? divisions.getAttribute('data-last-6-months-divisions') : null; 
+            break;
+        case "Last Year":
+            selectedDocs = docs ? docs.getAttribute('data-last-year-docs') : null;
+            selectedVideos = videos ? videos.getAttribute('data-last-year-videos') : null;
+            selectedSystems = systems ? systems.getAttribute('data-last-year-systems') : null;
+            selectedDepartments = departments ? departments.getAttribute('data-last-year-departments') : null;
+            selectedDivisions = divisions ? divisions.getAttribute('data-last-year-divisions') : null;
+            break;
+    }
+
+    // Update the displayed values with error handling
+    if (docs) {
+        docs.querySelector('.stat-number').textContent = selectedDocs || 'N/A';
+    } else {
+        console.warn('Docs element not found');
+    }
+    if (videos) {
+        videos.querySelector('.stat-number').textContent = selectedVideos || 'N/A';
+    } else {
+        console.warn('Videos element not found');
+    }
+    if (systems) {
+        systems.querySelector('.stat-number').textContent = selectedSystems || 'N/A';
+    } else {
+        console.warn('Systems element not found');
+    }
+    if (departments) {
+        departments.querySelector('.stat-number').textContent = selectedDepartments || 'N/A';
+    } else {
+        console.warn('Departments element not found');
+    }
+    if (divisions) {
+        divisions.querySelector('.stat-number').textContent = selectedDivisions || 'N/A';
+    } else {
+        console.warn('Divisions element not found');
+    }
+}
 function showAllCustomOptions() {
     var divs = document.querySelectorAll('.custom-dropdown-list div');
     divs.forEach(function (div) {

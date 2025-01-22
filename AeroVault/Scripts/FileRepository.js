@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 <span class="${titleClass}">${file.fileName}</span>
                                 <span class="item-meta">${file.fileCategory || 'Uncategorized'}</span>
                                 <span class="item-date">${new Date(file.addedDate).toLocaleDateString()}</span>
-                                <button class="action-button" data-pdf="${file.filePath}">View</button>
+                                <button class="action-button">View</button>
                             </div>
                         `;
 
