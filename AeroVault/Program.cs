@@ -35,6 +35,9 @@ namespace AeroVault
             builder.Services.AddScoped<UploadDl>();
             builder.Services.AddScoped<UploadBl>();
 
+            builder.Services.AddScoped<ReviewDl>();
+            builder.Services.AddScoped<ReviewBl>();
+
             builder.Logging.ClearProviders();
 
             builder.Logging.AddConsole();

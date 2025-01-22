@@ -1,3 +1,5 @@
+@model AeroVault.Models.DepartmentViewModel
+
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
 <link href="/Content/css/AdminReview.css" rel="stylesheet" />
 
@@ -22,7 +24,7 @@
             <div class="status-form-group">
                 <div class="status-dropdown">
                     <div class="status-dropdown-toggle status-selector" onclick="toggleStatusDropdown()">
-                        <span id="selected-status">Information Technology</span>
+                        <span id="selected-status">Select a Department</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="status-dropdown-content">
@@ -32,15 +34,19 @@
                                 onkeyup="filterStatusOptions()" onclick="event.stopPropagation()">
                         </div>
                         <div class="status-dropdown-list">
-                            <div onclick="selectStatusOption(this)" class="active">Information Technology</div>
-                            <div onclick="selectStatusOption(this)">Human Resource</div>
-                            <div onclick="selectStatusOption(this)">Flight Operations</div>
-                            <div onclick="selectStatusOption(this)">Safety and Security</div>
-                            <div onclick="selectStatusOption(this)">Finance</div>
-                            <div onclick="selectStatusOption(this)">Marketing</div>
-                            <div onclick="selectStatusOption(this)">Customer Service</div>
-                            <div onclick="selectStatusOption(this)">Logistics</div>
-                            <div onclick="selectStatusOption(this)">Procurement</div>
+                            @if (Model?.Departments != null)
+                            {
+                                @foreach (var department in Model.Departments)
+                                {
+                                    <div class="dropdown-item" onclick="selectStatusOption(this)">
+                                        @department.DepartmentName
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="dropdown-item no-departments">No departments found</div>
+                            }
                         </div>
                     </div>
                     <div class="file-search-container1" style="margin-bottom:0px;">
