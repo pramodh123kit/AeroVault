@@ -1,13 +1,28 @@
-﻿using AeroVault.Controllers;
+﻿using AeroVault.Business;
+using AeroVault.Controllers;
 using AeroVault.Models;
 using Microsoft.AspNetCore.Mvc;
 
 public class ReviewController : BaseAdminController
 {
-    public ReviewController(ApplicationDbContext context) : base(context) { }
+    private readonly ReviewBl _reviewBl;
 
-    public IActionResult Index()
+    public ReviewController(ApplicationDbContext context, ReviewBl reviewBl) : base(context)
     {
-        return PartialView("~/Views/Admin/_Review.cshtml"); // Return partial view
+        _reviewBl = reviewBl;
+    }
+
+    public async Task<IActionResult> Index()
+    {
+        // Fetch departments
+        var departments = await _reviewBl.GetAllDepartmentsAsync();
+
+        // Create view model
+        var viewModel = new DepartmentViewModel
+        {
+            Departments = departments
+        };
+
+        return PartialView("~/Views/Admin/_Review.cshtml", viewModel);
     }
 }
