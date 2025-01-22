@@ -35,6 +35,9 @@ namespace AeroVault
             builder.Services.AddScoped<UploadDl>();
             builder.Services.AddScoped<UploadBl>();
 
+            builder.Services.AddScoped<UserOverviewBl>();
+            builder.Services.AddScoped<UserOverviewDl>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -71,7 +74,7 @@ namespace AeroVault
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Admin}/{action=Index}/{id?}");
+                pattern: "{controller=useroverview}/{action=userpageoverview}/{id?}");
             //pattern: "{controller=test}/{action=testconnection}/{id?}");
             app.Run();
         }
