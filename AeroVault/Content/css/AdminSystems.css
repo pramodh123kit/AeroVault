@@ -9,6 +9,7 @@
     display: flex;
     flex-direction: column;
     margin-top:-2px;
+    height:100%;
 }
 
 .div-dep-delete-popup {
@@ -2111,3 +2112,47 @@ input[type="text"] {
     .close-icon:hover {
         opacity: 1;
     }
+
+
+
+.save-btn-file-edit {
+    background-color: #003366;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    width: 200px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+    .save-btn-file-edit:hover {
+        background-color: #013656;
+    }
+
+
+    .save-btn-file-edit:disabled {
+        background-color: #6c757d; /* Gray background when disabled */
+        color: white; /* Keep the text color white */
+        cursor: not-allowed; /* Change cursor to indicate it's not clickable */
+        opacity: 0.65; /* Slightly transparent */
+    }
+
+
+.reset-btn-file-edit {
+    border: 1px solid #003366;
+    color: #003366;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-right: 0px;
+    cursor: pointer;
+    background-color: white;
+    
+    width: 200px;
+}
+
+.reset-btn-file-edit:hover {
+    color: #013656;
+    border: 1px solid #013656;
+}

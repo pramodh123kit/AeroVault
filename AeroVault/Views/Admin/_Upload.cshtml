@@ -149,7 +149,9 @@
                             <tr>
                                 <td>
                                     @{
-                                        @if (file.FileType?.ToLower() == "document")
+                                        // Get the file name without the extension
+                                        var fileNameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(file.FileName);
+                                        if (file.FileType?.ToLower() == "document")
                                         {
                                             <img src="/Content/Assets/system-file-icon.svg" alt="File Icon" class="file-icon" />
                                         }
@@ -158,7 +160,7 @@
                                             <img src="/Content/Assets/system-video-icon.svg" alt="File Icon" class="file-icon" />
                                         }
                                     }
-                                    @file.FileName
+                                    @fileNameWithoutExtension
                                 </td>
                                 <td class="category-cell">@(file.FileCategory ?? "N/A")</td>
                                 <td class="system-cell">@(file.System?.SystemName ?? "N/A")</td>
@@ -174,7 +176,10 @@
                                 </td>
                                 <td>@(file.AddedDate?.ToString("MMM dd, yyyy") ?? "N/A")</td>
                                 <td>
-                                    <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon" data-filepath="@file.FilePath" />
+
+                                    <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon"
+                                         onclick="viewFile('@file.FileName')" />
+
                                 </td>
                             </tr>
                         }
@@ -216,6 +221,22 @@
 </div>
 
 <div id="dark-overlay8" class="dark-overlay" style="display: none;"></div>
+
+<!-- Add this right after dark-overlay8 -->
+<div id="overlay-pdf" class="overlay-pdf" style="display: none;">
+    <div class="iframe-container">
+        <img src="/Content/Assets/close-icon.svg" class="close-button" id="close-pdf-button" alt="Close" />
+
+        <!-- Loading Indicator -->
+        <div id="pdf-loading-indicator" class="loading-indicator">
+            <div class="spinner"></div>
+            <p>Loading document...</p>
+        </div>
+
+        <iframe id="pdf-frame" src="" style="width: 100%; height: 100%; border: none; display: none;"></iframe>
+    </div>
+</div>
+
 @Html.Partial("AdminUploadPopups/_AdminUploadPopup", Model as DepartmentViewModel)
 
 <script src="/Scripts/AdminUpload.js"></script>

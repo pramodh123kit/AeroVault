@@ -19,6 +19,40 @@ namespace AeroVault.Repositories
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
+        public async Task<List<DepartmentModel>> GetDepartmentsAddedAfterAsync(DateTime fromDate)
+        {
+            var departments = new List<DepartmentModel>();
+
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string sql = @"
+            SELECT DepartmentID, DepartmentName, DivisionID, ADDED_DATE
+            FROM DEPARTMENTS
+            WHERE IS_DELETED = 0 AND ADDED_DATE >= :fromDate";
+
+                using (var command = new OracleCommand(sql, connection))
+                {
+                    command.Parameters.Add(new OracleParameter(":fromDate", fromDate));
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            departments.Add(new DepartmentModel
+                            {
+                                DepartmentID = reader.GetInt32(0),
+                                DepartmentName = reader.GetString(1),
+                                DivisionID = reader.GetInt32(2),
+                                AddedDate = reader.GetDateTime(3)
+                            });
+                        }
+                    }
+                }
+            }
+            return departments;
+        }
+
         public async Task<List<DepartmentModel>> GetAllDepartmentsAsync()
         {
             using (var connection = new OracleConnection(_connectionString))

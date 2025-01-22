@@ -21,5 +21,10 @@ namespace AeroVault.Business
         {
             return _fileRepositoryDl.GetSystemsByDepartment(departmentId);
         }
+
+        public List<FileModel> GetFilesBySystem(int systemId)
+        {
+            return _fileRepositoryDl.GetFilesBySystem(systemId);
+        }
     }
 }

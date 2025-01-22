@@ -350,18 +350,18 @@ function systemDeleteClosePopup() {
 document.querySelector('.delete-system-button').onclick = systemDeleteopenPopup;
 
 document.getElementById('close-icon2').onclick = systemDeleteClosePopup;
-document.getElementById('dark-overlay2').onclick = systemDeleteClosePopup;
+document.getElementById('cancel-dep-del').onclick = systemDeleteClosePopup;
 
 
 // FILE DELETE POPUP
-function fileDeleteopenPopup() {
+function fileDeleteopenPopup() {   
     document.getElementById('dark-overlay4').style.display = 'block'; 
     document.getElementById('deletefile-popup').style.display = 'block'; 
 }
 
 function fileDeleteClosePopup() {
-    document.getElementById('dark-overlay4').style.display = 'none'; 
-    document.getElementById('deletefile-popup').style.display = 'none'; 
+    document.getElementById('deletefile-popup').style.display = 'none';
+    document.getElementById('dark-overlay4').style.display = 'none';
 }
 
 document.querySelectorAll(".file-delete-icon").forEach(function (icon) {
@@ -369,9 +369,10 @@ document.querySelectorAll(".file-delete-icon").forEach(function (icon) {
 });
 
 document.getElementById('close-icon4').onclick = fileDeleteClosePopup;
-document.getElementById('dark-overlay4').onclick = fileDeleteClosePopup;
 
+//document.getElementById('dark-overlay4').onclick = fileDeleteClosePopup;
 
+document.querySelector('.file-cancel').onclick = fileDeleteClosePopup;
 
 // FILE EDIT POPUP
 function fileEditopenPopup() {
@@ -390,7 +391,7 @@ document.querySelectorAll(".file-edit-icon").forEach(function (icon) {
 });
 
 document.getElementById('close-icon5').onclick = fileEditClosePopup;
-document.getElementById('dark-overlay5').onclick = fileEditClosePopup;
+//document.getElementById('dark-overlay5').onclick = fileEditClosePopup;
 
 document.querySelectorAll('.division-header').forEach(header => {
     header.addEventListener('click', () => {
@@ -1375,7 +1376,7 @@ function closeDeletePopup() {
     document.getElementById('dark-overlay2').style.display = 'none';
 }
 
-document.querySelector('.delete-system-button').onclick = function () {
+document.querySelector('.delete-system-button').onclick = async function () {
     if (!selectedSystemName) {
         alert("Please select a system to delete.");
         return;
@@ -1384,6 +1385,9 @@ document.querySelector('.delete-system-button').onclick = function () {
     // Set the system name in the delete confirmation popup
     document.getElementById('system-name-to-delete').textContent = selectedSystemName;
 
+    // Fetch files associated with the selected system
+    await loadFilesForDeletePopup(selectedSystemId);
+
     // Show the delete confirmation popup
     document.getElementById('deletesystem-popup').style.display = 'block';
     document.getElementById('dark-overlay2').style.display = 'block';
@@ -1391,9 +1395,29 @@ document.querySelector('.delete-system-button').onclick = function () {
 
 
 
+async function loadFilesForDeletePopup(systemId) {
+    try {
+        const response = await fetch(`/Systems/GetSystemFiles?systemId=${systemId}`);
+        const files = await response.json();
 
+        const fileListDiv = document.querySelector('.file-list');
+        fileListDiv.innerHTML = ''; // Clear existing content
 
-
+        if (files.length > 0) {
+            files.forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.classList.add('file-item'); // Add the class name 'file-item'
+                fileItem.textContent = file.fileName; // Display the file name
+                fileListDiv.appendChild(fileItem);
+            });
+        } else {
+            fileListDiv.innerHTML = '<p>No files found for this system.</p>';
+        }
+    } catch (error) {
+        console.error('Error loading files for delete popup:', error);
+        document.querySelector('.file-list').innerHTML = '<p>Error loading files.</p>';
+    }
+}
 
 
 
@@ -1750,29 +1774,22 @@ async function loadSystemFiles(systemId) {
 
                 }
 
-
                 row.innerHTML = `
-
-                    <td>
-
-                        <img src="${fileIcon}" alt="File Icon" class="file-icon" /> 
-
-                        ${file.fileName}
-
-                    </td>
-
-                    <td>${file.fileCategory || 'Uncategorized'}</td>
-
-                    <td>
-
-                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" />
-
-                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" />
-
-                    </td>
-
-                `;
-
+    <td>
+        <img src="${fileIcon}" alt="File Icon" class="file-icon" /> 
+        ${file.fileName}
+    </td>
+    <td>${file.fileCategory || 'Uncategorized'}</td>
+    <td>
+        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" 
+             onclick="openFileEditPopup(${file.fileID}, '${file.fileName}', '${file.fileCategory || ''}')"/>
+        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" 
+             data-file-id="${file.fileID}" 
+             data-file-name="${file.fileName}" 
+             onclick="openFileDeletePopup(${file.fileID}, '${file.fileName}')"/>
+    </td>
+`;
+                
 
                 fileTableBody.appendChild(row);
 
@@ -1815,3 +1832,283 @@ async function loadSystemFiles(systemId) {
     }
 
 }
+
+
+
+async function deleteFile() {
+    const fileId = document.getElementById('file-to-delete-id').value;
+
+    try {
+        const response = await fetch('/Systems/DeleteFile', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('input[name="__RequestVerificationToken"]').value
+            },
+            body: JSON.stringify({ fileId: parseInt(fileId) })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            // Close the popup
+            fileDeleteClosePopup();
+
+            // Refresh the files list for the current system
+            await loadSystemFiles(selectedSystemId); // Ensure you have a global selectedSystemId variable
+
+            // Show success notification
+            showDeleteSuccessNotification('File deleted successfully');
+        } else {
+            // Show error message
+            showCustomAlert(result.message || 'Failed to delete file');
+        }
+    } catch (error) {
+        console.error('Error deleting file:', error);
+        showCustomAlert('An error occurred while deleting the file');
+    }
+}
+
+// Add this to your existing code or in the file delete popup section
+document.querySelector('.file-delete-btn').addEventListener('click', deleteFile);
+
+
+function openFileDeletePopup(fileId, fileName) {
+    // Set the file name in the delete confirmation popup
+    document.getElementById('file-name-to-delete').textContent = fileName;
+
+    // Store the file ID for deletion
+    document.getElementById('file-to-delete-id').value = fileId;
+
+    // Show the delete confirmation popup
+    document.getElementById('deletefile-popup').style.display = 'block';
+    document.getElementById('dark-overlay4').style.display = 'block';
+}
+
+
+
+
+document.querySelectorAll(".file-delete-icon").forEach(function (icon) {
+    icon.onclick = function () {
+        const fileId = this.getAttribute('data-file-id');
+        const fileName = this.getAttribute('data-file-name');
+        openFileDeletePopup(fileId, fileName);
+    };
+});
+
+
+var selectedFileCategory = ''; // Variable to store the selected file category
+
+var originalFileName = ''; // Variable to store the original file name
+
+var originalFileCategory = ''; // Variable to store the original file category
+
+
+function openFileEditPopup(fileId, fileName, fileCategory) {
+
+    // Set the file ID in a hidden input
+
+    document.getElementById('file-id-to-edit').value = fileId;
+
+
+    // Set the file name in the input field
+
+    document.getElementById('file-name').value = fileName;
+
+
+    // Set the file category in the dropdown
+
+    const categoryDropdown = document.getElementById('category');
+
+    categoryDropdown.value = fileCategory; // Set the selected value
+
+
+    // Store the original values
+
+    originalFileName = fileName;
+
+    originalFileCategory = fileCategory;
+
+
+    // Open the file edit popup
+
+    document.getElementById('dark-overlay5').style.display = 'block';
+
+    document.getElementById('editfile-popup').style.display = 'block';
+
+
+    // Initially disable the save button
+
+    document.querySelector('.save-btn-file-edit').disabled = true;
+
+
+    // Add event listeners to detect changes
+
+    document.getElementById('file-name').addEventListener('input', checkForChangesEditFile);
+
+    categoryDropdown.addEventListener('change', checkForChangesEditFile);
+
+}
+
+document.querySelector('.save-btn-file-edit').addEventListener('click', async function () {
+
+    const fileId = document.getElementById('file-id-to-edit').value;
+
+    const fileName = document.getElementById('file-name').value;
+
+    const fileCategory = document.getElementById('category').value;
+
+
+    const updatedFields = {};
+
+
+    // Check if file name has changed
+
+    if (fileName !== originalFileName) {
+
+        updatedFields.fileName = fileName;
+
+    }
+
+
+    // Check if file category has changed
+
+    if (fileCategory !== originalFileCategory) {
+
+        updatedFields.fileCategory = fileCategory;
+
+    }
+
+
+    // Only update if there are changes
+
+    if (Object.keys(updatedFields).length > 0) {
+
+        await updateFile(fileId, updatedFields);
+
+    }
+
+});
+
+async function updateFile(fileId, updatedFields) {
+
+    try {
+
+        // Prepare the request body
+
+        const requestBody = {
+
+            fileId: parseInt(fileId)
+
+        };
+
+
+        // Always include both fields, using the original values if not changed
+
+        requestBody.fileName = updatedFields.fileName || originalFileName;
+
+        requestBody.fileCategory = updatedFields.fileCategory || originalFileCategory;
+
+
+        const response = await fetch('/Systems/UpdateFile', {
+
+            method: 'PUT',
+
+            headers: {
+
+                'Content-Type': 'application/json',
+
+                'X-CSRF-TOKEN': document.querySelector('input[name="__RequestVerificationToken"]').value
+
+            },
+
+            body: JSON.stringify(requestBody)
+
+        });
+
+
+        if (!response.ok) {
+
+            const errorData = await response.json();
+
+            throw new Error(errorData.message || 'Failed to update file');
+
+        }
+
+
+        // Close the popup
+
+        fileEditClosePopup();
+
+
+        // Show success notification
+
+        showSuccessNotification('File updated successfully');
+
+
+        // Refresh the file list
+
+        await loadSystemFiles(selectedSystemId);
+
+
+    } catch (error) {
+
+        console.error('Error updating file:', error);
+
+        showCustomAlert(`Error: ${error.message}`);
+
+    }
+
+}
+
+var selectedFileCategory = ''; // Variable to store the selected file category
+
+document.getElementById('category').addEventListener('change', function () {
+    selectedFileCategory = this.value; // Store the selected category
+});
+
+
+// Initially disable the save button
+document.querySelector('.save-btn-file-edit').disabled = true;
+
+// Function to check for changes and enable the save button
+function checkForChangesEditFile() {
+
+    const currentFileName = document.getElementById('file-name').value.trim();
+
+    const currentFileCategory = document.getElementById('category').value;
+
+
+    // Enable the save button if either the file name or category has changed
+
+    const isChanged = currentFileName !== originalFileName || currentFileCategory !== originalFileCategory;
+
+
+    document.querySelector('.save-btn-file-edit').disabled = !isChanged;
+
+}
+
+
+
+// Add event listeners to the input fields
+
+document.getElementById('file-name').addEventListener('input', checkForChangesEditFile);
+
+document.getElementById('category').addEventListener('change', checkForChangesEditFile);
+
+// Add this code to your AdminSystemScripts.js
+
+document.querySelector('.reset-btn-file-edit').addEventListener('click', function () {
+
+    // Restore original values to input fields
+
+    document.getElementById('file-name').value = originalFileName;
+
+    document.getElementById('category').value = originalFileCategory;
+
+
+    // Disable the save button since we are resetting to original values
+
+    document.querySelector('.save-btn-file-edit').disabled = true;
+
+});

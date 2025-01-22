@@ -3,7 +3,7 @@
     document.getElementById('staff-view').style.display = 'none';
     document.getElementById('system-reviewtab').classList.add('active');
     document.getElementById('staff-reviewtab').classList.remove('active');
-    document.querySelector('.default-view').style.display = 'block';
+    document.querySelector('.image-container').style.display = 'block';
     document.getElementById('system-review-table').style.display = 'none';
 }
 
@@ -90,7 +90,7 @@ function toggleReviewDropdown(event) {
 
 function loadReviewContent(systemName, department, system) {
     // Hide the default view and show the review table
-    document.querySelector('.default-view').style.display = 'none'; // Hide the image
+    document.querySelector('.image-container').style.display = 'none'; // Hide the image
     const systemReviewTable = document.getElementById('system-review-table');
     systemReviewTable.style.display = 'block'; // Show the table
 

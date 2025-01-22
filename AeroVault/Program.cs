@@ -37,6 +37,11 @@ namespace AeroVault
 
             builder.Services.AddScoped<UserOverviewBl>();
             builder.Services.AddScoped<UserOverviewDl>();
+            builder.Logging.ClearProviders();
+
+            builder.Logging.AddConsole();
+
+            builder.Logging.AddDebug();
 
             var app = builder.Build();
 

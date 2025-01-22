@@ -24,10 +24,6 @@ public class FileModel
     [Column("FileCategory")]
     public string FileCategory { get; set; }
 
-    [StringLength(500)]
-    [Column("FilePath")]
-    public string FilePath { get; set; }
-
     [Column("Added_Date")]
     public DateTime? AddedDate { get; set; } = DateTime.Now;
 

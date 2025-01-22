@@ -116,5 +116,15 @@ namespace AeroVault.Business
         {
             return await _systemRepository.GetFilesBySystemIdAsync(systemId);
         }
+
+        public async Task<bool> SoftDeleteFileAsync(int fileId)
+        {
+            return await _systemRepository.SoftDeleteFileAsync(fileId);
+        }
+
+        public async Task<bool> UpdateFileAsync(UpdateFileRequest request)
+        {
+            return await _systemRepository.UpdateFileAsync(request);
+        }
     }
 }

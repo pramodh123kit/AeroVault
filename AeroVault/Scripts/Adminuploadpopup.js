@@ -101,7 +101,7 @@ function restoreSelectedDepartments() {
 
 }
 
-
+var persistentSelectedDepartments = [];
 function goToStep(step) {
 
     const currentStep = parseInt(
@@ -122,56 +122,38 @@ function goToStep(step) {
     }
 
 
-    // Save selected departments when moving to Step 2
+    // Save selected departments and their systems when moving to Step 2
 
     if (currentStep === 1) {
 
-        saveSelectedDepartments();
+        // Clear previous persistent selections
 
-    }
+        persistentSelectedDepartments = [];
 
 
-    // Clear inputs for forward steps
+        // Collect currently selected departments
 
-    if (step < currentStep) {
+        const selectedDepartmentCheckboxes = document.querySelectorAll(".department:checked");
 
-        if (step === 1) {
 
-            // Clear selections for steps 2, 3, and 4
 
-            selectedDepartments = [];
+        selectedDepartmentCheckboxes.forEach(checkbox => {
 
-            document.querySelectorAll(".department").forEach(department => {
+            const departmentEntry = {
 
-                department.checked = false;
+                id: checkbox.getAttribute('data-department-id'),
 
-            });
+                name: checkbox.getAttribute('data-department-name'),
 
-        } else if (step === 2) {
+                divisionId: checkbox.getAttribute('data-division-id'),
 
-            // Clear selections for steps 3 and 4
+                selectedSystems: [] // Will be populated in the next step
 
-            selectedCategory = null;
+            };
 
-            selectedFiles = [];
+            persistentSelectedDepartments.push(departmentEntry);
 
-            updateFileDisplay(); // Update file display
-
-            document.querySelectorAll('.category-selection input[type="radio"]').forEach(radio => {
-
-                radio.checked = false;
-
-            });
-
-        } else if (step === 3) {
-
-            // Clear selection for step 4
-
-            selectedFiles = [];
-
-            updateFileDisplay(); // Update file display
-
-        }
+        });
 
     }
 
@@ -180,63 +162,35 @@ function goToStep(step) {
 
     if (step === 2) {
 
-        const selectedDepartmentCheckboxes = document.querySelectorAll(".department:checked");
-
         const systemsContainer = document.querySelector('.step-2-content .division-container');
 
         systemsContainer.innerHTML = ''; // Clear previous systems
 
 
-        selectedDepartmentCheckboxes.forEach(departmentCheckbox => {
+        // Restore or fetch systems for previously selected departments
 
-            const departmentId = departmentCheckbox.getAttribute('data-department-id');
+        persistentSelectedDepartments.forEach(department => {
 
-            const departmentName = departmentCheckbox.nextSibling.textContent.trim();
-
-
-            // Create a new division for the selected department
-
-            const departmentDiv = document.createElement('div');
-
-            departmentDiv.classList.add('division');
-
-            departmentDiv.innerHTML = `
-    <div class="step2-division-header" onclick="toggleDivision(this)">
-        <div>
-            <i class="fas fa-chevron-right division-name"></i>
-            <span class="division-name">${departmentName}</span>
-        </div>
-        <span class="selected-count-sys"></span>
-    </div>
-    <div class="division-content" style="display: none;">
-        <div class="system-list" data-department-id="${departmentId}">
-            <span>Loading systems...</span> <!-- Placeholder while loading -->
-        </div>
-    </div>
-`;
-
-            systemsContainer.appendChild(departmentDiv);
+            const departmentCheckbox = document.querySelector(`.department[data-department-id="${department.id}"]`);
 
 
-            // Fetch systems for the selected department
 
-            fetchSystems(departmentCheckbox);
+            if (departmentCheckbox) {
+
+                departmentCheckbox.checked = true;
+
+                fetchSystems(departmentCheckbox);
+
+            }
 
         });
 
     }
 
 
-    // Restore selected departments when going back to Step 1
+    // Rest of the existing goToStep logic...
 
-    if (step === 1) {
-
-        restoreSelectedDepartments();
-
-    }
-
-
-    // Update the active step
+    // (Update active steps, show/hide contents, etc.)
 
     document.querySelectorAll(".step").forEach(function (el) {
 
@@ -433,55 +387,144 @@ function handleDrop(e) {
         else return (bytes / 1048576).toFixed(1) + " MB";
     }
 
-    function uploadFiles() {
-        for (let step = 1; step < 4; step++) {
-            if (!validateStep(step)) {
-                alert(`Please complete step ${step} before uploading`);
-                goToStep(step);
-                return;
-            }
-        }
+function uploadFiles() {
 
-        if (selectedFiles.length === 0) {
-            alert("Please select files to upload");
+    // Validate steps
+
+    for (let step = 1; step < 4; step++) {
+
+        if (!validateStep(step)) {
+
+            alert(`Please complete step ${step} before uploading`);
+
+            goToStep(step);
+
             return;
+
         }
 
-        const uploadData = {
-            departments: selectedDepartments,
-            system: selectedSystem ? selectedSystem.value : null,
-            category: selectedCategory ? selectedCategory.value : null,
-            files: selectedFiles,
-        };
+    }
 
-        console.log("Preparing to upload:", uploadData);
 
-        const formData = new FormData();
-        formData.append("departments", JSON.stringify(uploadData.departments));
-        formData.append("system", uploadData.system);
-        formData.append("category", uploadData.category);
+    if (selectedFiles.length === 0) {
 
-        selectedFiles.forEach((file) => {
-            formData.append("files", file);
+        alert("Please select files to upload");
+
+        return;
+
+    }
+
+
+    // Get selected system and category
+
+    const selectedSystemCheckbox = document.querySelector('.system:checked');
+
+    const selectedCategoryElement = document.getElementById('selected-fileCategory');
+
+
+    if (!selectedSystemCheckbox) {
+
+        alert("Please select a system");
+
+        goToStep(2);
+
+        return;
+
+    }
+
+
+    if (selectedCategoryElement.textContent === 'Select File Category') {
+
+        alert("Please select a file category");
+
+        goToStep(3);
+
+        return;
+
+    }
+
+
+    // Create FormData for upload
+
+    const formData = new FormData();
+
+
+
+    // Add system ID
+
+    const systemId = selectedSystemCheckbox.getAttribute('data-system-id');
+
+    formData.append('SystemId', systemId);
+
+
+
+    // Add category
+
+    const category = selectedCategoryElement.textContent;
+
+    formData.append('Category', category);
+
+
+
+    // Add files
+
+    selectedFiles.forEach(file => {
+
+        formData.append('Files', file);
+
+    });
+
+
+    // Show loading indicator
+
+    alert(`Uploading ${selectedFiles.length} file(s)...`);
+
+
+    // Perform the upload
+
+    fetch('/Upload/UploadFiles', {
+
+        method: 'POST',
+
+        body: formData
+
+    })
+
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error('Upload failed');
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(result => {
+
+            alert(result.message);
+
+            // Reset the upload form
+
+            resetFiles();
+
+            // Close the popup or reset steps
+
+            // You might want to add a method to reset the entire upload process
+
+        })
+
+        .catch(error => {
+
+            console.error('Upload error:', error);
+
+            alert('File upload failed: ' + error.message);
+
         });
 
-        alert(`Uploading ${selectedFiles.length} file(s)`);
-
-        // Uncomment and modify the following for actual upload
-        // fetch('/your-upload-endpoint', {
-        //     method: 'POST',
-        //     body: formData
-        // })
-        // .then(response => response.json())
-        // .then(result => {
-        //     alert('Upload successful');
-        //     resetFiles();
-        // })
-        // .catch(error => {
-        //     alert('Upload failed');
-        //     console.error('Error:', error);
-        // });
-    }
+}
 
     function filterDepartments(searchTerm) {
         const departments = document.querySelectorAll(".department-list li");
@@ -898,60 +941,194 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 function fetchSystems(departmentCheckbox) {
+
     const departmentId = departmentCheckbox.getAttribute('data-department-id');
+
     const systemsContainer = document.querySelector('.step-2-content .division-container');
 
+
     if (departmentCheckbox.checked) {
+
         fetch(`/Upload/GetSystemsByDepartment?departmentId=${departmentId}`)
+
             .then(response => response.json())
+
             .then(systems => {
+
                 console.log(`Fetched systems for department ID ${departmentId}:`, systems);
-                const departmentDiv = systemsContainer.querySelector(`.system-list[data-department-id="${departmentId}"]`);
 
-                if (departmentDiv) {
-                    departmentDiv.innerHTML = ''; // Clear previous content
 
-                    // Add Select All checkbox
-                    const selectAllDiv = document.createElement('div');
-                    selectAllDiv.innerHTML = `
-                        <label>
-                            <input type="checkbox" class="select-all-sys" onclick="toggleSelectAll(this)"> Select All
-                        </label>
-                    `;
-                    departmentDiv.appendChild(selectAllDiv);
+                // Check if a division for this department already exists
 
-                    if (systems.length > 0) {
-                        systems.forEach(system => {
-                            const systemDiv = document.createElement('div');
-                            systemDiv.classList.add('system-item');
-                            systemDiv.innerHTML = `
+                let departmentDiv = systemsContainer.querySelector(`.division1[data-department-id="${departmentId}"]`);
+
+
+                // If department div doesn't exist, create it
+
+                if (!departmentDiv) {
+
+                    departmentDiv = document.createElement('div');
+
+                    departmentDiv.classList.add('division1');
+
+                    departmentDiv.setAttribute('data-department-id', departmentId);
+
+                    departmentDiv.innerHTML = `
+
+                        <div class="step2-division-header" onclick="toggleDivision(this)">
+
+                            <div>
+
+                                <i class="fas fa-chevron-right division-name"></i>
+
+                                <span class="division-name">${departmentCheckbox.getAttribute('data-department-name')}</span>
+
+                            </div>
+
+                            <span class="selected-count-sys"></span>
+
+                        </div>
+
+                        <div class="division-content" style="display: none;">
+
+                            <div class="system-list" data-department-id="${departmentId}">
+
                                 <label>
-                                    <input type="checkbox" class="system" data-system-id="${system.systemID}"> ${system.systemName}
-                                </label>
-                            `;
-                            departmentDiv.appendChild(systemDiv);
-                        });
 
-                        // Attach event listeners for the newly created system checkboxes
-                        attachSystemCheckboxListeners();
-                    } else {
-                        departmentDiv.innerHTML = '<span>No systems available</span>';
+                                    <input type="checkbox" class="select-all-sys" onclick="toggleSelectAll(this)"> Select All
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                    systemsContainer.appendChild(departmentDiv);
+
+                }
+
+
+                const systemList = departmentDiv.querySelector('.system-list');
+
+
+                if (systems.length > 0) {
+
+                    systems.forEach(system => {
+
+                        // Check if system already exists to prevent duplicates
+
+                        const existingSystem = systemList.querySelector(`.system-item[data-system-id="${system.systemID}"]`);
+
+
+
+                        if (!existingSystem) {
+
+                            const systemDiv = document.createElement('div');
+
+                            systemDiv.classList.add('system-item');
+
+                            systemDiv.setAttribute('data-system-id', system.systemID);
+
+                            systemDiv.innerHTML = `
+
+                                <label>
+
+                                    <input type="checkbox" class="system" data-system-id="${system.systemID}"> ${system.systemName}
+
+                                </label>
+
+                            `;
+
+                            systemList.appendChild(systemDiv);
+
+                        }
+
+                    });
+
+
+                    // Attach event listeners for the newly created system checkboxes
+
+                    attachSystemCheckboxListeners();
+
+                } else {
+
+                    // If no systems, show a message
+
+                    const noSystemsSpan = systemList.querySelector('span.no-systems');
+
+                    if (!noSystemsSpan) {
+
+                        const noSystemsMessage = document.createElement('span');
+
+                        noSystemsMessage.classList.add('no-systems');
+
+                        noSystemsMessage.textContent = 'No systems available';
+
+                        systemList.appendChild(noSystemsMessage);
+
                     }
+
                 }
+
+
+                // Restore previously selected systems if any
+
+                const selectedSystems = persistentSelectedDepartments.find(
+
+                    dept => dept.id === departmentId
+
+                )?.selectedSystems || [];
+
+
+                selectedSystems.forEach(systemId => {
+
+                    const systemCheckbox = systemList.querySelector(`.system[data-system-id="${systemId}"]`);
+
+                    if (systemCheckbox) {
+
+                        systemCheckbox.checked = true;
+
+                    }
+
+                });
+
+
+                // Update division styling
+
+                updateSystemDivisionHeaderStyle(departmentDiv);
+
             })
+
             .catch(error => {
+
                 console.error('Error fetching systems:', error);
-                const departmentDiv = systemsContainer.querySelector(`.system-list[data-department-id="${departmentId}"]`);
-                if (departmentDiv) {
-                    departmentDiv.innerHTML = '<span>Error fetching systems</span>';
+
+                const systemList = systemsContainer.querySelector(`.system-list[data-department-id="${departmentId}"]`);
+
+                if (systemList) {
+
+                    systemList.innerHTML = '<span>Error fetching systems</span>';
+
                 }
+
             });
+
     } else {
-        const departmentDiv = systemsContainer.querySelector(`.system-list[data-department-id="${departmentId}"]`);
+
+        // Remove the department's systems when unchecked
+
+        const departmentDiv = systemsContainer.querySelector(`.division1[data-department-id="${departmentId}"]`);
+
         if (departmentDiv) {
-            departmentDiv.innerHTML = '<span>No systems available</span>'; // Reset to default message
+
+            systemsContainer.removeChild(departmentDiv);
+
         }
+
     }
+
 }
 function toggleDivision(header) {
 
@@ -1079,11 +1256,221 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 function attachSystemCheckboxListeners() {
+
     document.querySelectorAll(".step-2-content .system").forEach((systemCheckbox) => {
+
         systemCheckbox.addEventListener("change", (event) => {
-            const division = event.target.closest(".division1");
-            console.log(`Checkbox changed: ${event.target.dataset.systemId}, Checked: ${event.target.checked}`); // Log checkbox state
+
+            const division = event.target.closest('.division1');
+
+            const departmentId = division.getAttribute('data-department-id');
+
+            const systemId = event.target.getAttribute('data-system-id');
+
+
+            // Update persistent selected systems
+
+            const departmentIndex = persistentSelectedDepartments.findIndex(
+
+                dept => dept.id === departmentId
+
+            );
+
+
+            if (departmentIndex !== -1) {
+
+                const selectedSystems = persistentSelectedDepartments[departmentIndex].selectedSystems;
+
+
+
+                if (event.target.checked) {
+
+                    if (!selectedSystems.includes(systemId)) {
+
+                        selectedSystems.push(systemId);
+
+                    }
+
+                } else {
+
+                    const systemIndex = selectedSystems.indexOf(systemId);
+
+                    if (systemIndex !== -1) {
+
+                        selectedSystems.splice(systemIndex, 1);
+
+                    }
+
+                }
+
+            }
+
+
+            // Update the division header style
+
             updateSystemDivisionHeaderStyle(division);
+
         });
+
     });
+
+} 
+
+
+function toggleFileCategoryDropdown() {
+
+    var dropdownContent = document.querySelector('.fileCategory-dropdown-content');
+
+    var dropdownToggle = document.querySelector('.fileCategory-dropdown-toggle');
+
+    var selector = document.querySelector('.fileCategory-selector');
+
+
+    if (dropdownContent.style.display === 'block') {
+
+        dropdownContent.style.display = 'none';
+
+        dropdownToggle.classList.remove('open');
+
+
+        selector.style.borderBottomLeftRadius = '10px';
+
+        selector.style.borderBottomRightRadius = '10px';
+
+        selector.style.borderBottom = '1px solid #6D6D6D';
+
+    } else {
+
+        dropdownContent.style.display = 'block';
+
+        dropdownToggle.classList.add('open');
+
+
+        selector.style.borderBottomLeftRadius = '0';
+
+        selector.style.borderBottomRightRadius = '0';
+
+        selector.style.borderBottom = 'none';
+
+        document.getElementById('fileCategory-search-input').value = '';
+
+        showAllFileCategoryOptions();
+
+    }
+
 }
+
+
+function filterFileCategoryOptions() {
+
+    var input, filter, div, i, txtValue;
+
+    input = document.getElementById('fileCategory-search-input');
+
+    filter = input.value.toUpperCase();
+
+    div = document.querySelectorAll('.fileCategory-dropdown-list div');
+
+    for (i = 0; i < div.length; i++) {
+
+        txtValue = div[i].textContent || div[i].innerText;
+
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+
+            div[i].style.display = "";
+
+        } else {
+
+            div[i].style.display = "none";
+
+        }
+
+    }
+
+}
+
+
+function selectFileCategoryOption(element) {
+
+    var selectedFileCategory = element.textContent || element.innerText;
+
+    document.getElementById('selected-fileCategory').textContent = selectedFileCategory;
+
+    document.querySelector('.fileCategory-dropdown-content').style.display = 'none';
+
+    document.querySelector('.fileCategory-dropdown-toggle').classList.remove('open');
+
+
+    var selector = document.querySelector('.fileCategory-selector');
+
+    selector.style.borderBottomLeftRadius = '10px';
+
+    selector.style.borderBottomRightRadius = '10px';
+
+    selector.style.borderBottom = '1px solid #6D6D6D';
+
+
+    var divs = document.querySelectorAll('.fileCategory-dropdown-list div');
+
+    divs.forEach(function (div) {
+
+        div.classList.remove('active');
+
+    });
+
+    element.classList.add('active');
+
+}
+
+
+function showAllFileCategoryOptions() {
+
+    var divs = document.querySelectorAll('.fileCategory-dropdown-list div');
+
+    divs.forEach(function (div) {
+
+        div.style.display = "";
+
+    });
+
+}
+
+
+document.getElementById('fileCategory-search-input').addEventListener('blur', function () {
+
+    const selector = document.querySelector('.fileCategory-selector');
+
+
+    selector.style.borderBottomLeftRadius = '10px';
+
+    selector.style.borderBottomRightRadius = '10px';
+
+
+    selector.style.border = '1px solid #6D6D6D';
+
+});
+
+
+window.onclick = function (event) {
+    const dropdownContent = document.querySelector('.fileCategory-dropdown-content');
+    const selector = document.querySelector('.fileCategory-selector');
+
+    // Check if the click is NOT on the dropdown toggle, its children, or search input
+    if (!event.target.matches('.fileCategory-dropdown-toggle') &&
+        !event.target.matches('.fileCategory-dropdown-toggle *') &&
+        !event.target.matches('#fileCategory-search-input')) {
+
+        // If dropdown is open
+        if (dropdownContent.style.display === 'block') {
+            dropdownContent.style.display = 'none';
+            document.getElementById('fileCategory-search-input').value = '';
+            filterFileCategoryOptions();
+            document.querySelector('.fileCategory-dropdown-toggle').classList.remove('open');
+
+            // Reset selector styling
+            selector.style.borderBottomLeftRadius = '10px';
+            selector.style.borderBottomRightRadius = '10px';
+            selector.style.borderBottom = '1px solid #6D6D6D';
+        }
+    }
+};

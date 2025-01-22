@@ -17,6 +17,8 @@
     flex-direction: column;
     background-color: #fff;
     position: relative;
+    width: 26%;
+    border-bottom-left-radius: 10px;
 }
 
 
@@ -27,7 +29,9 @@
     display: flex;
     flex-direction: column; /* Use column direction */
     justify-content: flex-start; /* Align items to start */
-    padding: 10px; /* Add some padding */
+    padding: 20px; /* Add some padding */
+    border-top-right-radius:10px;
+    border-bottom-right-radius:10px;
 
 }
 
@@ -176,9 +180,8 @@
 
 .status-form-group {
     margin-bottom: 0px;
-    width: 300px;
-    padding-left: 20px;
-    
+    margin-left: 20px;
+    width: 90%;
 }
 
 .status-dropdown {
@@ -205,16 +208,31 @@
     overflow-y: scroll;
 }
 
-.status-dropdown-list::-webkit-scrollbar {
-    width: 10px;
-    background-color: #fff;
+
+.status-dropdown-list {
+    /* For Firefox */
+    scrollbar-width: thin; /* Options: auto, thin */
+    scrollbar-color: #00436C transparent; /* thumb color, track color */
 }
 
-.status-dropdown-list::-webkit-scrollbar-thumb {
-    background-color: #135176;
-    border-radius: 100px;
-    height: 20px;
-}
+    /* WebKit Browsers (Chrome, Safari) */
+    .status-dropdown-list::-webkit-scrollbar {
+        width: 8px; /* Width of the scrollbar */
+    }
+
+    .status-dropdown-list::-webkit-scrollbar-thumb {
+        background-color: #00436C; /* Color of the scrollbar thumb */
+        border-radius: 10px; /* Rounded corners */
+    }
+
+    .status-dropdown-list::-webkit-scrollbar-track {
+        background: transparent; /* No background for the track */
+    }
+
+
+
+
+
 
 .status-dropdown-list div {
     padding: 8px 16px;
@@ -402,28 +420,48 @@
 }
 
 .staffViewSidebar {
-   
-    height: 100%; /* Ensure sidebar takes full height */
-    padding: 6px;
-    overflow-y: auto; /* Allow scrolling within the sidebar */
-    border-right: 1px solid #585656;
-    padding-left: 20px;
+    margin-top: 20px;
+    height: 90%;
+    padding: 0px;
+    overflow-y: auto;
+/*    border-right: 1px solid #585656;*/
+    height: 360px;
 }
 
-    .staffViewSidebar::-webkit-scrollbar {
-        width: 10px;
-        background-color: #fff;
-    }
 
-    .staffViewSidebar::-webkit-scrollbar-track {
-        background: #fff;
+.staffViewSidebar {
+    /* For Firefox */
+    scrollbar-width: thin; 
+    scrollbar-color: #00436C transparent;
+}
+
+    /* WebKit Browsers (Chrome, Safari) */
+    .staffViewSidebar::-webkit-scrollbar {
+        width: 8px; 
     }
 
     .staffViewSidebar::-webkit-scrollbar-thumb {
-        background-color: #135176;
-        border-radius: 100px;
-        height: 20px;
+        background-color: #00436C; 
+        border-radius: 10px; 
     }
+
+    .staffViewSidebar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .search-box-staff {
     display: flex;
@@ -454,11 +492,12 @@
     padding-bottom: 20px;
     font-size: 16px;
     color: #000;
+    border-bottom: 1px solid #BEBEBE;
 }
 
     .menu-item i {
         margin-right: 10px;
-        margin-left: 14px;
+        margin-left: 20px;
         color: #135176;
     }
 
@@ -782,13 +821,12 @@ th {
     font-size: 16px; 
 }
 
-#fileTableUnique td {
-    padding: 12px;
-    border-bottom: 1px solid #7D7D7D; 
-    text-align: left; 
-    font-size: 14px; 
-    vertical-align: middle; 
-}
+    #fileTableUnique td {
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+        font-size: 16px;
+        vertical-align: middle;
+    }
 
 .icon-unique {
     margin-right: 10px; 
@@ -875,4 +913,110 @@ th {
     #fileTableUnique th {
         padding: 8px;
     }
+}
+
+
+.file-search-container1 {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #c0bebe;
+    padding: 5px 0;
+    border-bottom: 1px solid #938C8C;
+/*    width: 90%; */
+
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
+.search-icon1 {
+    margin-right: 08px;
+    padding-left: 10px;
+}
+
+.file-search-input1 {
+    border: none;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    font-size: 14px; 
+    flex: 1;
+}
+
+
+.image-container img {
+    width: 60%;
+    height: 60%;
+    margin: auto auto;
+}
+
+.image-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    height: 450px;
+}
+
+
+.file-search-container2 {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #c0bebe;
+    padding: 5px 0;
+    margin-bottom: 0;
+    height: 30px;
+    border-bottom: 1px solid #938C8C;
+    margin: 10px;
+    width: 40%;
+}
+
+.search-icon2 {
+    margin-right: 08px;
+    padding-left: 10px;
+}
+
+.file-search-input2 {
+    border: none;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    flex: 1;
+}
+
+.file-option-icon {
+    height:19px;
+    margin-right:10px;
+}
+
+.sidebar-line {
+    border-right: 1px solid #585656;
+    padding-bottom:20px;
+}
+
+.scrollable-tbody {
+    overflow-y: auto;
+    overflow-x: auto;
+    max-height: calc(100vh - 340px);
+    height: 100vh;
+}
+
+
+
+.scrollable-tbody {
+    /* For Firefox */
+    scrollbar-width: thin; /* Options: auto, thin */
+    scrollbar-color: #00436C transparent; /* thumb color, track color */
+}
+
+    /* WebKit Browsers (Chrome, Safari) */
+    .scrollable-tbody::-webkit-scrollbar {
+        width: 8px; /* Width of the scrollbar */
+    }
+
+    .scrollable-tbody::-webkit-scrollbar-thumb {
+        background-color: #00436C; /* Color of the scrollbar thumb */
+        border-radius: 10px; /* Rounded corners */
+    }
+
+#system-header {
+    font-weight:bold;
 }

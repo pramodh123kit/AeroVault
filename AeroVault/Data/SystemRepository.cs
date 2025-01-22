@@ -20,6 +20,40 @@ namespace AeroVault.Data
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
+        public async Task<List<SystemModel>> GetSystemsAddedAfterAsync(DateTime fromDate)
+        {
+            var systems = new List<SystemModel>();
+
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string sql = @"
+            SELECT SystemID, SystemName, Description, added_date
+            FROM SYSTEMS
+            WHERE IS_DELETED = 0 AND added_date >= :fromDate";
+
+                using (var command = new OracleCommand(sql, connection))
+                {
+                    command.Parameters.Add(new OracleParameter(":fromDate", fromDate));
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            systems.Add(new SystemModel
+                            {
+                                SystemID = reader.GetInt32(0),
+                                SystemName = reader.GetString(1),
+                                Description = reader.IsDBNull(2) ? string.Empty : reader.GetString(2),
+                                AddedDate = reader.IsDBNull(3) ? (DateTime?)null : reader.GetDateTime(3)
+                            });
+                        }
+                    }
+                }
+            }
+            return systems;
+        }
+
         public async Task<List<SystemModel>> GetAllSystemsAsync()
         {
             var systems = new List<SystemModel>();
@@ -478,9 +512,9 @@ namespace AeroVault.Data
             var files = new List<FileModel>();
 
             string sql = @"
-    SELECT FileID, FileName, FileType, FileCategory, FilePath, Added_Date
-    FROM FILES 
-    WHERE SystemID = :SystemID AND IS_DELETED = 0";  // Add this condition
+        SELECT FileID, FileName, FileType, FileCategory, Added_Date
+        FROM FILES 
+        WHERE SystemID = :SystemID AND IS_DELETED = 0";
 
             using (var connection = new OracleConnection(_connectionString))
             {
@@ -499,14 +533,134 @@ namespace AeroVault.Data
                                 FileName = reader.GetString(1),
                                 FileType = reader.IsDBNull(2) ? null : reader.GetString(2),
                                 FileCategory = reader.IsDBNull(3) ? null : reader.GetString(3),
-                                FilePath = reader.IsDBNull(4) ? null : reader.GetString(4),
-                                AddedDate = reader.IsDBNull(5) ? (DateTime?)null : reader.GetDateTime(5)
+                                AddedDate = reader.IsDBNull(4) ? (DateTime?)null : reader.GetDateTime(4)
                             });
                         }
                     }
                 }
             }
             return files;
+        }
+        public async Task<bool> SoftDeleteFileAsync(int fileId)
+        {
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        string updateFileSql = @"
+                            UPDATE FILES 
+                            SET IS_DELETED = 1 
+                            WHERE FileID = :FileId";
+
+                        using (var updateCommand = new OracleCommand(updateFileSql, connection))
+                        {
+                            updateCommand.Transaction = transaction;
+                            updateCommand.Parameters.Add(new OracleParameter(":FileId", fileId));
+
+                            int rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+
+                            Console.WriteLine($"Rows affected by soft delete: {rowsAffected}");
+
+                            if (rowsAffected == 0)
+                            {
+                                transaction.Rollback();
+                                return false;
+                            }
+                        }
+
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        Console.WriteLine($"Error in SoftDeleteFileAsync: {ex.Message}");
+                        throw;
+                    }
+                }
+            }
+        }
+
+
+        public async Task<bool> UpdateFileAsync(UpdateFileRequest request)
+        {
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        // First, fetch the current file details
+                        string fetchSql = @"
+                    SELECT FileName, FileCategory 
+                    FROM Files 
+                    WHERE FileID = :FileId";
+
+                        string currentFileName = "";
+                        string currentFileCategory = "";
+
+                        using (var fetchCommand = new OracleCommand(fetchSql, connection))
+                        {
+                            fetchCommand.Transaction = transaction;
+                            fetchCommand.Parameters.Add(new OracleParameter(":FileId", request.FileId));
+
+                            using (var reader = await fetchCommand.ExecuteReaderAsync())
+                            {
+                                if (await reader.ReadAsync())
+                                {
+                                    currentFileName = reader.GetString(0);
+                                    currentFileCategory = reader.IsDBNull(1) ? null : reader.GetString(1);
+                                }
+                                else
+                                {
+                                    transaction.Rollback();
+                                    return false; // File not found
+                                }
+                            }
+                        }
+
+                        // Determine which fields to update
+                        string updateSql;
+                        OracleCommand updateCommand;
+
+                        // Use the current values if not provided in the request
+                        string fileNameToUpdate = request.FileName ?? currentFileName;
+                        string fileCategoryToUpdate = request.FileCategory ?? currentFileCategory;
+
+                        updateSql = @"
+                    UPDATE Files 
+                    SET FileName = :FileName, 
+                        FileCategory = :FileCategory 
+                    WHERE FileID = :FileId";
+
+                        updateCommand = new OracleCommand(updateSql, connection);
+                        updateCommand.Transaction = transaction;
+                        updateCommand.Parameters.Add(new OracleParameter(":FileName", fileNameToUpdate));
+                        updateCommand.Parameters.Add(new OracleParameter(":FileCategory", fileCategoryToUpdate));
+                        updateCommand.Parameters.Add(new OracleParameter(":FileId", request.FileId));
+
+                        int rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+                        if (rowsAffected == 0)
+                        {
+                            transaction.Rollback();
+                            return false; // No rows updated, file not found
+                        }
+
+                        transaction.Commit();
+                        return true; // Update successful
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        Console.WriteLine($"Error in UpdateFileAsync: {ex.Message}");
+                        throw;
+                    }
+                }
+            }
         }
     }
 }

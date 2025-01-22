@@ -178,5 +178,57 @@ namespace AeroVault.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteFile([FromBody] DeleteFileRequest request)
+        {
+            try
+            {
+                var result = await _systemService.SoftDeleteFileAsync(request.FileId);
+
+                if (result)
+                {
+                    return Ok(new { success = true, message = "File deleted successfully" });
+                }
+                else
+                {
+                    return NotFound(new { success = false, message = "File not found" });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting file: {ex.Message}");
+                return StatusCode(500, new { success = false, message = "An error occurred while deleting the file" });
+            }
+        }
+
+        public class DeleteFileRequest
+        {
+            public int FileId { get; set; }
+        }
+
+        [HttpPut]
+        [Route("Systems/UpdateFile")]
+        public async Task<IActionResult> UpdateFile([FromBody] UpdateFileRequest request)
+        {
+            try
+            {
+                var result = await _systemService.UpdateFileAsync(request);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in UpdateFile: {ex.Message}");
+                return StatusCode(500, new { message = "An error occurred while updating the file." });
+            }
+        }
+
+        // DTO for updating a file
+        public class UpdateFileRequest
+        {
+            public int FileId { get; set; }
+            public string FileName { get; set; }
+            public string FileCategory { get; set; }
+        }
+
     }
 }
