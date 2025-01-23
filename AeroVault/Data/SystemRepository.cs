@@ -119,29 +119,17 @@ namespace AeroVault.Data
                 await connection.OpenAsync();
                 transaction = connection.BeginTransaction();
 
-                string checkSql = "SELECT COUNT(*) FROM SYSTEMS WHERE LOWER(SYSTEMNAME) = LOWER(:SystemName)";
-                using (var checkCommand = new OracleCommand(checkSql, connection))
-                {
-                    checkCommand.Transaction = transaction;
-                    checkCommand.Parameters.Add(new OracleParameter(":SystemName", request.SystemName));
-                    int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
-
-                    if (count > 0)
-                    {
-                        throw new InvalidOperationException("A system with this name already exists");
-                    }
-                }
-
+                // Insert new system
                 int newSystemId;
                 string insertSql = @"
-                INSERT INTO SYSTEMS (SYSTEMID, SYSTEMNAME, DESCRIPTION) 
-                VALUES (SYSTEMS_SEQ.NEXTVAL, :SystemName, :Description)
-                RETURNING SYSTEMID INTO :NewSystemID";
+            INSERT INTO SYSTEMS (SYSTEMNAME, DESCRIPTION) 
+            VALUES (:SystemName, :Description)
+            RETURNING SYSTEMID INTO :NewSystemID";
 
                 using (var insertCommand = new OracleCommand(insertSql, connection))
                 {
                     insertCommand.Transaction = transaction;
-                    insertCommand.Parameters.Add(new OracleParameter(": SystemName", request.SystemName));
+                    insertCommand.Parameters.Add(new OracleParameter(":SystemName", request.SystemName.Trim()));
                     insertCommand.Parameters.Add(new OracleParameter(":Description", request.Description));
 
                     var systemIdParam = new OracleParameter(":NewSystemID", OracleDbType.Int32)
@@ -154,9 +142,10 @@ namespace AeroVault.Data
                     newSystemId = ConvertOracleDecimal(systemIdParam.Value);
                 }
 
+                // Insert system-department associations
                 string insertAssociationSql = @"
-                INSERT INTO SYSTEM_DEPARTMENTS (SYSTEMID, DEPARTMENTID) 
-                VALUES (:SystemID, :DepartmentID)";
+            INSERT INTO SYSTEM_DEPARTMENTS (SYSTEMID, DEPARTMENTID) 
+            VALUES (:SystemID, :DepartmentID)";
 
                 foreach (var departmentId in request.DepartmentIds)
                 {
@@ -169,12 +158,14 @@ namespace AeroVault.Data
                         await associationCommand.ExecuteNonQueryAsync();
                     }
                 }
+
                 transaction.Commit();
                 return newSystemId;
             }
-            catch
+            catch (Exception ex)
             {
                 transaction?.Rollback();
+                Console.WriteLine($"Error in CreateSystemAsync: {ex.Message}");
                 throw;
             }
             finally
