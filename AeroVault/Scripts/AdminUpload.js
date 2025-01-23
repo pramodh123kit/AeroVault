@@ -171,6 +171,23 @@ function selectcategoryOption(element) {
     filterTable();
 }
 
+function filtersystemOptions() {
+    const input = document.getElementById('system-search-input');
+    const filter = input.value.toUpperCase();
+    const systemDropdownList = document.querySelector('.system-dropdown-list');
+    const systemOptions = systemDropdownList.getElementsByTagName('div');
+
+    for (let i = 0; i < systemOptions.length; i++) {
+        const option = systemOptions[i];
+        const text = option.textContent || option.innerText;
+        if (text.toUpperCase().indexOf(filter) > -1) {
+            option.style.display = "";
+        } else {
+            option.style.display = "none";
+        }
+    }
+}
+
 // Initial setup
 filterTable();
 setupPagination();
