@@ -388,144 +388,141 @@ function handleDrop(e) {
     }
 
 function uploadFiles() {
-
     // Validate steps
-
     for (let step = 1; step < 4; step++) {
-
         if (!validateStep(step)) {
-
             alert(`Please complete step ${step} before uploading`);
-
             goToStep(step);
-
             return;
-
         }
-
     }
-
 
     if (selectedFiles.length === 0) {
-
         alert("Please select files to upload");
-
         return;
-
     }
-
 
     // Get selected system and category
-
     const selectedSystemCheckbox = document.querySelector('.system:checked');
-
     const selectedCategoryElement = document.getElementById('selected-fileCategory');
 
-
     if (!selectedSystemCheckbox) {
-
         alert("Please select a system");
-
         goToStep(2);
-
         return;
-
     }
-
 
     if (selectedCategoryElement.textContent === 'Select File Category') {
-
         alert("Please select a file category");
-
         goToStep(3);
-
         return;
-
     }
 
-
     // Create FormData for upload
-
     const formData = new FormData();
 
-
-
     // Add system ID
-
     const systemId = selectedSystemCheckbox.getAttribute('data-system-id');
-
     formData.append('SystemId', systemId);
 
-
-
     // Add category
-
     const category = selectedCategoryElement.textContent;
-
     formData.append('Category', category);
 
-
-
     // Add files
-
     selectedFiles.forEach(file => {
-
         formData.append('Files', file);
-
     });
 
-
     // Show loading indicator
-
     alert(`Uploading ${selectedFiles.length} file(s)...`);
 
-
     // Perform the upload
-
     fetch('/Upload/UploadFiles', {
-
         method: 'POST',
-
         body: formData
-
     })
-
         .then(response => {
-
             if (!response.ok) {
-
                 throw new Error('Upload failed');
-
             }
-
             return response.json();
-
         })
-
         .then(result => {
-
             alert(result.message);
-
             // Reset the upload form
-
             resetFiles();
-
             // Close the popup or reset steps
-
-            // You might want to add a method to reset the entire upload process
-
+            fileEditClosePopup8();
+            // Refresh the table
+            refreshTable();
         })
-
         .catch(error => {
-
             console.error('Upload error:', error);
-
             alert('File upload failed: ' + error.message);
-
         });
-
 }
 
+function refreshTable() {
+    fetch('/Upload/GetAllFiles')
+        .then(response => response.json())
+        .then(files => {
+            updateTableWithNewData(files);
+        })
+        .catch(error => {
+            console.error('Error fetching files:', error);
+        });
+}
+
+function updateTableWithNewData(files) {
+    const tbody = document.querySelector('.file-table tbody');
+    tbody.innerHTML = ''; // Clear existing rows
+
+    if (files.length > 0) {
+        files.forEach(file => {
+            const row = document.createElement('tr');
+
+            // Get the file name without the extension
+            const fileNameWithoutExtension = file.fileName.replace(/\.[^/.]+$/, "");
+            const fileExtension = file.fileName.split('.').pop().toLowerCase();
+
+            // Determine the icon based on the file type
+            let iconSrc = "";
+            if (file.fileType?.toLowerCase() === "document" ||
+                [".pdf", ".doc", ".docx", ".txt", ".xls", ".xlsx"].includes(`.${fileExtension}`)) {
+                iconSrc = "/Content/Assets/system-file-icon.svg";
+            } else if (file.fileType?.toLowerCase() === "video" ||
+                [".mp4", ".avi", ".mov", ".wmv", ".mkv"].includes(`.${fileExtension}`)) {
+                iconSrc = "/Content/Assets/system-video-icon.svg";
+            }
+
+            // Build the row HTML
+            row.innerHTML = `
+                <td>
+                    ${iconSrc ? `<img src="${iconSrc}" alt="File Icon" class="file-icon" />` : ''}
+                    ${fileNameWithoutExtension}
+                </td>
+                <td class="category-cell">${file.fileCategory || 'N/A'}</td>
+                <td class="system-cell">${file.system?.systemName || 'N/A'}</td>
+                <td class="department-cell">
+                    ${file.departmentName === 'Multi-Departmental' ?
+                    `<span class="multi-departmental" onclick="showDepartmentTooltip(event, '${file.departmentNames}')">Multi-Departmental</span>` :
+                    file.departmentName || 'N/A'}
+                </td>
+                <td>${file.addedDate ? new Date(file.addedDate).toLocaleDateString() : 'N/A'}</td>
+                <td>
+                    <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon"
+                         onclick="viewFile('${file.fileName}', '${file.uniqueFileIdentifier}')" />
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    } else {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td colspan="6" class="text-center">No files uploaded yet</td>`;
+        tbody.appendChild(row);
+    }
+}
     function filterDepartments(searchTerm) {
         const departments = document.querySelectorAll(".department-list li");
         departments.forEach((dept) => {
@@ -1474,3 +1471,4 @@ window.onclick = function (event) {
         }
     }
 };
+

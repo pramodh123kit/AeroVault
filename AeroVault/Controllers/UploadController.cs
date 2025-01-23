@@ -423,4 +423,11 @@ public class UploadController : BaseAdminController
         public List<IFormFile> Files { get; set; }
 
     }
+
+    [HttpGet]
+    public IActionResult GetAllFiles()
+    {
+        var files = _uploadBl.GetAllFiles();
+        return Json(files);
+    }
 }
