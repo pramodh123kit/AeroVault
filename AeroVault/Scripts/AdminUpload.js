@@ -5,6 +5,7 @@ var currentPage = 1;
 var rowsPerPage = 10;
 var selectedSystem = "All";
 var selectedDepartment = "All";
+
 // Function to filter the table based on the selected category
 function filterTable() {
     const rows = document.querySelectorAll(".file-table tbody tr");
@@ -29,6 +30,7 @@ function filterTable() {
     updateTable();
     setupPagination();
 }
+
 // Modify the updateTable function to show only filtered rows
 function updateTable() {
     const rows = document.querySelectorAll(".file-table tbody tr");
@@ -170,7 +172,6 @@ function selectcategoryOption(element) {
     // Filter the rows based on the selected category
     filterTable();
 }
-
 function filtersystemOptions() {
     const input = document.getElementById('system-search-input');
     const filter = input.value.toUpperCase();
@@ -179,6 +180,23 @@ function filtersystemOptions() {
 
     for (let i = 0; i < systemOptions.length; i++) {
         const option = systemOptions[i];
+        const text = option.textContent || option.innerText;
+        if (text.toUpperCase().indexOf(filter) > -1) {
+            option.style.display = "";
+        } else {
+            option.style.display = "none";
+        }
+    }
+}
+
+function filtercategoryOptions() {
+    const input = document.getElementById('category-search-input');
+    const filter = input.value.toUpperCase();
+    const categoryDropdownList = document.querySelector('.category-dropdown-list');
+    const categoryOptions = categoryDropdownList.getElementsByTagName('div');
+
+    for (let i = 0; i < categoryOptions.length; i++) {
+        const option = categoryOptions[i];
         const text = option.textContent || option.innerText;
         if (text.toUpperCase().indexOf(filter) > -1) {
             option.style.display = "";
@@ -357,6 +375,10 @@ function togglecategoryDropdown() {
         selector.style.borderBottomLeftRadius = '10px';
         selector.style.borderBottomRightRadius = '10px';
         selector.style.borderBottom = '1px solid #6D6D6D';
+
+        // Reset the search input and show all options
+        document.getElementById('category-search-input').value = '';
+        filtercategoryOptions();
     } else {
         dropdownContent.style.display = 'block';
         dropdownToggle.classList.add('open');
@@ -364,7 +386,34 @@ function togglecategoryDropdown() {
         selector.style.borderBottomLeftRadius = '0';
         selector.style.borderBottomRightRadius = '0';
         selector.style.borderBottom = 'none';
+
+        // Ensure all options are visible when the dropdown is opened
+        const categoryOptions = document.querySelectorAll('.category-dropdown-list div');
+        categoryOptions.forEach(option => {
+            option.style.display = "";
+        });
     }
+}
+
+function selectcategoryOption(element) {
+    selectedCategory = element.textContent || element.innerText;
+    document.getElementById('selected-category').textContent = selectedCategory;
+    document.querySelector('.category-dropdown-content').style.display = 'none';
+    document.querySelector('.category-dropdown-toggle').classList.remove('open');
+
+    var selector = document.querySelector('.category-selector');
+    selector.style.borderBottomLeftRadius = '10px';
+    selector.style.borderBottomRightRadius = '10px';
+    selector.style.borderBottom = '1px solid #6D6D6D';
+
+    var divs = document.querySelectorAll('.category-dropdown-list div');
+    divs.forEach(function (div) {
+        div.classList.remove('active');
+    });
+    element.classList.add('active');
+
+    // Filter the rows based on the selected category
+    filterTable();
 }
 
 // Your existing functions continue below...
