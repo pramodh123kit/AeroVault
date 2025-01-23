@@ -3,7 +3,7 @@ var selectedCategory = "All";
 var filteredRows = [];
 var currentPage = 1;
 var rowsPerPage = 10;
-
+var selectedSystem = "All";
 // Function to filter the table based on the selected category
 function filterTable() {
     const rows = document.querySelectorAll(".file-table tbody tr");
@@ -11,9 +11,12 @@ function filterTable() {
 
     rows.forEach(row => {
         const categoryCell = row.querySelector(".category-cell");
+        const systemCell = row.querySelector(".system-cell");
         const category = categoryCell ? categoryCell.textContent.trim() : "N/A";
+        const system = systemCell ? systemCell.textContent.trim() : "N/A";
 
-        if (selectedCategory === "All" || category === selectedCategory) {
+        if ((selectedCategory === "All" || category === selectedCategory) &&
+            (selectedSystem === "All" || system === selectedSystem)) {
             filteredRows.push(row);
         }
     });
@@ -22,7 +25,6 @@ function filterTable() {
     updateTable();
     setupPagination();
 }
-
 // Modify the updateTable function to show only filtered rows
 function updateTable() {
     const rows = document.querySelectorAll(".file-table tbody tr");
@@ -289,8 +291,8 @@ function togglesystemDropdown() {
 }
 
 function selectsystemOption(element) {
-    var selectedsystem = element.textContent || element.innerText;
-    document.getElementById('selected-system').textContent = selectedsystem;
+    selectedSystem = element.textContent || element.innerText;
+    document.getElementById('selected-system').textContent = selectedSystem;
 
     document.querySelector('.system-dropdown-content').style.display = 'none';
     document.querySelector('.system-dropdown-toggle').classList.remove('open');
@@ -305,6 +307,9 @@ function selectsystemOption(element) {
         div.classList.remove('active');
     });
     element.classList.add('active');
+
+    // Filter the rows based on the selected system
+    filterTable();
 }
 
 function togglecategoryDropdown() {
