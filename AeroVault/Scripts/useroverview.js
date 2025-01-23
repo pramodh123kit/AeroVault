@@ -143,6 +143,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 function toggleCustomDropdown() {
+    // Check if dropdown is disabled
+    var dropdown = document.querySelector('.custom-dropdown');
+    if (dropdown.classList.contains('disabled')) {
+        return false;
+    }
+
     var dropdownContent = document.querySelector('.custom-dropdown-content');
     var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
     var selector = document.querySelector('.custom-selector');
@@ -182,6 +188,12 @@ function filterCustomOptions() {
 }
 
 function selectCustomOption(element) {
+    // Prevent selection if dropdown is disabled
+    var dropdown = document.querySelector('.custom-dropdown');
+    if (dropdown.classList.contains('disabled')) {
+        return false;
+    }
+
     var selectedOption = element.textContent || element.innerText;
     document.getElementById('selected-option').textContent = selectedOption;
     document.querySelector('.custom-dropdown-content').style.display = 'none';
@@ -198,6 +210,34 @@ function selectCustomOption(element) {
     });
     element.classList.add('active');
 }
+
+// Modify window.onclick to prevent interactions when disabled
+window.onclick = function (event) {
+    const dropdown = document.querySelector('.custom-dropdown');
+    const dropdownContent = document.querySelector('.custom-dropdown-content');
+    const selector = document.querySelector('.custom-selector');
+
+    // If dropdown is disabled, do nothing
+    if (dropdown.classList.contains('disabled')) {
+        return;
+    }
+
+    if (!event.target.matches('.custom-dropdown-toggle') &&
+        !event.target.matches('.custom-dropdown-toggle *') &&
+        !event.target.matches('#custom-search-input')) {
+
+        if (dropdownContent.style.display === 'block') {
+            dropdownContent.style.display = 'none';
+            document.getElementById('custom-search-input').value = '';
+            filterCustomOptions();
+            document.querySelector('.custom-dropdown-toggle').classList.remove('open');
+
+            selector.style.borderBottomLeftRadius = '10px';
+            selector.style.borderBottomRightRadius = '10px';
+            selector.style.borderBottom = '1px solid #6D6D6D';
+        }
+    }
+};
 
 function showAllCustomOptions() {
     var divs = document.querySelectorAll('.custom-dropdown-list div');

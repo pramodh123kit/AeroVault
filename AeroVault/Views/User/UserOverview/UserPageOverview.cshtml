@@ -27,7 +27,7 @@
             <!-- User Info Card -->
             <div class="user-info-card">
                 <h2>Rusith Manorathna</h2>
-                <p>Information Technology</p>
+                <p class="userdepartment">Testingaaaa</p>
             </div>
          
             <!-- Progress Section -->
@@ -36,25 +36,42 @@
 
                 <div class="custom-form-group">
                     <label class="custom-label" for="custom-selector">Select System</label>
-                    <div class="custom-dropdown">
-                        <div class="custom-dropdown-toggle custom-selector" onclick="toggleCustomDropdown()">
-                            <span id="selected-option">All</span>
+                    <div class="custom-dropdown @(ViewBag.IsDepartmentActive && ViewBag.Systems != null && ViewBag.Systems.Count > 0 ? "" : "disabled")">
+                        <div class="custom-dropdown-toggle custom-selector"
+                             onclick="@(ViewBag.IsDepartmentActive && ViewBag.Systems != null && ViewBag.Systems.Count > 0 ? "toggleCustomDropdown()" : "return false;")"
+                        @(ViewBag.IsDepartmentActive && ViewBag.Systems != null && ViewBag.Systems.Count > 0 ? "" : "disabled")>
+                            <span id="selected-option">
+                                @(ViewBag.IsDepartmentActive && ViewBag.Systems != null && ViewBag.Systems.Count > 0 ? "All" : "No systems available")
+                            </span>
                             <i class="fas fa-chevron-down"></i>
                         </div>
-                        <div class="custom-dropdown-content">
+                        <div class="custom-dropdown-content" style="display: none;">
                             <div class="custom-search-container">
                                 <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
-                                <input type="text" id="custom-search-input" placeholder="Search System" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
+                                <input type="text" id="custom-search-input" placeholder="Search System"
+                                       onkeyup="filterCustomOptions()"
+                                       onclick="event.stopPropagation()"
+                                @(ViewBag.IsDepartmentActive && ViewBag.Systems != null && ViewBag.Systems.Count > 0 ? "" : "disabled")>
                             </div>
-                            <!-- Replace the existing custom-dropdown-list div with this -->
                             <div class="custom-dropdown-list">
-                                <div onclick="selectCustomOption(this)" class="active">All</div>
-                                @if (ViewBag.Systems != null)
+                                @if (ViewBag.IsDepartmentActive)
                                 {
-                                    @foreach (var system in ViewBag.Systems)
+                                    if (ViewBag.Systems != null && ViewBag.Systems.Count > 0)
                                     {
-                                        <div onclick="selectCustomOption(this)">@system</div>
+                                        <div onclick="selectCustomOption(this)" class="active">All</div>
+                                        foreach (var system in ViewBag.Systems)
+                                        {
+                                            <div onclick="selectCustomOption(this)">@system</div>
+                                        }
                                     }
+                                    else
+                                    {
+                                        <div>No systems available</div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div>No systems available</div>
                                 }
                             </div>
                         </div>
