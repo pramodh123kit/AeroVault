@@ -4,6 +4,7 @@ var filteredRows = [];
 var currentPage = 1;
 var rowsPerPage = 10;
 var selectedSystem = "All";
+var selectedDepartment = "All";
 // Function to filter the table based on the selected category
 function filterTable() {
     const rows = document.querySelectorAll(".file-table tbody tr");
@@ -12,11 +13,14 @@ function filterTable() {
     rows.forEach(row => {
         const categoryCell = row.querySelector(".category-cell");
         const systemCell = row.querySelector(".system-cell");
+        const departmentCell = row.querySelector(".department-cell");
         const category = categoryCell ? categoryCell.textContent.trim() : "N/A";
         const system = systemCell ? systemCell.textContent.trim() : "N/A";
+        const department = departmentCell ? departmentCell.textContent.trim() : "N/A";
 
         if ((selectedCategory === "All" || category === selectedCategory) &&
-            (selectedSystem === "All" || system === selectedSystem)) {
+            (selectedSystem === "All" || system === selectedSystem) &&
+            (selectedDepartment === "All" || department === selectedDepartment)) {
             filteredRows.push(row);
         }
     });
@@ -250,9 +254,8 @@ function toggleStatusDropdown() {
 }
 
 function selectStatusOption(element) {
-    var selectedStatus = element.textContent || element.innerText;
-    document.getElementById('selected-status').textContent = selectedStatus;
-
+    selectedDepartment = element.textContent || element.innerText;
+    document.getElementById('selected-status').textContent = selectedDepartment;
     document.querySelector('.status-dropdown-content').style.display = 'none';
     document.querySelector('.status-dropdown-toggle').classList.remove('open');
 
@@ -266,6 +269,9 @@ function selectStatusOption(element) {
         div.classList.remove('active');
     });
     element.classList.add('active');
+
+    // Filter the rows based on the selected department
+    filterTable();
 }
 
 function togglesystemDropdown() {
