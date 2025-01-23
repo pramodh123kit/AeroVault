@@ -1,3 +1,175 @@
+// Global variables to store the selected category and filtered rows
+var selectedCategory = "All";
+var filteredRows = [];
+var currentPage = 1;
+var rowsPerPage = 10;
+
+// Function to filter the table based on the selected category
+function filterTable() {
+    const rows = document.querySelectorAll(".file-table tbody tr");
+    filteredRows = [];
+
+    rows.forEach(row => {
+        const categoryCell = row.querySelector(".category-cell");
+        const category = categoryCell ? categoryCell.textContent.trim() : "N/A";
+
+        if (selectedCategory === "All" || category === selectedCategory) {
+            filteredRows.push(row);
+        }
+    });
+
+    currentPage = 1; // Reset to the first page after filtering
+    updateTable();
+    setupPagination();
+}
+
+// Modify the updateTable function to show only filtered rows
+function updateTable() {
+    const rows = document.querySelectorAll(".file-table tbody tr");
+    const start = (currentPage - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+
+    // Hide all rows first
+    rows.forEach(row => {
+        row.style.display = "none";
+    });
+
+    // Show only the filtered rows for the current page
+    filteredRows.slice(start, end).forEach(row => {
+        row.style.display = "";
+    });
+}
+
+// Modify the setupPagination function to use filteredRows
+function setupPagination() {
+    const totalRows = filteredRows.length;
+    const totalPages = Math.ceil(totalRows / rowsPerPage);
+    const paginationContainer = document.querySelector(".page-numbers");
+    paginationContainer.innerHTML = "";
+
+    // Previous button
+    const prevButton = document.querySelector(".prev");
+    prevButton.onclick = () => {
+        if (currentPage > 1) {
+            currentPage--;
+            updateTable();
+            setupPagination();
+        }
+    };
+
+    // Next button
+    const nextButton = document.querySelector(".next");
+    nextButton.onclick = () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            updateTable();
+            setupPagination();
+        }
+    };
+
+    // Determine the range of page numbers to show
+    let startPage, endPage;
+    if (totalPages <= 5) {
+        startPage = 1;
+        endPage = totalPages;
+    } else {
+        if (currentPage <= 3) {
+            startPage = 1;
+            endPage = 5;
+        } else if (currentPage >= totalPages - 2) {
+            startPage = totalPages - 4;
+            endPage = totalPages;
+        } else {
+            startPage = currentPage - 2;
+            endPage = currentPage + 2;
+        }
+    }
+
+    // Generate page numbers
+    for (let i = startPage; i <= endPage; i++) {
+        const pageNum = document.createElement("span");
+        pageNum.className = `page-number ${i === currentPage ? "active" : ""}`;
+        pageNum.textContent = i;
+        pageNum.addEventListener("click", () => {
+            currentPage = i;
+            updateTable();
+            setupPagination();
+        });
+        paginationContainer.appendChild(pageNum);
+    }
+
+    // Add first page and ellipsis if needed
+    if (startPage > 1) {
+        const firstPage = document.createElement("span");
+        firstPage.className = "page-number";
+        firstPage.textContent = "1";
+        firstPage.addEventListener("click", () => {
+            currentPage = 1;
+            updateTable();
+            setupPagination();
+        });
+        paginationContainer.insertBefore(firstPage, paginationContainer.firstChild);
+
+        if (startPage > 2) {
+            const startEllipsis = document.createElement("span");
+            startEllipsis.className = "page-number ellipsis";
+            startEllipsis.textContent = "...";
+            paginationContainer.insertBefore(startEllipsis, paginationContainer.firstChild.nextSibling);
+        }
+    }
+
+    // Add last page and ellipsis if needed
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+            const endEllipsis = document.createElement("span");
+            endEllipsis.className = "page-number ellipsis";
+            endEllipsis.textContent = "...";
+            paginationContainer.appendChild(endEllipsis);
+        }
+
+        const lastPage = document.createElement("span");
+        lastPage.className = "page-number";
+        lastPage.textContent = totalPages;
+        lastPage.addEventListener("click", () => {
+            currentPage = totalPages;
+            updateTable();
+            setupPagination();
+        });
+        paginationContainer.appendChild(lastPage);
+    }
+
+    // Disable/enable prev and next buttons
+    prevButton.disabled = currentPage === 1;
+    nextButton.disabled = currentPage === totalPages;
+}
+
+// Modify the selectcategoryOption function to filter the table
+function selectcategoryOption(element) {
+    selectedCategory = element.textContent || element.innerText;
+    document.getElementById('selected-category').textContent = selectedCategory;
+    document.querySelector('.category-dropdown-content').style.display = 'none';
+    document.querySelector('.category-dropdown-toggle').classList.remove('open');
+
+    var selector = document.querySelector('.category-selector');
+    selector.style.borderBottomLeftRadius = '10px';
+    selector.style.borderBottomRightRadius = '10px';
+    selector.style.borderBottom = '1px solid #6D6D6D';
+
+    var divs = document.querySelectorAll('.category-dropdown-list div');
+    divs.forEach(function (div) {
+        div.classList.remove('active');
+    });
+    element.classList.add('active');
+
+    // Filter the rows based on the selected category
+    filterTable();
+}
+
+// Initial setup
+filterTable();
+setupPagination();
+
+// Your existing functions below (unchanged)
 // Modify the window.onclick function to handle all dropdowns
 window.onclick = function (event) {
     // Status Dropdown
@@ -157,244 +329,7 @@ function togglecategoryDropdown() {
     }
 }
 
-function selectcategoryOption(element) {
-    var selectedcategory = element.textContent || element.innerText;
-    document.getElementById('selected-category').textContent = selectedcategory;
-    document.querySelector('.category-dropdown-content').style.display = 'none';
-    document.querySelector('.category-dropdown-toggle').classList.remove('open');
-
-    var selector = document.querySelector('.category-selector');
-    selector.style.borderBottomLeftRadius = '10px';
-    selector.style.borderBottomRightRadius = '10px';
-    selector.style.borderBottom = '1px solid #6D6D6D';
-
-    var divs = document.querySelectorAll('.category-dropdown-list div');
-    divs.forEach(function (div) {
-        div.classList.remove('active');
-    }); element.classList.add('active');
-}
-
-function setupPagination() {
-
-    const totalRows = document.querySelectorAll(".file-table tbody tr").length;
-
-    const totalPages = Math.ceil(totalRows / rowsPerPage);
-
-    const paginationContainer = document.querySelector(".page-numbers");
-
-    paginationContainer.innerHTML = "";
-
-
-    // Previous button
-
-    const prevButton = document.querySelector(".prev");
-
-    prevButton.onclick = () => {
-
-        if (currentPage > 1) {
-
-            currentPage--;
-
-            updateTable();
-
-            setupPagination();
-
-        }
-
-    };
-
-
-    // Next button
-
-    const nextButton = document.querySelector(".next");
-
-    nextButton.onclick = () => {
-
-        if (currentPage < totalPages) {
-
-            currentPage++;
-
-            updateTable();
-
-            setupPagination();
-
-        }
-
-    };
-
-
-    // Determine the range of page numbers to show
-
-    let startPage, endPage;
-
-    if (totalPages <= 5) {
-
-        startPage = 1;
-
-        endPage = totalPages;
-
-    } else {
-
-        if (currentPage <= 3) {
-
-            startPage = 1;
-
-            endPage = 5;
-
-        } else if (currentPage >= totalPages - 2) {
-
-            startPage = totalPages - 4;
-
-            endPage = totalPages;
-
-        } else {
-
-            startPage = currentPage - 2;
-
-            endPage = currentPage + 2;
-
-        }
-
-    }
-
-
-    // Generate page numbers
-
-    for (let i = startPage; i <= endPage; i++) {
-
-        const pageNum = document.createElement("span");
-
-        pageNum.className = `page-number ${i === currentPage ? "active" : ""}`;
-
-        pageNum.textContent = i;
-
-        pageNum.addEventListener("click", () => {
-
-            currentPage = i;
-
-            updateTable();
-
-            setupPagination();
-
-        });
-
-        paginationContainer.appendChild(pageNum);
-
-    }
-
-
-    // Add first page and ellipsis if needed
-
-    if (startPage > 1) {
-
-        const firstPage = document.createElement("span");
-
-        firstPage.className = "page-number";
-
-        firstPage.textContent = "1";
-
-        firstPage.addEventListener("click", () => {
-
-            currentPage = 1;
-
-            updateTable();
-
-            setupPagination();
-
-        });
-
-        paginationContainer.insertBefore(firstPage, paginationContainer.firstChild);
-
-
-        if (startPage > 2) {
-
-            const startEllipsis = document.createElement("span");
-
-            startEllipsis.className = "page-number ellipsis";
-
-            startEllipsis.textContent = "...";
-
-            paginationContainer.insertBefore(startEllipsis, paginationContainer.firstChild.nextSibling);
-
-        }
-
-    }
-
-
-    // Add last page and ellipsis if needed
-
-    if (endPage < totalPages) {
-
-        if (endPage < totalPages - 1) {
-
-            const endEllipsis = document.createElement("span");
-
-            endEllipsis.className = "page-number ellipsis";
-
-            endEllipsis.textContent = "...";
-
-            paginationContainer.appendChild(endEllipsis);
-
-        }
-
-
-        const lastPage = document.createElement("span");
-
-        lastPage.className = "page-number";
-
-        lastPage.textContent = totalPages;
-
-        lastPage.addEventListener("click", () => {
-
-            currentPage = totalPages;
-
-            updateTable();
-
-            setupPagination();
-
-        });
-
-        paginationContainer.appendChild(lastPage);
-
-    }
-
-
-    // Disable/enable prev and next buttons
-
-    prevButton.disabled = currentPage === 1;
-
-    nextButton.disabled = currentPage === totalPages;
-
-}
-
-
-var currentPage = 1;
-
-var rowsPerPage = 10;
-
-
-function updateTable() {
-
-    const rows = document.querySelectorAll(".file-table tbody tr");
-
-    const start = (currentPage - 1) * rowsPerPage;
-
-    const end = start + rowsPerPage;
-
-
-    rows.forEach((row, index) => {
-
-        row.style.display = index >= start && index < end ? "" : "none";
-
-    });
-
-}
-
-
-
-updateTable();
-setupPagination();
-
+// Your existing functions continue below...
 
 function showDepartmentTooltip(event, departmentNames) {
     const tooltip = document.getElementById('departmentTooltip');
@@ -441,49 +376,30 @@ document.addEventListener('click', function (event) {
     }
 });
 
-
 function fileEditopenPopup8() {
     document.getElementById("dark-overlay8").style.display = "block";
     document.getElementById("editfile-popup8").style.display = "block";
-
 
     goToStep(1);
 }
 
 function fileEditClosePopup8() {
-
     document.getElementById("dark-overlay8").style.display = "none";
-
     document.getElementById("editfile-popup8").style.display = "none";
 
-
-
     // Reset persistent selections
-
     persistentSelectedDepartments = [];
 
-
-
     // Uncheck all department checkboxes
-
     document.querySelectorAll(".department").forEach(checkbox => {
-
         checkbox.checked = false;
-
     });
-
-
 
     // Reset division styles
-
     document.querySelectorAll(".division").forEach(division => {
-
         updateDivisionHeaderStyle(division);
-
         updateSelectedCount(division);
-
     });
-
 }
 
 document.querySelectorAll(".upload-btn").forEach(function (icon) {
@@ -491,7 +407,6 @@ document.querySelectorAll(".upload-btn").forEach(function (icon) {
 });
 
 document.getElementById("close-logout8").onclick = fileEditClosePopup8;
-
 
 function viewFile(fileName, uniqueIdentifier) {
     console.log("Attempting to view file:", fileName); // Log the file name
@@ -505,7 +420,8 @@ function viewFile(fileName, uniqueIdentifier) {
     fileName = fileName.replace(/\.[^/.]+$/, "");
 
     // Find the file with the correct extension
-    fetch(`/Upload/FindFile?fileName=${encodeURIComponent(fileName)}&uniqueIdentifier=${encodeURIComponent(uniqueIdentifier)}`)        .then(response => {
+    fetch(`/Upload/FindFile?fileName=${encodeURIComponent(fileName)}&uniqueIdentifier=${encodeURIComponent(uniqueIdentifier)}`)
+        .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
