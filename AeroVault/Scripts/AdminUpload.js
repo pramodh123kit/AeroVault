@@ -303,6 +303,10 @@ function togglesystemDropdown() {
         selector.style.borderBottomLeftRadius = '10px';
         selector.style.borderBottomRightRadius = '10px';
         selector.style.borderBottom = '1px solid #6D6D6D';
+
+        // Reset the search input and show all options
+        document.getElementById('system-search-input').value = '';
+        filtersystemOptions();
     } else {
         dropdownContent.style.display = 'block';
         dropdownToggle.classList.add('open');
@@ -310,6 +314,12 @@ function togglesystemDropdown() {
         selector.style.borderBottomLeftRadius = '0';
         selector.style.borderBottomRightRadius = '0';
         selector.style.borderBottom = 'none';
+
+        // Ensure all options are visible when the dropdown is opened
+        const systemOptions = document.querySelectorAll('.system-dropdown-list div');
+        systemOptions.forEach(option => {
+            option.style.display = "";
+        });
     }
 }
 
