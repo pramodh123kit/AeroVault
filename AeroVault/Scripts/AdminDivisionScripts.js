@@ -164,6 +164,7 @@ function depAddopenPopup() {
 
 function depAddClosePopup() {
     document.getElementById('dark-overlay-dep1').style.display = 'none';
+    document.getElementById('dark-overlay-dep3').style.display = 'none';
     document.getElementById('adddepartment-popup').style.display = 'none';
 }
 
