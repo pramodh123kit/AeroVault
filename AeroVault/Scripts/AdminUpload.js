@@ -6,9 +6,13 @@ var rowsPerPage = 10;
 var selectedSystem = "All";
 var selectedDepartment = "All";
 
+document.getElementById('SystemfileSearch').addEventListener('keyup', filterTable);
 // Function to filter the table based on the selected category
 function filterTable() {
     const rows = document.querySelectorAll(".file-table tbody tr");
+    const searchInput = document.getElementById('SystemfileSearch');
+    const searchFilter = searchInput.value.toUpperCase();
+
     filteredRows = [];
 
     rows.forEach(row => {
@@ -18,10 +22,22 @@ function filterTable() {
         const category = categoryCell ? categoryCell.textContent.trim() : "N/A";
         const system = systemCell ? systemCell.textContent.trim() : "N/A";
         const department = departmentCell ? departmentCell.textContent.trim() : "N/A";
+        const cells = row.querySelectorAll("td");
+        let matchSearch = true;
+
+        if (searchFilter) {
+            matchSearch = false;
+            cells.forEach(cell => {
+                if (cell.textContent.toUpperCase().indexOf(searchFilter) > -1) {
+                    matchSearch = true;
+                }
+            });
+        }
 
         if ((selectedCategory === "All" || category === selectedCategory) &&
             (selectedSystem === "All" || system === selectedSystem) &&
-            (selectedDepartment === "All" || department === selectedDepartment)) {
+            (selectedDepartment === "All" || department === selectedDepartment) &&
+            matchSearch) {
             filteredRows.push(row);
         }
     });
@@ -30,6 +46,8 @@ function filterTable() {
     updateTable();
     setupPagination();
 }
+
+
 
 // Modify the updateTable function to show only filtered rows
 function updateTable() {
@@ -204,6 +222,33 @@ function filtercategoryOptions() {
             option.style.display = "none";
         }
     }
+}
+
+function filterFiles() {
+    const input = document.getElementById('SystemfileSearch');
+    const filter = input.value.toUpperCase();
+    const rows = document.querySelectorAll(".file-table tbody tr");
+
+    rows.forEach(row => {
+        const cells = row.querySelectorAll("td");
+        let match = false;
+
+        cells.forEach(cell => {
+            if (cell.textContent.toUpperCase().indexOf(filter) > -1) {
+                match = true;
+            }
+        });
+
+        if (match) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+
+    // Update pagination after filtering
+    currentPage = 1;
+    setupPagination();
 }
 
 // Initial setup
