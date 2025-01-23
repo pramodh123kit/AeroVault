@@ -16,5 +16,14 @@ namespace AeroVault.Business
         {
             return _userOverviewDl.GetActiveSystems();
         }
+
+        public List<string> GetSystemsByDepartment(string departmentName)
+        {
+            return _userOverviewDl.GetSystemsByDepartment(departmentName);
+        }
+        public bool IsDepartmentActive(string departmentName)
+        {
+            return _userOverviewDl.IsDepartmentActive(departmentName);
+        }
     }
 }
