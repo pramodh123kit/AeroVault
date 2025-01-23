@@ -90,8 +90,77 @@ function popupCloseHandler() {
 // Modified addNewSystem function
 async function addNewSystem() {
     try {
-        resetPopup('add'); // Specify that we are resetting the add popup
+        // Validate inputs
+        const systemNameInput = document.getElementById('system-name');
+        const descriptionInput = document.getElementById('description');
 
+        const systemName = systemNameInput.value.trim();
+        const description = descriptionInput.value.trim();
+
+        // Validate system name and description
+        if (!systemName) {
+            showCustomAlert('Please enter a system name');
+            return;
+        }
+
+        if (!description) {
+            showCustomAlert('Please enter a description');
+            return;
+        }
+
+        // Collect selected department IDs
+        const selectedDepartments = [];
+        const departmentCheckboxes = document.querySelectorAll('.department:checked');
+
+        if (departmentCheckboxes.length === 0) {
+            showCustomAlert('Please select at least one department');
+            return;
+        }
+
+        departmentCheckboxes.forEach(checkbox => {
+            selectedDepartments.push(parseInt(checkbox.value));
+        });
+
+        // Prepare request payload
+        const requestPayload = {
+            systemName: systemName,
+            description: description,
+            departmentIds: selectedDepartments
+        };
+
+        // Check if system already exists before creating
+        const existsResponse = await fetch('/Systems/CheckSystemExists', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            },
+            body: JSON.stringify({ systemName: systemName })
+        });
+
+        const existsResult = await existsResponse.json();
+
+        if (existsResult.exists) {
+            showCustomAlert('A system with this name already exists');
+            return;
+        }
+
+        // Create system
+        const createResponse = await fetch('/Systems/CreateSystem', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+            },
+            body: JSON.stringify(requestPayload)
+        });
+
+        if (!createResponse.ok) {
+            const errorData = await createResponse.json();
+            throw new Error(errorData.message || 'Failed to create system');
+        }
+
+        // Close popup
         const popup = document.getElementById('addsystem-popup');
         const darkOverlay = document.getElementById('dark-overlay');
         if (popup) popup.style.display = 'none';
@@ -107,6 +176,40 @@ async function addNewSystem() {
         console.error('Error creating system:', error);
         showCustomAlert(`Error: ${error.message}`);
     }
+}
+
+// Helper function to refresh systems list
+async function refreshSystemsList() {
+    try {
+        const response = await fetch('/Systems/GetAllSystems');
+        const systems = await response.json();
+
+        // Update the systems list in the UI
+        const systemsContainer = document.getElementById('systems-list-container');
+        if (systemsContainer) {
+            // Clear existing content
+            systemsContainer.innerHTML = '';
+
+            // Render new systems
+            systems.forEach(system => {
+                const systemElement = createSystemElement(system);
+                systemsContainer.appendChild(systemElement);
+            });
+        }
+    } catch (error) {
+        console.error('Error refreshing systems list:', error);
+    }
+}
+
+// Function to create system list item element
+function createSystemElement(system) {
+    const systemDiv = document.createElement('div');
+    systemDiv.classList.add('system-item');
+    systemDiv.innerHTML = `
+        <div class="system-name">${system.systemName}</div>
+        <div class="system-description">${system.description}</div>
+    `;
+    return systemDiv;
 }
 
 document.addEventListener('DOMContentLoaded', function () {

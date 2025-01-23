@@ -149,16 +149,21 @@
                             <tr>
                                 <td>
                                     @{
-                                        @if (file.FileType?.ToLower() == "document")
+                                        // Get the file name without the extension
+                                        var fileNameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(file.FileName);
+                                        var fileExtension = System.IO.Path.GetExtension(file.FileName).ToLowerInvariant();
+
+                                        if (file.FileType?.ToLower() == "document")
                                         {
                                             <img src="/Content/Assets/system-file-icon.svg" alt="File Icon" class="file-icon" />
                                         }
-                                        else if (file.FileType?.ToLower() == "video")
+                                        else if (file.FileType?.ToLower() == "video" ||
+                                        new[] { ".mp4", ".avi", ".mov", ".wmv", ".mkv" }.Contains(fileExtension))
                                         {
                                             <img src="/Content/Assets/system-video-icon.svg" alt="File Icon" class="file-icon" />
                                         }
                                     }
-                                    @file.FileName
+                                    @fileNameWithoutExtension
                                 </td>
                                 <td class="category-cell">@(file.FileCategory ?? "N/A")</td>
                                 <td class="system-cell">@(file.System?.SystemName ?? "N/A")</td>
@@ -175,7 +180,7 @@
                                 <td>@(file.AddedDate?.ToString("MMM dd, yyyy") ?? "N/A")</td>
                                 <td>
                                     <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon"
-                                         onclick="viewFile('@file.FileName')" />
+                                         onclick="viewFile('@file.FileName', '@file.UniqueFileIdentifier')" />
                                 </td>
                             </tr>
                         }

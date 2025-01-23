@@ -8,6 +8,9 @@ public class FileModel
     [Column("FileID")]
     public int FileID { get; set; }
 
+    [Column("UniqueFileIdentifier")]
+    public string UniqueFileIdentifier { get; set; }
+
     [Column("SystemID")]
     public int SystemID { get; set; }
 

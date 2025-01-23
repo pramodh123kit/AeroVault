@@ -40,12 +40,9 @@ namespace AeroVault.Business
                     departments = request.DepartmentIds
                 });
             }
-            catch (InvalidOperationException ex)
-            {
-                return new ConflictObjectResult(new { message = ex.Message });
-            }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error in CreateSystemAsync: {ex.Message}");
                 return new StatusCodeResult(500);
             }
         }

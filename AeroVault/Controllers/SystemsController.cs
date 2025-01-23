@@ -47,19 +47,39 @@ namespace AeroVault.Controllers
             return Json(new { exists });
         }
 
+
         [HttpPost]
         public async Task<IActionResult> CreateSystem([FromBody] CreateSystemRequest request)
         {
             try
             {
+                // Validate input
+                if (string.IsNullOrWhiteSpace(request.SystemName))
+                {
+                    return BadRequest(new { message = "System name is required" });
+                }
+
+                if (request.DepartmentIds == null || request.DepartmentIds.Count == 0)
+                {
+                    return BadRequest(new { message = "At least one department must be selected" });
+                }
+
+                // Check if system already exists
+                var exists = await _systemService.CheckSystemExistsAsync(request.SystemName);
+                if (exists)
+                {
+                    return Conflict(new { message = "A system with this name already exists" });
+                }
+
+                // Create system
                 var result = await _systemService.CreateSystemAsync(request);
-                return result; // This should return Ok() or other appropriate responses
+                return result;
             }
             catch (Exception ex)
             {
                 // Log the exception
-                Console.WriteLine($"Error in CreateSystem: {ex.Message}");
-                return StatusCode(500, new { message = "An error occurred while creating the system." });
+                //_logger.LogError(ex, "Error creating system");
+                return StatusCode(500, new { message = "An error occurred while creating the system" });
             }
         }
 
