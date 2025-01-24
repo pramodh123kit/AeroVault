@@ -26,7 +26,7 @@ namespace AeroVault.Controllers
         {
             if (string.IsNullOrEmpty(staffNo) || string.IsNullOrEmpty(password))
             {
-                ModelState.AddModelError("", "Username and password are required.");
+                TempData["ErrorMessage"] = "Username and password are required.";
                 return View("LoginPage");
             }
 
@@ -53,20 +53,11 @@ namespace AeroVault.Controllers
                     _httpContextAccessor.HttpContext.Session.SetString("EmailAddress", userDetails.EmailAddress ?? "");
                 }
 
-                // Redirect based on user role
-                switch (userRole.UserRole)
-                {
-                    case "ALTS-Staff":
-                        return RedirectToAction("Index", "Admin");
-                    case "Unauthorized":
-                        ModelState.AddModelError("", "You are not authorized to access this system.");
-                        return View("LoginPage");
-                    default:
-                        return RedirectToAction("Index", "Home");
-                }
+                // Always redirect to UserOverview
+                return RedirectToAction("UserPageOverview", "UserOverview");
             }
 
-            ModelState.AddModelError("", "Invalid login attempt");
+            TempData["ErrorMessage"] = "Invalid staff number or password.";
             return View("LoginPage");
         }
 

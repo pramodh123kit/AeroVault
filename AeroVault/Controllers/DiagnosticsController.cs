@@ -28,7 +28,6 @@ namespace AeroVault.Controllers
         {
             var connectionResults = new List<string>();
 
-            // 1. Domain Connection Test
             try
             {
                 using (PrincipalContext context = new PrincipalContext(ContextType.Domain, "srilankan.corp"))
@@ -42,7 +41,6 @@ namespace AeroVault.Controllers
                 _logger.LogError(ex, "LDAP Connection Test Failed");
             }
 
-            // 2. Authentication Test
             try
             {
                 var testStaff = new StaffML
@@ -57,7 +55,6 @@ namespace AeroVault.Controllers
                 {
                     connectionResults.Add("✅ APPSEC Authentication: Successful");
 
-                    // Try to get additional user details
                     var userDetails = _loginBl.GetNameAndEmail(testStaff);
                     if (userDetails != null)
                     {

@@ -3,28 +3,48 @@
     ViewData["HideNavBar"] = true;
 }
 
-<!DOCTYPE html>
 <html>
 <head>
-    <title>Login - AeroVault</title>
+    <title>
+        AeroVault - Login Page
+    </title>
+    <link rel="stylesheet" href=/Content/css/Login.css />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <script data-error-message="@TempData["ErrorMessage"]"></script>
+    }
 </head>
 <body>
-    <h2>Login</h2>
-    <form asp-action="Authenticate" method="post">
-        <div>
-            <label for="staffNo">Staff Number:</label>
-            <input type="text" id="staffNo" name="staffNo" required />
-        </div>
-        <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required />
-        </div>
-        <button type="submit">Login</button>
-    </form>
+    <div class="container2">
+        <div class="OuterLoginBox">
+            <div class="login-box">
+                <img src="/Content/Assets/LogoWithText.svg" class="LogoWithT" />
+                <div class="LoginHere">
+                    <span>
+                        Login Here
+                    </span>
+                </div>
+                <form id="form" asp-controller="Login" asp-action="Authenticate" method="post">
+                    <input id="username" name="staffNo" placeholder="Staff ID" type="text" class="errorinput" autocomplete="off" value="" />
+                    <div id="error"></div>
+                    <input id="password" name="password" placeholder="Password" type="password" class="errorinput" autocomplete="off" value="" />
+                    <div id="error2"></div>
 
-    @if (ViewData["ErrorMessage"] != null)
-    {
-        <p style="color: red;">@ViewData["ErrorMessage"]</p>
-    }
+                    <button type="submit" id="submit">
+                        Login
+                    </button>
+                </form>
+                <div class="footer">
+                    <img class="SLLogo2" src="/Content/Assets/SLLogo.svg" />
+                    <p>
+                        © 2024 SriLankan IT Systems. All Rights Reserved.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/Scripts/Login.js"></script>
 </body>
 </html>
