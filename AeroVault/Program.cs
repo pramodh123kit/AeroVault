@@ -96,12 +96,12 @@ namespace AeroVault
 
             app.UseRouting();
 
-            app.UseAuthentication(); // Add this for authentication
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=UserOverview}/{action=UserPageOverview}/{id?}");
+                pattern: "{controller=Login}/{action=Index}/{id?}");
                 //pattern: "{controller=test}/{action=testconnection}/{id?}");
 
             app.Run();
