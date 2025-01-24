@@ -135,6 +135,17 @@
 	  <PackageReference Include="Oracle.EntityFrameworkCore" Version="8.23.60" />
 	  <PackageReference Include="Oracle.ManagedDataAccess" Version="23.6.1" />
 	  <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.6.1" />
+	  <PackageReference Include="System.DirectoryServices" Version="9.0.1" />
+	  <PackageReference Include="System.DirectoryServices.AccountManagement" Version="9.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="DataLayer">
+	    <HintPath>APPSEC\DataLayer.dll</HintPath>
+	  </Reference>
+	  <Reference Include="SLA_Authentication_DLL">
+	    <HintPath>APPSEC\SLA_Authentication_DLL.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 	<ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/aurora-1.1.json" /></VisualStudio></ProjectExtensions>
