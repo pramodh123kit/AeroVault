@@ -29,6 +29,16 @@ namespace AeroVault.Controllers
                 {
                     // Get systems for the specific department
                     systems = _userOverviewBl.GetSystemsByDepartment(userDepartment);
+
+                    // Get department counts
+                    var (systemCount, documentCount, videoCount) = _userOverviewBl.GetDepartmentCounts(userDepartment);
+                    ViewBag.SystemCount = systemCount;
+                    ViewBag.DocumentCount = documentCount;
+                    ViewBag.VideoCount = videoCount;
+
+                    // Get recent files for the department
+                    var recentFiles = _userOverviewBl.GetRecentFilesByDepartment(userDepartment);
+                    ViewBag.RecentFiles = recentFiles;
                 }
 
                 // Pass systems to the view

@@ -99,99 +99,58 @@
         <!-- Right Column -->
         <div class="right-column">
             <!-- Statistics Cards -->
+           
             <div class="Cards">
                 <div class="Card">
                     <img src="/Content/Assets/systemiconsvg1.svg" />
-                    <h1 class="card-count">105</h1>
+                    <h1 class="card-count">@(ViewBag.SystemCount ?? 0)</h1>
                 </div>
                 <div class="Card">
                     <img src="/Content/Assets/documenticonsvg1.svg" />
-                    <h1 class="card-count">140</h1>
+                    <h1 class="card-count">@(ViewBag.DocumentCount ?? 0)</h1>
                 </div>
                 <div class="Card">
                     <img src="/Content/Assets/videosiconsvg1.svg" />
-                    <h1 class="card-count">750</h1>
-                </div>               
+                    <h1 class="card-count">@(ViewBag.VideoCount ?? 0)</h1>
+                </div>
             </div>
 
+          
             <!-- Recently Added Files -->
             <div class="recent-files">
                 <h3>Recently Added Files</h3>
                 <div class="file-list">
-                    <div class="file-item">
-                        <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
-                        <div class="file-info">
-                            <span class="file-name">Maintenance Checklist</span>                            
+                    @if (ViewBag.RecentFiles != null && ViewBag.RecentFiles.Count > 0)
+                    {
+                        foreach (var file in ViewBag.RecentFiles)
+                        {
+                            <div class="file-item">
+                                <!-- File icon -->
+                                <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
+
+                                <!-- File information -->
+                                <div class="file-info">
+                                    <span class="file-name">@file.FileName</span>
+                                </div>
+
+                                <!-- System name -->
+                                <span class="system-name">@file.System.SystemName</span>
+
+                                <!-- File added date -->
+                                <span class="file-date">@file.AddedDate.ToString("MMM dd, yyyy")</span>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="file-item">
+                            <span>No recent files found</span>
                         </div>
-                        <span class="system-name">Charika</span>
-                        <span class="file-date">Mar 10, 2024</span>
-                    </div>
-                    <div class="file-item">
-                        <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
-                        <div class="file-info">
-                            <span class="file-name">Maintenance Checklist</span>
-                        </div>
-                        <span class="system-name">Charika</span>
-                        <span class="file-date">Mar 10, 2024</span>
-                    </div>
-                    <div class="file-item">
-                        <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
-                        <div class="file-info">
-                            <span class="file-name">Maintenance Checklist</span>                            
-                        </div>
-                        <span class="system-name">Charika</span>
-                        <span class="file-date">Mar 10, 2024</span>
-                    </div>
-                     <div class="file-item">
-                        <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
-                        <div class="file-info">
-                            <span class="file-name">Maintenance Checklist</span>                            
-                        </div>
-                        <span class="system-name">Charika</span>
-                        <span class="file-date">Mar 10, 2024</span>
-                    </div>
-                     <div class="file-item">
-                        <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
-                        <div class="file-info">
-                            <span class="file-name">Maintenance Checklist</span>                            
-                        </div>
-                        <span class="system-name">Charika</span>
-                        <span class="file-date">Mar 10, 2024</span>
-                    </div>
-                     <div class="file-item">
-                        <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
-                        <div class="file-info">
-                            <span class="file-name">Maintenance Checklist</span>                            
-                        </div>
-                        <span class="system-name">Charika</span>
-                        <span class="file-date">Mar 10, 2024</span>
-                    </div>
-                    <div class="file-item">
-                        <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
-                        <div class="file-info">
-                            <span class="file-name">Maintenance Checklist</span>
-                        </div>
-                        <span class="system-name">Charika</span>
-                        <span class="file-date">Mar 10, 2024</span>
-                    </div>
-                    <div class="file-item">
-                        <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
-                        <div class="file-info">
-                            <span class="file-name">Maintenance Checklist</span>
-                        </div>
-                        <span class="system-name">Charika</span>
-                        <span class="file-date">Mar 10, 2024</span>
-                    </div>
-                    <div class="file-item">
-                        <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
-                        <div class="file-info">
-                            <span class="file-name">Maintenance Checklist</span>
-                        </div>
-                        <span class="system-name">Charika</span>
-                        <span class="file-date">Mar 10, 2024</span>
-                    </div>
+                    }
                 </div>
             </div>
+
+
         </div>
     </div>
 
