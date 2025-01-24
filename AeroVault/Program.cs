@@ -101,7 +101,8 @@ namespace AeroVault
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Diagnostics}/{action=TestAPPSECConnection}/{id?}"); // Changed to Login as default
+                pattern: "{controller=UserOverview}/{action=UserPageOverview}/{id?}");
+                //pattern: "{controller=test}/{action=testconnection}/{id?}");
 
             app.Run();
         }
