@@ -57,7 +57,7 @@ namespace AeroVault.Controllers
                 return RedirectToAction("UserPageOverview", "UserOverview");
             }
 
-            TempData["ErrorMessage"] = "Invalid staff number or password.";
+            TempData["ErrorMessage"] = "Invalid credentials.";
             return View("LoginPage");
         }
 
