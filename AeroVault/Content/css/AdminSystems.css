@@ -1220,13 +1220,13 @@ width:50%;
         width: 100%;
     }
 
-    .image-container {
-        order: 1; 
+    .system-container {
+        order: 1;
     }
 
-    .system-container {
+    .image-container {
         order: 2; 
-    }
+    }    
 
     .header-container {
         flex-direction: column; 

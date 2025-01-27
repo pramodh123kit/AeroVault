@@ -3,8 +3,9 @@ using AeroVault.Models;
 using Microsoft.Extensions.FileProviders;
 using AeroVault.Data;
 using AeroVault.Business;
-using AeroVault.Repositories; 
-using AeroVault.Services;  
+using AeroVault.Repositories;
+using AeroVault.Services;
+using System.DirectoryServices; // Add this
 
 namespace AeroVault
 {
@@ -18,8 +19,18 @@ namespace AeroVault
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            // Add APPSEC related services
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             builder.Services.AddControllersWithViews();
 
+            // Existing repository and service registrations
             builder.Services.AddScoped<DivisionRepository>();
             builder.Services.AddScoped<DivisionService>();
 
@@ -28,17 +39,25 @@ namespace AeroVault
 
             builder.Services.AddScoped<SystemRepository>();
             builder.Services.AddScoped<SystemService>();
-            
+
             builder.Services.AddScoped<FileRepositoryDl>();
             builder.Services.AddScoped<FileRepositoryBl>();
 
             builder.Services.AddScoped<UploadDl>();
             builder.Services.AddScoped<UploadBl>();
 
+            builder.Services.AddScoped<ReviewDl>();
+            builder.Services.AddScoped<ReviewBl>();
+
+            builder.Services.AddScoped<UserOverviewBl>();
+            builder.Services.AddScoped<UserOverviewDl>();
+
+            // Add LoginBL as a scoped service
+            builder.Services.AddScoped<LoginBL>();
+            builder.Services.AddScoped<LoginDL>();
+
             builder.Logging.ClearProviders();
-
             builder.Logging.AddConsole();
-
             builder.Logging.AddDebug();
 
             var app = builder.Build();
@@ -55,6 +74,10 @@ namespace AeroVault
             }
 
             app.UseHttpsRedirection();
+
+            // Add these lines for session support
+            app.UseSession();
+
             app.UseStaticFiles();
 
             app.UseStaticFiles(new StaticFileOptions
@@ -73,12 +96,14 @@ namespace AeroVault
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=admin}/{action=index}/{id?}");
-            //pattern: "{controller=test}/{action=testconnection}/{id?}");
+                //pattern: "{controller=Login}/{action=Index}/{id?}");
+            pattern: "{controller=Admin}/{action=Index}/{id?}");
+                //pattern: "{controller=test}/{action=testconnection}/{id?}");
             app.Run();
         }
     }

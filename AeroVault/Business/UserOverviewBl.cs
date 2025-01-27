@@ -25,5 +25,15 @@ namespace AeroVault.Business
         {
             return _userOverviewDl.IsDepartmentActive(departmentName);
         }
+
+        public (int SystemCount, int DocumentCount, int VideoCount) GetDepartmentCounts(string departmentName)
+        {
+            return _userOverviewDl.GetDepartmentCounts(departmentName);
+        }
+
+        public List<FileModel> GetRecentFilesByDepartment(string departmentName, int count = 10)
+        {
+            return _userOverviewDl.GetRecentFilesByDepartment(departmentName, count);
+        }
     }
 }

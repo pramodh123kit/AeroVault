@@ -151,7 +151,7 @@
 #error {
     position: absolute; /* Position the error messages absolutely */
     left: 12%; /* Adjust as needed */
-    font-family: 'Inria Sans';
+    font-family: arial;
     color: red;
     font-size: 14px;
     text-align: left;
@@ -199,10 +199,17 @@
     align-items: center;
 }
 
+#username {
+    font-size: 16px;
+    font-family: Arial;
+}
 
+#password {
+    font-size: 16px;
+    font-family: Arial;
+}
 
 @media (max-width: 1024px) {
-
     .container2 {
         justify-content: center;
     }
@@ -244,3 +251,77 @@
         padding: 20px 40px 20px 40px;
     }
 }
+
+
+
+.dark-overlay-error {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #B71C1C, #D32F2F, #FF5252);
+    background-size: 400% 400%;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; /* Start hidden */
+    transition: opacity 0.5s ease;
+}
+
+
+
+
+.dark-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.modal-notification-edit {
+    background-color: white;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+    z-index: 1001;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.div-edit-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    padding-bottom: 0px;
+}
+
+.popup-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding:0px;
+}
+
+    .modal-body img {
+        max-width: 100px;
+        margin-bottom: 15px;
+    }

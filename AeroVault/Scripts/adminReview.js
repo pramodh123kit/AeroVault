@@ -3,7 +3,12 @@
     document.getElementById('staff-view').style.display = 'none';
     document.getElementById('system-reviewtab').classList.add('active');
     document.getElementById('staff-reviewtab').classList.remove('active');
-    document.querySelector('.image-container').style.display = 'block';
+
+    const imageContainer = document.querySelector('.image-container');
+    if (imageContainer) {
+        imageContainer.style.display = 'flex'; 
+    }
+
     document.getElementById('system-review-table').style.display = 'none';
 }
 
@@ -15,6 +20,12 @@ function showStaffView() {
     document.getElementById('staff-view-reviewcontent').style.display = 'flex';
     document.getElementById('staffAfterSearch').style.display = 'none';
     document.getElementById('staffcontentLayout').style.display = 'none';
+
+    // Show the image when Staff View is active
+    const pcImage = document.querySelector('.staff-view-image');
+    if (pcImage) {
+        pcImage.style.display = 'block'; // Show the image
+    }
 }
 
 function filterDepartments() {
@@ -34,109 +45,62 @@ function filterDepartments() {
     }
 }
 
-//function toggleReviewDropdown(event) {
-//    var reviewdropdown = event.currentTarget.querySelector('.reviewdropdown');
-//    var icon = event.currentTarget.querySelector('.icon');
-//    var allReviewDropdowns = document.querySelectorAll('.reviewdropdown');
-//    var allIcons = document.querySelectorAll('.icon');
-
-//    allReviewDropdowns.forEach(function (dd) {
-//        if (dd !== reviewdropdown) {
-//            dd.style.display = 'none';
-//        }
-//    });
-
-//    allIcons.forEach(function (ic) {
-//        if (ic !== icon) {
-//            ic.classList.remove('rotate');
-//        }
-//    });
-
-//    if (reviewdropdown.style.display === 'block') {
-//        reviewdropdown.style.display = 'none';
-//        icon.classList.remove('rotate');
-//    } else {
-//        reviewdropdown.style.display = 'block';
-//        icon.classList.add('rotate');
-//    }
-//}
-
-
 function toggleReviewDropdown(event) {
-    event.stopPropagation(); // Prevent parent event triggers
-
-    // Get the clicked parent <li>
+    event.stopPropagation(); 
     const parentLi = event.currentTarget;
-
-    // Find the dropdown within the parent
     const dropdown = parentLi.querySelector('.reviewdropdown');
 
-    // Toggle the dropdown visibility
     if (dropdown.style.display === 'block') {
-        dropdown.style.display = 'none'; // Collapse the dropdown
-        parentLi.classList.remove('open'); // Reset the rotation of the icon
+        dropdown.style.display = 'none'; 
+        parentLi.classList.remove('open'); 
     } else {
-        // Close all other dropdowns first
         const allDropdowns = document.querySelectorAll('.reviewdropdown');
         allDropdowns.forEach((dd) => {
             dd.style.display = 'none';
             dd.parentElement.classList.remove('open');
         });
 
-        dropdown.style.display = 'block'; // Show the clicked dropdown
-        parentLi.classList.add('open'); // Add an "open" class for styling
+        dropdown.style.display = 'block'; 
+        parentLi.classList.add('open'); 
     }
 }
 
 function loadReviewContent(systemName, department, system) {
-    // Hide the default view and show the review table
-    document.querySelector('.image-container').style.display = 'none'; // Hide the image
+    document.querySelector('.image-container').style.display = 'none'; 
     const systemReviewTable = document.getElementById('system-review-table');
-    systemReviewTable.style.display = 'block'; // Show the table
+    systemReviewTable.style.display = 'block';
 
-    // Update the header with the selected department and system name
     const headerElement = document.getElementById('system-header');
     const departmentName = department.querySelector(':scope > :first-child').textContent.trim();
     headerElement.innerHTML = `<b>${departmentName} / </b>${systemName}`;
 
-    // Remove the active class from all department items
     var departments = document.querySelectorAll('.reviewsidebar-reviewcontainer .menu-item');
     departments.forEach(function (dept) {
         dept.classList.remove('active');
     });
 
-    // Add the active class to the currently selected department
     department.classList.add('active');
-
-    // Remove the active class from all system items
     var systems = department.querySelectorAll('.reviewdropdown li');
     systems.forEach(function (sys) {
         sys.classList.remove('active');
     });
 
-    // Add the active class to the currently selected system
     system.classList.add('active');
 }
 
-
-
-function openReadModalUnique() {
-    
+function openReadModalUnique() {    
     document.getElementById("readModalUnique").style.display = "block";
 }
 
-function closeReadModalUnique() {
-    
+function closeReadModalUnique() {    
     document.getElementById("readModalUnique").style.display = "none";
 }
 
-function openPendingModalUnique() {
-    
+function openPendingModalUnique() {    
     document.getElementById("pendingModalUnique").style.display = "block";
 }
 
-function closePendingModalUnique() {
-    
+function closePendingModalUnique() {    
     document.getElementById("pendingModalUnique").style.display = "none";
 }
 
@@ -148,7 +112,6 @@ window.onclick = function (event) {
         closePendingModalUnique();
     }
 }
-
 function searchTableUnique() {
     var input, filter, table, tr, td, i, j, txtValue;
     input = document.getElementById("searchInputUnique");
@@ -171,13 +134,10 @@ function searchTableUnique() {
     }
 }
 
-
-
 function closePopup() {
     var popup = document.querySelector('.readUsers-container');
     popup.style.display = 'none';
 }
-
 function searchTable() {
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("readUsers-searchInput");
@@ -330,28 +290,23 @@ function staffViewDropdown() {
     var dropdownIcon = document.getElementById('staff-dropdown-icon');
 
     if (cardBody.classList.contains('expanded')) {
-        // Collapse the card
         cardBody.classList.remove('expanded');
-        cardBody.style.maxHeight = '0px'; // Collapse the height
+        cardBody.style.maxHeight = '0px'; 
         dropdownIcon.classList.remove('fa-chevron-up');
         dropdownIcon.classList.add('fa-chevron-down');
     } else {
-        // Expand the card
         cardBody.classList.add('expanded');
-        cardBody.style.maxHeight = cardBody.scrollHeight + "px"; // Set to the scroll height
+        cardBody.style.maxHeight = cardBody.scrollHeight + "px"; 
         dropdownIcon.classList.remove('fa-chevron-down');
         dropdownIcon.classList.add('fa-chevron-up');
     }
 }
 
-
-
-// Initialize the card body to be collapsed
 document.addEventListener('DOMContentLoaded', function () {
     var cardBody = document.getElementById('staff-card-body');
     cardBody.style.maxHeight = '0px';
     cardBody.style.borderTop = 'none';
-    cardBody.style.padding = '0 20px'; /* Initial padding */
+    cardBody.style.padding = '0 20px'; 
 });
 
 function filterStaffViewTable() {
@@ -377,22 +332,16 @@ function filterStaffViewTable() {
 }
 
 function showFlightPlanningTable() {
-    // Hide other content if necessary 
-    document.querySelector('.tableChanger').style.display = 'block'; // Show the table
+    document.querySelector('.tableChanger').style.display = 'block';
 }
 
-// Function to handle menu item clicks
 function staffViewActive(event) {
-    // Remove active class from all menu items
     const menuItems = document.querySelectorAll('.menu-item');
     menuItems.forEach(item => {
         item.classList.remove('active');
     });
 
-    // Add active class to the clicked menu item
     event.currentTarget.classList.add('active');
-
-    // Call the function to show the corresponding table or content
     showFlightPlanningTable();
 }
 

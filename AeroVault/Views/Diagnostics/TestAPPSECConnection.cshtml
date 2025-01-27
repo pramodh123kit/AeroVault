@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "APPSEC Connection Test";
+}
+
+<h1>APPSEC Connection Diagnostics</h1>
+
+@if (ViewBag.ConnectionResults != null)
+{
+    <div class="connection-results">
+        <h2>Connection Test Results:</h2>
+        <ul>
+            @foreach (var result in ViewBag.ConnectionResults)
+            {
+                <li>@result</li>
+            }
+        </ul>
+    </div>
+}
+
+<div class="test-instructions">
+    <h3>Important Notes:</h3>
+    <ul>
+        <li>Ensure you are connected to SLA Net WiFi</li>
+        <li>Verify test credentials with your supervisor</li>
+        <li>This test checks LDAP and authentication connectivity</li>
+    </ul>
+</div>

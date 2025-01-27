@@ -3,7 +3,6 @@
     ViewData["HideNavBar"] = true;
 }
 
-
 <html>
 <head>
     <title>
@@ -12,23 +11,25 @@
     <link rel="stylesheet" href=/Content/css/Login.css />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <script data-error-message="@TempData["ErrorMessage"]"></script>
+    }
 </head>
 <body>
     <div class="container2">
         <div class="OuterLoginBox">
             <div class="login-box">
-
                 <img src="/Content/Assets/LogoWithText.svg" class="LogoWithT" />
                 <div class="LoginHere">
                     <span>
                         Login Here
                     </span>
                 </div>
-                <form id="form" asp-area="" asp-controller="UserOverview" asp-action="UserPageOverview" method="get">
-
-                    <input id="username" placeholder="Staff ID" type="text" class="errorinput" autocomplete="off" value=""/>
+                <form id="form" asp-controller="Login" asp-action="Authenticate" method="post">
+                    <input id="username" name="staffNo" placeholder="Staff ID" type="text" class="errorinput" autocomplete="off" value="" />
                     <div id="error"></div>
-                    <input id="password" placeholder="Password" type="password" class="errorinput" autocomplete="off" value="" />
+                    <input id="password" name="password" placeholder="Password" type="password" class="errorinput" autocomplete="off" value="" />
                     <div id="error2"></div>
 
                     <button type="submit" id="submit">

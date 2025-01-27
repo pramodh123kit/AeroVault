@@ -4,12 +4,14 @@
     border-radius: 10px;
 }
 
-
+.Review-page-container {
+    height: 100%;
+}
 
 .reviewcontainer {
     display: flex;
-    height: 79vh;
-    width: 100%; /* Ensure it spans full width */
+    /*    height: 79vh;*/
+    width: 100%;
 }
 
 .reviewsidebar-reviewcontainer {
@@ -21,18 +23,16 @@
     border-bottom-left-radius: 10px;
 }
 
-
-
 .reviewcontent {
-    flex-grow: 1; /* Allow it to grow and fill available space */
-    background-color: #fff; /* Ensure a consistent background */
+    flex-grow: 1;
+    background-color: #fff;
     display: flex;
-    flex-direction: column; /* Use column direction */
-    justify-content: flex-start; /* Align items to start */
-    padding: 20px; /* Add some padding */
-    border-top-right-radius:10px;
-    border-bottom-right-radius:10px;
-
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 .ReviewReviewTabs {
@@ -83,61 +83,21 @@
         margin-left: 5px;
     }
 
-
-
-/* .department-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    color: #000;
-}
-
-    
-
-    .department-list li i {
-        margin-right: 5px;
-        margin-left: 5px;
-        transition: transform 0.3s ease; 
-    }
-    .department-list li.active {
-        background-color: #DEF1FF;
-        font-weight: 400;
-        color: #000;
-    }
-    .department-list > li {
-        padding: 15px 0 15px 0;
-        border-bottom: 1px solid #ddd; 
-        cursor: pointer;
-        position: relative;
-        display: block; 
-       
-    }
-
-    .department-list li.open > i {
-        transform: rotate(90deg);
-
-    } */
-
 .reviewdropdown {
     display: none;
     list-style: none;
     padding: 0;
     margin: 0;
     margin-top: 12px;
-   
 }
 
     .reviewdropdown li {
-        padding: 12px 30px; 
+        padding: 12px 30px;
         font-size: 16px;
         font-family: Arial, sans-serif;
-        color: #585656; 
+        color: #585656;
         cursor: pointer;
     }
-
-
 
         .reviewdropdown li.active {
             background-color: #5897CB;
@@ -145,24 +105,24 @@
             color: #000;
         }
 
-
 .reviewtitle {
     font-size: 18px;
     font-weight: bold;
     margin: 20px;
-    white-space: nowrap; /* Ensure the text stays on one line */
-    z-index: 1; /* Ensure the reviewtitle is in front */
-    background-color: #fff; /* Match the background color to avoid overlap */
+    white-space: nowrap;
+    z-index: 1;
+    background-color: #fff;
 }
 
 .reviewtitle2 {
     margin-top: 1.2%;
     font-size: 18px;
     font-weight: bold;
-    white-space: nowrap; /* Ensure the text stays on one line */
-    z-index: 1; /* Ensure the reviewtitle is in front */
-    background-color: #fff; /* Match the background color to avoid overlap */
+    white-space: nowrap;
+    z-index: 1;
+    background-color: #fff;
 }
+
 .icon {
     margin-right: 10px;
     transition: transform 0.3s ease;
@@ -171,12 +131,6 @@
     .icon.rotate {
         transform: rotate(90deg);
     }
-/* Custom scrollbar styles */
-
-
-
-
-
 
 .status-form-group {
     margin-bottom: 0px;
@@ -208,44 +162,36 @@
     overflow-y: scroll;
 }
 
-
 .status-dropdown-list {
-    /* For Firefox */
-    scrollbar-width: thin; /* Options: auto, thin */
-    scrollbar-color: #00436C transparent; /* thumb color, track color */
+    scrollbar-width: thin;
+    scrollbar-color: #00436C transparent;
 }
 
-    /* WebKit Browsers (Chrome, Safari) */
     .status-dropdown-list::-webkit-scrollbar {
-        width: 8px; /* Width of the scrollbar */
+        width: 8px;
     }
 
     .status-dropdown-list::-webkit-scrollbar-thumb {
-        background-color: #00436C; /* Color of the scrollbar thumb */
-        border-radius: 10px; /* Rounded corners */
+        background-color: #00436C;
+        border-radius: 10px;
     }
 
     .status-dropdown-list::-webkit-scrollbar-track {
-        background: transparent; /* No background for the track */
+        background: transparent;
     }
 
+    .status-dropdown-list div {
+        padding: 8px 16px;
+        cursor: pointer;
+    }
 
+        .status-dropdown-list div:hover {
+            background-color: #BBDCF9;
+        }
 
-
-
-
-.status-dropdown-list div {
-    padding: 8px 16px;
-    cursor: pointer;
-}
-
-.status-dropdown-list div:hover {
-    background-color: #BBDCF9;
-}
-
-.status-dropdown-list .active {
-    font-weight: bold;
-}
+    .status-dropdown-list .active {
+        font-weight: bold;
+    }
 
 .status-dropdown-toggle {
     display: flex;
@@ -258,14 +204,14 @@
     cursor: pointer;
 }
 
-.status-dropdown-toggle i {
-    margin-left: 10px;
-    transition: transform 0.3s;
-}
+    .status-dropdown-toggle i {
+        margin-left: 10px;
+        transition: transform 0.3s;
+    }
 
-.status-dropdown-toggle.open i {
-    transform: rotate(180deg);
-}
+    .status-dropdown-toggle.open i {
+        transform: rotate(180deg);
+    }
 
 .status-selector {
     border: 1px solid #6D6D6D;
@@ -279,21 +225,21 @@
     margin-top: 0px;
 }
 
-.status-search-container img {
-    color: #999;
-    margin-right: 5px;
-    font-size: 20px;
-    margin-left: 5px;
-}
+    .status-search-container img {
+        color: #999;
+        margin-right: 5px;
+        font-size: 20px;
+        margin-left: 5px;
+    }
 
-.status-search-container input {
-    border: none;
-    color: #000;
-    font-size: 16px;
-    outline: none;
-    flex: 1;
-    padding: 5px;
-}
+    .status-search-container input {
+        border: none;
+        color: #000;
+        font-size: 16px;
+        outline: none;
+        flex: 1;
+        padding: 5px;
+    }
 
 #status-search-input {
     margin-left: 0px;
@@ -310,8 +256,8 @@
     padding-top: 9%;
     text-align: center;
     border-radius: 10px;
-   margin: 4px;
-   margin-bottom:4px;
+    margin: 4px;
+    margin-bottom: 4px;
 }
 
     .staffView-container img {
@@ -321,8 +267,8 @@
     }
 
 .staffView-title {
-    font-size: 24px;
-    color: #333;
+    font-size: 22px;
+    color: black;
 }
 
 .staffView-search-box {
@@ -330,7 +276,7 @@
     justify-content: center;
     align-items: center;
     margin-top: 20px;
-    border-radius:10px;
+    border-radius: 10px;
 }
 
     .staffView-search-box input[type="text"] {
@@ -361,7 +307,7 @@
     transform: scale(0.9);
     display: flex;
     align-items: center;
-    margin-top:11px;
+    margin-top: 11px;
 }
 
     .search-container input[type="text"] {
@@ -405,9 +351,7 @@
     margin-bottom: 5px;
     font-size: 14px;
     color: #333333;
-    font-weight:bold;
-
-    
+    font-weight: bold;
 }
 
 .staffViewDropdown-status-select {
@@ -424,44 +368,25 @@
     height: 90%;
     padding: 0px;
     overflow-y: auto;
-/*    border-right: 1px solid #585656;*/
     height: 360px;
-}
-
-
-.staffViewSidebar {
-    /* For Firefox */
-    scrollbar-width: thin; 
+    scrollbar-width: thin;
     scrollbar-color: #00436C transparent;
 }
 
-    /* WebKit Browsers (Chrome, Safari) */
+
+
     .staffViewSidebar::-webkit-scrollbar {
-        width: 8px; 
+        width: 8px;
     }
 
     .staffViewSidebar::-webkit-scrollbar-thumb {
-        background-color: #00436C; 
-        border-radius: 10px; 
+        background-color: #00436C;
+        border-radius: 10px;
     }
 
     .staffViewSidebar::-webkit-scrollbar-track {
         background: transparent;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .search-box-staff {
     display: flex;
@@ -484,7 +409,6 @@
     }
 
 .menu-item {
-  
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -513,13 +437,12 @@
 
     .staffViewContent img {
         transform: scale(0.65);
-       
     }
 
 .staffcontentLayout {
-    display: flex; /* Use flexbox to arrange sidebar and content */
-    height: 500%; /* Ensure it takes full height of the parent */
-    overflow: hidden; /* Prevent overflow */
+    display: flex;
+    height: 500%;
+    overflow: hidden;
 }
 
 .staff-card {
@@ -584,8 +507,8 @@
     transition: max-height 0.3s ease, border-top 0.3s ease, padding 0.3s ease;
     overflow: hidden;
     max-height: 0;
-    border-top: 2px solid #ddd; /* Increased border size */
-    padding: 0 20px; /* Initial padding */
+    border-top: 2px solid #ddd;
+    padding: 0 20px;
 }
 
     .staff-card-body .left,
@@ -637,15 +560,12 @@ h1 {
         outline: none;
         padding: 5px;
     }
- 
-
-    
 
 .table-container {
     max-height: 350px;
-    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-y: auto;
     margin-top: 10px;
-    background-color: #fff; /* Optional: Set a background color */
+    background-color: #fff;
 }
 
     .table-container::-webkit-scrollbar {
@@ -667,11 +587,12 @@ table {
     border-collapse: collapse;
 }
 
-th{
+th {
     padding: 14px;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
+
 td {
     font-size: 14px;
     padding: 18px;
@@ -699,9 +620,9 @@ th {
 .tableChanger {
     position: relative;
     padding: 20px;
+    width: 100%;
 }
 
-/* Styles for Read and Pending Modals */
 .readUsers-container,
 .pendingUsers-container {
     border-radius: 1%;
@@ -722,11 +643,11 @@ th {
     align-items: center;
 }
 
-.readUsers-header h1,
-.pendingUsers-header h1 {
-    font-size: 18px;
-    margin: 0;
-}
+    .readUsers-header h1,
+    .pendingUsers-header h1 {
+        font-size: 18px;
+        margin: 0;
+    }
 
 .readUsers-title,
 .pendingUsers-title {
@@ -742,13 +663,13 @@ th {
     justify-content: flex-end;
 }
 
-.readUsers-search-bar input,
-.pendingUsers-searchBar input {
-    width: 300px;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
+    .readUsers-search-bar input,
+    .pendingUsers-searchBar input {
+        width: 300px;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
 
 .readUsers-table-container,
 .pendingUsers-tableContainer {
@@ -758,7 +679,6 @@ th {
     overflow-y: auto;
 }
 
-/* Unique Table Styles */
 .header-container-unique {
     margin-top: 2rem;
     display: flex;
@@ -777,49 +697,49 @@ th {
 .search-bar-unique {
     display: flex;
     align-items: center;
-    border-bottom: 1px solid #938C8C; 
+    border-bottom: 1px solid #938C8C;
     margin-left: 20px;
     margin-bottom: 15px;
-    padding: 2px 0; 
+    padding: 2px 0;
 }
 
-.search-bar-unique img {
-    height: 20px; 
-    margin-right: 10px;
-    opacity: 0.7;
-}
+    .search-bar-unique img {
+        height: 20px;
+        margin-right: 10px;
+        opacity: 0.7;
+    }
 
-.search-bar-unique input {
-    flex: 1;
-    border: none; 
-    color: #000; 
-    font-size: 16px; 
-    outline: none; 
-    padding: 5px;
-}
+    .search-bar-unique input {
+        flex: 1;
+        border: none;
+        color: #000;
+        font-size: 16px;
+        outline: none;
+        padding: 5px;
+    }
 
 .table-container-unique {
     max-height: 400px;
     overflow-y: auto;
     width: 100%;
-    padding: 2px; 
-    margin: 10px auto; 
+    padding: 2px;
+    margin: 10px auto;
 }
 
 #fileTableUnique {
     width: 100%;
     border-collapse: collapse;
     font-family: Arial, sans-serif;
-    text-align: left; 
+    text-align: left;
 }
 
-#fileTableUnique th {
-    background-color: #D8D8D8;
-    color: black;
-    padding: 12px; 
-    text-align: left; 
-    font-size: 16px; 
-}
+    #fileTableUnique th {
+        background-color: #D8D8D8;
+        color: black;
+        padding: 12px;
+        text-align: left;
+        font-size: 16px;
+    }
 
     #fileTableUnique td {
         padding: 15px;
@@ -829,8 +749,8 @@ th {
     }
 
 .icon-unique {
-    margin-right: 10px; 
-    vertical-align: middle; 
+    margin-right: 10px;
+    vertical-align: middle;
 }
 
 .read-by-unique {
@@ -841,18 +761,18 @@ th {
     text-decoration-color: green;
 }
 
-.read-by-unique .clickable-icon-unique {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: none;
-}
+    .read-by-unique .clickable-icon-unique {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+    }
 
-.read-by-unique:hover .clickable-icon-unique {
-    display: block;
-}
+    .read-by-unique:hover .clickable-icon-unique {
+        display: block;
+    }
 
 .pending-by-unique {
     color: red;
@@ -862,18 +782,18 @@ th {
     text-decoration-color: red;
 }
 
-.pending-by-unique .clickable-icon-unique {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: none;
-}
+    .pending-by-unique .clickable-icon-unique {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+    }
 
-.pending-by-unique:hover .clickable-icon-unique {
-    display: block;
-}
+    .pending-by-unique:hover .clickable-icon-unique {
+        display: block;
+    }
 
 .modal-unique {
     display: none;
@@ -896,22 +816,53 @@ th {
     font-weight: bold;
 }
 
-.close-unique:hover,
-.close-unique:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* Responsive adjustments */
-@media screen and (max-width: 768px) {
-    #fileTableUnique {
-        font-size: 12px; 
+    .close-unique:hover,
+    .close-unique:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
     }
 
-    #fileTableUnique td, 
-    #fileTableUnique th {
-        padding: 8px;
+
+
+
+
+
+@media (max-width: 768px) {
+    .reviewcontainer {
+        flex-direction: column; /* Change to column layout */
+    }
+
+    .reviewsidebar-reviewcontainer {
+        width: 100%; /* Make sidebar full width */
+        order: 1; /* Set order to 1 to appear first */
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+    .reviewcontent {
+        width: 100%; /* Make content full width */
+        order: 2; /* Set order to 2 to appear second */
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+
+    .image-container {
+        width: 100%; /* Make image container full width */
+        order: 3; /* Set order to 3 to appear third */
+        display: flex; /* Ensure it displays as flex */
+        justify-content: center; /* Center the image */
+        margin-top: 10px; /* Optional: Add some margin for spacing */
+    }
+
+    #system-review-table {
+        width: 100%; /* Make table full width */
+        order: 4; /* Set order to 4 to appear fourth */
+    }
+
+    .sidebar-line {
+        border-right: 0px solid black;
     }
 }
 
@@ -922,10 +873,8 @@ th {
     border-bottom: 1px solid #c0bebe;
     padding: 5px 0;
     border-bottom: 1px solid #938C8C;
-/*    width: 90%; */
-
-    margin-top:20px;
-    margin-bottom:20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .search-icon1 {
@@ -938,10 +887,8 @@ th {
     outline: none;
     border: none;
     font-size: 16px;
-    font-size: 14px; 
     flex: 1;
 }
-
 
 .image-container img {
     width: 60%;
@@ -955,7 +902,6 @@ th {
     justify-content: center;
     height: 450px;
 }
-
 
 .file-search-container2 {
     display: flex;
@@ -983,13 +929,13 @@ th {
 }
 
 .file-option-icon {
-    height:19px;
-    margin-right:10px;
+    height: 19px;
+    margin-right: 10px;
 }
 
 .sidebar-line {
     border-right: 1px solid #585656;
-    padding-bottom:20px;
+    padding-bottom: 20px;
 }
 
 .scrollable-tbody {
@@ -999,24 +945,106 @@ th {
     height: 100vh;
 }
 
-
-
 .scrollable-tbody {
-    /* For Firefox */
-    scrollbar-width: thin; /* Options: auto, thin */
-    scrollbar-color: #00436C transparent; /* thumb color, track color */
+    scrollbar-width: thin;
+    scrollbar-color: #00436C transparent;
 }
 
-    /* WebKit Browsers (Chrome, Safari) */
     .scrollable-tbody::-webkit-scrollbar {
-        width: 8px; /* Width of the scrollbar */
+        width: 8px;
     }
 
     .scrollable-tbody::-webkit-scrollbar-thumb {
-        background-color: #00436C; /* Color of the scrollbar thumb */
-        border-radius: 10px; /* Rounded corners */
+        background-color: #00436C;
+        border-radius: 10px;
     }
 
 #system-header {
-    font-weight:bold;
+    font-weight: bold;
 }
+
+
+.ReviewReviewTabs {
+    display: flex;
+    background-color: #e9f1fb;
+}
+
+.reviewtab {
+    padding: 12px 75px; /* Adjust padding as needed */
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+    background-color: #f5f5f5;
+    font-weight: 600;
+    color: #626161;
+    letter-spacing: 0.2px;
+    position: relative; /* Add this to position the border correctly */
+    top: 5px; /* Adjust this value to align the text */
+}
+
+    .reviewtab.active {
+        background-color: #fff;
+        border-top: 5px solid #023881; /* Keep the border */
+        color: #023881;
+        top: 0; /* Reset top position for active tab */
+    }
+
+
+
+.Review-page-container {
+    width: 100%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-top: -2px;
+    height: 100%;
+}
+
+
+.staffViewContent {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    height: 100%; /* Ensure it takes full height */
+}
+
+.staff-view-image {
+    max-width: 80%; /* Adjust as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin-top: 20px; /* Optional: Add some margin for spacing */
+}
+
+
+
+
+
+
+.staffViewSidebar2 {
+    margin-top: 20px;
+    height: 90%;
+    padding: 0px;
+    overflow-y: auto;
+    height: 400px;
+    scrollbar-width: thin;
+    scrollbar-color: #00436C transparent;
+}
+
+
+
+    .staffViewSidebar2::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .staffViewSidebar2::-webkit-scrollbar-thumb {
+        background-color: #00436C;
+        border-radius: 10px;
+    }
+
+    .staffViewSidebar2::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+
+
