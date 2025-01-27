@@ -96,8 +96,15 @@
     <div id="dark-overlay6" class="dark-overlay" style="display: none;"></div>
     @Html.Partial("AdminPopups/_AdminLogoutPopup")
 
+    <script src="/Scripts/jquery.min.js"></script>
     <script src="/Scripts/AdminLayoutScripts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+                if (typeof jQuery !== 'undefined') {
+            console.log('jQuery is loaded!');
+        } else {
+            console.error('jQuery is not loaded!');
+        }
+    </script>
    
 </body>
 </html>

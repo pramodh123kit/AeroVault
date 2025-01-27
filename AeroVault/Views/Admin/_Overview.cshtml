@@ -122,8 +122,13 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/Scripts/chart.min.js"></script>
 <script>
     console.log("Chart.js loaded:", typeof Chart !== 'undefined'); // Should log true
+
+    if (typeof Chart === 'undefined') {
+        console.error('Chart.js failed to load!');
+        // Optionally load from CDN here if needed
+    }
 </script>
     <script src="/Scripts/AdminOverview.js"></script>
