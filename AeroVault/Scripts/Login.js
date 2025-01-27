@@ -35,55 +35,48 @@
     function createErrorPopup(message) {
         // Create dark overlay
         const darkOverlay = document.createElement('div');
-        darkOverlay.classList.add('dark-overlay-error');
+        darkOverlay.id = 'dark-overlay-error';
+        darkOverlay.classList.add('dark-overlay');
         darkOverlay.style.position = 'fixed';
         darkOverlay.style.top = '0';
         darkOverlay.style.left = '0';
         darkOverlay.style.width = '100%';
         darkOverlay.style.height = '100%';
-        darkOverlay.style.background = 'linear-gradient(135deg, #B71C1C, #D32F2F, #FF5252)';
-        darkOverlay.style.backgroundSize = '400% 400%';
-        darkOverlay.style.zIndex = '1000';
+        darkOverlay.style.backgroundColor = 'rgba(255, 0, 0, 0.2)'; 
         darkOverlay.style.display = 'flex';
         darkOverlay.style.justifyContent = 'center';
         darkOverlay.style.alignItems = 'center';
         darkOverlay.style.opacity = '0';
         darkOverlay.style.transition = 'opacity 0.5s ease';
-        darkOverlay.style.animation = 'overlayAnimation 1s ease forwards';
-
-        // Add custom keyframes for overlay
-        const styleSheet = document.createElement('style');
-        styleSheet.textContent = `
-            @keyframes overlayAnimation {
-                0% {
-                    background-position: 0% 50%;
-                    opacity: 0;
-                }
-                100% {
-                    background-position: 100% 50%;
-                    opacity: 0.4;
-                }
-            }
-        `;
-        document.head.appendChild(styleSheet);
 
         // Create popup
         const popup = document.createElement('div');
-        popup.style.backgroundColor = 'white'; // Pure white background
-        popup.style.padding = '30px';
+        popup.id = 'error-notification-popup';
+        popup.classList.add('modal-notification-edit');
+        popup.style.backgroundColor = 'white';
         popup.style.borderRadius = '10px';
         popup.style.textAlign = 'center';
-        popup.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
         popup.style.maxWidth = '400px';
         popup.style.width = '90%';
         popup.style.position = 'relative';
         popup.style.zIndex = '1001';
-        popup.style.opacity = '1'; // Full opacity for the popup
-        popup.style.transform = 'scale(1)'; // Ensure no scaling
+        popup.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+
+        // Popup header with close button
+        const popupHeader = document.createElement('div');
+        popupHeader.classList.add('div-edit-header');
+        const closeButton = document.createElement('button');
+        closeButton.classList.add('popup-close');
+        closeButton.innerHTML = '&times;';
+        popupHeader.appendChild(closeButton);
+
+        // Popup body
+        const popupBody = document.createElement('div');
+        popupBody.classList.add('modal-body');
 
         // Error icon
         const icon = document.createElement('div');
-        icon.innerHTML = '⚠️';
+        icon.innerHTML = '⚠️'; // You can replace this with an image if needed
         icon.style.fontSize = '50px';
         icon.style.marginBottom = '15px';
 
@@ -93,17 +86,14 @@
         messageElement.style.fontSize = '16px';
         messageElement.style.marginBottom = '20px';
 
-        // Close button
-        const closeButton = document.createElement('button');
-        closeButton.textContent = 'Close';
-        closeButton.style.backgroundColor = '#D32F2F';
-        closeButton.style.color = 'white';
-        closeButton.style.border = 'none';
-        closeButton.style.padding = '10px 20px';
-        closeButton.style.borderRadius = '5px';
-        closeButton.style.cursor = 'pointer';
+        // Assemble popup
+        popupBody.appendChild(icon);
+        popupBody.appendChild(messageElement);
 
-        // Close popup when button is clicked
+        popup.appendChild(popupHeader);
+        popup.appendChild(popupBody);
+
+        // Add close functionality
         closeButton.addEventListener('click', function () {
             darkOverlay.style.opacity = '0';
             setTimeout(() => {
@@ -111,16 +101,13 @@
             }, 500);
         });
 
-        // Assemble popup
-        popup.appendChild(icon);
-        popup.appendChild(messageElement);
-        popup.appendChild(closeButton);
+        // Add elements to overlay
         darkOverlay.appendChild(popup);
 
-        // Add to body and trigger animation
+        // Add to body
         document.body.appendChild(darkOverlay);
 
-        // Ensure overlay is visible
+        // Trigger display
         setTimeout(() => {
             darkOverlay.style.opacity = '1';
         }, 10);
