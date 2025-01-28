@@ -253,7 +253,7 @@
 .staffView-container {
     width: 100%;
     background-color: #F3F3F3;
-    padding-top: 9%;
+    padding-top: 10%;
     text-align: center;
     border-radius: 10px;
     margin: 4px;
@@ -436,8 +436,13 @@
 }
 
     .staffViewContent img {
-        transform: scale(0.65);
+        margin-right: 08px;
+        padding-left: 10px;
     }
+
+.staff-view-image-review {
+    transform: scale(0.5);
+}
 
 .staffcontentLayout {
     display: flex;
@@ -446,7 +451,6 @@
 }
 
 .staff-card {
-    margin-left: 2%;
     margin-top: 2%;
     background: linear-gradient(89deg, #FFF 0.61%, #F4F0F0 99.91%);
     border-radius: 10px;
@@ -548,7 +552,6 @@ h1 {
 .staff-search-container {
     display: flex;
     border-bottom: 1px solid #938C8C;
-    margin-bottom: 15px;
     padding: 2px 0;
 }
 
@@ -562,7 +565,7 @@ h1 {
     }
 
 .table-container {
-    max-height: 350px;
+    height: 340px;
     overflow-y: auto;
     margin-top: 10px;
     background-color: #fff;
@@ -620,6 +623,8 @@ th {
 .tableChanger {
     position: relative;
     padding: 20px;
+    padding-bottom:10px;
+    padding-top:10px;
     width: 100%;
 }
 
@@ -719,7 +724,7 @@ th {
     }
 
 .table-container-unique {
-    max-height: 400px;
+    height: 420px;
     overflow-y: auto;
     width: 100%;
     padding: 2px;
@@ -941,8 +946,7 @@ th {
 .scrollable-tbody {
     overflow-y: auto;
     overflow-x: auto;
-    max-height: calc(100vh - 340px);
-    height: 100vh;
+    height: 400px;
 }
 
 .scrollable-tbody {
@@ -970,7 +974,7 @@ th {
 }
 
 .reviewtab {
-    padding: 12px 75px; /* Adjust padding as needed */
+    padding: 8px 75px; /* Adjust padding as needed */
     cursor: pointer;
     border: 1px solid #ddd;
     border-bottom: none;
@@ -1003,7 +1007,6 @@ th {
 
 
 .staffViewContent {
-    display: flex;
     flex-direction: column; /* Stack items vertically */
     align-items: center; /* Center items horizontally */
     justify-content: center; /* Center items vertically */
@@ -1013,7 +1016,6 @@ th {
 .staff-view-image {
     max-width: 80%; /* Adjust as needed */
     height: auto; /* Maintain aspect ratio */
-    margin-top: 20px; /* Optional: Add some margin for spacing */
 }
 
 
@@ -1048,3 +1050,108 @@ th {
 
 
 
+.search-and-sidebar-container {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+
+}
+
+.file-search-container1 {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #c0bebe;
+    padding: 5px 0;
+    margin-bottom: 20px; /* Remove margin to keep it close to the sidebar */
+}
+
+.staffViewSidebar2 {
+    margin-top: 0; /* Remove margin to keep it close to the search bar */
+    padding: 0px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #00436C transparent;
+}
+
+    /* Scrollbar styles */
+    .staffViewSidebar2::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .staffViewSidebar2::-webkit-scrollbar-thumb {
+        background-color: #00436C;
+        border-radius: 10px;
+    }
+
+    .staffViewSidebar2::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+.system-name {
+    font-size:18px;
+}
+
+.search-btn {
+    background-color:#00436C;
+    padding:8px 20px;
+    border-radius:10px;
+    color:white;
+}
+
+
+.container-for-search {
+    display: flex; /* Use flexbox to align items horizontally */
+    align-items: center; /* Center items vertically */
+    margin-left: 200px;
+}
+
+.file-search-container1 {
+    display: flex; /* Use flexbox for the search container */
+    align-items: center; /* Center items vertically */
+    border-bottom: 1px solid #c0bebe; /* Optional: Add a border for styling */
+    padding: 5px 0; /* Optional: Add padding for spacing */
+    margin-right: 10px; /* Add some space between the search input and the button */
+}
+
+.search-btn {
+    padding: 5px 10px; /* Add padding for the button */
+    background-color: #005580; /* Button background color */
+    color: white; /* Button text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Optional: Add border radius */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+    .search-btn:hover {
+        background-color: #004466; /* Darker shade on hover */
+    }
+
+.staffAfterSearch {
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Distribute space evenly between child divs */
+    align-items: center; /* Align items vertically centered */
+}
+
+.reviewtitle2,
+.container-for-search,
+.staffViewDropdown-status-container {
+    flex: 1; /* Allow each div to grow equally */
+    margin: 0 10px; /* Add horizontal margin for spacing */
+}
+
+/* Optional: To prevent the first and last divs from having extra margin */
+.reviewtitle2 {
+    margin-left: 0; /* Remove left margin for the first div */
+}
+
+.staffViewDropdown-status-container {
+    margin-right: 0; /* Remove right margin for the last div */
+}
+
+.staffViewContent {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: flex-start; /* Align items to the start */
+    min-height: 300px; /* Set a minimum height */
+    overflow: hidden; /* Prevent overflow */
+}
