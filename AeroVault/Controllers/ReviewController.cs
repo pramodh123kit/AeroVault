@@ -25,4 +25,11 @@ public class ReviewController : BaseAdminController
 
         return PartialView("~/Views/Admin/_Review.cshtml", viewModel);
     }
+
+
+    public async Task<IActionResult> GetSystemsByDepartment(int departmentId)
+    {
+        var systems = await _reviewBl.GetSystemsByDepartmentAsync(departmentId);
+        return Json(systems);
+    }
 }
