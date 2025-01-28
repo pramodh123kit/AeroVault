@@ -435,3 +435,61 @@ body {
     z-index: 1000; 
     display: none;
 }
+
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #06182C;
+    color:#ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it is above other content */
+}
+
+.loading-icon {
+    width: 500px; /* Adjust size as needed */
+    margin-bottom: 10px;
+}
+
+.loading-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px; /* Space between text and dots */
+}
+
+.dot {
+    width: 10px; /* Size of the dots */
+    height: 10px; /* Size of the dots */
+    margin: 0 5px; /* Space between dots */
+    border-radius: 50%; /* Make them circular */
+    background-color: #ffffff; /* Dot color */
+    animation: loading 1s infinite; /* Animation */
+}
+
+    .dot:nth-child(1) {
+        animation-delay: 0s; /* First dot */
+    }
+
+    .dot:nth-child(2) {
+        animation-delay: 0.2s; /* Second dot */
+    }
+
+    .dot:nth-child(3) {
+        animation-delay: 0.4s; /* Third dot */
+    }
+
+@keyframes loading {
+    0%, 80%, 100% {
+        transform: scale(1); /* Normal size */
+    }
+
+    40% {
+        transform: scale(1.5); /* Scale up */
+    }
+}

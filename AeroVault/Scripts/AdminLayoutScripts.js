@@ -11,6 +11,12 @@ document.getElementById('overlay').addEventListener('click', function () {
 function loadContent(controllerName, pageTitle) {
     document.querySelector('.page-title-name').textContent = pageTitle;
 
+    // Show loading screen after 0.3 seconds
+    const loadingScreen = document.getElementById('loading-screen');
+    let loadingTimeout = setTimeout(() => {
+        loadingScreen.style.display = 'flex'; // Show loading screen
+    }, 100);
+
     // Map view names to controllers
     const controllerMap = {
         'Index': 'Overview',
@@ -28,6 +34,8 @@ function loadContent(controllerName, pageTitle) {
         url: `/${controller}/Index`,
         type: 'GET',
         success: function (result) {
+            clearTimeout(loadingTimeout); // Clear the loading timeout
+            loadingScreen.style.display = 'none'; // Hide loading screen
             $('#main-content').html(result);
 
             // Check if the loaded content is the Overview page
@@ -37,6 +45,8 @@ function loadContent(controllerName, pageTitle) {
             }
         },
         error: function (xhr, status, error) {
+            clearTimeout(loadingTimeout); // Clear the loading timeout
+            loadingScreen.style.display = 'none'; // Hide loading screen
             console.error("Error loading content:", error);
             $('#main-content').html('<p class="text-danger">Failed to load content. Please try again later.</p>');
         }
