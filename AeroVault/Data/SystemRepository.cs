@@ -28,9 +28,16 @@ namespace AeroVault.Data
             {
                 await connection.OpenAsync();
                 string sql = @"
-            SELECT SystemID, SystemName, Description, added_date
-            FROM SYSTEMS
-            WHERE IS_DELETED = 0 AND added_date >= :fromDate";
+            SELECT s.SystemID, s.SystemName, s.Description, s.added_date
+            FROM SYSTEMS s
+            WHERE s.IS_DELETED = 0 
+            AND s.added_date >= :fromDate
+            AND EXISTS (
+                SELECT 1 
+                FROM SYSTEM_DEPARTMENTS sd
+                JOIN DEPARTMENTS d ON sd.DepartmentID = d.DepartmentID
+                WHERE sd.SystemID = s.SystemID AND d.is_deleted = 0  -- Updated column name
+            )";
 
                 using (var command = new OracleCommand(sql, connection))
                 {
@@ -63,11 +70,11 @@ namespace AeroVault.Data
                 await connection.OpenAsync();
 
                 string sql = @"
-    SELECT DISTINCT s.SystemID, s.SystemName, s.Description, s.added_date
-    FROM SYSTEMS s
-    JOIN SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
-    JOIN DEPARTMENTS d ON sd.DepartmentID = d.DepartmentID
-    WHERE s.IS_DELETED = 0 AND d.IS_DELETED = 0";
+            SELECT DISTINCT s.SystemID, s.SystemName, s.Description, s.added_date
+            FROM SYSTEMS s
+            JOIN SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
+            JOIN DEPARTMENTS d ON sd.DepartmentID = d.DepartmentID
+            WHERE s.IS_DELETED = 0 AND d.is_deleted = 0"; // Updated column name
 
                 using (var command = new OracleCommand(sql, connection))
                 {

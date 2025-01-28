@@ -186,120 +186,62 @@ namespace AeroVault.Data
 
 
         public List<FileModel> GetAllFiles()
-
         {
-
             var files = new List<FileModel>();
 
-
             using (var connection = new OracleConnection(_connectionString))
-
             {
-
                 connection.Open();
-
                 var query = @"
-
-SELECT 
-
-    f.FileID, 
-
-    f.SystemID, 
-
-    f.FileName, 
-
-    f.FileType, 
-
-    f.FileCategory, 
-
-    f.Added_Date,
-
-    f.UniqueFileIdentifier,
-
-    s.SystemName,
-
-    LISTAGG(d.DepartmentName, ', ') WITHIN GROUP (ORDER BY d.DepartmentName) AS DepartmentNames,
-
-    COUNT(DISTINCT d.DepartmentID) AS DepartmentCount
-
-FROM 
-
-    Files f
-
-JOIN 
-
-    Systems s ON f.SystemID = s.SystemID
-
-LEFT JOIN 
-
-    System_Departments sd ON s.SystemID = sd.SystemID
-
-LEFT JOIN 
-
-    Departments d ON sd.DepartmentID = d.DepartmentID AND d.IS_DELETED = 0
-
-WHERE 
-
-    s.IS_DELETED = 0 
-
-    AND f.IS_DELETED = 0
-
-GROUP BY 
-
-    f.FileID, 
-
-    f.SystemID, 
-
-    f.FileName, 
-
-    f.FileType, 
-
-    f.FileCategory, 
-
-    f.Added_Date, 
-
-    f.UniqueFileIdentifier,
-
-    s.SystemName
-
-ORDER BY 
-
-    f.Added_Date DESC";
-
+        SELECT 
+            f.FileID, 
+            f.SystemID, 
+            f.FileName, 
+            f.FileType, 
+            f.FileCategory, 
+            f.Added_Date,
+            f.UniqueFileIdentifier,
+            s.SystemName,
+            LISTAGG(d.DepartmentName, ', ') WITHIN GROUP (ORDER BY d.DepartmentName) AS DepartmentNames,
+            COUNT(DISTINCT d.DepartmentID) AS DepartmentCount
+        FROM 
+            Files f
+        JOIN 
+            Systems s ON f.SystemID = s.SystemID
+        LEFT JOIN 
+            System_Departments sd ON s.SystemID = sd.SystemID
+        LEFT JOIN 
+            Departments d ON sd.DepartmentID = d.DepartmentID AND d.IS_DELETED = 0
+        WHERE 
+            s.IS_DELETED = 0 
+            AND f.IS_DELETED = 0
+        GROUP BY 
+            f.FileID, 
+            f.SystemID, 
+            f.FileName, 
+            f.FileType, 
+            f.FileCategory, 
+            f.Added_Date, 
+            f.UniqueFileIdentifier,
+            s.SystemName
+        ORDER BY 
+            f.Added_Date DESC";
 
                 using (var command = new OracleCommand(query, connection))
-
                 {
-
                     using (var reader = command.ExecuteReader())
-
                     {
-
                         while (reader.Read())
-
                         {
-
                             var fileModel = new FileModel
-
                             {
-
-                                // ... existing properties ...
-
-                                UniqueFileIdentifier = reader["UniqueFileIdentifier"] != DBNull.Value
-                                    ? reader["UniqueFileIdentifier"].ToString()
-                                    : null,
                                 FileID = Convert.ToInt32(reader["FileID"]),
                                 SystemID = Convert.ToInt32(reader["SystemID"]),
                                 FileName = reader["FileName"].ToString(),
-                                FileType = reader["FileType"] != DBNull.Value
-                                    ? reader["FileType"].ToString()
-                                    : string.Empty,
-                                FileCategory = reader["FileCategory"] != DBNull.Value
-                                    ? reader["FileCategory"].ToString()
-                                    : string.Empty,
-                                AddedDate = reader["Added_Date"] != DBNull.Value
-                                    ? Convert.ToDateTime(reader["Added_Date"])
-                                    : (DateTime?)null,
+                                FileType = reader["FileType"] != DBNull.Value ? reader["FileType"].ToString() : string.Empty,
+                                FileCategory = reader["FileCategory"] != DBNull.Value ? reader["FileCategory"].ToString() : string.Empty,
+                                AddedDate = reader["Added_Date"] != DBNull.Value ? Convert.ToDateTime(reader["Added_Date"]) : (DateTime?)null,
+                                UniqueFileIdentifier = reader["UniqueFileIdentifier"] != DBNull.Value ? reader["UniqueFileIdentifier"].ToString() : null,
                                 System = new SystemModel
                                 {
                                     SystemID = Convert.ToInt32(reader["SystemID"]),
@@ -309,9 +251,7 @@ ORDER BY
                             };
 
                             // Set DepartmentName based on the count of departments
-                            fileModel.DepartmentName = Convert.ToInt32(reader["DepartmentCount"]) > 1
-                                ? "Multi-Departmental"
-                                : fileModel.DepartmentNames;
+                            fileModel.DepartmentName = Convert.ToInt32(reader["DepartmentCount"]) > 1 ? "Multi-Departmental" : fileModel.DepartmentNames;
 
                             files.Add(fileModel);
                         }

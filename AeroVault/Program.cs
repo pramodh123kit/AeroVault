@@ -34,6 +34,9 @@ namespace AeroVault
             builder.Services.AddScoped<DivisionRepository>();
             builder.Services.AddScoped<DivisionService>();
 
+            builder.Services.AddScoped<UserOverviewBl>();
+            builder.Services.AddScoped<UserOverviewDl>();
+
             builder.Services.AddScoped<DepartmentRepository>();
             builder.Services.AddScoped<DepartmentService>();
 

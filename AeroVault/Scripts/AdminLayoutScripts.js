@@ -29,6 +29,12 @@ function loadContent(controllerName, pageTitle) {
         type: 'GET',
         success: function (result) {
             $('#main-content').html(result);
+
+            // Check if the loaded content is the Overview page
+            if (controller === 'Overview') {
+                // Re-initialize the charts
+                initializeCharts();
+            }
         },
         error: function (xhr, status, error) {
             console.error("Error loading content:", error);

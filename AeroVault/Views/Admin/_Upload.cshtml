@@ -2,7 +2,7 @@
 @model AeroVault.Models.DepartmentViewModel
 
 <link rel="stylesheet" href="/Content/css/AdminUpload.css" />
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+<link href="/Content/css/all.min.css" rel="stylesheet">
 
 <div class="admin-main-content">
     <!-- Header Section -->
@@ -94,7 +94,7 @@
                                        onkeyup="filtercategoryOptions()" onclick="event.stopPropagation()">
                             </div>
                             <div class="category-dropdown-list">
-                                @* <div onclick="selectcategoryOption(this)" class="active">Information Technology</div> *@
+                                <div onclick="selectcategoryOption(this)">All</div> <!-- Add "All" option -->
                                 <div onclick="selectcategoryOption(this)">Training</div>
                                 <div onclick="selectcategoryOption(this)">Technical</div>
                             </div>
@@ -109,12 +109,14 @@
 
 
 
-
                 <div class="file-search-container1" style="margin-bottom:0px;">
                     <img src="/Content/Assets/search-icon.svg" class="search-icon1" alt="Search Icon" />
                     <input id="SystemfileSearch" onkeyup="filterFiles()" placeholder="Search" type="text"
-                           class="file-search-input1" style="width:200px;"/>
+                           class="file-search-input1" style="width:200px;" />
                 </div>
+
+
+
             </div>
         </div>
     </div>
@@ -240,4 +242,6 @@
 
 @Html.Partial("AdminUploadPopups/_AdminUploadPopup", Model as DepartmentViewModel)
 
+
+<script src="/Scripts/jquery.min.js"></script>
 <script src="/Scripts/AdminUpload.js"></script>

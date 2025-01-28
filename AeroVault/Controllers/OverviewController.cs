@@ -59,7 +59,6 @@ public class OverviewController : BaseAdminController
             Department_6_Count = departmentsForSix.Count,
             Department_12_Count = departmentsForYear.Count,
 
-
             SystemCount = systems.Count,
             System_1_Count = systemsForOne.Count,
             System_3_Count = systemsForThree.Count,
