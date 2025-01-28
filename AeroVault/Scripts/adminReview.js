@@ -426,11 +426,28 @@ function selectStatusOption(element) {
     selector.style.borderBottomRightRadius = '10px';
     selector.style.borderBottom = '1px solid #6D6D6D';
 
-    var divs = document.querySelectorAll('.status-dropdown-list div');
-    divs.forEach(function (div) {
-        div.classList.remove('active');
+    var departmentId = element.getAttribute('data-department-id'); // Assuming you set this attribute in your dropdown
+
+    // Fetch systems for the selected department
+    fetch(`/Review/GetSystemsByDepartment?departmentId=${departmentId}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // Log the data to see its structure
+            updateStaffViewSidebar(data);
+        });
+}
+
+function updateStaffViewSidebar(systems) {
+    const sidebar = document.querySelector('.staffViewSidebar');
+    sidebar.innerHTML = ''; // Clear existing items
+
+    systems.forEach(system => {
+        const menuItem = document.createElement('div');
+        menuItem.className = 'menu-item';
+        menuItem.onclick = function () { loadReviewContent(system.systemName, this); }; // Correct property access
+        menuItem.innerHTML = `<i class="fas fa-folder"></i><span>${system.systemName}</span>`; // Correct property access
+        sidebar.appendChild(menuItem);
     });
-    element.classList.add('active');
 }
 
 function showAllStatusOptions() {

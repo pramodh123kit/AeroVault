@@ -49,5 +49,35 @@ namespace AeroVault.Data
                 }
             }
         }
+
+        public async Task<List<SystemModel>> GetSystemsByDepartmentAsync(int departmentId)
+        {
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new OracleCommand(
+                    "SELECT s.SystemID, s.SystemName, s.Description " +
+                    "FROM SYSTEMS s " +
+                    "JOIN SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID " +
+                    "WHERE sd.DepartmentID = :departmentId AND s.IS_DELETED = 0", connection))
+                {
+                    command.Parameters.Add(new OracleParameter("departmentId", departmentId));
+                    var systems = new List<SystemModel>();
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            systems.Add(new SystemModel
+                            {
+                                SystemID = Convert.ToInt32(reader["SystemID"]),
+                                SystemName = reader["SystemName"].ToString(),
+                                Description = reader["Description"].ToString()
+                            });
+                        }
+                    }
+                    return systems;
+                }
+            }
+        }
     }
 }

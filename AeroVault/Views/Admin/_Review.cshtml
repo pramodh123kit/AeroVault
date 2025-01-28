@@ -38,7 +38,7 @@
                             {
                                 @foreach (var department in Model.Departments)
                                 {
-                                    <div class="dropdown-item" onclick="selectStatusOption(this)">
+                                    <div class="dropdown-item" onclick="selectStatusOption(this)" data-department-id="@department.DepartmentID">
                                         @department.DepartmentName
                                     </div>
                                 }
@@ -58,126 +58,7 @@
             </div>
 
             <div class="staffViewSidebar">
-                <div class="menu-item" onclick="loadReviewContent('System 1', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>System 1</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('System 2', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>System 2</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('System 3', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>System 3</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('engineering_systemA.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>System A</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('engineering_systemB.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>System B</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('engineering_systemC.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>System C</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('it_systemX.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>System X</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('it_systemY.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>System Y</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('it_systemZ.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>System Z</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('ground_handling_systemAlpha.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>System Alpha</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('ground_handling_systemBeta.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>System Beta</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('ground_handling_systemGamma.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>System Gamma</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('flight_operations_system1.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>Flight Operations System 1</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('flight_operations_system2.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>Flight Operations System 2</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('flight_operations_system3.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>Flight Operations System 3</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('cabin_crew_systemA.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>Cabin Crew System A</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('cabin_crew_systemB.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>Cabin Crew System B</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('cabin_crew_systemC.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>Cabin Crew System C</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('cargo_operations_systemX.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>Cargo Management System X</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('cargo_operations_systemY.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>Cargo Management System Y</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('cargo_operations_systemZ.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>Cargo Management System Z</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('customer_service_systemAlpha.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>Customer Service System Alpha</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('customer_service_systemBeta.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>Customer Service System Beta</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('customer_service_systemGamma.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>Customer Service System Gamma</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('sales_marketing_system1.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>Sales & Marketing System 1</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('sales_marketing_system2.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>Sales & Marketing System 2</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('sales_marketing_system3.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>Sales & Marketing System 3</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('finance_accounting_systemA.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>Finance & Accounting System A</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('finance_accounting_systemB.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>Finance & Accounting System B</span>
-                </div>
-                <div class="menu-item" onclick="loadReviewContent('finance_accounting_systemC.html', this)">
-                    <i class="fas fa-folder"></i>
-                    <span>Finance & Accounting System C</span>
-                </div>
+                <!-- This will be populated dynamically -->
             </div>
         </div>
     </div>
