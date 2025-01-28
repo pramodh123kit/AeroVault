@@ -99,7 +99,6 @@
         <!-- Right Column -->
         <div class="right-column">
             <!-- Statistics Cards -->
-           
             <div class="Cards">
                 <div class="Card">
                     <img src="/Content/Assets/systemiconsvg1.svg" />
@@ -116,6 +115,29 @@
             </div>
 
           
+            
+            <!-- Recently Added Files -->
+            @{
+                Func<string, string> GetFileIcon = fileType => fileType?.ToLower() switch
+                {
+                    "document" => "/Content/Assets/system-file-icon.svg",
+                    "pdf" => "/Content/Assets/system-file-icon.svg",
+                    "video" => "/Content/Assets/system-video-icon.svg",
+                    _ => "" // No icon for other file types
+                };
+
+                Func<string, string> GetFileNameWithoutExtension = fileName =>
+                {
+                    if (string.IsNullOrEmpty(fileName))
+                        return fileName;
+
+                    int lastDotIndex = fileName.LastIndexOf('.');
+                    return lastDotIndex > 0
+                    ? fileName.Substring(0, lastDotIndex)
+                    : fileName;
+                };
+            }
+
             <!-- Recently Added Files -->
             <div class="recent-files">
                 <h3>Recently Added Files</h3>
@@ -125,18 +147,16 @@
                         foreach (var file in ViewBag.RecentFiles)
                         {
                             <div class="file-item">
-                                <!-- File icon -->
-                                <img src="/Content/Assets/system-doc-icon.svg" alt="File" class="file-icon">
-
-                                <!-- File information -->
+                                @if (!string.IsNullOrEmpty(GetFileIcon(file.FileType)))
+                                {
+                                    <img src="@GetFileIcon(file.FileType)" alt="File" class="file-icon">
+                                }
                                 <div class="file-info">
-                                    <span class="file-name">@file.FileName</span>
+                                    <span class="file-name">
+                                        @GetFileNameWithoutExtension(file.FileName)
+                                    </span>
                                 </div>
-
-                                <!-- System name -->
                                 <span class="system-name">@file.System.SystemName</span>
-
-                                <!-- File added date -->
                                 <span class="file-date">@file.AddedDate.ToString("MMM dd, yyyy")</span>
                             </div>
                         }
@@ -149,6 +169,7 @@
                     }
                 </div>
             </div>
+
 
 
         </div>

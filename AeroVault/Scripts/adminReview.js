@@ -262,11 +262,27 @@ function pendingUsersSortTable(n) {
 }
 
 function staffViewPerformSearch() {
+
     document.getElementById('system-view').style.display = 'none';
+
     document.getElementById('staff-view').style.display = 'flex';
+
     document.getElementById('staffAfterSearch').style.display = 'flex';
+
     document.getElementById('staffcontentLayout').style.display = 'flex';
+
     document.getElementById('staff-view-reviewcontent').style.display = 'none';
+
+
+    // Optionally, recalculate height or adjust styles here
+
+    adjustStaffViewContentHeight();
+
+}
+
+function adjustStaffViewContentHeight() {
+    const staffViewContent = document.querySelector('.staffViewContent');
+    staffViewContent.style.height = '450px'; 
 }
 
 function filterStaffViewSidebar() {
@@ -332,6 +348,13 @@ function filterStaffViewTable() {
 }
 
 function showFlightPlanningTable() {
+    // Hide the PC image
+    const pcImage = document.querySelector('.staff-view-image');
+    if (pcImage) {
+        pcImage.style.display = 'none';
+    }
+
+    // Show the table
     document.querySelector('.tableChanger').style.display = 'block';
 }
 
@@ -342,6 +365,14 @@ function staffViewActive(event) {
     });
 
     event.currentTarget.classList.add('active');
+
+    // Hide the PC image
+    const pcImage = document.querySelector('.staff-view-image');
+    if (pcImage) {
+        pcImage.style.display = 'none';
+    }
+
+    // Show the table
     showFlightPlanningTable();
 }
 
