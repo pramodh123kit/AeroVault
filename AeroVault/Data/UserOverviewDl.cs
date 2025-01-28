@@ -162,6 +162,7 @@ namespace AeroVault.Data
                  JOIN SYSTEM_DEPARTMENTS SD ON S.SYSTEMID = SD.SYSTEMID
                  JOIN DEPARTMENTS D ON SD.DEPARTMENTID = D.DEPARTMENTID
                  WHERE D.DEPARTMENTNAME = :DepartmentName AND S.IS_DELETED = 0) AS SystemCount,
+                 
                 (SELECT COUNT(*) 
                  FROM FILES F
                  JOIN SYSTEMS S ON F.SYSTEMID = S.SYSTEMID
@@ -169,7 +170,9 @@ namespace AeroVault.Data
                  JOIN DEPARTMENTS D ON SD.DEPARTMENTID = D.DEPARTMENTID
                  WHERE D.DEPARTMENTNAME = :DepartmentName 
                  AND F.IS_DELETED = 0 
-                 AND F.FileType = 'Document') AS DocumentCount,
+                 AND S.IS_DELETED = 0 
+                 AND (F.FileType = 'Document' OR F.FileType = 'pdf')) AS DocumentCount,
+                 
                 (SELECT COUNT(*) 
                  FROM FILES F
                  JOIN SYSTEMS S ON F.SYSTEMID = S.SYSTEMID
@@ -177,6 +180,7 @@ namespace AeroVault.Data
                  JOIN DEPARTMENTS D ON SD.DEPARTMENTID = D.DEPARTMENTID
                  WHERE D.DEPARTMENTNAME = :DepartmentName 
                  AND F.IS_DELETED = 0 
+                 AND S.IS_DELETED = 0 
                  AND F.FileType = 'Video') AS VideoCount
             FROM DUAL";
 
@@ -192,6 +196,7 @@ namespace AeroVault.Data
                                     SystemCount: reader.GetInt32(0),
                                     DocumentCount: reader.GetInt32(1),
                                     VideoCount: reader.GetInt32(2)
+
                                 );
                             }
                         }
