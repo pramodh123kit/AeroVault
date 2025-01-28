@@ -457,9 +457,13 @@
             <div class="reviewtitle2">
                 Select a system to Review Individual Activity
             </div>
-            <div class="search-container">
-                <input type="text" placeholder="IN1957">
-                <button>Search</button>
+            <div class="container-for-search">
+                <div class="file-search-container1">
+                    <img src="/Content/Assets/search-icon.svg" class="search-icon1" alt="Search Icon" />
+                    <input id="searchInputStaff" onkeyup="filterStaffViewSidebar()" placeholder="Search by Name or Staff ID" type="text"
+                           class="file-search-input1" style="width:200px;" />
+                </div>
+                <button class="search-btn">Search</button>
             </div>
             <div class="staffViewDropdown-status-container">
                 <label for="staffViewDropdown-status" class="staffViewDropdown-status-label">Status</label>
@@ -469,85 +473,85 @@
                     <option value="read">Read</option>
                 </select>
             </div>
-
         </div>
         <div class="staffcontentLayout" id="staffcontentLayout" style="display:none;">
-            <div class="staffViewSidebar">
-                <div class="search-box-staff">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="searchInputStaff" onkeyup="filterStaffViewSidebar()"
-                           placeholder="Search System">
+            <div class="search-and-sidebar-container">
+                <div class="file-search-container1" style="margin-bottom:20px;">
+                    <img src="/Content/Assets/search-icon.svg" class="search-icon1" alt="Search Icon" />
+                    <input id="searchInputStaff" onkeyup="filterStaffViewSidebar()" placeholder="Search System" type="text"
+                           class="file-search-input1" style="width:200px;" />
                 </div>
-                <div class="menu-item" onclick="staffViewActive(event)">
-                    <i class="fas fa-folder"></i>
-                    <span>AeroProcure</span>
+                <div class="staffViewSidebar2"> 
+                    <div class="menu-item" onclick="staffViewActive(event)">
+                        <i class="fas fa-folder"></i>
+                        <span>AeroProcure</span>
+                    </div>
+                    <div class="menu-item" onclick="staffViewActive(event)">
+                        <i class="fas fa-folder"></i>
+                        <span>Flight Tracking</span>
+                    </div>
+                    <div class="menu-item" onclick="staffViewActive(event)">
+                        <i class="fas fa-folder"></i>
+                        <span>Flight Dispatch</span>
+                    </div>
+                    <div class="menu-item" onclick="staffViewActive(event)">
+                        <i class="fas fa-folder"></i>
+                        <span>Operational Control</span>
+                    </div>
+                    <div class="menu-item" onclick="staffViewActive(event)">
+                        <i class="fas fa-folder"></i>
+                        <span>Crew Scheduling</span>
+                    </div>
+                    <div class="menu-item" onclick="staffViewActive(event)">
+                        <i class="fas fa-folder"></i>
+                        <span>Maintenance Tracking</span>
+                    </div>
+                    <div class="menu-item" onclick="staffViewActive(event)">
+                        <i class="fas fa-folder"></i>
+                        <span>Flight Planning</span>
+                    </div>
+                    <div class="menu-item" onclick="staffViewActive(event)">
+                        <i class="fas fa-folder"></i>
+                        <span>Aircraft Monitoring</span>
+                    </div>
+                    <div class="menu-item" onclick="staffViewActive(event)">
+                        <i class="fas fa-folder"></i>
+                        <span>Flight Dispatch</span>
+                    </div>
+                    <div class="menu-item" onclick="staffViewActive(event)">
+                        <i class="fas fa-folder"></i>
+                        <span>Weather Monitoring</span>
+                    </div>
+                    <div class="menu-item" onclick="staffViewActive(event)">
+                        <i class="fas fa-folder"></i>
+                        <span>Passenger Services</span>
+                    </div>
+                    <div class="menu-item" onclick="staffViewActive(event)">
+                        <i class="fas fa-folder"></i>
+                        <span>Cargo Management</span>
+                    </div>
+                    <div class="menu-item" onclick="staffViewActive(event)">
+                        <i class="fas fa-folder"></i>
+                        <span>Security Control</span>
+                    </div>
+                    <div class="menu-item" onclick="staffViewActive(event)">
+                        <i class="fas fa-folder"></i>
+                        <span>Ground Handling</span>
+                    </div>
+                    <div class="menu-item" onclick="staffViewActive(event)">
+                        <i class="fas fa-folder"></i>
+                        <span>Fuel Management</span>
+                    </div>
+                    <div class="menu-item" onclick="staffViewActive(event)">
+                        <i class="fas fa-folder"></i>
+                        <span>Flight Safety</span>
+                    </div>
+                    <div class="menu-item" onclick="staffViewActive(event)">
+                        <i class="fas fa-folder"></i>
+                        <span>Emergency Response</span>
+                    </div>
                 </div>
-                <div class="menu-item" onclick="staffViewActive(event)">
-                    <i class="fas fa-folder"></i>
-                    <span>Flight Tracking</span>
                 </div>
-                <div class="menu-item" onclick="staffViewActive(event)">
-                    <i class="fas fa-folder"></i>
-                    <span>Flight Dispatch</span>
-                </div>
-                <div class="menu-item" onclick="staffViewActive(event)">
-                    <i class="fas fa-folder"></i>
-                    <span>Operational Control</span>
-                </div>
-                <div class="menu-item" onclick="staffViewActive(event)">
-                    <i class="fas fa-folder"></i>
-                    <span>Crew Scheduling</span>
-                </div>
-                <div class="menu-item" onclick="staffViewActive(event)">
-                    <i class="fas fa-folder"></i>
-                    <span>Maintenance Tracking</span>
-                </div>
-                <div class="menu-item" onclick="staffViewActive(event)">
-                    <i class="fas fa-folder"></i>
-                    <span>Flight Planning</span>
-                </div>
-                <div class="menu-item" onclick="staffViewActive(event)">
-                    <i class="fas fa-folder"></i>
-                    <span>Aircraft Monitoring</span>
-                </div>
-                <div class="menu-item" onclick="staffViewActive(event)">
-                    <i class="fas fa-folder"></i>
-                    <span>Flight Dispatch</span>
-                </div>
-                <div class="menu-item" onclick="staffViewActive(event)">
-                    <i class="fas fa-folder"></i>
-                    <span>Weather Monitoring</span>
-                </div>
-                <div class="menu-item" onclick="staffViewActive(event)">
-                    <i class="fas fa-folder"></i>
-                    <span>Passenger Services</span>
-                </div>
-                <div class="menu-item" onclick="staffViewActive(event)">
-                    <i class="fas fa-folder"></i>
-                    <span>Cargo Management</span>
-                </div>
-                <div class="menu-item" onclick="staffViewActive(event)">
-                    <i class="fas fa-folder"></i>
-                    <span>Security Control</span>
-                </div>
-                <div class="menu-item" onclick="staffViewActive(event)">
-                    <i class="fas fa-folder"></i>
-                    <span>Ground Handling</span>
-                </div>
-                <div class="menu-item" onclick="staffViewActive(event)">
-                    <i class="fas fa-folder"></i>
-                    <span>Fuel Management</span>
-                </div>
-                <div class="menu-item" onclick="staffViewActive(event)">
-                    <i class="fas fa-folder"></i>
-                    <span>Flight Safety</span>
-                </div>
-                <div class="menu-item" onclick="staffViewActive(event)">
-                    <i class="fas fa-folder"></i>
-                    <span>Emergency Response</span>
-                </div>
-
-            </div>
             <div class="staffViewContent">
                 <div class="staff-card">
                     <div class="staff-card-header" onclick="staffViewDropdown()">
@@ -585,7 +589,7 @@
                 </div>
                 <div class="tableChanger" style="display:none;">
                     <div class="staff-header">
-                        <h1>Flight Planning</h1>
+                        <h2 class="system-name">Flight Planning</h2>
                         <div class="staff-search-container">
                             <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
                             <input type="text" id="staffSearchInput" onkeyup="filterStaffViewTable()"
@@ -689,7 +693,7 @@
                 </div>
 
 
-                <img src="/Content/Assets/PCpic.svg" class="staff-view-image" style="display: none;" />
+                <img src="/Content/Assets/PCpic.svg" class="staff-view-image" style="display: none; transform: scale(0.6);" />
             </div>
         </div>
     </div>
