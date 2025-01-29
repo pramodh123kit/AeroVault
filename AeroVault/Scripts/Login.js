@@ -29,6 +29,10 @@
 
         if (!isValid) {
             event.preventDefault();
+        } else {
+            // Show loading screen
+            const loadingScreen = document.getElementById('loading-screen');
+            loadingScreen.style.display = 'flex'; // Show loading screen
         }
     });
 
@@ -42,7 +46,7 @@
         darkOverlay.style.left = '0';
         darkOverlay.style.width = '100%';
         darkOverlay.style.height = '100%';
-        darkOverlay.style.backgroundColor = 'rgba(255, 0, 0, 0.2)'; 
+        darkOverlay.style.backgroundColor = 'rgba(255, 0, 0, 0.2)';
         darkOverlay.style.display = 'flex';
         darkOverlay.style.justifyContent = 'center';
         darkOverlay.style.alignItems = 'center';
