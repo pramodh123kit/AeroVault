@@ -163,6 +163,7 @@ function searchTableUnique() {
     }
 }
 
+
 function closePopup() {
     var popup = document.querySelector('.readUsers-container');
     popup.style.display = 'none';
