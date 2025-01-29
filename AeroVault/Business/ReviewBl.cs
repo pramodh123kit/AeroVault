@@ -21,5 +21,10 @@ namespace AeroVault.Business
         {
             return await _reviewDl.GetSystemsByDepartmentAsync(departmentId);
         }
+
+        public async Task<List<FileModel>> GetFilesBySystemAsync(int systemId)
+        {
+            return await _reviewDl.GetFilesBySystemAsync(systemId);
+        }
     }
 }

@@ -65,8 +65,8 @@ function toggleReviewDropdown(event) {
     }
 }
 
-function loadReviewContent(systemName, department, system) {
-    document.querySelector('.image-container').style.display = 'none'; 
+function loadReviewContent(systemName, department) {
+    document.querySelector('.image-container').style.display = 'none';
     const systemReviewTable = document.getElementById('system-review-table');
     systemReviewTable.style.display = 'block';
 
@@ -80,12 +80,41 @@ function loadReviewContent(systemName, department, system) {
     });
 
     department.classList.add('active');
-    var systems = department.querySelectorAll('.reviewdropdown li');
-    systems.forEach(function (sys) {
-        sys.classList.remove('active');
-    });
 
-    system.classList.add('active');
+    // Fetch files for the selected system
+    fetch(`/Review/GetFilesBySystem?systemId=${department.dataset.systemId}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log("Fetched files:", data); // Log the fetched files
+            populateFilesTable(data);
+        })
+        .catch(error => console.error('Error fetching files:', error)); // Log any errors
+}
+
+
+function populateFilesTable(files) {
+    const tableBody = document.querySelector('#fileTableUnique tbody');
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    // Log the file names to the console
+    console.log("Files for the selected system:", files);
+
+    files.forEach(file => {
+        const row = document.createElement('tr');
+
+        // Determine the icon based on the file category
+        const icon = file.fileType === 'Video'
+            ? '/Content/Assets/system-video-icon.svg'
+            : '/Content/Assets/system-file-icon.svg';
+
+        row.innerHTML = `
+            <td><img src="${icon}" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> ${file.fileName}</td>
+            <td>${file.fileType}</td> <!-- Use file.fileType -->
+            <td class="read-by-unique"></td> <!-- Leave empty -->
+            <td class="pending-by-unique"></td> <!-- Leave empty -->
+        `;
+        tableBody.appendChild(row);
+    });
 }
 
 function openReadModalUnique() {    
@@ -426,7 +455,7 @@ function selectStatusOption(element) {
     selector.style.borderBottomRightRadius = '10px';
     selector.style.borderBottom = '1px solid #6D6D6D';
 
-    var departmentId = element.getAttribute('data-department-id'); // Assuming you set this attribute in your dropdown
+    var departmentId = element.getAttribute('data-department-id');
 
     // Fetch systems for the selected department
     fetch(`/Review/GetSystemsByDepartment?departmentId=${departmentId}`)
@@ -434,7 +463,8 @@ function selectStatusOption(element) {
         .then(data => {
             console.log(data); // Log the data to see its structure
             updateStaffViewSidebar(data);
-        });
+        })
+        .catch(error => console.error('Error fetching systems:', error)); // Log any errors
 }
 
 function updateStaffViewSidebar(systems) {
@@ -444,8 +474,9 @@ function updateStaffViewSidebar(systems) {
     systems.forEach(system => {
         const menuItem = document.createElement('div');
         menuItem.className = 'menu-item';
-        menuItem.onclick = function () { loadReviewContent(system.systemName, this); }; // Correct property access
-        menuItem.innerHTML = `<i class="fas fa-folder"></i><span>${system.systemName}</span>`; // Correct property access
+        menuItem.dataset.systemId = system.systemID; // Use systemID instead of SystemID
+        menuItem.onclick = function () { loadReviewContent(system.systemName, this); }; // Use systemName instead of SystemName
+        menuItem.innerHTML = `<i class="fas fa-folder"></i><span>${system.systemName}</span>`; // Use systemName instead of SystemName
         sidebar.appendChild(menuItem);
     });
 }
