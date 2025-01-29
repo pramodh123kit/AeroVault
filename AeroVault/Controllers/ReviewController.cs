@@ -30,6 +30,12 @@ public class ReviewController : BaseAdminController
     public async Task<IActionResult> GetSystemsByDepartment(int departmentId)
     {
         var systems = await _reviewBl.GetSystemsByDepartmentAsync(departmentId);
-        return Json(systems);
+        return Json(systems); // Ensure this returns the correct structure
+    }
+
+    public async Task<IActionResult> GetFilesBySystem(int systemId)
+    {
+        var files = await _reviewBl.GetFilesBySystemAsync(systemId);
+        return Json(files);
     }
 }

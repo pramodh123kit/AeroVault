@@ -79,5 +79,36 @@ namespace AeroVault.Data
                 }
             }
         }
+
+        public async Task<List<FileModel>> GetFilesBySystemAsync(int systemId)
+        {
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new OracleCommand(
+                    "SELECT FileID, SystemID, FileName, FileType, FileCategory, Added_Date FROM Files WHERE SystemID = :systemId AND IS_DELETED = 0", connection))
+                {
+                    command.Parameters.Add(new OracleParameter("systemId", systemId));
+                    var files = new List<FileModel>();
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            files.Add(new FileModel
+                            {
+                                FileID = Convert.ToInt32(reader["FileID"]),
+                                SystemID = Convert.ToInt32(reader["SystemID"]),
+                                FileName = reader["FileName"].ToString(),
+                                FileType = reader["FileType"].ToString(),
+                                FileCategory = reader["FileCategory"].ToString(),
+                                AddedDate = reader["Added_Date"] != DBNull.Value ? Convert.ToDateTime(reader["Added_Date"]) : (DateTime?)null,
+                                // Add other properties as needed
+                            });
+                        }
+                    }
+                    return files;
+                }
+            }
+        }
     }
 }
