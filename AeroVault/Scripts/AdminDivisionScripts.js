@@ -433,10 +433,79 @@ var currentSelectedDivisionName = null;
 
 
 
+function showDivisionDeletedSuccessPopup(divisionName) {
+    // First, close any existing popups
+    depDeleteClosePopup();
+
+    // Show the dark overlay
+    const darkOverlay = document.getElementById('dark-overlay-div2');
+    if (darkOverlay) {
+        darkOverlay.style.display = 'block';
+    }
+
+    // Create the success popup
+    const successPopup = document.createElement('div');
+    successPopup.className = 'modal-delete-system division-deleted-success-popup del-div-pop';
+    successPopup.innerHTML = `
+        <div class="modal-header-delete-system" style="display: flex; align-items: center; justify-content: center; width:auto;">
+            <h2 style="margin: 0; text-align: center;">Division Deleted</h2>
+        </div>
+        <div style="text-align: center; padding: 20px;">
+            <img src="Content/Assets/system-added-successfully.svg" alt="Success" style="max-width: 100px; margin-bottom: 15px;">
+            <p>Division "${divisionName}" and its associated departments have been successfully deleted.</p>
+        </div>
+        <div class="modal-footer div-div-delete-popup" style="padding: 20px; margin-bottom:0px; justify-content: center; padding-top:0px;">
+            <button class="delete-btn division-deleted-ok-btn" style="background-color:#00436C;">OK</button>
+        </div>
+    `;
+
+    // Add to body
+    document.body.appendChild(successPopup);
+
+    // Add event listener to OK button
+    const okButton = successPopup.querySelector('.division-deleted-ok-btn');
+    okButton.addEventListener('click', () => {
+        // Remove the popup
+        successPopup.remove();
+
+        // Hide the dark overlay
+        if (darkOverlay) {
+            darkOverlay.style.display = 'none';
+        }
+
+        // Hide the system container
+        const systemContainer = document.querySelector('.system-container');
+        if (systemContainer) {
+            systemContainer.style.display = 'none'; // Hide the system container
+        }
+
+        // Show the image container
+        const imageContainer = document.querySelector('.image-container');
+        if (imageContainer) {
+            imageContainer.style.display = 'block'; // Show the image container
+        }
+    });
+
+    // Optional: Close popup if clicking outside
+    darkOverlay.addEventListener('click', (event) => {
+        if (event.target === darkOverlay) {
+            successPopup.remove();
+            darkOverlay.style.display = 'none';
+        }
+    });
+}
+
+// Modify the confirmDeleteDivision function to use the new popup
 function confirmDeleteDivision() {
     if (!currentSelectedDivisionId) {
         alert('Please select a division to delete');
         return;
+    }
+
+    // Clear the input field for department name before the deletion process
+    const departmentNameInput = document.getElementById('department-name');
+    if (departmentNameInput) {
+        departmentNameInput.value = ''; // Clear the input field
     }
 
     $.ajax({
@@ -466,19 +535,27 @@ function confirmDeleteDivision() {
             // Close the delete popup
             depDeleteClosePopup();
 
-            // Show a success message
-            alert('Division and its associated departments deleted successfully');
+            // Show the new success popup
+            showDivisionDeletedSuccessPopup(currentSelectedDivisionName);
 
             // Reset the selected division
             currentSelectedDivisionId = null;
             currentSelectedDivisionName = null;
 
-            // Hide the system container and show the image container
-            document.querySelector('.system-container').style.display = 'none';
-            document.querySelector('.image-container').style.display = 'flex';
+            // Hide the system container
+            const systemContainer = document.querySelector('.system-container');
+            if (systemContainer) {
+                systemContainer.style.display = 'none'; // Hide the system container
+            }
+
+            // Show the image container
+            const imageContainer = document.querySelector('.image-container');
+            if (imageContainer) {
+                imageContainer.style.display = 'block'; // Show the image container
+            }
+
             const selectedOptionSpan = document.getElementById('selected-option');
             selectedOptionSpan.textContent = "Select a division";
-
         },
         error: function (xhr, status, error) {
             console.error('Error deleting division:', error);
@@ -486,8 +563,6 @@ function confirmDeleteDivision() {
         }
     });
 }
-
-
 
 function updateDeletePopupHeader() {
     // Update the popup header to include the selected division name
