@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using AeroVault.Models;
 using Microsoft.AspNetCore.Authentication;
+using SLA_Authentication_DLL;
 
 namespace AeroVault.Business
 {
@@ -74,29 +75,37 @@ namespace AeroVault.Business
 
         public StaffML GetNameAndEmail(StaffML staffNo)
         {
+            StaffML emailMl = new StaffML();
+
+            string staffno = staffNo.ToString()
+;
             try
             {
-                using (PrincipalContext context = new PrincipalContext(ContextType.Domain, "srilankan.corp"))
+                var updateDe = new DirectoryEntry();
+                var dirSearcher = new DirectorySearcher(updateDe)
                 {
-                    UserPrincipal user = UserPrincipal.FindByIdentity(context, staffNo.StaffNo);
+                    Filter = "(&(objectCategory=Person)(objectClass=user)(SAMAccountName=" + staffNo.StaffNo + "))",
+                    SearchScope = SearchScope.Subtree
+                };
+                var searchResults = dirSearcher.FindOne();
 
-                    if (user != null)
-                    {
-                        return new StaffML
-                        {
-                            StaffName = user.DisplayName,
-                            EmailAddress = user.EmailAddress,
-                            StaffNo = user.SamAccountName
-                        };
-                    }
+                if (searchResults?.GetDirectoryEntry().Properties["displayName"].Value != null)
+                {
+                    emailMl.StaffName = searchResults.GetDirectoryEntry().Properties["displayName"].Value.ToString();
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error retrieving user details: {ex.Message}");
-            }
 
-            return null;
+                if (searchResults?.GetDirectoryEntry().Properties["mail"].Value != null)
+                {
+                    emailMl.EmailAddress = searchResults.GetDirectoryEntry().Properties["mail"].Value.ToString();
+                }
+
+                return emailMl;
+
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }
