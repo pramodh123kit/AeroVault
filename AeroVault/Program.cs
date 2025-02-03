@@ -17,6 +17,12 @@ namespace AeroVault
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Configure Kestrel to allow larger file uploads
+            builder.WebHost.ConfigureKestrel(serverOptions =>
+            {
+                serverOptions.Limits.MaxRequestBodySize = 500 * 1024 * 1024; // 500 MB
+            });
+
             // Configure the DbContext with Oracle connection
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -35,29 +41,18 @@ namespace AeroVault
             // Existing repository and service registrations
             builder.Services.AddScoped<DivisionRepository>();
             builder.Services.AddScoped<DivisionService>();
-
             builder.Services.AddScoped<UserOverviewBl>();
             builder.Services.AddScoped<UserOverviewDl>();
-
             builder.Services.AddScoped<DepartmentRepository>();
             builder.Services.AddScoped<DepartmentService>();
-
             builder.Services.AddScoped<SystemRepository>();
             builder.Services.AddScoped<SystemService>();
-
             builder.Services.AddScoped<FileRepositoryDl>();
             builder.Services.AddScoped<FileRepositoryBl>();
-
             builder.Services.AddScoped<UploadDl>();
             builder.Services.AddScoped<UploadBl>();
-
             builder.Services.AddScoped<ReviewDl>();
             builder.Services.AddScoped<ReviewBl>();
-
-            builder.Services.AddScoped<UserOverviewBl>();
-            builder.Services.AddScoped<UserOverviewDl>();
-
-            // Add LoginBL as a scoped service
             builder.Services.AddScoped<LoginBL>();
             builder.Services.AddScoped<LoginDL>();
 
@@ -94,10 +89,7 @@ namespace AeroVault
             }
 
             app.UseHttpsRedirection();
-
-            // Add these lines for session support
             app.UseSession();
-
             app.UseStaticFiles();
 
             app.UseStaticFiles(new StaticFileOptions
@@ -115,15 +107,14 @@ namespace AeroVault
             });
 
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Admin}/{action=Index}/{id?}");
-            //pattern: "{controller=Admin}/{action=Index}/{id?}");
             //pattern: "{controller=test}/{action=testconnection}/{id?}");
+
             app.Run();
         }
     }

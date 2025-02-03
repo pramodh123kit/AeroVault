@@ -62,15 +62,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const profileInfo = document.querySelector('.profile-info');
     const profileDetails = document.querySelector('.profile-details');
 
-    
-    profileInfo.addEventListener('click', function () {
-        if (profileInfo.innerHTML === originalContent) {
-            profileInfo.innerHTML = newContent;
-        } else {
-            profileInfo.innerHTML = originalContent;
-        }
-    });
-
     profileInfo.addEventListener('click', function () {
         // Toggle the visibility of profile details
         if (profileDetails.style.display === 'none' || profileDetails.style.display === '') {
@@ -79,7 +70,6 @@ document.addEventListener("DOMContentLoaded", function () {
             profileDetails.style.display = 'none';
         }
     });
-
 
     sidebarToggle.addEventListener("click", function () {
         if (window.innerWidth >= 1024) {
@@ -125,18 +115,26 @@ document.addEventListener("DOMContentLoaded", function () {
             clickedIcon.src = newIconSrc;
         }
 
-        event.currentTarget.classList.add('active');
+        // Check if the clicked link is inside the manage sub-menu
+        const isManageSubMenuItem = event.currentTarget.closest('#manage-sub-menu');
+        
+        // Check if the clicked link is the "Manage" link
+        const isManageLink = event.currentTarget.id === 'manage-toggle';
 
-        if (event.currentTarget.closest('#manage-sub-menu')) {
-            const manageLink = document.getElementById('manage-toggle');
-            manageLink.classList.add('active');
-        } else {
-            const manageLink = document.getElementById('manage-toggle');
-            manageLink.classList.remove('active');
+        if (isManageSubMenuItem) {
+            // If a sub-menu item is clicked, close the sidebar on mobile
+            if (window.innerWidth < 1024) {
+                document.getElementById('sidebar').classList.remove('sidebar-visible');
+                document.getElementById('overlay').classList.remove('overlay-visible');
+            }
+        } 
+        
+        if (isManageLink) {
+            // If "Manage" is clicked, keep the sub-menu toggle behavior
+            return; // Prevent further action for Manage link
         }
 
-        const onclickAttribute = event.currentTarget.getAttribute('onclick');
-
+        // Close sidebar for other menu items on small screens
         if (window.innerWidth < 1024) {
             document.getElementById('sidebar').classList.remove('sidebar-visible');
             document.getElementById('overlay').classList.remove('overlay-visible');
@@ -208,6 +206,7 @@ document.getElementById('overlay').addEventListener('click', function () {
     sidebar.classList.remove('sidebar-visible');
     overlay.classList.remove('overlay-visible');
 });
+
 document.addEventListener("DOMContentLoaded", function () {
     const sidebarToggle = document.getElementById("sidebar-toggle");
     const sidebar = document.getElementById("sidebar");
