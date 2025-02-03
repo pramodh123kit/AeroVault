@@ -14,6 +14,7 @@ namespace AeroVault.Models
         public string StaffName { get; set; }
         public string EmailAddress { get; set; }
         public string UserRole { get; set; }
+        public string Department { get; set; }
 
         public StaffML()
         {
@@ -22,6 +23,7 @@ namespace AeroVault.Models
             StaffName = string.Empty;
             EmailAddress = string.Empty;
             UserRole = string.Empty;
+            Department = string.Empty;
         }
     }
 }

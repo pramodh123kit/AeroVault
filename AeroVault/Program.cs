@@ -5,7 +5,9 @@ using AeroVault.Data;
 using AeroVault.Business;
 using AeroVault.Repositories;
 using AeroVault.Services;
-using System.DirectoryServices; // Add this
+using System.DirectoryServices;
+using DataLayer;
+using SLA_Authentication_DLL; // Add this
 
 namespace AeroVault
 {
@@ -59,9 +61,24 @@ namespace AeroVault
             builder.Services.AddScoped<LoginBL>();
             builder.Services.AddScoped<LoginDL>();
 
+            // Add this to your service configuration
+            builder.Services.AddSingleton(sp =>
+            {
+                var configuration = sp.GetRequiredService<IConfiguration>();
+                return new DBManager(
+                    Base.SLA_AUTH_ConnectionDataProvider,
+                    configuration.GetConnectionString("SLA_AUTH_ConnectionString")
+                );
+            });
+
             builder.Logging.ClearProviders();
             builder.Logging.AddConsole();
             builder.Logging.AddDebug();
+
+            builder.Logging.ClearProviders();
+            builder.Logging.AddConsole();
+            builder.Logging.AddDebug();
+            builder.Logging.AddConfiguration(builder.Configuration.GetSection("Logging"));
 
             var app = builder.Build();
 
@@ -104,7 +121,7 @@ namespace AeroVault
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Login}/{action=Index}/{id?}");
+                pattern: "{controller=Admin}/{action=Index}/{id?}");
             //pattern: "{controller=Admin}/{action=Index}/{id?}");
             //pattern: "{controller=test}/{action=testconnection}/{id?}");
             app.Run();
