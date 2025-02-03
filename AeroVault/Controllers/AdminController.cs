@@ -18,9 +18,34 @@ namespace AeroVault.Controllers
             return View();
         }
 
-        public IActionResult ReviewTable()
+        public IActionResult Overview()
         {
-            return View();
+            return PartialView("_Overview");
+        }
+
+        public IActionResult Upload()
+        {
+            return PartialView("_Upload");
+        }
+
+        public IActionResult Systems()
+        {
+            return PartialView("_Systems");
+        }
+
+        public IActionResult Departments()
+        {
+            return PartialView("_Departments");
+        }
+
+        public IActionResult Divisions()
+        {
+            return PartialView("_Divisions");
+        }
+
+        public IActionResult Review()
+        {
+            return PartialView("_Review");
         }
     }
 }
