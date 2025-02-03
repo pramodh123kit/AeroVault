@@ -31,12 +31,15 @@ function loadContent(controllerName, pageTitle) {
     const controller = controllerMap[controllerName] || 'Overview';
 
     $.ajax({
-        url: `/${controller}/Index`,
+        url: `/${controller}`,
         type: 'GET',
         success: function (result) {
             clearTimeout(loadingTimeout); // Clear the loading timeout
             loadingScreen.style.display = 'none'; // Hide loading screen
             $('#main-content').html(result);
+
+            // Update the URL
+            history.pushState(null, '', `/${controller}`);
 
             // Check if the loaded content is the Overview page
             if (controller === 'Overview') {
@@ -222,4 +225,11 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
+});
+
+window.addEventListener('popstate', function (event) {
+    // Load the content based on the current URL
+    const path = window.location.pathname.split('/');
+    const controller = path[path.length - 1]; // Get the last part of the URL
+    loadContent(controller, controller); // Use the controller name as the page title
 });
