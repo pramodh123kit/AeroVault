@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using AeroVault.Models;
 using AeroVault.Business;
 using Microsoft.AspNetCore.Http;
@@ -8,16 +9,17 @@ namespace AeroVault.Controllers
     public class LoginController : Controller
     {
         private readonly LoginBL _loginBl;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ILogger<LoginController> _logger;
 
-        public LoginController(LoginBL loginBl, IHttpContextAccessor httpContextAccessor)
+        public LoginController(LoginBL loginBl, ILogger<LoginController> logger)
         {
             _loginBl = loginBl;
-            _httpContextAccessor = httpContextAccessor;
+            _logger = logger;
         }
 
         public IActionResult Index()
         {
+            HttpContext.Session.Clear();
             return View("LoginPage");
         }
 
@@ -30,40 +32,55 @@ namespace AeroVault.Controllers
                 return View("LoginPage");
             }
 
-            var staffMl = new StaffML
+            try
             {
-                StaffNo = staffNo,
-                StaffPassword = password
-            };
+                var staffMl = new StaffML { StaffNo = staffNo, StaffPassword = password };
 
-            bool isValidLogin = _loginBl.GetLoginValidation(staffMl, _httpContextAccessor);
-
-            if (isValidLogin)
-            {
-                // Get user role and additional details
-                var userRole = _loginBl.GetRole(staffMl);
-                var userDetails = _loginBl.GetNameAndEmail(staffMl);
-
-                // Store additional user information in session
-                _httpContextAccessor.HttpContext.Session.SetString("UserRole", userRole.UserRole);
-
-                if (userDetails != null)
+                if (!_loginBl.GetLoginValidation(staffMl))
                 {
-                    _httpContextAccessor.HttpContext.Session.SetString("StaffName", userDetails.StaffName ?? "");
-                    _httpContextAccessor.HttpContext.Session.SetString("EmailAddress", userDetails.EmailAddress ?? "");
+                    TempData["ErrorMessage"] = "Invalid credentials.";
+                    return View("LoginPage");
                 }
 
-                // Always redirect to UserOverview
+                var userRole = _loginBl.GetRole(staffMl);
+                if (!IsAuthorized(userRole.UserRole))
+                {
+                    TempData["ErrorMessage"] = $"Unauthorized role: {userRole.UserRole}";
+                    return View("LoginPage");
+                }
+
+                SetUserSession(staffMl, userRole);
                 return RedirectToAction("UserPageOverview", "UserOverview");
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Authentication error");
+                TempData["ErrorMessage"] = $"Error: {ex.Message}";
+                return View("LoginPage");
+            }
+        }
 
-            TempData["ErrorMessage"] = "Invalid credentials.";
-            return View("LoginPage");
+        private bool IsAuthorized(string role)
+        {
+            return role == "AEVT-Admin" || role == "AEVT-Staff";
+        }
+
+        private void SetUserSession(StaffML staff, StaffML role)
+        {
+            HttpContext.Session.SetString("StaffNo", staff.StaffNo);
+            HttpContext.Session.SetString("UserRole", role.UserRole);
+
+            var userDetails = _loginBl.GetNameAndEmail(staff);
+            if (userDetails != null)
+            {
+                HttpContext.Session.SetString("StaffName", userDetails.StaffName ?? "");
+                HttpContext.Session.SetString("EmailAddress", userDetails.EmailAddress ?? "");
+            }
         }
 
         public IActionResult Logout()
         {
-            // Clear session
+            _logger.LogInformation($"User logged out: {HttpContext.Session.GetString("StaffNo")}");
             HttpContext.Session.Clear();
             return RedirectToAction("Index");
         }
