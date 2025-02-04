@@ -74,7 +74,7 @@ namespace AeroVault.Data
             FROM SYSTEMS s
             JOIN SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
             JOIN DEPARTMENTS d ON sd.DepartmentID = d.DepartmentID
-            WHERE s.IS_DELETED = 0 AND d.is_deleted = 0"; // Updated column name
+            WHERE s.IS_DELETED = 0 AND d.is_deleted = 0"; 
 
                 using (var command = new OracleCommand(sql, connection))
                 {
@@ -358,7 +358,6 @@ namespace AeroVault.Data
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        Console.WriteLine($"Error in UpdateSystemAsync: {ex.Message}"); // Log the error
                         throw; // Rethrow the exception to be handled by the controller
                     }
                 }
