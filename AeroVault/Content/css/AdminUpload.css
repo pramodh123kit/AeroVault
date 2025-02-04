@@ -56,7 +56,7 @@
 /* Filters Section */
 .filters-section {
     margin-bottom: 20px;
-    z-index: 900;
+    z-index: 400;
 }
 
 /*.filters-container {
