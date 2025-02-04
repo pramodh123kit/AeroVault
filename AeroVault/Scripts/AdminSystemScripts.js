@@ -1257,48 +1257,86 @@ async function editSystem() {
 
         if (!updateSystemResponse.ok) {
             const errorData = await updateSystemResponse.json();
-            console.error('Update System Error:', errorData);
             throw new Error(errorData.message || 'Failed to update system');
         }
 
         const result = await updateSystemResponse.json();
-        console.log('System Update Result:', result);
 
-        // Close the popup
-        document.getElementById('editsystem-popup').style.display = 'none';
-        document.getElementById('dark-overlay1').style.display = 'none';
-        showSuccessNotification('System updated successfully!');
+
 
         // Refresh systems list
         await refreshSystemsList();
 
     } catch (error) {
         console.error('Error updating system:', error);
-        showCustomAlert(`Error: ${error.message}`);
     }
 }
 
-// Function to update the system list and dropdown
+document.getElementById('edit-save-btn').addEventListener('click', function () {
+    document.getElementById('editsystem-popup').style.display = 'none';
+    document.getElementById('dark-overlay1').style.display = 'none';
+    showSuccessNotification1('System updated successfully!');
+});
+
+
+function showSuccessNotification1(message) {
+    const notificationPopup = document.getElementById('notification-popup-edit');
+    const darkOverlay3 = document.getElementById('dark-overlay');
+
+    if (darkOverlay3 && notificationPopup) {
+        // You might want to update the notification text
+        const notificationText = notificationPopup.querySelector('.notification-text');
+        if (notificationText) {
+            notificationText.textContent = message;
+        }
+
+        darkOverlay3.style.display = 'block';
+        notificationPopup.style.display = 'block';
+    } else {
+        console.error("Notification popup or overlay not found.");
+    }
+}
+
+// Close notification popup and dark overlay when clicking on the dark overlay or close icon
+document.getElementById('dark-overlay').addEventListener('click', function () {
+    closeNotificationPopup();
+});
+
+document.getElementById('close-icon-system-edit').addEventListener('click', function () {
+    closeNotificationPopup();
+});
+
+function closeNotificationPopup() {
+    const notificationPopup = document.getElementById('notification-popup-edit');
+    const darkOverlay = document.getElementById('dark-overlay');
+
+    if (notificationPopup) {
+        notificationPopup.style.display = 'none';
+    }
+    if (darkOverlay) {
+        darkOverlay.style.display = 'none';
+    }
+}
+
+
 function updateSystemList(systemId, systemName, description) {
-    // Update the system list
     const systemList = document.getElementById('systemList');
     const systemItems = systemList.getElementsByTagName('li');
 
     for (let item of systemItems) {
         if (item.getAttribute('data-system-id') == systemId) {
-            item.querySelector('a').textContent = systemName; // Update the system name
-            item.setAttribute('data-system-description', description); // Update the description
+            item.querySelector('a').textContent = systemName; 
+            item.setAttribute('data-system-description', description); 
             break;
         }
     }
 
-    // Update the custom dropdown list
     const customDropdownList = document.querySelector('.custom-dropdown-list');
     const dropdownItems = customDropdownList.getElementsByTagName('div');
 
     for (let dropdownItem of dropdownItems) {
         if (dropdownItem.textContent.trim() === systemName) {
-            dropdownItem.setAttribute('data-system-description', description); // Update the description
+            dropdownItem.setAttribute('data-system-description', description);
             break;
         }
     }
@@ -1347,8 +1385,9 @@ document.getElementById('delete-system-button').onclick = async function () {
         });
 
         const data = await response.json();
-        console.log("Response from server:", data); // Log the server response
+        console.log("Response from server:", data); 
         if (data.message === "System soft deleted successfully") {
+
             // Refresh the systems list to reflect the deletion immediately
             await refreshSystemsList();
 
@@ -1357,10 +1396,7 @@ document.getElementById('delete-system-button').onclick = async function () {
             document.querySelector('.system-container').style.display = 'none';
             document.querySelector('.image-container').style.display = 'flex';
 
-            // Show success notification
             showDeleteSuccessNotification(`System "${selectedSystemName}" has been successfully deleted.`);
-
-            // Close the delete popup
             closeDeletePopup();
         } else {
             alert(data.message);
@@ -1382,13 +1418,9 @@ document.querySelector('.delete-system-button').onclick = async function () {
         return;
     }
 
-    // Set the system name in the delete confirmation popup
     document.getElementById('system-name-to-delete').textContent = selectedSystemName;
-
-    // Fetch files associated with the selected system
     await loadFilesForDeletePopup(selectedSystemId);
 
-    // Show the delete confirmation popup
     document.getElementById('deletesystem-popup').style.display = 'block';
     document.getElementById('dark-overlay2').style.display = 'block';
 };
@@ -1401,13 +1433,13 @@ async function loadFilesForDeletePopup(systemId) {
         const files = await response.json();
 
         const fileListDiv = document.querySelector('.file-list');
-        fileListDiv.innerHTML = ''; // Clear existing content
+        fileListDiv.innerHTML = ''; 
 
         if (files.length > 0) {
             files.forEach(file => {
                 const fileItem = document.createElement('div');
-                fileItem.classList.add('file-item'); // Add the class name 'file-item'
-                fileItem.textContent = file.fileName; // Display the file name
+                fileItem.classList.add('file-item'); 
+                fileItem.textContent = file.fileName; 
                 fileListDiv.appendChild(fileItem);
             });
         } else {
@@ -1419,39 +1451,15 @@ async function loadFilesForDeletePopup(systemId) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// EDIT SYSTEM NEW JAVASCRIPTS
-
-// Function to open the edit system popup
 function openEditSystemPopup() {
     document.getElementById('editsystem-popup').style.display = 'block';
 
-    // Setup event listeners for edit division headers
     document.querySelectorAll('.edit-division-header').forEach(header => {
         header.addEventListener('click', () => {
-            console.log('Division clicked:', header.querySelector('.edit-division-name').textContent); // Log the division name
-            const contentDiv = header.nextElementSibling; // This should be the edit-division-content
+            console.log('Division clicked:', header.querySelector('.edit-division-name').textContent); 
+            const contentDiv = header.nextElementSibling; 
             const icon = header.querySelector('i');
 
-            // Toggle content visibility
             if (contentDiv.style.display === 'none' || contentDiv.style.display === '') {
                 contentDiv.style.display = 'block';
                 icon.classList.replace('fa-chevron-right', 'fa-chevron-down');
@@ -1462,23 +1470,14 @@ function openEditSystemPopup() {
         });
     });
 
-    // Setup edit division checkbox listeners
     setupEditDivisionCheckboxListeners();
 }
 
 function setupEditDivisionCheckboxListeners() {
-
     document.querySelectorAll('.edit-division').forEach(division => {
-
         const selectAllCheckbox = division.querySelector('.edit-select-all');
-
         const departmentCheckboxes = division.querySelectorAll('.edit-department');
-
-
-        // Select All checkbox functionality
-
         if (selectAllCheckbox) {
-
             selectAllCheckbox.addEventListener('change', (event) => {
 
                 departmentCheckboxes.forEach(checkbox => {

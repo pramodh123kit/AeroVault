@@ -1706,6 +1706,26 @@ input[type="text"] {
         opacity: 1;
     }
 
+.overlay-edit-sys {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+    .overlay-edit-sys.show {
+        display: flex;
+        opacity: 1;
+    }
+
 .popup {
     position: relative;
     background-color: white;
@@ -1744,6 +1764,11 @@ input[type="text"] {
     transform: scale(1);
     opacity: 1;
 }
+.overlay-edit-sys.show .popup {
+    transform: scale(1);
+    opacity: 1;
+}
+
 
 .del-dep-pop {
     padding-left:0px;
