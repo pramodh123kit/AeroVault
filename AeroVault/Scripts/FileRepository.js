@@ -1532,8 +1532,8 @@ function selectCustomOption(element) {
                                 <div class="tooltip-des">${system.description}</div>
                             </div>
                             <div class="upload-info">
-                                <span class="upload-video">Videos: <b>0</b></span>
-                                <span class="upload-doc">Docs: <b>0</b></span>
+                                <span class="upload-video">Videos: <b>${system.videoCount}</b></span>
+                                <span class="upload-doc">Docs: <b>${system.docCount}</b></span>
                             </div>
                         </div>
                     `;
