@@ -1498,6 +1498,19 @@ function selectCustomOption(element) {
     selector.style.borderBottomRightRadius = '10px';
     selector.style.borderBottom = '1px solid #6D6D6D'; // Restore the bottom border
 
+    // Highlight the selected department
+    var divs = document.querySelectorAll('.custom-dropdown-list div');
+    divs.forEach(function (div) {
+        div.classList.remove('active'); // Remove active class from all options
+        div.style.fontWeight = 'normal'; // Reset font weight
+        div.style.color = ''; // Reset color
+    });
+
+    // Add active class to the selected department
+    element.classList.add('active');
+    element.style.fontWeight = 'bold'; // Make the selected option bold
+    element.style.color = 'black'; // Change the color to black
+
     // Find the department ID
     var departmentId = element.getAttribute('data-department-id');
 
