@@ -8,17 +8,17 @@ namespace AeroVault.Controllers
 {
     public class DepartmentsController : BaseAdminController
     {
-        private readonly DepartmentService _departmentService;
+        private readonly DepartmentBl _departmentBl;
 
-        public DepartmentsController(ApplicationDbContext context, DepartmentService departmentService) : base(context)
+        public DepartmentsController(ApplicationDbContext context, DepartmentBl departmentBl) : base(context)
         {
-            _departmentService = departmentService;
+            _departmentBl = departmentBl;
         }
 
         public async Task<IActionResult> Index()
         {
-            var departments = await _departmentService.GetAllDepartmentsAsync();
-            var divisions = await _departmentService.GetAllDivisionsAsync();
+            var departments = await _departmentBl.GetAllDepartmentsAsync();
+            var divisions = await _departmentBl.GetAllDivisionsAsync();
 
             ViewData["Divisions"] = divisions;
 
@@ -34,14 +34,14 @@ namespace AeroVault.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllDepartments()
         {
-            var departments = await _departmentService.GetAllDepartmentsAsync();
+            var departments = await _departmentBl.GetAllDepartmentsAsync();
             return Json(departments);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddDepartment(string departmentName, int divisionId)
         {
-            var result = await _departmentService.AddDepartmentAsync(departmentName, divisionId);
+            var result = await _departmentBl.AddDepartmentAsync(departmentName, divisionId);
             if (!result.Success)
             {
                 return BadRequest(result.Message);
@@ -52,7 +52,7 @@ namespace AeroVault.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateDepartment([FromBody] UpdateDepartmentRequest request)
         {
-            var result = await _departmentService.UpdateDepartmentAsync(request);
+            var result = await _departmentBl.UpdateDepartmentAsync(request);
             if (!result.Success)
             {
                 return BadRequest(new
@@ -76,7 +76,7 @@ namespace AeroVault.Controllers
         [HttpPut]
         public async Task<IActionResult> SoftDeleteDepartment([FromBody] DepartmentDeleteModel model)
         {
-            var result = await _departmentService.SoftDeleteDepartmentAsync(model.DepartmentId);
+            var result = await _departmentBl.SoftDeleteDepartmentAsync(model.DepartmentId);
             if (!result.Success)
             {
                 return NotFound(result.Message);
@@ -88,7 +88,7 @@ namespace AeroVault.Controllers
         [HttpGet]
         public async Task<IActionResult> GetSystemsByDepartment(int departmentId)
         {
-            var systems = await _departmentService.GetSystemsByDepartmentAsync(departmentId);
+            var systems = await _departmentBl.GetSystemsByDepartmentAsync(departmentId);
             return Json(systems);
         }
 

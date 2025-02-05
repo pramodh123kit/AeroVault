@@ -9,12 +9,12 @@ using System.Xml.Linq;
 
 namespace AeroVault.Data
 {
-    public class SystemRepository
+    public class SystemDl
     {
         private readonly string _connectionString;
         private readonly ApplicationDbContext _context;
 
-        public SystemRepository(ApplicationDbContext context, IConfiguration configuration)
+        public SystemDl(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
             _connectionString = configuration.GetConnectionString("DefaultConnection");

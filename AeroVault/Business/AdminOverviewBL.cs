@@ -3,22 +3,22 @@ using AeroVault.Models;
 
 namespace AeroVault.Business
 {
-    public class AdminOverviewBL
+    public class AdminOverviewBl
     {
-        private readonly SystemRepository _systemRepository;
+        private readonly SystemDl _systemDl;
 
-        public AdminOverviewBL(SystemRepository systemRepository)
+        public AdminOverviewBl(SystemDl systemDl)
         {
-            _systemRepository = systemRepository ?? throw new ArgumentNullException(nameof(systemRepository));
+            _systemDl = systemDl ?? throw new ArgumentNullException(nameof(systemDl));
         }
 
         public async Task<List<SystemModel>> GetSystems(DateTime? fromDate = null)
         {
             if (fromDate.HasValue)
             {
-                return await _systemRepository.GetSystemsAddedAfterAsync(fromDate.Value);
+                return await _systemDl.GetSystemsAddedAfterAsync(fromDate.Value);
             }
-            return await _systemRepository.GetAllSystemsAsync(); // Return all if no date is provided
+            return await _systemDl.GetAllSystemsAsync(); // Return all if no date is provided
         }
     }
 }

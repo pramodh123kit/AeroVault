@@ -11,10 +11,10 @@ namespace AeroVault.Controllers
     public class SystemsController : BaseAdminController
 
     {
-        private readonly SystemService _systemService;
+        private readonly SystemBl _systemService;
 
 
-        public SystemsController(ApplicationDbContext context, SystemService systemService) : base(context)
+        public SystemsController(ApplicationDbContext context, SystemBl systemService) : base(context)
         {
             _systemService = systemService;
         }
