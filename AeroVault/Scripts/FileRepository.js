@@ -1483,6 +1483,7 @@ function selectCustomOption(element) {
     var selectedDepartment = element.textContent || element.innerText;
     var selectedOption = document.getElementById('selected-option');
     var selectedDepartmentElement = document.getElementById('selected-department');
+    var selector = document.querySelector('.custom-selector');
 
     // Update dropdown display
     selectedOption.textContent = selectedDepartment;
@@ -1492,12 +1493,24 @@ function selectCustomOption(element) {
     document.querySelector('.custom-dropdown-content').style.display = 'none';
     document.querySelector('.custom-dropdown-toggle').classList.remove('open');
 
-    // Find the department ID (you might want to store this in a data attribute)
+    // Reset styles for all options
+    var options = document.querySelectorAll('.custom-dropdown-list div');
+    options.forEach(function (option) {
+        option.classList.remove('active'); // Remove active class from all options
+        option.style.fontWeight = 'normal'; // Reset font weight
+        option.style.color = ''; // Reset color
+    });
+
+    // Highlight the selected option
+    element.classList.add('active'); // Add active class to the selected option
+    element.style.fontWeight = 'bold'; // Set font weight to bold
+    element.style.color = 'black'; // Set color to black
+
+    // Find the department ID
     var departmentId = element.getAttribute('data-department-id');
 
     // AJAX call to fetch systems for the selected department
-    // Assuming this is part of the AJAX call where you fetch systems
-    fetch(`/UserFileRepository/GetSystemsByDepartment?departmentId=${departmentId}`)
+    fetch(`/User FileRepository/GetSystemsByDepartment?departmentId=${departmentId}`)
         .then(response => response.json())
         .then(systems => {
             // Clear existing systems
@@ -1511,38 +1524,40 @@ function selectCustomOption(element) {
                     systemDiv.className = 'upload-list-new';
                     systemDiv.id = system.systemName;
                     systemDiv.innerHTML = `
-                    <div class="upload-item">
-                        <div class="upload-name-all name">
-                            ${system.systemName}
-                            <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
-                            <div class="tooltip-des">${system.description}</div>
+                        <div class="upload-item">
+                            <div class="upload-name-all name">
+                                ${system.systemName}
+                                <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
+                                <div class="tooltip-des">${system.description}</div>
+                            </div>
+                            <div class="upload-info">
+                                <span class="upload-video">Videos: <b>0</b></span>
+                                <span class="upload-doc">Docs: <b>0</b></span>
+                            </div>
                         </div>
-                        <div class="upload-info">
-                            <span class="upload-video">Videos: <b>0</b></span>
-                            <span class="upload-doc">Docs: <b>0</b></span>
-                        </div>
-                    </div>
-                `;
+                    `;
                     uploadListContainer.appendChild(systemDiv);
                 });
             } else {
-                // Display "No Systems Available"
                 uploadListContainer.innerHTML = `
-                <div class="upload-list-new">
-                    <div class="upload-item">
-                        <div class="upload-name-all name no-click"> <!-- Add the no-click class here -->
-                            No Systems Available
+                    <div class="upload-list-new">
+                        <div class="upload-item">
+                            <div class="upload-name-all name">
+                                No Systems Available
+                            </div>
                         </div>
                     </div>
-                </div>
-            `;
-                
+                `;
             }
         })
         .catch(error => {
             console.error('Error fetching systems:', error);
-            // Handle error - maybe show an error message
         });
+
+    // Reset border styles after the AJAX call
+    selector.style.borderBottomLeftRadius = '10px';
+    selector.style.borderBottomRightRadius = '10px';
+    selector.style.borderBottom = '1px solid #00436C'; // Set the desired border color
 }
 
 
