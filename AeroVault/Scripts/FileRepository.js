@@ -1510,7 +1510,7 @@ function selectCustomOption(element) {
     var departmentId = element.getAttribute('data-department-id');
 
     // AJAX call to fetch systems for the selected department
-    fetch(`/User FileRepository/GetSystemsByDepartment?departmentId=${departmentId}`)
+    fetch(`/UserFileRepository/GetSystemsByDepartment?departmentId=${departmentId}`)
         .then(response => response.json())
         .then(systems => {
             // Clear existing systems
@@ -1523,6 +1523,7 @@ function selectCustomOption(element) {
                     var systemDiv = document.createElement('div');
                     systemDiv.className = 'upload-list-new';
                     systemDiv.id = system.systemName;
+                    systemDiv.setAttribute('data-system-id', system.systemID);
                     systemDiv.innerHTML = `
                         <div class="upload-item">
                             <div class="upload-name-all name">
