@@ -1483,6 +1483,7 @@ function selectCustomOption(element) {
     var selectedDepartment = element.textContent || element.innerText;
     var selectedOption = document.getElementById('selected-option');
     var selectedDepartmentElement = document.getElementById('selected-department');
+    var selector = document.querySelector('.custom-selector');
 
     // Update dropdown display
     selectedOption.textContent = selectedDepartment;
@@ -1492,12 +1493,16 @@ function selectCustomOption(element) {
     document.querySelector('.custom-dropdown-content').style.display = 'none';
     document.querySelector('.custom-dropdown-toggle').classList.remove('open');
 
-    // Find the department ID (you might want to store this in a data attribute)
+    // Reset the border styles when a department is selected
+    selector.style.borderBottomLeftRadius = '10px';
+    selector.style.borderBottomRightRadius = '10px';
+    selector.style.borderBottom = '1px solid #6D6D6D'; // Restore the bottom border
+
+    // Find the department ID
     var departmentId = element.getAttribute('data-department-id');
 
     // AJAX call to fetch systems for the selected department
-    // Assuming this is part of the AJAX call where you fetch systems
-    fetch(`/UserFileRepository/GetSystemsByDepartment?departmentId=${departmentId}`)
+    fetch(`/User FileRepository/GetSystemsByDepartment?departmentId=${departmentId}`)
         .then(response => response.json())
         .then(systems => {
             // Clear existing systems
@@ -1536,7 +1541,6 @@ function selectCustomOption(element) {
                     </div>
                 </div>
             `;
-                
             }
         })
         .catch(error => {
