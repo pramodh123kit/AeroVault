@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Check if the clicked link is inside the manage sub-menu
         const isManageSubMenuItem = event.currentTarget.closest('#manage-sub-menu');
-        
+
         // Check if the clicked link is the "Manage" link
         const isManageLink = event.currentTarget.id === 'manage-toggle';
 
@@ -127,8 +127,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById('sidebar').classList.remove('sidebar-visible');
                 document.getElementById('overlay').classList.remove('overlay-visible');
             }
-        } 
-        
+        }
+
         if (isManageLink) {
             // If "Manage" is clicked, keep the sub-menu toggle behavior
             return; // Prevent further action for Manage link

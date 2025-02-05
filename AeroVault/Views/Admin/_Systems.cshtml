@@ -144,6 +144,17 @@
     </div>
 </div>
 
+
+<div id="overlay-edit-sys" class="overlay-edit-sys" style="display: none;">
+    <div id="successPopup" class="popup">
+        <button class="popup-close" onclick="closeSuccessPopup()"></button>
+
+        <div class="popup-content">
+            <img src="/Content/Assets/system-added-successfully.svg" alt="Alternate Text" />
+            <h2 class="edit-success-dep">System was Successfully Edited</h2>
+        </div>
+    </div>
+</div>
     <!-- Overlay for popups -->
     <div id="dark-overlay" class="dark-overlay" style="display: none;"></div>
     @Html.Partial("AdminSystemPopups/_AdminAddSystemPopup", new AeroVault.Views.Shared.AdminSystemPopups._AdminAddSystemPopupModel())
@@ -162,6 +173,9 @@
 
     <div id="dark-overlay5" class="dark-overlay" style="display: none;"></div>
     @Html.Partial("AdminSystemPopups/_AdminFileEdit", new AeroVault.Views.Shared.AdminSystemPopups._AdminFileEditModel())
+
+    <div id="dark-overlay6" class="dark-overlay" style="display: none;"></div>
+    @Html.Partial("AdminSystemPopups/_AdminSystemSuccessfullyUpdatedSystem", new AeroVault.Views.Shared.AdminSystemPopups._AdminSystemSuccessfullyUpdatedSystemModel())
 
 
 <script src="/Scripts/jquery.min.js"></script>
