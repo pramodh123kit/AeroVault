@@ -1483,7 +1483,6 @@ function selectCustomOption(element) {
     var selectedDepartment = element.textContent || element.innerText;
     var selectedOption = document.getElementById('selected-option');
     var selectedDepartmentElement = document.getElementById('selected-department');
-    var selector = document.querySelector('.custom-selector');
 
     // Update dropdown display
     selectedOption.textContent = selectedDepartment;
@@ -1493,29 +1492,12 @@ function selectCustomOption(element) {
     document.querySelector('.custom-dropdown-content').style.display = 'none';
     document.querySelector('.custom-dropdown-toggle').classList.remove('open');
 
-    // Reset the border styles when a department is selected
-    selector.style.borderBottomLeftRadius = '10px';
-    selector.style.borderBottomRightRadius = '10px';
-    selector.style.borderBottom = '1px solid #6D6D6D'; // Restore the bottom border
-
-    // Highlight the selected department
-    var divs = document.querySelectorAll('.custom-dropdown-list div');
-    divs.forEach(function (div) {
-        div.classList.remove('active'); // Remove active class from all options
-        div.style.fontWeight = 'normal'; // Reset font weight
-        div.style.color = ''; // Reset color
-    });
-
-    // Add active class to the selected department
-    element.classList.add('active');
-    element.style.fontWeight = 'bold'; // Make the selected option bold
-    element.style.color = 'black'; // Change the color to black
-
-    // Find the department ID
+    // Find the department ID (you might want to store this in a data attribute)
     var departmentId = element.getAttribute('data-department-id');
 
     // AJAX call to fetch systems for the selected department
-    fetch(`/User FileRepository/GetSystemsByDepartment?departmentId=${departmentId}`)
+    // Assuming this is part of the AJAX call where you fetch systems
+    fetch(`/UserFileRepository/GetSystemsByDepartment?departmentId=${departmentId}`)
         .then(response => response.json())
         .then(systems => {
             // Clear existing systems
@@ -1554,6 +1536,7 @@ function selectCustomOption(element) {
                     </div>
                 </div>
             `;
+                
             }
         })
         .catch(error => {

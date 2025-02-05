@@ -1359,7 +1359,3 @@ iframe {
     }
 }
 
-.custom-dropdown-list div.active {
-    font-weight: bold;
-    color: black; /* Change to your desired color */
-}
