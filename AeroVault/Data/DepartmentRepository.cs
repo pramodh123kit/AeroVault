@@ -142,32 +142,25 @@ namespace AeroVault.Repositories
                 int newDepartmentId = 0;
                 string divisionName = "";
 
-                // Insert Department
+                // Get the next value from the sequence
+                string sequenceSql = "SELECT SEQ_DEPARTMENTID.NEXTVAL FROM dual";
+                using (var sequenceCommand = new OracleCommand(sequenceSql, connection))
+                {
+                    newDepartmentId = Convert.ToInt32(await sequenceCommand.ExecuteScalarAsync());
+                }
+
+                // Insert Department using the new DepartmentID
                 string insertSql = @"
-                INSERT INTO Departments (DepartmentName, DivisionID) 
-                VALUES (:DepartmentName, :DivisionID)
-                RETURNING DepartmentID INTO :NewDepartmentID";
+        INSERT INTO Departments (DepartmentID, DepartmentName, DivisionID) 
+        VALUES (:DepartmentID, :DepartmentName, :DivisionID)";
 
                 using (var insertCommand = new OracleCommand(insertSql, connection))
                 {
+                    insertCommand.Parameters.Add(new OracleParameter(":DepartmentID", newDepartmentId));
                     insertCommand.Parameters.Add(new OracleParameter(":DepartmentName", departmentName));
                     insertCommand.Parameters.Add(new OracleParameter(":DivisionID", divisionId));
 
-                    var newDepartmentIdParam = new OracleParameter(":NewDepartmentID", OracleDbType.Int32)
-                    {
-                        Direction = System.Data.ParameterDirection.Output
-                    };
-                    insertCommand.Parameters.Add(newDepartmentIdParam);
-
                     await insertCommand.ExecuteNonQueryAsync();
-
-                    // Get new department ID
-                    newDepartmentId = newDepartmentIdParam.Value switch
-                    {
-                        Oracle.ManagedDataAccess.Types.OracleDecimal oracleDecimal => oracleDecimal.ToInt32(),
-                        int intValue => intValue,
-                        _ => Convert.ToInt32(newDepartmentIdParam.Value)
-                    };
                 }
 
                 // Fetch Division Name
@@ -227,7 +220,7 @@ namespace AeroVault.Repositories
             SELECT s.SystemID, s.SystemName, s.Description 
             FROM SYSTEMS s
             JOIN SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
-            WHERE sd.DepartmentID = :DepartmentID AND s.is_deleted = 0"; // Only include systems that are not deleted
+            WHERE sd.DepartmentID = :DepartmentID AND s.is_deleted = 0"; 
 
                 using (var command = new OracleCommand(sql, connection))
                 {

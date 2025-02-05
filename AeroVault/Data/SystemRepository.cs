@@ -126,33 +126,33 @@ namespace AeroVault.Data
                 await connection.OpenAsync();
                 transaction = connection.BeginTransaction();
 
-                // Insert new system
+                // Get the next value from the sequence
                 int newSystemId;
+                string sequenceSql = "SELECT SEQ_SYSTEMID.NEXTVAL FROM dual";
+                using (var sequenceCommand = new OracleCommand(sequenceSql, connection))
+                {
+                    newSystemId = Convert.ToInt32(await sequenceCommand.ExecuteScalarAsync());
+                }
+
+                // Insert new system using the new SystemID
                 string insertSql = @"
-            INSERT INTO SYSTEMS (SYSTEMNAME, DESCRIPTION) 
-            VALUES (:SystemName, :Description)
-            RETURNING SYSTEMID INTO :NewSystemID";
+        INSERT INTO SYSTEMS (SYSTEMID, SYSTEMNAME, DESCRIPTION) 
+        VALUES (:SystemID, :SystemName, :Description)";
 
                 using (var insertCommand = new OracleCommand(insertSql, connection))
                 {
                     insertCommand.Transaction = transaction;
+                    insertCommand.Parameters.Add(new OracleParameter(":SystemID", newSystemId));
                     insertCommand.Parameters.Add(new OracleParameter(":SystemName", request.SystemName.Trim()));
                     insertCommand.Parameters.Add(new OracleParameter(":Description", request.Description));
 
-                    var systemIdParam = new OracleParameter(":NewSystemID", OracleDbType.Int32)
-                    {
-                        Direction = System.Data.ParameterDirection.Output
-                    };
-                    insertCommand.Parameters.Add(systemIdParam);
-
                     await insertCommand.ExecuteNonQueryAsync();
-                    newSystemId = ConvertOracleDecimal(systemIdParam.Value);
                 }
 
                 // Insert system-department associations
                 string insertAssociationSql = @"
-            INSERT INTO SYSTEM_DEPARTMENTS (SYSTEMID, DEPARTMENTID) 
-            VALUES (:SystemID, :DepartmentID)";
+        INSERT INTO SYSTEM_DEPARTMENTS (SYSTEMID, DEPARTMENTID) 
+        VALUES (:SystemID, :DepartmentID)";
 
                 foreach (var departmentId in request.DepartmentIds)
                 {
