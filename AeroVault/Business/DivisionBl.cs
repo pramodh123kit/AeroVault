@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace AeroVault.Business
 {
-    public class DivisionService
+    public class DivisionBl
     {
-        private readonly DivisionRepository _divisionRepository;
+        private readonly DivisionDl _divisionDl;
 
-        public DivisionService(DivisionRepository divisionRepository)
+        public DivisionBl(DivisionDl divisionDl)
         {
-            _divisionRepository = divisionRepository;
+            _divisionDl = divisionDl;
         }
 
         public async Task<List<DivisionModel>> GetAllDivisionsAsync()
         {
-            return await _divisionRepository.GetAllDivisionsAsync();
+            return await _divisionDl.GetAllDivisionsAsync();
         }
 
         public async Task AddDivisionAsync(string divisionName)
@@ -26,7 +26,7 @@ namespace AeroVault.Business
             {
                 throw new ArgumentException("Division name cannot be empty.");
             }
-            await _divisionRepository.AddDivisionAsync(divisionName);
+            await _divisionDl.AddDivisionAsync(divisionName);
         }
         public async Task UpdateDivisionNameAsync(string originalName, string newDivisionName)
         {
@@ -35,14 +35,14 @@ namespace AeroVault.Business
                 throw new ArgumentException("Division names cannot be empty.");
             }
 
-            await _divisionRepository.UpdateDivisionNameAsync(originalName, newDivisionName);
+            await _divisionDl.UpdateDivisionNameAsync(originalName, newDivisionName);
         }
 
         public async Task<(bool Success, string Message)> SoftDeleteDivisionAsync(int divisionId)
         {
             try
             {
-                bool deleted = await _divisionRepository.SoftDeleteDivisionAsync(divisionId);
+                bool deleted = await _divisionDl.SoftDeleteDivisionAsync(divisionId);
                 return deleted ? (true, "Division soft deleted successfully") : (false, "Division not found");
             }
             catch (Exception ex)
@@ -53,7 +53,7 @@ namespace AeroVault.Business
 
         public async Task<List<DepartmentModel>> GetDepartmentsByDivisionAsync(int divisionId)
         {
-            return await _divisionRepository.GetDepartmentsByDivisionAsync(divisionId);
+            return await _divisionDl.GetDepartmentsByDivisionAsync(divisionId);
         }
     }
 }

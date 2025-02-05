@@ -36,22 +36,22 @@ namespace AeroVault
             builder.Services.AddControllersWithViews();
 
             // Existing repository and service registrations
-            builder.Services.AddScoped<DivisionRepository>();
-            builder.Services.AddScoped<DivisionService>();
+            builder.Services.AddScoped<DivisionDl>();
+            builder.Services.AddScoped<DivisionBl>();
             builder.Services.AddScoped<UserOverviewBl>();
             builder.Services.AddScoped<UserOverviewDl>();
-            builder.Services.AddScoped<DepartmentRepository>();
-            builder.Services.AddScoped<DepartmentService>();
-            builder.Services.AddScoped<SystemRepository>();
-            builder.Services.AddScoped<SystemService>();
+            builder.Services.AddScoped<DepartmentDl>();
+            builder.Services.AddScoped<DepartmentBl>();
+            builder.Services.AddScoped<SystemDl>();
+            builder.Services.AddScoped<SystemBl>();
             builder.Services.AddScoped<FileRepositoryDl>();
             builder.Services.AddScoped<FileRepositoryBl>();
             builder.Services.AddScoped<UploadDl>();
             builder.Services.AddScoped<UploadBl>();
             builder.Services.AddScoped<ReviewDl>();
             builder.Services.AddScoped<ReviewBl>();
-            builder.Services.AddScoped<LoginBL>();
-            builder.Services.AddScoped<LoginDL>();
+            builder.Services.AddScoped<LoginBl>();
+            builder.Services.AddScoped<LoginDl>();
 
             builder.Services.AddSingleton(sp =>
             {
@@ -107,9 +107,9 @@ namespace AeroVault
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Admin}/{action=Index}/{id?}");
+                //pattern: "{controller=Admin}/{action=Index}/{id?}");
             //pattern: "{controller=userfilerepository}/{action=filerepository}/{id?}");
-            //pattern: "{controller=login}/{action=index}/{id?}");
+            pattern: "{controller=login}/{action=index}/{id?}");
             //pattern: "{controller=test}/{action=testconnection}/{id?}");
 
             app.Run();

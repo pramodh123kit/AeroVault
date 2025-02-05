@@ -10,12 +10,12 @@ namespace AeroVault.Controllers
 {
     public class DiagnosticsController : Controller
     {
-        private readonly LoginBL _loginBl;
+        private readonly LoginBl _loginBl;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<DiagnosticsController> _logger;
 
         public DiagnosticsController(
-            LoginBL loginBl,
+            LoginBl loginBl,
             IHttpContextAccessor httpContextAccessor,
             ILogger<DiagnosticsController> logger)
         {

@@ -8,12 +8,12 @@ using Microsoft.Extensions.Configuration; // Make sure to include this namespace
 
 namespace AeroVault.Repositories
 {
-    public class DepartmentRepository
+    public class DepartmentDl
     {
         private readonly string _connectionString;
         private readonly ApplicationDbContext _context;
 
-        public DepartmentRepository(ApplicationDbContext context, IConfiguration configuration)
+        public DepartmentDl(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
             _connectionString = configuration.GetConnectionString("DefaultConnection");

@@ -8,13 +8,13 @@ using Microsoft.Extensions.Configuration; // Make sure to include this namespace
 
 namespace AeroVault.Data
 {
-    public class DivisionRepository
+    public class DivisionDl
     {
         private readonly string _connectionString;
         private readonly ApplicationDbContext _context;
 
         // Update the constructor to accept IConfiguration
-        public DivisionRepository(ApplicationDbContext context, IConfiguration configuration)
+        public DivisionDl(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
             _connectionString = configuration.GetConnectionString("DefaultConnection");
