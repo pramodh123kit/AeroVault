@@ -30,23 +30,6 @@ namespace AeroVault.Controllers
             return View("~/Views/User/UserFileRepository/FileRepository.cshtml");
         }
 
-        public IActionResult FileRepositoryBl()
-        {
-            // Fetch active departments
-            List<DepartmentModel> departments = _fileRepositoryBl.GetActiveDepartments();
-
-            // Get systems for the first department (or default)
-            List<SystemModel> systems = departments.Any()
-                ? _fileRepositoryBl.GetSystemsByDepartment(departments.First().DepartmentID)
-                : new List<SystemModel>();
-
-            // Pass departments and systems to the view
-            ViewBag.Departments = departments;
-            ViewBag.Systems = systems;
-
-            return View("~/Views/User/UserFileRepository/FileRepository.cshtml");
-        }
-
         [HttpGet]
         public IActionResult GetSystemsByDepartment(int departmentId)
         {

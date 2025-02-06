@@ -55,7 +55,9 @@ namespace AeroVault.Data
                 conn.Open();
 
                 string query = @"
-            SELECT s.SystemID, s.SystemName, s.Description 
+            SELECT s.SystemID, s.SystemName, s.Description,
+                   (SELECT COUNT(*) FROM Files f WHERE f.SystemID = s.SystemID AND f.FileType = 'Video' AND f.IS_DELETED = 0) AS VideoCount,
+                   (SELECT COUNT(*) FROM Files f WHERE f.SystemID = s.SystemID AND f.FileType = 'Document' AND f.IS_DELETED = 0) AS DocCount
             FROM SYSTEMS s
             JOIN SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
             WHERE sd.DepartmentID = :DepartmentID AND s.IS_DELETED = 0";
@@ -72,7 +74,9 @@ namespace AeroVault.Data
                             {
                                 SystemID = reader.GetInt32(reader.GetOrdinal("SystemID")),
                                 SystemName = reader.GetString(reader.GetOrdinal("SystemName")),
-                                Description = reader.GetString(reader.GetOrdinal("Description"))
+                                Description = reader.GetString(reader.GetOrdinal("Description")),
+                                VideoCount = reader.GetInt32(reader.GetOrdinal("VideoCount")),
+                                DocCount = reader.GetInt32(reader.GetOrdinal("DocCount"))
                             });
                         }
                     }
