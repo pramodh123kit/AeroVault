@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 using static AeroVault.Controllers.DepartmentsController;
 namespace AeroVault.Services
 {
-    public class DepartmentService
+    public class DepartmentBl
     {
-        private readonly DepartmentRepository _departmentRepository;
+        private readonly DepartmentDl _departmentDl;
 
-        public DepartmentService(DepartmentRepository departmentRepository)
+        public DepartmentBl(DepartmentDl departmentDl)
         {
-            _departmentRepository = departmentRepository;
+            _departmentDl = departmentDl;
         }
 
         public async Task<List<DepartmentModel>> GetAllDepartmentsAsync()
         {
-            return await _departmentRepository.GetAllDepartmentsAsync();
+            return await _departmentDl.GetAllDepartmentsAsync();
         }
 
         public async Task<List<DivisionModel>> GetAllDivisionsAsync()
         {
-            return await _departmentRepository.GetAllDivisionsAsync();
+            return await _departmentDl.GetAllDivisionsAsync();
         }
 
         public async Task<(bool Success, string Message, object Data)> AddDepartmentAsync(string departmentName, int divisionId)
@@ -36,14 +36,14 @@ namespace AeroVault.Services
             try
             {
                 // Check if department already exists
-                bool exists = await _departmentRepository.DepartmentExistsAsync(departmentName, divisionId);
+                bool exists = await _departmentDl.DepartmentExistsAsync(departmentName, divisionId);
                 if (exists)
                 {
                     return (false, "A department with this name already exists in the selected division.", null);
                 }
 
                 // Add department
-                var (departmentId, divisionName) = await _departmentRepository.AddDepartmentAsync(departmentName, divisionId);
+                var (departmentId, divisionName) = await _departmentDl.AddDepartmentAsync(departmentName, divisionId);
 
                 return (true, "Department added successfully.", new
                 {
@@ -68,7 +68,7 @@ namespace AeroVault.Services
 
             try
             {
-                bool updated = await _departmentRepository.UpdateDepartmentAsync(request.DepartmentId, request.DepartmentName, request.DivisionId);
+                bool updated = await _departmentDl.UpdateDepartmentAsync(request.DepartmentId, request.DepartmentName, request.DivisionId);
                 return updated ? (true, "Department updated successfully!") : (false, "Department not found");
             }
             catch (Exception ex)
@@ -81,7 +81,7 @@ namespace AeroVault.Services
         {
             try
             {
-                bool deleted = await _departmentRepository.SoftDeleteDepartmentAsync(departmentId);
+                bool deleted = await _departmentDl.SoftDeleteDepartmentAsync(departmentId);
                 return deleted ? (true, "Department soft deleted successfully") : (false, "Department not found");
             }
             catch (Exception ex)
@@ -92,7 +92,7 @@ namespace AeroVault.Services
 
         public async Task<List<SystemModel>> GetSystemsByDepartmentAsync(int departmentId)
         {
-            return await _departmentRepository.GetSystemsByDepartmentAsync(departmentId);
+            return await _departmentDl.GetSystemsByDepartmentAsync(departmentId);
         }
     }
 }

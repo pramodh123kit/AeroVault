@@ -1,6 +1,6 @@
 ﻿namespace AeroVault.Data
 {
-    public class AdminOverviewDL
+    public class AdminOverviewDl
     {
     }
 }

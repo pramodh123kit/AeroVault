@@ -9,12 +9,12 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace AeroVault.Business
 {
-    public class LoginBL
+    public class LoginBl
     {
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public LoginBL(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+        public LoginBl(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;

@@ -8,10 +8,10 @@ namespace AeroVault.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly LoginBL _loginBl;
+        private readonly LoginBl _loginBl;
         private readonly ILogger<LoginController> _logger;
 
-        public LoginController(LoginBL loginBl, ILogger<LoginController> logger)
+        public LoginController(LoginBl loginBl, ILogger<LoginController> logger)
         {
             _loginBl = loginBl;
             _logger = logger;
