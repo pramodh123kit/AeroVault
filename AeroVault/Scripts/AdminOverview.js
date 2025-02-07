@@ -1,5 +1,5 @@
-﻿let myChart; // Declare myChart in the global scope
-let myChart2; // Declare myChart2 in the global scope
+﻿var myChart; // Declare myChart in the global scope
+var myChart2; // Declare myChart2 in the global scope
 
 function initializeCharts() {
     const docs = document.querySelector('.stats-container .stat-item[data-all-time-docs]');
