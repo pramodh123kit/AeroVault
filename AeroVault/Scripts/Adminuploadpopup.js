@@ -387,7 +387,15 @@ function handleDrop(e) {
         else return (bytes / 1048576).toFixed(1) + " MB";
     }
 
+function clearErrorMessages() {
+    const selectedFilesContainer = document.getElementById('selected-files');
+    const errorMessages = selectedFilesContainer.querySelectorAll('p[style="color: red;"]');
+    errorMessages.forEach(message => message.remove());
+}
+
 function uploadFiles() {
+    clearErrorMessages(); // Clear any existing error messages
+
     // Validate steps
     for (let step = 1; step < 4; step++) {
         if (!validateStep(step)) {
@@ -436,28 +444,36 @@ function uploadFiles() {
         method: 'POST',
         body: formData
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Upload failed');
-        }
-        return response.json();
-    })
-    .then(result => {
-        // Close the current popup
-        fileEditClosePopup8();
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Upload failed');
+            }
+            return response.json();
+        })
+        .then(result => {
+            // Close the current popup
+            fileEditClosePopup8();
 
-        // Open a new popup with the success message
-        openSuccessPopup(result.message);
+            // Open a new popup with the success message
+            openSuccessPopup(result.message);
 
-        // Reset the upload form
-        resetFiles();
-        // Refresh the table
-        refreshTable();
-    })
-    .catch(error => {
-        console.error('Upload error:', error);
-        alert('File upload failed: ' + error.message);
-    });
+            // Reset the upload form
+            resetFiles();
+            // Refresh the table
+            refreshTable();
+        })
+        .catch(error => {
+            console.error('Upload error:', error);
+            // Display error message in red text below the selected files
+            const selectedFilesContainer = document.getElementById('selected-files');
+            const errorMessage = document.createElement('p');
+            errorMessage.textContent = 'File upload failed: ' + error.message;
+            errorMessage.style.color = 'red';
+            errorMessage.style.marginTop = '-40px'; // Optional: Add some space above the error message
+
+            // Insert the error message after the selected files container
+            selectedFilesContainer.parentNode.insertBefore(errorMessage, selectedFilesContainer.nextSibling);
+        });
 }
 
 function openSuccessPopup(message) {
