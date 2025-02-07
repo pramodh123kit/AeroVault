@@ -9,12 +9,12 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace AeroVault.Business
 {
-    public class LoginBL
+    public class LoginBl
     {
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public LoginBL(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+        public LoginBl(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
@@ -82,25 +82,17 @@ namespace AeroVault.Business
         public StaffML GetRole(StaffML staffMl)
         {
             var staff = new StaffML();
+            var role = new clsRole();
 
-            try
+            var dt = role.getUserRolesforApplication(staffMl.StaffNo, "AEVT");
+
+            if (dt != null && dt.Rows.Count > 0)
             {
-                var role = new clsRole();
-                DataTable dt = role.getUserRolesforApplication(staffMl.StaffNo, "AEVT");
-
-                if (dt != null && dt.Rows.Count > 0)
-                {
-                    staff.UserRole = dt.Rows[0][1]?.ToString() ?? "AEVT-Staff";
-                }
-                else
-                {
-                    staff.UserRole = "AEVT-Staff"; 
-                }
+                staff.UserRole = "AEVT-Admin";
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine($"Role retrieval failed: {ex.Message}");
-                throw; 
+                staff.UserRole = "AEVT-Staff";
             }
 
             return staff;
@@ -132,6 +124,10 @@ namespace AeroVault.Business
                     {
                         emailMl.EmailAddress = directoryEntry.Properties["mail"].Value.ToString();
                     }
+                }
+                else
+                {
+                    Console.WriteLine($"No results found for {staffNo.StaffNo}");
                 }
 
                 return emailMl;

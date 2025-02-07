@@ -31,15 +31,12 @@ function loadContent(controllerName, pageTitle) {
     const controller = controllerMap[controllerName] || 'Overview';
 
     $.ajax({
-        url: `/${controller}`,
+        url: `/${controller}/Index`,
         type: 'GET',
         success: function (result) {
             clearTimeout(loadingTimeout); // Clear the loading timeout
             loadingScreen.style.display = 'none'; // Hide loading screen
             $('#main-content').html(result);
-
-            // Update the URL
-            history.pushState(null, '', `/${controller}`);
 
             // Check if the loaded content is the Overview page
             if (controller === 'Overview') {
@@ -120,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Check if the clicked link is inside the manage sub-menu
         const isManageSubMenuItem = event.currentTarget.closest('#manage-sub-menu');
-        
+
         // Check if the clicked link is the "Manage" link
         const isManageLink = event.currentTarget.id === 'manage-toggle';
 
@@ -130,8 +127,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById('sidebar').classList.remove('sidebar-visible');
                 document.getElementById('overlay').classList.remove('overlay-visible');
             }
-        } 
-        
+        }
+
         if (isManageLink) {
             // If "Manage" is clicked, keep the sub-menu toggle behavior
             return; // Prevent further action for Manage link
@@ -225,11 +222,4 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
-});
-
-window.addEventListener('popstate', function (event) {
-    // Load the content based on the current URL
-    const path = window.location.pathname.split('/');
-    const controller = path[path.length - 1]; // Get the last part of the URL
-    loadContent(controller, controller); // Use the controller name as the page title
 });

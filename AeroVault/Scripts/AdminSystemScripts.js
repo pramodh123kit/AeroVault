@@ -1299,14 +1299,14 @@ function showSuccessNotification1(message) {
 
 // Close notification popup and dark overlay when clicking on the dark overlay or close icon
 document.getElementById('dark-overlay').addEventListener('click', function () {
-    closeNotificationPopup();
+    closeNotificationPopup1();
 });
 
 document.getElementById('close-icon-system-edit').addEventListener('click', function () {
-    closeNotificationPopup();
+    closeNotificationPopup1();
 });
 
-function closeNotificationPopup() {
+function closeNotificationPopup1() {
     const notificationPopup = document.getElementById('notification-popup-edit');
     const darkOverlay = document.getElementById('dark-overlay');
 
