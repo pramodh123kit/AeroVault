@@ -546,9 +546,15 @@ function filterUploadList(filter) {
 //        });
 //}
 
+//document.addEventListener("DOMContentLoaded", function () {
+//    var defaultDepartment = document.getElementById('selected-option').textContent;
+//    document.getElementById('selected-department').textContent = defaultDepartment;
+//});
 document.addEventListener("DOMContentLoaded", function () {
-    var defaultDepartment = document.getElementById('selected-option').textContent;
-    document.getElementById('selected-department').textContent = defaultDepartment;
+    var defaultDepartment = document.querySelector('.custom-dropdown-list .active');
+    if (defaultDepartment) {
+        selectCustomOption(defaultDepartment);
+    }
 });
 
 function showAllCustomOptions() {
