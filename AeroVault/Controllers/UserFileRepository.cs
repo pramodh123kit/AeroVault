@@ -27,6 +27,9 @@ namespace AeroVault.Controllers
             ViewBag.Departments = departments;
             ViewBag.Systems = systems;
 
+            // Set the default department name
+            ViewBag.DefaultDepartment = departments.Any() ? departments.First().DepartmentName : "No Departments Found";
+
             return View("~/Views/User/UserFileRepository/FileRepository.cshtml");
         }
 

@@ -12,7 +12,7 @@
 </head>
 <body>
     <div class="banner-content">
-        <h1 id="selected-department"></h1>
+        <h1 id="selected-department">@ViewBag.DefaultDepartment</h1>
     </div>
 
     <div class="main-container">
@@ -25,7 +25,7 @@
                             <label class="custom-label" for="custom-selector">Select Department</label>
                             <div class="custom-dropdown">
                                 <div class="custom-dropdown-toggle custom-selector" onclick="toggleCustomDropdown()">
-                                    <span id="selected-option" style="color: #00436C;">Information Technology</span>
+                                    <span id="selected-option" style="color: #00436C;">@ViewBag.DefaultDepartment</span>
                                     <i class="fas fa-chevron-down" style="color:#00436C;"></i>
                                 </div>
 
@@ -55,9 +55,6 @@
                                                 </div>
                                             }
                                         }
-
-
-
                                         else
                                         {
                                             <div onclick="selectCustomOption(this)" class="active">No Departments Found</div>
@@ -77,19 +74,9 @@
                         <input type="text" id="system-search" placeholder="Search System" onkeyup="filterUploads()">
                     </div>
                     <div class="scrollable-upload-list" id="upload-list-container">
-                        
-
-
                         @{
                             var systems = ViewBag.Systems as List<SystemModel>;
                         }
-                        
-
-
-
-
-
-
                         @if (systems != null && systems.Any())
                         {
                             foreach (var system in systems)
@@ -102,30 +89,13 @@
                                             <div class="tooltip-des">@system.Description</div>
                                         </div>
                                         <div class="upload-info">
-                                            <span class="upload-video">Videos: <b>0</b></span>
-                                            <span class="upload-doc">Docs: <b>0</b></span>
+                                            <span class="upload-video">Videos: <b>@system.VideoCount</b></span>
+                                            <span class="upload-doc">Docs: <b>@system.DocCount</b></span>
                                         </div>
                                     </div>
                                 </div>
                             }
                         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         else
                         {
                             <div class="upload-list-new">
@@ -136,8 +106,6 @@
                                 </div>
                             </div>
                         }
-                        
-
                     </div>
 
                     <div class="vertical-line"
@@ -224,74 +192,7 @@
                                     </div>
                                 </div>
 
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/unread.svg" alt="read Icon" />
-                                        <span class="item-title">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/readIcon.svg" alt="read Icon" />
-                                        <span class="item-title">FlisTA User Manual for Apple Version</span>
-                                        <span class="item-meta">Technical</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button" data-pdf="Content/Assets/FliSTA User Manual for Apple version.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/readIcon.svg" alt="read Icon" />
-                                        <span class="item-title">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/unread.svg" alt="read Icon" />
-                                        <span class="item-title">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/readIcon.svg" alt="read Icon" />
-                                        <span class="item-title">FlisTA User Manual for Apple Version</span>
-                                        <span class="item-meta">Technical</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button" data-pdf="Content/Assets/FliSTA User Manual for Apple version.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/readIcon.svg" alt="read Icon" />
-                                        <span class="item-title">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/unread.svg" alt="read Icon" />
-                                        <span class="item-title">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
+                          
                             </div>
                         </div>
 
@@ -365,85 +266,7 @@
                                     </div>
                                 </div>
 
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/unread.svg" alt="read Icon" />
-                                        <span class="item-title1">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button1" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/readIcon.svg" alt="read Icon" />
-                                        <span class="item-title1">FlisTA User Manual for Apple Version</span>
-                                        <span class="item-meta">Technical</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button1" data-pdf="Content/Assets/FliSTA User Manual for Apple version.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/readIcon.svg" alt="read Icon" />
-                                        <span class="item-title1">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button1" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/unread.svg" alt="read Icon" />
-                                        <span class="item-title1">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button1" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/readIcon.svg" alt="read Icon" />
-                                        <span class="item-title1">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button1" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/unread.svg" alt="read Icon" />
-                                        <span class="item-title1">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button1" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/readIcon.svg" alt="read Icon" />
-                                        <span class="item-title1">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button1" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/unread.svg" alt="read Icon" />
-                                        <span class="item-title1">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button1" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
