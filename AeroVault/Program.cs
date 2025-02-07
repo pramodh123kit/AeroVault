@@ -107,9 +107,9 @@ namespace AeroVault
 
             app.MapControllerRoute(
                 name: "default",
-                //pattern: "{controller=Admin}/{action=Index}/{id?}");
-            //pattern: "{controller=userfilerepository}/{action=filerepository}/{id?}");
-            pattern: "{controller=login}/{action=index}/{id?}");
+            //pattern: "{controller=Admin}/{action=Index}/{id?}");
+            pattern: "{controller=userfilerepository}/{action=filerepository}/{id?}");
+            //pattern: "{controller=login}/{action=index}/{id?}");
             //pattern: "{controller=test}/{action=testconnection}/{id?}");
 
             app.Run();
