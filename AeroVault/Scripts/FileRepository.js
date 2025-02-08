@@ -2,7 +2,6 @@
     document.getElementById("department-list").style.display = "block";
 }
 
-
 function filterDepartments() {
     let input = document.getElementById("search-department");
     let filter = input.value.toLowerCase();
@@ -24,23 +23,17 @@ function filterUploads() {
     const items = document.querySelectorAll("#upload-list-container .upload-list-new");
 
     items.forEach(item => {
-        // Find the name element within the upload item
         const nameElement = item.querySelector(".upload-name-all");
-        if (nameElement) { // Check if the element exists
+        if (nameElement) {
             const name = nameElement.textContent.toLowerCase();
-            // Show or hide based on the filter
             item.style.display = name.includes(input) ? "" : "none";
         } else {
-            // If the name element is not found, hide the item
             item.style.display = "none";
         }
     });
 }
 
-
-
 document.addEventListener("DOMContentLoaded", () => {
-    // Update Document List
     const documentItems = document.querySelectorAll(".content-container.Document .item-list");
     documentItems.forEach((item, index) => {
         const titleElement = item.querySelector(".item-title");
@@ -49,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Update Video List
     const videoItems = document.querySelectorAll(".content-container.Video .item-list");
     videoItems.forEach((item, index) => {
         const titleElement = item.querySelector(".item-title1");
@@ -63,7 +55,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchBox = document.querySelector('.search-box input');
     const itemList = document.querySelectorAll('.item-list');
 
-    // Function to filter items based on search input
     function filterItems() {
         const searchQuery = searchBox.value.toLowerCase();
 
@@ -71,26 +62,22 @@ document.addEventListener("DOMContentLoaded", function () {
             const itemTitleElement = item.querySelector('.item-title');
             const itemTitle = itemTitleElement.textContent.toLowerCase();
 
-            // Check if the item title includes the search query
             if (itemTitle.includes(searchQuery)) {
-                item.style.display = "block"; // Show item if it matches
+                item.style.display = "block"; 
             } else {
-                item.style.display = "none"; // Hide item if it doesn't match
+                item.style.display = "none"; 
             }
         });
     }
 
-    // Listen for input in the search box
     searchBox.addEventListener("input", filterItems);
 });
-
 
 
 document.addEventListener("DOMContentLoaded", function () {
     const searchBox1 = document.querySelector('.search-box1 input');
     const itemList1 = document.querySelectorAll('.item-list1');
 
-    // Function to filter items based on search input
     function filterItems() {
         const searchQuery = searchBox1.value.toLowerCase();
 
@@ -98,27 +85,16 @@ document.addEventListener("DOMContentLoaded", function () {
             const itemTitleElement = item.querySelector('.item-title1');
             const itemTitle = itemTitleElement.textContent.toLowerCase();
 
-            // Check if the item title includes the search query
             if (itemTitle.includes(searchQuery)) {
-                item.style.display = "block"; // Show item if it matches
+                item.style.display = "block"; 
             } else {
-                item.style.display = "none"; // Hide item if it doesn't match
+                item.style.display = "none"; 
             }
         });
     }
 
-    // Listen for input in the search box
     searchBox1.addEventListener("input", filterItems);
 });
-
-
-
-
-
-
-
-
-
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -130,22 +106,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-
-
-
-
 document.addEventListener("DOMContentLoaded", function () {
     const uploadItems = document.querySelectorAll("#upload-list-container .upload-item");
     const titleElement = document.querySelector(".upload-title");
 
     uploadItems.forEach(item => {
         item.addEventListener("click", function (event) {
-            // Ensure the click is not on the tooltip or its icon
             const isTooltipOrIcon = event.target.classList.contains("systemIcon") ||
                 event.target.classList.contains("tooltip-des");
             if (isTooltipOrIcon) return;
 
-            // Retrieve the item name
             const itemName = item.querySelector(".upload-name-all").childNodes[0].textContent.trim();
             const updateAllUploadsCount = () => {
                 let totalVideos = 0;
@@ -161,42 +131,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             };
-            // Retrieve and sum "Videos" and "Docs" values
             const videosCount = parseInt(item.querySelector(".upload-video b").textContent) || 0;
             const docsCount = parseInt(item.querySelector(".upload-doc b").textContent) || 0;
             const totalCount = videosCount + docsCount;
 
-            // Update the title with item name and total count
             titleElement.textContent = `${itemName}`;
         });
     });
 
-    // Tooltip hover logic
     const icons = document.querySelectorAll('.systemIcon');
     icons.forEach((icon) => {
-        const tooltip = icon.nextElementSibling; // Get the sibling tooltip
+        const tooltip = icon.nextElementSibling;
         icon.addEventListener("mouseenter", () => {
             if (tooltip && tooltip.classList.contains("tooltip-des")) {
-                tooltip.style.display = "block"; // Show tooltip
+                tooltip.style.display = "block"; 
             }
         });
 
         icon.addEventListener("mouseleave", () => {
             if (tooltip && tooltip.classList.contains("tooltip-des")) {
-                tooltip.style.display = "none"; // Hide tooltip
+                tooltip.style.display = "none"; 
             }
         });
     });
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Get video and document counts
     const videoCount = parseInt(document.querySelector(".upload-item .upload-video b").textContent, 10);
     const docCount = parseInt(document.querySelector(".upload-item .upload-doc b").textContent, 10);
 
-    // Calculate the total count (recent count)
     const recentCount = videoCount + docCount;
-
 });
 
 function selectDepartment(element) {
@@ -204,6 +168,7 @@ function selectDepartment(element) {
     document.getElementById("department-list").style.display = "none";
     document.getElementById("selected-department").textContent = element.textContent;
 }
+
 let tooltipPersistent = false;
 
 function updateTooltip(listName, message) {
@@ -218,19 +183,19 @@ function toggleTooltipOnClick() {
         hideTooltip();
     } else {
         showTooltip();
-        tooltipPersistent = true; // Set persistent to true on click
+        tooltipPersistent = true; 
     }
 }
 
 function showTooltip() {
     const tooltip = document.getElementById('tooltip');
     tooltip.style.display = 'block';
-    tooltipPersistent = false; // Set to false to allow hover behavior
+    tooltipPersistent = false; 
 }
 
 function hideTooltip() {
     const tooltip = document.getElementById('tooltip');
-    if (!tooltipPersistent) { // Only hide if not in persistent mode
+    if (!tooltipPersistent) { 
         tooltip.style.display = 'none';
     }
 }
@@ -238,44 +203,31 @@ function hideTooltip() {
 function forceHideTooltip() {
     const tooltip = document.getElementById('tooltip');
     tooltip.style.display = 'none';
-    tooltipPersistent = false; // Reset persistent mode
+    tooltipPersistent = false; 
 }
 
-
-
-
-// Select all the icons with the class "systemIcon"
 const icons = document.querySelectorAll('.systemIcon');
 
-// Add hover event listeners to each icon
 icons.forEach((icon) => {
-    // Show tooltip on mouseenter
     icon.addEventListener('mouseenter', () => {
-        const tooltip = icon.nextElementSibling; // Get the tooltip element (sibling of the icon)
+        const tooltip = icon.nextElementSibling; 
         if (tooltip && tooltip.classList.contains('tooltip-des')) {
-            tooltip.style.display = 'block'; // Show the tooltip
+            tooltip.style.display = 'block'; 
         }
     });
 
-    // Hide tooltip on mouseleave
     icon.addEventListener('mouseleave', () => {
-        const tooltip = icon.nextElementSibling; // Get the tooltip element (sibling of the icon)
+        const tooltip = icon.nextElementSibling; 
         if (tooltip && tooltip.classList.contains('tooltip-des')) {
-            tooltip.style.display = 'none'; // Hide the tooltip
+            tooltip.style.display = 'none'; 
         }
     });
 });
-
-
-
-// Get all system icons
-
 
 function showDocuments() {
     document.getElementById("documentsSection").style.display = "block";
     document.getElementById("videosSection").style.display = "none";
 
-    // Set active button style
     document.querySelector(".tab-button.active").classList.remove("active");
     document.querySelector(".tab-container button:first-child").classList.add("active");
 }
@@ -284,12 +236,10 @@ function showVideos() {
     document.getElementById("documentsSection").style.display = "none";
     document.getElementById("videosSection").style.display = "block";
 
-    // Set active button style
     document.querySelector(".tab-button.active").classList.remove("active");
     document.querySelector(".tab-container button:last-child").classList.add("active");
 }
 
-// Show documents section by default on page load
 document.addEventListener("DOMContentLoaded", showDocuments);
 
 function showImage() {
@@ -301,112 +251,77 @@ function closeImagePopup() {
 }
 
 function resetFilters(sectionId) {
-    // Get the section to reset (Documents or Videos)
     const section = document.getElementById(sectionId);
 
-    // Reset all dropdowns within the section
     const dropdowns = section.querySelectorAll("select");
     dropdowns.forEach(dropdown => {
-        dropdown.selectedIndex = 0; // Reset to the first option (default)
+        dropdown.selectedIndex = 0; 
     });
 
-    // Clear all search boxes within the section
     const searchInputs = section.querySelectorAll("input[type='text']");
     searchInputs.forEach(input => {
-        input.value = ""; // Clear the input field
+        input.value = ""; 
     });
 }
 
 function showDocuments() {
-    // Show the documents section and hide the videos section
     document.getElementById("documentsSection").style.display = "block";
     document.getElementById("videosSection").style.display = "none";
 
-    // Reset filters for the documents section
     resetFilters("documentsSection");
 
-    // Update button states
     document.querySelector(".tab-button.active").classList.remove("active");
     document.querySelector(".tab-button.video-btn").classList.remove("active");
     document.querySelector(".tab-button:nth-child(1)").classList.add("active");
 }
 
 function showVideos() {
-    // Show the videos section and hide the documents section
     document.getElementById("documentsSection").style.display = "none";
     document.getElementById("videosSection").style.display = "block";
 
-    // Reset filters for the videos section
     resetFilters("videosSection");
 
-    // Update button states
     document.querySelector(".tab-button.active").classList.remove("active");
     document.querySelector(".tab-button.video-btn").classList.add("active");
 }
 function resetFilters(sectionId) {
-    // Get the section to reset (Documents or Videos)
     const section = document.getElementById(sectionId);
 
-    // Reset all dropdowns within the section
     const dropdowns = section.querySelectorAll("select");
     dropdowns.forEach(dropdown => {
-        dropdown.selectedIndex = 0; // Reset to the first option (default)
+        dropdown.selectedIndex = 0; 
     });
 
-    // Clear all search boxes within the section
     const searchInputs = section.querySelectorAll("input[type='text']");
     searchInputs.forEach(input => {
-        input.value = ""; // Clear the input field
+        input.value = ""; 
     });
 
-    // Show all items in the list
     const items = section.querySelectorAll(".item-list");
     items.forEach(item => {
-        item.style.display = "block"; // Make sure all items are visible
+        item.style.display = "block"; 
     });
 }
 
 function showDocuments() {
-    // Show the documents section and hide the videos section
     document.getElementById("documentsSection").style.display = "block";
     document.getElementById("videosSection").style.display = "none";
 
-    // Reset filters for the documents section
     resetFilters("documentsSection");
 
-    // Update button states
     document.querySelector(".tab-button.active").classList.remove("active");
     document.querySelector(".tab-button:nth-child(1)").classList.add("active");
 }
 
 function showVideos() {
-    // Show the videos section and hide the documents section
     document.getElementById("videosSection").style.display = "block";
     document.getElementById("documentsSection").style.display = "none";
 
-    // Reset filters for the videos section
     resetFilters("videosSection");
 
-    // Update button states
     document.querySelector(".tab-button.active").classList.remove("active");
     document.querySelector(".tab-button.video-btn").classList.add("active");
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function toggleCustomDropdown() {
     var dropdownContent = document.querySelector('.custom-dropdown-content');
@@ -436,38 +351,28 @@ function filterCustomOptions() {
     var input = document.getElementById('custom-search-input');
     var filter = input.value.toLowerCase();
     var div = document.querySelectorAll('.custom-dropdown-list div');
-    // Filter the dropdown options
     div.forEach(function (item) {
         var txtValue = item.textContent || item.innerText;
         item.style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
     });
-    // Call the function to filter the upload list
     filterUploadList(filter);
 }
-
-
-
-
-
 
 function filterUploadList(filter) {
     const uploadItems = document.querySelectorAll("#upload-list-container .upload-list-new");
 
     uploadItems.forEach(item => {
-        // Find the name element within the upload item
         const nameElement = item.querySelector(".upload-name-all");
-        if (nameElement) { // Check if the element exists
+        if (nameElement) { 
             const name = nameElement.textContent.toLowerCase();
-            // Show or hide based on the filter
             item.style.display = name.includes(filter) ? "" : "none";
         } else {
-            // If the name element is not found, you can choose to hide the item or keep it visible
-            item.style.display = "none"; // Hide the item if the name element is not found
+            item.style.display = "none"; 
         }
     });
 }
 
-let previouslySelectedItem = null; // Variable to keep track of the previously selected item
+let previouslySelectedItem = null; 
 
 function selectCustomOption(element) {
     var selectedOption = element.textContent || element.innerText;
@@ -487,17 +392,14 @@ function selectCustomOption(element) {
     });
     element.classList.add('active');
 
-    // Clear previous selections
     const uploadItems = document.querySelectorAll(".upload-list-new");
     uploadItems.forEach(uploadItem => {
-        uploadItem.style.backgroundColor = "white"; // Reset background color
-        uploadItem.querySelector(".upload-name-all").style.fontWeight = "normal"; // Reset font weight
+        uploadItem.style.backgroundColor = "white"; 
+        uploadItem.querySelector(".upload-name-all").style.fontWeight = "normal";
     });
 
-    // Get the selected department ID
     var departmentId = element.getAttribute('data-department-id');
 
-    // Fetch non-deleted systems for the selected department
     fetch(`/UserFileRepository/GetSystemsByDepartment?departmentId=${departmentId}`)
         .then(response => {
             if (!response.ok) {
@@ -507,11 +409,10 @@ function selectCustomOption(element) {
         })
         .then(systems => {
             const uploadListContainer = document.getElementById("upload-list-container");
-            uploadListContainer.innerHTML = ""; // Clear existing items
+            uploadListContainer.innerHTML = ""; 
 
-            // Show the image and hide the content section initially
             document.getElementById("system-selection-image").style.display = "block";
-            document.querySelector(".content-hidden").style.display = "none"; // Hide the content section
+            document.querySelector(".content-hidden").style.display = "none"; 
 
             if (systems.length === 0) {
                 // If no systems are found, display a message
@@ -520,7 +421,6 @@ function selectCustomOption(element) {
                 noSystemsMessage.textContent = "No Systems Found";
                 uploadListContainer.appendChild(noSystemsMessage);
             } else {
-                // If systems are found, render them
                 systems.forEach(system => {
                     const uploadItem = document.createElement("div");
                     uploadItem.className = "upload-list-new";
@@ -539,25 +439,19 @@ function selectCustomOption(element) {
                     `;
                     uploadListContainer.appendChild(uploadItem);
 
-                    // Add click event to load documents and videos for the selected system
                     uploadItem.addEventListener("click", function () {
-                        // Reset previously selected item if it exists
                         if (previouslySelectedItem) {
-                            previouslySelectedItem.style.backgroundColor = "white"; // Reset background color
-                            previouslySelectedItem.querySelector(".upload-name-all").style.fontWeight = "normal"; // Reset font weight
+                            previouslySelectedItem.style.backgroundColor = "white"; 
+                            previouslySelectedItem.querySelector(".upload-name-all").style.fontWeight = "normal"; 
                         }
 
-                        // Highlight the selected item
-                        this.style.backgroundColor = "#CFE5F2"; // Change background color
-                        this.querySelector(".upload-name-all").style.fontWeight = "bold"; // Bold the name
+                        this.style.backgroundColor = "#CFE5F2"; 
+                        this.querySelector(".upload-name-all").style.fontWeight = "bold"; 
 
-                        // Store the currently selected item
                         previouslySelectedItem = this;
 
-                        // Update the upload title with the selected system's name
                         document.querySelector(".upload-title").textContent = system.systemName;
 
-                        // Update the document and video counts in the tab buttons
                         const documentCountElement = document.querySelector(".document-btn .count");
                         const videoCountElement = document.querySelector(".video-btn .count");
 
@@ -566,12 +460,10 @@ function selectCustomOption(element) {
                             videoCountElement.textContent = system.videoCount;
                         }
 
-                        // Load documents and videos for the selected system
                         loadDocumentsAndVideos(system.systemID);
 
-                        // Hide the image and show the content section
                         document.getElementById("system-selection-image").style.display = "none";
-                        document.querySelector(".content-hidden").style.display = "block"; // Show the content section
+                        document.querySelector(".content-hidden").style.display = "block"; 
                     });
                 });
             }
@@ -586,17 +478,16 @@ function loadDocumentsAndVideos(systemID) {
         .then(response => response.json())
         .then(documents => {
             const documentContainer = document.querySelector(".scrollable-item-list.content-container.Document");
-            documentContainer.innerHTML = ""; // Clear existing documents
+            documentContainer.innerHTML = ""; 
 
             if (documents.length === 0) {
-                // If no documents are found, display a message
                 const noDocumentsMessage = document.createElement("div");
                 noDocumentsMessage.className = "no-documents-found";
                 noDocumentsMessage.textContent = "No Documents Found";
                 documentContainer.appendChild(noDocumentsMessage);
             } else {
                 documents.forEach(doc => {
-                    const fileNameWithoutExtension = doc.fileName.split('.').slice(0, -1).join('.'); // Remove the extension
+                    const fileNameWithoutExtension = doc.fileName.split('.').slice(0, -1).join('.'); 
                     const docItem = document.createElement("div");
                     docItem.className = "item-list";
                     docItem.innerHTML = `
@@ -604,7 +495,7 @@ function loadDocumentsAndVideos(systemID) {
                             <span class="item-title">${fileNameWithoutExtension}</span>
                             <span class="item-meta">${doc.fileCategory}</span>
                             <span class="item-date">${new Date(doc.addedDate).toLocaleDateString()}</span>
-                            <button class="action-button" data-pdf="${doc.filePath}">View</button>
+                            <button class="action-button">View</button>
                         </div>
                     `;
                     documentContainer.appendChild(docItem);
@@ -612,22 +503,20 @@ function loadDocumentsAndVideos(systemID) {
             }
         });
 
-    // Fetch videos
     fetch(`/UserFileRepository/GetVideosBySystem?systemId=${systemID}`)
         .then(response => response.json())
         .then(videos => {
             const videoContainer = document.querySelector(".scrollable-item-list.content-container.Video");
-            videoContainer.innerHTML = ""; // Clear existing videos
+            videoContainer.innerHTML = ""; 
 
             if (videos.length === 0) {
-                // If no videos are found, display a message
                 const noVideosMessage = document.createElement("div");
                 noVideosMessage.className = "no-videos-found";
                 noVideosMessage.textContent = "No Videos Found";
                 videoContainer.appendChild(noVideosMessage);
             } else {
                 videos.forEach(video => {
-                    const fileNameWithoutExtension = video.fileName.split('.').slice(0, -1).join('.'); // Remove the extension
+                    const fileNameWithoutExtension = video.fileName.split('.').slice(0, -1).join('.'); 
                     const videoItem = document.createElement("div");
                     videoItem.className = "item-list";
                     videoItem.innerHTML = `
@@ -635,7 +524,7 @@ function loadDocumentsAndVideos(systemID) {
                             <span class="item-title1">${fileNameWithoutExtension}</span> 
                             <span class="item-meta">${video.fileCategory}</span> 
                             <span class="item-date">${new Date(video.addedDate).toLocaleDateString()}</span>
-                            <button class="action-button1" data-pdf="${video.filePath}">View</button>
+                            <button class="action-button1">View</button>
                         </div>
                     `;
                     videoContainer.appendChild(videoItem);
@@ -646,8 +535,6 @@ function loadDocumentsAndVideos(systemID) {
             console.error("Error fetching videos:", error);
         });
 }
-
-
 
 document.addEventListener("DOMContentLoaded", function () {
     var defaultDepartment = document.getElementById('selected-option').textContent;
@@ -670,7 +557,6 @@ document.getElementById('custom-search-input').addEventListener('blur', function
     selector.style.border = '1px solid #6D6D6D';
 });
 
-
 document.addEventListener("DOMContentLoaded", function () {
     const customSearchInput = document.getElementById('custom-search-input');
     if (customSearchInput) {
@@ -683,7 +569,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-
 window.onclick = function (event) {
     const dropdownContent = document.querySelector('.filter-category-status-dropdown-content');
     const selector = document.querySelector('.filter-category-status-selector');
@@ -693,17 +578,6 @@ window.onclick = function (event) {
     const dropdownButton = document.querySelector('.category-dropdown-button');
     const dropdownSelector = document.querySelector('.category-dropdown-selector');
 
-
-
-    const overlay = document.getElementById('pdf-overlay');
-    if (event.target === overlay) {
-        overlay.style.display = 'none';
-        document.getElementById('pdf-frame').src = ''; // Clear the src to stop the PDF from loading
-    }
-
-
-
-    // Check if the click is outside the filter-category dropdown
     if (!event.target.matches('.filter-category-status-dropdown-toggle') && !event.target.matches('.filter-category-status-dropdown-toggle *')) {
         if (dropdownContent.style.display === 'block') {
             dropdownContent.style.display = 'none';
@@ -714,7 +588,6 @@ window.onclick = function (event) {
         }
     }
 
-    // Check if the click is outside the custom dropdown
     if (!event.target.matches('.custom-dropdown-toggle') && !event.target.matches('.custom-dropdown-toggle *') && !event.target.matches('#custom-search-input')) {
         if (customDropdownContent.style.display === 'block') {
             customDropdownContent.style.display = 'none';
@@ -725,7 +598,6 @@ window.onclick = function (event) {
         }
     }
 
-    // Check if the click is outside the category dropdown
     if (!event.target.matches('.category-dropdown-button') && !event.target.matches('.category-dropdown-button *')) {
         if (dropdownListContainer.style.display === 'block') {
             dropdownListContainer.style.display = 'none';
@@ -736,21 +608,12 @@ window.onclick = function (event) {
         }
     }
 
-
-
-
-
-
-
-
     const dropdownContent1 = document.querySelector('.filter-category-status-dropdown-content1');
     const selector1 = document.querySelector('.filter-category-status-selector1');
     const dropdownListContainer1 = document.querySelector('.category-dropdown-list-container1');
     const dropdownButton1 = document.querySelector('.category-dropdown-button1');
     const dropdownSelector1 = document.querySelector('.category-dropdown-selector1');
 
-
-    // Check if the click is outside the filter-category dropdown
     if (!event.target.matches('.filter-category-status-dropdown-toggle1') && !event.target.matches('.filter-category-status-dropdown-toggle1 *')) {
         if (dropdownContent1.style.display === 'block') {
             dropdownContent1.style.display = 'none';
@@ -761,7 +624,6 @@ window.onclick = function (event) {
         }
     }
 
-    // Check if the click is outside the category dropdown
     if (!event.target.matches('.category-dropdown-button1') && !event.target.matches('.category-dropdown-button1 *')) {
         if (dropdownListContainer1.style.display === 'block') {
             dropdownListContainer1.style.display = 'none';
@@ -772,31 +634,6 @@ window.onclick = function (event) {
         }
     }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 document.addEventListener("DOMContentLoaded", function () {
     const uploadItems = document.querySelectorAll(".upload-list-new");
@@ -813,16 +650,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const itemName = item.querySelector(".upload-name-all").childNodes[0].textContent.trim();
         });
     });
-
-
 });
-
-
-
-
-
-
-
 
 function filterCategoryToggleStatusDropdown() {
     var dropdownContent = document.querySelector('.filter-category-status-dropdown-content');
@@ -851,13 +679,13 @@ function filterDocumentsByStatus(status) {
         const iconSrc = item.querySelector('.read-icon').getAttribute('src');
 
         if (status === "All (Read / Unread)") {
-            item.style.display = "block"; // Show all items
+            item.style.display = "block"; 
         } else if (status === "Read" && iconSrc.includes("readIcon.svg")) {
-            item.style.display = "block"; // Show only read items
+            item.style.display = "block"; 
         } else if (status === "Pending" && iconSrc.includes("unread.svg")) {
-            item.style.display = "block"; // Show only pending items
+            item.style.display = "block";
         } else {
-            item.style.display = "none"; // Hide other items
+            item.style.display = "none"; 
         }
     });
 }
@@ -888,150 +716,72 @@ function filterCategorySelectStatusOption(element) {
 }
 
 
-
-
 function toggleFilterCategoryDropdown() {
-
     var dropdownContent = document.querySelector('.filter-category-dropdown-content');
-
     var dropdownToggle = document.querySelector('.filter-category-dropdown-toggle');
-
     var selector = document.querySelector('.filter-category-selector');
-
 
     if (dropdownContent.style.display === 'block') {
-
         dropdownContent.style.display = 'none';
-
         dropdownToggle.classList.remove('open');
 
-
         selector.style.borderBottomLeftRadius = '10px';
-
         selector.style.borderBottomRightRadius = '10px';
-
         selector.style.borderBottom = '1px solid #6D6D6D';
-
     } else {
-
         dropdownContent.style.display = 'block';
-
         dropdownToggle.classList.add('open');
 
-
         selector.style.borderBottomLeftRadius = '0';
-
         selector.style.borderBottomRightRadius = '0';
-
         selector.style.borderBottom = 'none';
-
         document.getElementById('filter-category-search-input').value = '';
-
         showAllFilterCategoryOptions();
-
     }
-
 }
-
-
 function filterCategoryOptions() {
-
     var input, filter, div, i, txtValue;
-
     input = document.getElementById('filter-category-search-input');
-
     filter = input.value.toUpperCase();
-
     div = document.querySelectorAll('.filter-category-dropdown-list div');
-
     for (i = 0; i < div.length; i++) {
-
         txtValue = div[i].textContent || div[i].innerText;
-
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
-
             div[i].style.display = "";
-
         } else {
-
             div[i].style.display = "none";
-
         }
-
     }
-
 }
-
 function selectFilterCategoryOption(element) {
-
     var selectedCategory = element.textContent || element.innerText;
-
     document.getElementById('selected-filter-category').textContent = selectedCategory;
-
     document.querySelector('.filter-category-dropdown-content').style.display = 'none';
-
     document.querySelector('.filter-category-dropdown-toggle').classList.remove('open');
 
-
     var selector = document.querySelector('.filter-category-selector');
-
     selector.style.borderBottomLeftRadius = '10px';
-
     selector.style.borderBottomRightRadius = '10px';
-
     selector.style.borderBottom = '1px solid #6D6D6D';
 
-
     var divs = document.querySelectorAll('.filter-category-dropdown-list div');
-
     divs.forEach(function (div) {
-
         div.classList.remove('active');
-
     });
-
     element.classList.add('active');
-
 }
-
-
 function showAllFilterCategoryOptions() {
-
     var divs = document.querySelectorAll('.filter-category-dropdown-list div');
-
     divs.forEach(function (div) {
-
         div.style.display = "";
-
     });
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function toggleCategoryDropdownUnique() {
     var dropdownListContainer = document.querySelector('.category-dropdown-list-container');
     var dropdownButton = document.querySelector('.category-dropdown-button');
     var dropdownSelector = document.querySelector('.category-dropdown-selector');
 
-    // Toggle dropdown visibility
     if (dropdownListContainer.style.display === 'block') {
         dropdownListContainer.style.display = 'none';
         dropdownButton.classList.remove('open');
@@ -1047,11 +797,9 @@ function toggleCategoryDropdownUnique() {
         dropdownSelector.style.borderBottomRightRadius = '0';
         dropdownSelector.style.borderBottom = 'none';
 
-        // Do not reset the selected category when opening the dropdown
         showAllCategoryOptionsUnique();
     }
 }
-
 
 function filterDocumentsByCategory(category) {
     const documentItems = document.querySelectorAll(".content-container.Document .item-list");
@@ -1060,11 +808,11 @@ function filterDocumentsByCategory(category) {
         const categoryMeta = item.querySelector('.item-meta').textContent.trim();
 
         if (category === "All Categories") {
-            item.style.display = "block"; // Show all items
+            item.style.display = "block"; 
         } else if (category === categoryMeta) {
-            item.style.display = "block"; // Show only items that match the selected category
+            item.style.display = "block"; 
         } else {
-            item.style.display = "none"; // Hide other items
+            item.style.display = "none"; 
         }
     });
 }
@@ -1073,112 +821,54 @@ function selectCategoryOptionUnique(element) {
     var selectedCategory = element.textContent || element.innerText;
     document.getElementById('selected-category-unique').textContent = selectedCategory;
 
-    // Close the dropdown
     document.querySelector('.category-dropdown-list-container').style.display = 'none';
     document.querySelector('.category-dropdown-button').classList.remove('open');
 
-    // Reset styles
     var dropdownSelector = document.querySelector('.category-dropdown-selector');
     dropdownSelector.style.borderBottomLeftRadius = '10px';
     dropdownSelector.style.borderBottomRightRadius = '10px';
     dropdownSelector.style.borderBottom = '1px solid #6D6D6D';
 
-    // Remove active class from all options
     var divs = document.querySelectorAll('.category-list div');
     divs.forEach(function (div) {
         div.classList.remove('active-category');
     });
     element.classList.add('active-category');
 
-    // Call the filtering function
     filterDocumentsByCategory(selectedCategory);
 }
 
-
 function showAllCategoryOptionsUnique() {
-
     var categoryItems = document.querySelectorAll('.category-list div');
-
     categoryItems.forEach(function (item) {
-
         item.style.display = "";
-
     });
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// VIDEO I THINK 
-
-
-
 
 function filterCategoryToggleStatusDropdown1() {
-
     var dropdownContent = document.querySelector('.filter-category-status-dropdown-content1');
-
     var dropdownToggle = document.querySelector('.filter-category-status-dropdown-toggle1');
-
     var selector = document.querySelector('.filter-category-status-selector1');
 
-
     if (dropdownContent.style.display === 'block') {
-
         dropdownContent.style.display = 'none';
-
         dropdownToggle.classList.remove('open');
-
         selector.style.borderBottomLeftRadius = '10px';
-
         selector.style.borderBottomRightRadius = '10px';
-
         selector.style.borderBottom = '1px solid #6D6D6D';
-
     } else {
-
         dropdownContent.style.display = 'block';
-
         dropdownToggle.classList.add('open');
-
         selector.style.borderBottomLeftRadius = '0';
-
         selector.style.borderBottomRightRadius = '0';
-
         selector.style.borderBottom = 'none';
-
     }
-
 }
-
-
 function toggleCategoryDropdownUnique1() {
     var dropdownListContainer = document.querySelector('.category-dropdown-list-container1');
     var dropdownButton = document.querySelector('.category-dropdown-button1');
     var dropdownSelector = document.querySelector('.category-dropdown-selector1');
 
-    // Toggle dropdown visibility
     if (dropdownListContainer.style.display === 'block') {
         dropdownListContainer.style.display = 'none';
         dropdownButton.classList.remove('open');
@@ -1194,92 +884,50 @@ function toggleCategoryDropdownUnique1() {
         dropdownSelector.style.borderBottomRightRadius = '0';
         dropdownSelector.style.borderBottom = 'none';
 
-        // Do not reset the selected category when opening the dropdown
         showAllCategoryOptionsUnique();
     }
 }
 
 function filterCategorySelectStatusOption1(element) {
-
     var selectedStatus = element.textContent || element.innerText;
-
     document.getElementById('filter-category-selected-status1').textContent = selectedStatus;
 
-
-    // Close the dropdown
-
     document.querySelector('.filter-category-status-dropdown-content1').style.display = 'none';
-
     document.querySelector('.filter-category-status-dropdown-toggle1').classList.remove('open');
 
-
-    // Reset styles
-
     var selector = document.querySelector('.filter-category-status-selector1');
-
     selector.style.borderBottomLeftRadius = '10px';
-
     selector.style.borderBottomRightRadius = '10px';
-
     selector.style.borderBottom = '1px solid #6D6D6D';
 
-
-    // Remove active class from all options
-
     var divs = document.querySelectorAll('.filter-category-status-dropdown-list1 div');
-
     divs.forEach(function (div) {
-
         div.classList.remove('active');
-
     });
-
     element.classList.add('active');
-
-
-    // Call the filtering function
-
     filterVideosByStatus(selectedStatus);
-
 }
-
-
-
 
 function selectCategoryOptionUnique1(element) {
     var selectedCategory = element.textContent || element.innerText;
     document.getElementById('selected-category-unique1').textContent = selectedCategory;
 
-    // Close the dropdown
     document.querySelector('.category-dropdown-list-container1').style.display = 'none';
     document.querySelector('.category-dropdown-button1').classList.remove('open');
 
-    // Reset styles
     var dropdownSelector = document.querySelector('.category-dropdown-selector1');
     dropdownSelector.style.borderBottomLeftRadius = '10px';
     dropdownSelector.style.borderBottomRightRadius = '10px';
     dropdownSelector.style.borderBottom = '1px solid #6D6D6D';
 
-    // Remove active class from all options
     var divs = document.querySelectorAll('.category-list1 div');
     divs.forEach(function (div) {
         div.classList.remove('active-category');
     });
     element.classList.add('active-category');
 
-    // Call the filtering function
     filterDocumentsByCategory(selectedCategory);
 }
-
-
-
-
-
-
-
-// VIDEO FUNCTIONS
-
-
 function filterCategoryToggleStatusDropdown1() {
     var dropdownContent = document.querySelector('.filter-category-status-dropdown-content1');
     var dropdownToggle = document.querySelector('.filter-category-status-dropdown-toggle1');
@@ -1304,192 +952,101 @@ function filterCategorySelectStatusOption1(element) {
     var selectedStatus = element.textContent || element.innerText;
     document.getElementById('filter-category-selected-status1').textContent = selectedStatus;
 
-    // Close the dropdown
     document.querySelector('.filter-category-status-dropdown-content1').style.display = 'none';
     document.querySelector('.filter-category-status-dropdown-toggle1').classList.remove('open');
 
-    // Reset styles
     var selector = document.querySelector('.filter-category-status-selector1');
     selector.style.borderBottomLeftRadius = '10px';
     selector.style.borderBottomRightRadius = '10px';
     selector.style.borderBottom = '1px solid #6D6D6D';
 
-    // Remove active class from all options
     var divs = document.querySelectorAll('.filter-category-status-dropdown-list1 div');
     divs.forEach(function (div) {
         div.classList.remove('active');
     });
     element.classList.add('active');
 
-    // Call the filtering function
     filterVideosByStatus(selectedStatus);
 }
-
 function toggleCategoryDropdownUnique1() {
-
     var dropdownListContainer = document.querySelector('.category-dropdown-list-container1');
-
     var dropdownButton = document.querySelector('.category-dropdown-button1');
-
     var dropdownSelector = document.querySelector('.category-dropdown-selector1');
 
-
-    // Toggle dropdown visibility
-
     if (dropdownListContainer.style.display === 'block') {
-
         dropdownListContainer.style.display = 'none';
-
         dropdownButton.classList.remove('open');
 
-
         dropdownSelector.style.borderBottomLeftRadius = '10px';
-
         dropdownSelector.style.borderBottomRightRadius = '10px';
-
         dropdownSelector.style.borderBottom = '1px solid #6D6D6D';
-
     } else {
-
         dropdownListContainer.style.display = 'block';
-
         dropdownButton.classList.add('open');
-
-
         dropdownSelector.style.borderBottomLeftRadius = '0';
-
         dropdownSelector.style.borderBottomRightRadius = '0';
-
         dropdownSelector.style.borderBottom = 'none';
-
-
-        // Do not reset the selected category when opening the dropdown
-
         showAllCategoryOptionsUnique1();
-
     }
-
 }
 
 function selectCategoryOptionUnique1(element) {
-
     var selectedCategory = element.textContent || element.innerText;
-
     document.getElementById('selected-category-unique1').textContent = selectedCategory;
 
-
-    // Close the dropdown
-
     document.querySelector('.category-dropdown-list-container1').style.display = 'none';
-
     document.querySelector('.category-dropdown-button1').classList.remove('open');
 
-
-    // Reset styles
-
     var dropdownSelector = document.querySelector('.category-dropdown-selector1');
-
     dropdownSelector.style.borderBottomLeftRadius = '10px';
-
     dropdownSelector.style.borderBottomRightRadius = '10px';
-
     dropdownSelector.style.borderBottom = '1px solid #6D6D6D';
 
-
-    // Remove active class from all options
-
     var divs = document.querySelectorAll('.category-list1 div');
-
     divs.forEach(function (div) {
-
         div.classList.remove('active-category');
-
     });
-
     element.classList.add('active-category');
-
-
-    // Call the filtering function
-
     filterVideosByCategory(selectedCategory);
-
 }
 
 function filterVideosByStatus(status) {
-
     const videoItems = document.querySelectorAll(".content-container.Video .item-list");
-
-
     videoItems.forEach(item => {
-
         const iconSrc = item.querySelector('.read-icon').getAttribute('src');
-
-
         if (status === "All (Read / Unread)") {
-
-            item.style.display = "block"; // Show all items
-
+            item.style.display = "block"; 
         } else if (status === "Read" && iconSrc.includes("readIcon.svg")) {
-
-            item.style.display = "block"; // Show only read items
-
+            item.style.display = "block"; 
         } else if (status === "Pending" && iconSrc.includes("unread.svg")) {
-
-            item.style.display = "block"; // Show only pending items
-
+            item.style.display = "block"; 
         } else {
-
-            item.style.display = "none"; // Hide other items
-
+            item.style.display = "none"; 
         }
-
     });
-
 }
 
 function filterVideosByCategory(category) {
-
     const videoItems = document.querySelectorAll(".content-container.Video .item-list");
-
-
     videoItems.forEach(item => {
-
         const categoryMeta = item.querySelector('.item-meta').textContent.trim();
 
-
         if (category === "All Categories") {
-
-            item.style.display = "block"; // Show all items
-
+            item.style.display = "block"; 
         } else if (category === categoryMeta) {
-
-            item.style.display = "block"; // Show only items that match the selected category
-
+            item.style.display = "block"; 
         } else {
-
-            item.style.display = "none"; // Hide other items
-
+            item.style.display = "none"; 
         }
-
     });
-
 }
-
 
 function showAllCategoryOptionsUnique1() {
-
     var categoryItems = document.querySelectorAll('.category-list1 div');
-
-
     categoryItems.forEach(function (item) {
-
         item.style.display = "";
-
     });
-
 }
-
-
 
 function filterVideoItems() {
     const searchBox = document.getElementById('file-search-video');
@@ -1503,7 +1060,6 @@ function filterVideoItems() {
     });
 }
 
-
 function filterDocumentItems() {
     const searchBox = document.getElementById('file-search');
     const searchQuery = searchBox.value.toLowerCase();
@@ -1515,86 +1071,3 @@ function filterDocumentItems() {
         item.style.display = title.includes(searchQuery) ? 'block' : 'none';
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    // Select all view buttons
-    const viewButtons = document.querySelectorAll(".action-button");
-
-    viewButtons.forEach(button => {
-        button.addEventListener("click", function () {
-            const pdfPath = this.getAttribute("data-pdf"); // Get the PDF path from the button's data attribute
-            const overlay = document.getElementById("overlay-pdf");
-            const pdfFrame = document.getElementById("pdf-frame");
-
-            // Set the iframe source to the PDF path
-            pdfFrame.src = pdfPath;
-
-            // Show the overlay
-            overlay.style.display = "flex";
-        });
-    });
-
-    // Close button logic
-    document.getElementById("close-button").addEventListener("click", function () {
-        const overlay = document.getElementById("overlay-pdf");
-        overlay.style.display = "none"; // Hide the overlay
-        const pdfFrame = document.getElementById("pdf-frame");
-        pdfFrame.src = ""; // Clear the src to stop the PDF from loading
-    });
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    // Select all view buttons
-    const viewButtons = document.querySelectorAll(".action-button1");
-
-    viewButtons.forEach(button => {
-        button.addEventListener("click", function () {
-            const pdfPath = this.getAttribute("data-pdf"); // Get the PDF path from the button's data attribute
-            const overlay = document.getElementById("overlay-pdf1");
-            const pdfFrame = document.getElementById("pdf-frame1");
-
-            // Set the iframe source to the PDF path
-            pdfFrame.src = pdfPath;
-
-            // Show the overlay
-            overlay.style.display = "flex";
-        });
-    });
-
-    // Close button logic
-    document.getElementById("close-button1").addEventListener("click", function () {
-        const overlay = document.getElementById("overlay-pdf1");
-        overlay.style.display = "none"; // Hide the overlay
-        const pdfFrame = document.getElementById("pdf-frame1");
-        pdfFrame.src = ""; // Clear the src to stop the PDF from loading
-    });
-});
