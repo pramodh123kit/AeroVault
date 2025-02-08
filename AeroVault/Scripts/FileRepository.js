@@ -496,7 +496,6 @@ function selectCustomOption(element) {
 
     // Get the selected department ID
     var departmentId = element.getAttribute('data-department-id');
-    console.log("Selected Department ID:", departmentId);
 
     // Fetch non-deleted systems for the selected department
     fetch(`/UserFileRepository/GetSystemsByDepartment?departmentId=${departmentId}`)
@@ -507,9 +506,12 @@ function selectCustomOption(element) {
             return response.json();
         })
         .then(systems => {
-            console.log("Fetched Systems:", systems);
             const uploadListContainer = document.getElementById("upload-list-container");
             uploadListContainer.innerHTML = ""; // Clear existing items
+
+            // Show the image and hide the content section initially
+            document.getElementById("system-selection-image").style.display = "block";
+            document.querySelector(".content-hidden").style.display = "none"; // Hide the content section
 
             if (systems.length === 0) {
                 // If no systems are found, display a message
@@ -520,7 +522,6 @@ function selectCustomOption(element) {
             } else {
                 // If systems are found, render them
                 systems.forEach(system => {
-                    console.log("Processing System:", system);
                     const uploadItem = document.createElement("div");
                     uploadItem.className = "upload-list-new";
                     uploadItem.innerHTML = `
@@ -567,6 +568,10 @@ function selectCustomOption(element) {
 
                         // Load documents and videos for the selected system
                         loadDocumentsAndVideos(system.systemID);
+
+                        // Hide the image and show the content section
+                        document.getElementById("system-selection-image").style.display = "none";
+                        document.querySelector(".content-hidden").style.display = "block"; // Show the content section
                     });
                 });
             }
@@ -583,42 +588,59 @@ function loadDocumentsAndVideos(systemID) {
             const documentContainer = document.querySelector(".scrollable-item-list.content-container.Document");
             documentContainer.innerHTML = ""; // Clear existing documents
 
-            documents.forEach(doc => {
-                const docItem = document.createElement("div");
-                docItem.className = "item-list";
-                docItem.innerHTML = `
-                    <div class="item-info">
-                        <span class="item-title">${doc.fileName}</span>
-                        <span class="item-meta">${doc.fileCategory}</span>
-                        <span class="item-date">${new Date(doc.addedDate).toLocaleDateString()}</span>
-                        <button class="action-button" data-pdf="${doc.filePath}">View</button>
-                    </div>
-                `;
-                documentContainer.appendChild(docItem);
-            });
+            if (documents.length === 0) {
+                // If no documents are found, display a message
+                const noDocumentsMessage = document.createElement("div");
+                noDocumentsMessage.className = "no-documents-found";
+                noDocumentsMessage.textContent = "No Documents Found";
+                documentContainer.appendChild(noDocumentsMessage);
+            } else {
+                documents.forEach(doc => {
+                    const fileNameWithoutExtension = doc.fileName.split('.').slice(0, -1).join('.'); // Remove the extension
+                    const docItem = document.createElement("div");
+                    docItem.className = "item-list";
+                    docItem.innerHTML = `
+                        <div class="item-info">
+                            <span class="item-title">${fileNameWithoutExtension}</span>
+                            <span class="item-meta">${doc.fileCategory}</span>
+                            <span class="item-date">${new Date(doc.addedDate).toLocaleDateString()}</span>
+                            <button class="action-button" data-pdf="${doc.filePath}">View</button>
+                        </div>
+                    `;
+                    documentContainer.appendChild(docItem);
+                });
+            }
         });
 
     // Fetch videos
     fetch(`/UserFileRepository/GetVideosBySystem?systemId=${systemID}`)
         .then(response => response.json())
         .then(videos => {
-
             const videoContainer = document.querySelector(".scrollable-item-list.content-container.Video");
             videoContainer.innerHTML = ""; // Clear existing videos
 
-            videos.forEach(video => { // Iterate over the videos array
-                const videoItem = document.createElement("div");
-                videoItem.className = "item-list";
-                videoItem.innerHTML = `
-                    <div class="item-info">
-                        <span class="item-title1">${video.fileName}</span> 
-                        <span class="item-meta">${video.fileCategory}</span> 
-                        <span class="item-date">${new Date(video.addedDate).toLocaleDateString()}</span>
-                        <button class="action-button1" data-pdf="${video.filePath}">View</button>
-                    </div >
-                `;
-                videoContainer.appendChild(videoItem);
-            });
+            if (videos.length === 0) {
+                // If no videos are found, display a message
+                const noVideosMessage = document.createElement("div");
+                noVideosMessage.className = "no-videos-found";
+                noVideosMessage.textContent = "No Videos Found";
+                videoContainer.appendChild(noVideosMessage);
+            } else {
+                videos.forEach(video => {
+                    const fileNameWithoutExtension = video.fileName.split('.').slice(0, -1).join('.'); // Remove the extension
+                    const videoItem = document.createElement("div");
+                    videoItem.className = "item-list";
+                    videoItem.innerHTML = `
+                        <div class="item-info">
+                            <span class="item-title1">${fileNameWithoutExtension}</span> 
+                            <span class="item-meta">${video.fileCategory}</span> 
+                            <span class="item-date">${new Date(video.addedDate).toLocaleDateString()}</span>
+                            <button class="action-button1" data-pdf="${video.filePath}">View</button>
+                        </div>
+                    `;
+                    videoContainer.appendChild(videoItem);
+                });
+            }
         })
         .catch(error => {
             console.error("Error fetching videos:", error);
@@ -1470,24 +1492,28 @@ function showAllCategoryOptionsUnique1() {
 
 
 function filterVideoItems() {
-
     const searchBox = document.getElementById('file-search-video');
-
     const searchQuery = searchBox.value.toLowerCase();
-
     const videoItems = document.querySelectorAll('.content-container.Video .item-list');
 
+    videoItems.forEach(item => {
+        const titleElement = item.querySelector('.item-title1');
+        const title = titleElement.textContent.toLowerCase();
+        item.style.display = title.includes(searchQuery) ? 'block' : 'none';
+    });
+}
+
+
+function filterDocumentItems() {
+    const searchBox = document.getElementById('file-search');
+    const searchQuery = searchBox.value.toLowerCase();
+    const videoItems = document.querySelectorAll('.content-container.Document .item-list');
 
     videoItems.forEach(item => {
-
-        const titleElement = item.querySelector('.item-title1');
-
+        const titleElement = item.querySelector('.item-title');
         const title = titleElement.textContent.toLowerCase();
-
         item.style.display = title.includes(searchQuery) ? 'block' : 'none';
-
     });
-
 }
 
 
