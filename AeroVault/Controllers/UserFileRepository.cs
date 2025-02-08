@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AeroVault.Business;
 using AeroVault.Models;
+using AeroVault.Data;
 
 namespace AeroVault.Controllers
 {
+
     public class UserFileRepository : Controller
     {
         private readonly FileRepositoryBl _fileRepositoryBl;
@@ -15,38 +17,30 @@ namespace AeroVault.Controllers
 
         public IActionResult FileRepository()
         {
-            // Fetch active departments
-            List<DepartmentModel> departments = _fileRepositoryBl.GetActiveDepartments();
-
-            // Get systems for the first department (or default)
-            List<SystemModel> systems = departments.Any()
-                ? _fileRepositoryBl.GetSystemsByDepartment(departments.First().DepartmentID)
-                : new List<SystemModel>();
-
-            // Pass departments and systems to the view
-            ViewBag.Departments = departments;
-            ViewBag.Systems = systems;
-
-            // Set the default department name
-            ViewBag.DefaultDepartment = departments.Any() ? departments.First().DepartmentName : "No Departments Found";
-
+            var departments = _fileRepositoryBl.GetDepartments();
+            ViewBag.Departments = departments; 
             return View("~/Views/User/UserFileRepository/FileRepository.cshtml");
         }
 
         [HttpGet]
         public IActionResult GetSystemsByDepartment(int departmentId)
         {
-            var systems = _fileRepositoryBl.GetSystemsByDepartment(departmentId);
-            return Json(systems);
+            var systems = _fileRepositoryBl.GetNonDeletedSystemsByDepartment(departmentId);
+            return Json(systems); 
         }
-
 
         [HttpGet]
-        public IActionResult GetFilesBySystem(int systemId)
+        public IActionResult GetDocumentsBySystem(int systemId)
         {
-            var files = _fileRepositoryBl.GetFilesBySystem(systemId);
-            return Json(files);
+            var documents = _fileRepositoryBl.GetDocumentsBySystem(systemId);
+            return Json(documents);
+        }
+
+        [HttpGet]
+        public IActionResult GetVideosBySystem(int systemId)
+        {
+            var videos = _fileRepositoryBl.GetVideosBySystem(systemId);
+            return Json(videos);
         }
     }
-
 }
