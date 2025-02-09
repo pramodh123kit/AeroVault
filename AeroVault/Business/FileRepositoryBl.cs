@@ -32,5 +32,10 @@ namespace AeroVault.Business
         {
             return _fileRepositoryDl.GetVideosBySystem(systemId);
         }
+
+        public string GetBasePath()
+        {
+            return _fileRepositoryDl.GetBasePath();
+        }
     }
 }

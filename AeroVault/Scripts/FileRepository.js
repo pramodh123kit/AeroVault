@@ -478,7 +478,7 @@ function loadDocumentsAndVideos(systemID) {
         .then(response => response.json())
         .then(documents => {
             const documentContainer = document.querySelector(".scrollable-item-list.content-container.Document");
-            documentContainer.innerHTML = ""; 
+            documentContainer.innerHTML = "";
 
             if (documents.length === 0) {
                 const noDocumentsMessage = document.createElement("div");
@@ -487,7 +487,7 @@ function loadDocumentsAndVideos(systemID) {
                 documentContainer.appendChild(noDocumentsMessage);
             } else {
                 documents.forEach(doc => {
-                    const fileNameWithoutExtension = doc.fileName.split('.').slice(0, -1).join('.'); 
+                    const fileNameWithoutExtension = doc.fileName.split('.').slice(0, -1).join('.');
                     const docItem = document.createElement("div");
                     docItem.className = "item-list";
                     docItem.innerHTML = `
@@ -495,7 +495,7 @@ function loadDocumentsAndVideos(systemID) {
                             <span class="item-title">${fileNameWithoutExtension}</span>
                             <span class="item-meta">${doc.fileCategory}</span>
                             <span class="item-date">${new Date(doc.addedDate).toLocaleDateString()}</span>
-                            <button class="action-button">View</button>
+                            <button class="action-button" onclick="viewFile('${doc.fileName}', '${doc.uniqueFileIdentifier}')">View</button>
                         </div>
                     `;
                     documentContainer.appendChild(docItem);
@@ -503,11 +503,12 @@ function loadDocumentsAndVideos(systemID) {
             }
         });
 
+    // Fetch videos
     fetch(`/UserFileRepository/GetVideosBySystem?systemId=${systemID}`)
         .then(response => response.json())
         .then(videos => {
             const videoContainer = document.querySelector(".scrollable-item-list.content-container.Video");
-            videoContainer.innerHTML = ""; 
+            videoContainer.innerHTML = "";
 
             if (videos.length === 0) {
                 const noVideosMessage = document.createElement("div");
@@ -516,7 +517,7 @@ function loadDocumentsAndVideos(systemID) {
                 videoContainer.appendChild(noVideosMessage);
             } else {
                 videos.forEach(video => {
-                    const fileNameWithoutExtension = video.fileName.split('.').slice(0, -1).join('.'); 
+                    const fileNameWithoutExtension = video.fileName.split('.').slice(0, -1).join('.');
                     const videoItem = document.createElement("div");
                     videoItem.className = "item-list";
                     videoItem.innerHTML = `
@@ -524,7 +525,7 @@ function loadDocumentsAndVideos(systemID) {
                             <span class="item-title1">${fileNameWithoutExtension}</span> 
                             <span class="item-meta">${video.fileCategory}</span> 
                             <span class="item-date">${new Date(video.addedDate).toLocaleDateString()}</span>
-                            <button class="action-button1">View</button>
+                            <button class="action-button1" onclick="viewFile('${video.fileName}', '${video.uniqueFileIdentifier}')">View</button>
                         </div>
                     `;
                     videoContainer.appendChild(videoItem);
@@ -1070,4 +1071,62 @@ function filterDocumentItems() {
         const title = titleElement.textContent.toLowerCase();
         item.style.display = title.includes(searchQuery) ? 'block' : 'none';
     });
+}
+
+function viewFile(fileName, uniqueIdentifier) {
+    const overlayPdf = document.getElementById('overlay-pdf');
+    const pdfFrame = document.getElementById('pdf-frame');
+    const closePdfButton = document.getElementById('close-pdf-button-filerepo');
+    const darkOverlay = document.getElementById('dark-overlay8');
+    const loadingIndicator = document.getElementById('pdf-loading-indicator');
+    const fileNameDisplay = document.getElementById('file-name-display');
+
+    fileNameDisplay.textContent = fileName;
+
+    fetch(`/UserFileRepository/FindFile?fileName=${encodeURIComponent(fileName)}&uniqueIdentifier=${encodeURIComponent(uniqueIdentifier)}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.foundFileName) {
+                const fileUrl = `/UserFileRepository/ViewFile?fileName=${encodeURIComponent(data.foundFileName)}`;
+
+                loadingIndicator.style.display = 'block';
+                pdfFrame.style.display = 'none';
+
+                pdfFrame.src = fileUrl;
+
+                pdfFrame.onload = function () {
+                    loadingIndicator.style.display = 'none';
+                    pdfFrame.style.display = 'block';
+                };
+
+                overlayPdf.style.display = 'flex';
+                darkOverlay.style.display = 'block';
+            } else {
+                alert('File not found. Please check the file name.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while trying to view the file.');
+        });
+
+    const closePdfButtonHandler = function () {
+        overlayPdf.style.display = 'none';
+        darkOverlay.style.display = 'none';
+        pdfFrame.src = ''; 
+        loadingIndicator.style.display = 'none';
+    };
+
+    closePdfButton.addEventListener('click', closePdfButtonHandler);
+
+    darkOverlay.onclick = function (event) {
+        if (event.target === darkOverlay) {
+            closePdfButtonHandler();
+        }
+    };
 }
