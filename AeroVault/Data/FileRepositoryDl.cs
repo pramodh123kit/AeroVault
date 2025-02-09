@@ -9,10 +9,12 @@ namespace AeroVault.Data
     public class FileRepositoryDl
     {
         private readonly string _connectionString;
+        private readonly IConfiguration _configuration;
 
         public FileRepositoryDl(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
+            _configuration = configuration; 
         }
         public List<DepartmentModel> GetNonDeletedDepartments()
         {
@@ -73,58 +75,123 @@ namespace AeroVault.Data
 
 
         public List<FileModel> GetDocumentsBySystem(int systemId)
+
         {
+
             using (var connection = new OracleConnection(_connectionString))
+
             {
+
                 connection.Open();
-                var command = new OracleCommand("SELECT * FROM Files WHERE SystemID = :systemId AND FileType = 'Document' AND IS_DELETED = 0", connection);
+
+                var command = new OracleCommand(@"
+
+            SELECT FileID, SystemID, FileName, FileType, FileCategory, Added_Date, UniqueFileIdentifier 
+
+            FROM Files 
+
+            WHERE SystemID = :systemId AND FileType = 'Document' AND IS_DELETED = 0", connection);
+
                 command.Parameters.Add(new OracleParameter("systemId", systemId));
+
                 var reader = command.ExecuteReader();
+
 
                 var documents = new List<FileModel>();
+
                 while (reader.Read())
+
                 {
+
                     documents.Add(new FileModel
+
                     {
+
                         FileID = reader.GetInt32(0),
+
                         SystemID = reader.GetInt32(1),
+
                         FileName = reader.GetString(2),
+
                         FileType = reader.GetString(3),
+
                         FileCategory = reader.GetString(4),
-                        // Correctly retrieve the date
+
                         AddedDate = reader.IsDBNull(5) ? (DateTime?)null : reader.GetOracleDate(5).Value,
-                        // Add other properties as needed
+
+                        UniqueFileIdentifier = reader.GetString(6) // Ensure this is included
+
                     });
+
                 }
+
                 return documents;
+
             }
+
         }
 
+
         public List<FileModel> GetVideosBySystem(int systemId)
+
         {
+
             using (var connection = new OracleConnection(_connectionString))
+
             {
+
                 connection.Open();
-                var command = new OracleCommand("SELECT * FROM Files WHERE SystemID = :systemId AND FileType = 'Video' AND IS_DELETED = 0", connection);
+
+                var command = new OracleCommand(@"
+
+            SELECT FileID, SystemID, FileName, FileType, FileCategory, Added_Date, UniqueFileIdentifier 
+
+            FROM Files 
+
+            WHERE SystemID = :systemId AND FileType = 'Video' AND IS_DELETED = 0", connection);
+
                 command.Parameters.Add(new OracleParameter("systemId", systemId));
+
                 var reader = command.ExecuteReader();
 
+
                 var videos = new List<FileModel>();
+
                 while (reader.Read())
+
                 {
+
                     videos.Add(new FileModel
+
                     {
+
                         FileID = reader.GetInt32(0),
+
                         SystemID = reader.GetInt32(1),
-                        FileName = reader.GetString(2), // Ensure this is the correct column for the file name
-                        FileType = reader.GetString(3), // Ensure this is the correct column for the file type
-                        FileCategory = reader.GetString(4), // Ensure this is the correct column for the file category
+
+                        FileName = reader.GetString(2),
+
+                        FileType = reader.GetString(3),
+
+                        FileCategory = reader.GetString(4),
+
                         AddedDate = reader.IsDBNull(5) ? (DateTime?)null : reader.GetOracleDate(5).Value,
-                        // Add other properties as needed
+
+                        UniqueFileIdentifier = reader.GetString(6) // Ensure this is included
+
                     });
+
                 }
+
                 return videos;
+
             }
+
+        }
+
+        public string GetBasePath()
+        {
+            return _configuration["FileSettings:BasePath"];
         }
     }
 }
