@@ -1228,3 +1228,7 @@ th {
         font-size: 1.2em; /* Increase icon size */
     }
 }
+
+.no-systems {
+    margin-left:20px;
+}

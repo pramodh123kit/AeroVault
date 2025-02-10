@@ -5,11 +5,10 @@
     document.getElementById('staff-reviewtab').classList.remove('active');
 
     const imageContainer = document.querySelector('.image-container');
-    if (imageContainer) {
-        imageContainer.style.display = 'flex'; 
-    }
+    const systemReviewTable = document.getElementById('system-review-table');
 
-    document.getElementById('system-review-table').style.display = 'none';
+    imageContainer.style.display = 'flex';
+    systemReviewTable.style.display = 'none';
 }
 
 function showStaffView() {
@@ -21,10 +20,9 @@ function showStaffView() {
     document.getElementById('staffAfterSearch').style.display = 'none';
     document.getElementById('staffcontentLayout').style.display = 'none';
 
-    // Show the image when Staff View is active
     const pcImage = document.querySelector('.staff-view-image');
     if (pcImage) {
-        pcImage.style.display = 'block'; // Show the image
+        pcImage.style.display = 'block'; 
     }
 }
 
@@ -81,34 +79,27 @@ function loadReviewContent(systemName, department) {
 
     department.classList.add('active');
 
-    // Fetch files for the selected system
     fetch(`/Review/GetFilesBySystem?systemId=${department.dataset.systemId}`)
         .then(response => response.json())
         .then(data => {
-            console.log("Fetched files:", data); // Log the fetched files
             populateFilesTable(data);
         })
-        .catch(error => console.error('Error fetching files:', error)); // Log any errors
+        .catch(error => console.error('Error fetching files:', error)); 
 }
 
 
 function populateFilesTable(files) {
     const tableBody = document.querySelector('#fileTableUnique tbody');
-    tableBody.innerHTML = ''; // Clear existing rows
-
-    // Log the file names to the console
-    console.log("Files for the selected system:", files);
+    tableBody.innerHTML = ''; 
 
     files.forEach(file => {
         const row = document.createElement('tr');
 
-        // Determine the icon based on the file type
         const icon = file.fileType === 'Video'
             ? '/Content/Assets/system-video-icon.svg'
             : '/Content/Assets/system-file-icon.svg';
 
-        // Set the category based on the fileCategory property
-        const category = file.fileCategory === 'Training' ? 'Training' : 'Technical'; // Adjust as needed
+        const category = file.fileCategory === 'Training' ? 'Training' : 'Technical'; 
 
         row.innerHTML = `
             <td><img src="${icon}" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> ${file.fileName}</td>
@@ -164,7 +155,6 @@ function searchTableUnique() {
         }
     }
 }
-
 
 function closePopup() {
     var popup = document.querySelector('.readUsers-container');
@@ -228,7 +218,6 @@ function sortTable(n) {
         }
     }
 }
-
 
 function pendingUsersSearchTable() {
     var input, filter, table, tr, td, i, j, txtValue;
@@ -294,22 +283,13 @@ function pendingUsersSortTable(n) {
 }
 
 function staffViewPerformSearch() {
-
     document.getElementById('system-view').style.display = 'none';
-
     document.getElementById('staff-view').style.display = 'flex';
-
     document.getElementById('staffAfterSearch').style.display = 'flex';
-
     document.getElementById('staffcontentLayout').style.display = 'flex';
-
     document.getElementById('staff-view-reviewcontent').style.display = 'none';
 
-
-    // Optionally, recalculate height or adjust styles here
-
     adjustStaffViewContentHeight();
-
 }
 
 function adjustStaffViewContentHeight() {
@@ -380,13 +360,10 @@ function filterStaffViewTable() {
 }
 
 function showFlightPlanningTable() {
-    // Hide the PC image
     const pcImage = document.querySelector('.staff-view-image');
     if (pcImage) {
         pcImage.style.display = 'none';
     }
-
-    // Show the table
     document.querySelector('.tableChanger').style.display = 'block';
 }
 
@@ -398,13 +375,11 @@ function staffViewActive(event) {
 
     event.currentTarget.classList.add('active');
 
-    // Hide the PC image
     const pcImage = document.querySelector('.staff-view-image');
     if (pcImage) {
         pcImage.style.display = 'none';
     }
 
-    // Show the table
     showFlightPlanningTable();
 }
 
@@ -460,28 +435,37 @@ function selectStatusOption(element) {
 
     var departmentId = element.getAttribute('data-department-id');
 
-    // Fetch systems for the selected department
+    const imageContainer = document.querySelector('.image-container');
+    const systemReviewTable = document.getElementById('system-review-table');
+
+    imageContainer.style.display = 'flex'; 
+    systemReviewTable.style.display = 'none'; 
+
     fetch(`/Review/GetSystemsByDepartment?departmentId=${departmentId}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data); // Log the data to see its structure
+            console.log(data); 
             updateStaffViewSidebar(data);
         })
-        .catch(error => console.error('Error fetching systems:', error)); // Log any errors
+        .catch(error => console.error('Error fetching systems:', error));
 }
 
 function updateStaffViewSidebar(systems) {
     const sidebar = document.querySelector('.staffViewSidebar');
-    sidebar.innerHTML = ''; // Clear existing items
+    sidebar.innerHTML = ''; 
 
-    systems.forEach(system => {
-        const menuItem = document.createElement('div');
-        menuItem.className = 'menu-item';
-        menuItem.dataset.systemId = system.systemID; // Use systemID instead of SystemID
-        menuItem.onclick = function () { loadReviewContent(system.systemName, this); }; // Use systemName instead of SystemName
-        menuItem.innerHTML = `<i class="fas fa-folder"></i><span>${system.systemName}</span>`; // Use systemName instead of SystemName
-        sidebar.appendChild(menuItem);
-    });
+    if (systems.length === 0) {
+        sidebar.innerHTML = '<div class="no-systems">No systems found</div>';
+    } else {
+        systems.forEach(system => {
+            const menuItem = document.createElement('div');
+            menuItem.className = 'menu-item';
+            menuItem.dataset.systemId = system.systemID; 
+            menuItem.onclick = function () { loadReviewContent(system.systemName, this); }; 
+            menuItem.innerHTML = `<i class="fas fa-folder"></i><span>${system.systemName}</span>`; 
+            sidebar.appendChild(menuItem);
+        });
+    }
 }
 
 function showAllStatusOptions() {
@@ -493,10 +477,8 @@ function showAllStatusOptions() {
 
 document.getElementById('status-search-input').addEventListener('blur', function () {
     const selector = document.querySelector('.status-selector');
-
     selector.style.borderBottomLeftRadius = '10px';
     selector.style.borderBottomRightRadius = '10px';
-
     selector.style.border = '1px solid #6D6D6D';
 });
 

@@ -14,10 +14,8 @@ public class ReviewController : BaseAdminController
 
     public async Task<IActionResult> Index()
     {
-        // Fetch departments
         var departments = await _reviewBl.GetAllDepartmentsAsync();
 
-        // Create view model
         var viewModel = new DepartmentViewModel
         {
             Departments = departments
@@ -30,7 +28,7 @@ public class ReviewController : BaseAdminController
     public async Task<IActionResult> GetSystemsByDepartment(int departmentId)
     {
         var systems = await _reviewBl.GetSystemsByDepartmentAsync(departmentId);
-        return Json(systems); // Ensure this returns the correct structure
+        return Json(systems); 
     }
 
     public async Task<IActionResult> GetFilesBySystem(int systemId)
