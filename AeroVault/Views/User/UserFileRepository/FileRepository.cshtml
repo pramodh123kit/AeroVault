@@ -25,50 +25,21 @@
                             <label class="custom-label" for="custom-selector">Select Department</label>
                             <div class="custom-dropdown">
                                 <div class="custom-dropdown-toggle custom-selector" onclick="toggleCustomDropdown()">
-                                    <span id="selected-option" style="color: #00436C;">Information Technology</span>
+                                    <span id="selected-option" style="color: #00436C;">Staff's dep name</span>
                                     <i class="fas fa-chevron-down" style="color:#00436C;"></i>
                                 </div>
-
-
-
-
                                 <div class="custom-dropdown-content">
                                     <div class="custom-search-container">
                                         <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
                                         <input type="text" id="custom-search-input" placeholder="Search Department" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
                                     </div>
-                                    <!-- Replace the existing custom-dropdown-list div with this -->
                                     <div class="custom-dropdown-list">
-                                        @{
-                                            var departments = ViewBag.Departments as List<DepartmentModel>;
-                                        }
-                                        @if (departments != null && departments.Any())
+                                        @foreach (var department in ViewBag.Departments)
                                         {
-                                            <div onclick="selectCustomOption(this)" class="active" data-department-id="@departments.First().DepartmentID">
-                                                @departments.First().DepartmentName
-                                            </div>
-
-                                            @foreach (var department in departments.Skip(1))
-                                            {
-                                                <div onclick="selectCustomOption(this)" data-department-id="@department.DepartmentID">
-                                                    @department.DepartmentName
-                                                </div>
-                                            }
-                                        }
-
-
-
-                                        else
-                                        {
-                                            <div onclick="selectCustomOption(this)" class="active">No Departments Found</div>
+                                            <div onclick="selectCustomOption(this)" data-department-id="@department.DepartmentID">@department.DepartmentName</div>
                                         }
                                     </div>
                                 </div>
-
-
-
-
-
                             </div>
                         </div>
                     </div>
@@ -76,473 +47,166 @@
                         <img class="search-icon" src="/Content/Assets/Search.svg" alt="Search Icon" />
                         <input type="text" id="system-search" placeholder="Search System" onkeyup="filterUploads()">
                     </div>
-                    <div class="scrollable-upload-list" id="upload-list-container">
-                        @* <div class="upload-list-new" id="AeroDocs">
-                        <div class="upload-item">
-                        <div class="upload-name-all name">
-                        AeroDocs
-                        <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
-                        <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
-                        </div>
-                        <div class="upload-info">
-                        <span class="upload-video">Videos: <b>12</b></span>
-                        <span class="upload-doc">Docs: <b>12</b></span>
-                        </div>
-                        </div>
-                        </div>
-                        <div class="upload-list-new" id="GovTra">
-                        <div class="upload-item">
-                        <div class="upload-name-all name">
-                        GovTra
-                        <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
-                        <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
-                        </div>
-                        <div class="upload-info">
-                        <span class="upload-video">Videos: <b>12</b></span>
-                        <span class="upload-doc">Docs: <b>12</b></span>
-                        </div>
-                        </div>
-                        </div>
-
-                        <div class="upload-list-new" id="AeroLetter">
-                        <div class="upload-item">
-                        <div class="upload-name-all name">
-                        AeroLetter
-                        <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
-                        <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
-                        </div>
-                        <div class="upload-info">
-                        <span class="upload-video">Videos: <b>12</b></span>
-                        <span class="upload-doc">Docs: <b>12</b></span>
-                        </div>
-                        </div>
-                        </div>
-
-                        <div class="upload-list-new" id="EasyPass">
-                        <div class="upload-item">
-                        <div class="upload-name-all name">
-                        EasyPass
-                        <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
-                        <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
-                        </div>
-                        <div class="upload-info">
-                        <span class="upload-video">Videos: <b>12</b></span>
-                        <span class="upload-doc">Docs: <b>12</b></span>
-                        </div>
-                        </div>
-                        </div>
-                        <div class="upload-list-new" id="FIDS">
-                        <div class="upload-item">
-                        <div class="upload-name-all name">
-                        FIDS
-                        <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
-                        <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
-                        </div>
-                        <div class="upload-info">
-                        <span class="upload-video">Videos: <b>12</b></span>
-                        <span class="upload-doc">Docs: <b>12</b></span>
-                        </div>
-                        </div>
-                        </div>
-                        <div class="upload-list-new" id="AeroDocs">
-                        <div class="upload-item">
-                        <div class="upload-name-all name">
-                        AeroDocs
-                        <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
-                        <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
-                        </div>
-                        <div class="upload-info">
-                        <span class="upload-video">Videos: <b>12</b></span>
-                        <span class="upload-doc">Docs: <b>12</b></span>
-                        </div>
-                        </div>
-                        </div>
-
-                        <div class="upload-list-new" id="GovTra">
-                        <div class="upload-item">
-                        <div class="upload-name-all name">
-                        GovTra
-                        <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
-                        <div class="tooltip-des">A system which streamline the process of buying airplane tickets with an easy access to view quotations before the user buy it in real-time.</div>
-                        </div>
-                        <div class="upload-info">
-                        <span class="upload-video">Videos: <b>12</b></span>
-                        <span class="upload-doc">Docs: <b>12</b></span>
-                        </div>
-                        </div>
-                        </div>  *@
-                        
-
-
-                        @{
-                            var systems = ViewBag.Systems as List<SystemModel>;
-                        }
-                        
-
-
-
-
-
-
-                        @if (systems != null && systems.Any())
-                        {
-                            foreach (var system in systems)
-                            {
-                                <div class="upload-list-new" id="@system.SystemName" data-system-id="@system.SystemID">
-                                    <div class="upload-item">
-                                        <div class="upload-name-all name">
-                                            @system.SystemName
-                                            <img class="systemIcon" src="/Content/Assets/systemIcon.svg" alt="System Icon" />
-                                            <div class="tooltip-des">@system.Description</div>
-                                        </div>
-                                        <div class="upload-info">
-                                            <span class="upload-video">Videos: <b>0</b></span>
-                                            <span class="upload-doc">Docs: <b>0</b></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        else
-                        {
-                            <div class="upload-list-new">
-                                <div class="upload-item">
-                                    <div class="upload-name-all name">
-                                        No Systems Available
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                        
-
-                    </div>
-
+                    <div class="scrollable-upload-list" id="upload-list-container"></div>
                     <div class="vertical-line"
                          style="position: absolute; top: 0; right: 0; bottom: 0; width: 2px; background-color: #5E5E5F;">
                     </div>
                 </div>
 
-
                 <!-- Right Side  -->
                 <div class="col-lg-9 content-section">
-                    <!-- Header with Title and Image -->
-                    <div class="row align-items-center mb-3">
-                        <div class="upload-title col-lg-6 col-md-6 col-sm-8" id="upload-title">
-                            All Uploads (Recent 50)
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-4 d-flex justify-content-end">
-                            <img src="/Content/Assets/uploadsys.svg" alt="system" class="system-icon"
-                                 onclick="toggleTooltipOnClick()" onmouseover="showTooltip()" onmouseout="hideTooltip()" />
-                            <div id="tooltip" class="tooltip-box">
-                                <span class="close-btn" onclick="forceHideTooltip()">×</span>
-                                <span id="tooltip-text">Select a system to access documents and videos specific to your department. You may also view files from other departments.</span>
+                    <img src="/Content/Assets/system-background-icon.svg" alt="System Background Image" id="system-selection-image">
+                    <div class="content-hidden" style="display: none;">
+                        <div class="row align-items-center mb-3">
+                            <div class="upload-title col-lg-6 col-md-6 col-sm-8"></div>
+                            <div class="col-lg-6 col-md-6 col-sm-4 d-flex justify-content-end">
+                                <img src="/Content/Assets/uploadsys.svg" alt="system" class="system-icon"
+                                     onclick="toggleTooltipOnClick()" onmouseover="showTooltip()" onmouseout="hideTooltip()" />
+                                <div id="tooltip" class="tooltip-box">
+                                    <span class="close-btn" onclick="forceHideTooltip()">×</span>
+                                    <span id="tooltip-text">Select a system to access documents and videos specific to your department. You may also view files from other departments.</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Container for Tabs and Content -->
-                    <div class="content-container">
-                        <!-- Tab Navigation -->
-                        <div class="tab-container">
-                            <button class="tab-button document-btn active" onclick="showDocuments()">Documents (40)</button>
-                            <button class="tab-button video-btn" onclick="showVideos()">Videos (10)</button>
-                        </div>
+                        <!-- Container for Tabs and Content -->
+                        <div class="content-container">
+                            <!-- Tab Navigation -->
+                            <div class="tab-container">
+                                <button class="tab-button document-btn active" onclick="showDocuments()">
+                                    Documents (<span class="count">0</span>)
+                                </button>
+                                <button class="tab-button video-btn" onclick="showVideos()">
+                                    Videos (<span class="count">0</span>)
+                                </button>
+                            </div>
 
-                        <div class="upload-content" id="documentsSection">
-                            <!-- Filter Options -->
-                            <div class="filter-options">
-                                <div class="filter-category-status-form-group">
-                                    <div class="filter-category-status-dropdown">
-                                        <div class="filter-category-status-dropdown-toggle filter-category-status-selector" onclick="filterCategoryToggleStatusDropdown()">
-                                            <span id="filter-category-selected-status">All (Read / Unread)</span>
-                                            <i class="fas fa-chevron-down"></i>
-                                        </div>
-                                        <div class="filter-category-status-dropdown-content">
-                                            <div class="filter-category-status-dropdown-list">
-                                                <div onclick="filterCategorySelectStatusOption(this)" class="active">All (Read / Unread)</div>
-                                                <div onclick="filterCategorySelectStatusOption(this)">Read</div>
-                                                <div onclick="filterCategorySelectStatusOption(this)">Pending</div>
+                            <div class="upload-content" id="documentsSection">
+                                <!-- Filter Options -->
+                                <div class="filter-options">
+                                    <div class="filter-category-status-form-group">
+                                        <div class="filter-category-status-dropdown">
+                                            <div class="filter-category-status-dropdown-toggle filter-category-status-selector" onclick="filterCategoryToggleStatusDropdown()">
+                                                <span id="filter-category-selected-status">All (Read / Unread)</span>
+                                                <i class="fas fa-chevron-down"></i>
+                                            </div>
+                                            <div class="filter-category-status-dropdown-content">
+                                                <div class="filter-category-status-dropdown-list">
+                                                    <div onclick="filterCategorySelectStatusOption(this)" class="active">All (Read / Unread)</div>
+                                                    <div onclick="filterCategorySelectStatusOption(this)">Read</div>
+                                                    <div onclick="filterCategorySelectStatusOption(this)">Pending</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="category-form-container">
-                                    <div class="category-dropdown-wrapper">
-                                        <div class="category-dropdown-button category-dropdown-selector" onclick="toggleCategoryDropdownUnique()">
-                                            <span id="selected-category-unique">All Categories</span>
-                                            <i class="fas fa-chevron-down"></i>
-                                        </div>
-                                        <div class="category-dropdown-list-container">
-                                            <div class="category-list">
-                                                <div onclick="selectCategoryOptionUnique(this)" class="active-category">All Categories</div>
-                                                <div onclick="selectCategoryOptionUnique(this)">Technical</div>
-                                                <div onclick="selectCategoryOptionUnique(this)">Training</div>
+                                    <div class="category-form-container">
+                                        <div class="category-dropdown-wrapper">
+                                            <div class="category-dropdown-button category-dropdown-selector" onclick="toggleCategoryDropdownUnique()">
+                                                <span id="selected-category-unique">All Categories</span>
+                                                <i class="fas fa-chevron-down"></i>
+                                            </div>
+                                            <div class="category-dropdown-list-container">
+                                                <div class="category-list">
+                                                    <div onclick="selectCategoryOptionUnique(this)" class="active-category">All Categories</div>
+                                                    <div onclick="selectCategoryOptionUnique(this)">Technical</div>
+                                                    <div onclick="selectCategoryOptionUnique(this)">Training</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="search-container search-box file-search-bar">
+                                        <img class="search-icon" src="/Content/Assets/Search.svg" alt="Search Icon" />
+                                        <input type="text" id="file-search" placeholder="Search" onkeyup="filterDocumentItems()">
+                                    </div>
                                 </div>
 
-                                <div class="search-container search-box file-search-bar">
-                                    <img class="search-icon" src="/Content/Assets/Search.svg" alt="Search Icon" />
-                                    <input type="text" id="file-search" placeholder="Search">
+                                <!-- Document List -->
+                                <div class="scrollable-item-list content-container Document"></div>
+                            </div>
+
+                            <div class="overlay-pdf" id="overlay-pdf" style="display: none;">
+                                <div class="iframe-container">
+                                    <img src="/Content/Assets/close-icon.svg" class="close-button" id="close-pdf-button-filerepo" alt="Close" />
+                                    <iframe id="pdf-frame" src="" style="width: 100%; height: 100%; border: none;"></iframe>
                                 </div>
                             </div>
 
-                            <!-- Document List (Example Content) -->
-                            <div class="scrollable-item-list content-container Document">
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/readIcon.svg" alt="read Icon" />
-                                        <span class="item-title">FlisTA User Manual for Apple Version</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button" data-pdf="Content/Assets/FliSTA User Manual for Apple version.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/unread.svg" alt="read Icon" />
-                                        <span class="item-title">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/readIcon.svg" alt="read Icon" />
-                                        <span class="item-title">FlisTA User Manual for Apple Version</span>
-                                        <span class="item-meta">Technical</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button" data-pdf="Content/Assets/FliSTA User Manual for Apple version.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/readIcon.svg" alt="read Icon" />
-                                        <span class="item-title">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/unread.svg" alt="read Icon" />
-                                        <span class="item-title">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/readIcon.svg" alt="read Icon" />
-                                        <span class="item-title">FlisTA User Manual for Apple Version</span>
-                                        <span class="item-meta">Technical</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button" data-pdf="Content/Assets/FliSTA User Manual for Apple version.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/readIcon.svg" alt="read Icon" />
-                                        <span class="item-title">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/unread.svg" alt="read Icon" />
-                                        <span class="item-title">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
+                            <div class="overlay-pdf1" id="overlay-pdf1" style="display: none;">
+                                <div class="iframe-container1">
+                                    <img src="/Content/Assets/close-icon.svg" class="close-button1" id="close-pdf-button-filerepo" alt="Close" />
+                                    <iframe class="video-iframe" id="pdf-frame1" src="" style="width: 100%; height: 100%; border: none;"></iframe>
                                 </div>
                             </div>
-                        </div>
 
-
-                        <div class="overlay-pdf" id="overlay-pdf" style="display: none;">
-                            <div class="iframe-container">
-                                <img src="/Content/Assets/close-icon.svg" class="close-button" id="close-button" alt="Close" />
-                                <iframe id="pdf-frame" src="" style="width: 100%; height: 100%; border: none;"></iframe>
-                            </div>
-                        </div>
-
-
-
-                        <div class="overlay-pdf1" id="overlay-pdf1" style="display: none;">
-                            <div class="iframe-container1">
-                                <img src="/Content/Assets/close-icon.svg" class="close-button1" id="close-button1" alt="Close" />
-                                <iframe class="video-iframe" id="pdf-frame1" src="" style="width: 100%; height: 100%; border: none;"></iframe>
-                            </div>
-                        </div>
-
-                        <div class="upload-content-video" id="videosSection" style="display: none;">
-                            <!-- Filter Options -->
-                            <div class="filter-options">
-                                <div class="filter-category-status-form-group1">
-                                    <div class="filter-category-status-dropdown1">
-                                        <div class="filter-category-status-dropdown-toggle1 filter-category-status-selector1" onclick="filterCategoryToggleStatusDropdown1()">
-                                            <span id="filter-category-selected-status1">All (Read / Unread)</span>
-                                            <i class="fas fa-chevron-down"></i>
-                                        </div>
-                                        <div class="filter-category-status-dropdown-content1">
-                                            <div class="filter-category-status-dropdown-list1">
-                                                <div onclick="filterCategorySelectStatusOption1(this)" class="active">All (Read / Unread)</div>
-                                                <div onclick="filterCategorySelectStatusOption1(this)">Read</div>
-                                                <div onclick="filterCategorySelectStatusOption1(this)">Pending</div>
+                            <div class="upload-content-video" id="videosSection" style="display: none;">
+                                <!-- Filter Options -->
+                                <div class="filter-options">
+                                    <div class="filter-category-status-form-group1">
+                                        <div class="filter-category-status-dropdown1">
+                                            <div class="filter-category-status-dropdown-toggle1 filter-category-status-selector1" onclick="filterCategoryToggleStatusDropdown1()">
+                                                <span id="filter-category-selected-status1">All (Read / Unread)</span>
+                                                <i class="fas fa-chevron-down"></i>
+                                            </div>
+                                            <div class="filter-category-status-dropdown-content1">
+                                                <div class="filter-category-status-dropdown-list1">
+                                                    <div onclick="filterCategorySelectStatusOption1(this)" class="active">All (Read / Unread)</div>
+                                                    <div onclick="filterCategorySelectStatusOption1(this)">Read</div>
+                                                    <div onclick="filterCategorySelectStatusOption1(this)">Pending</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="category-form-container1">
-                                    <div class="category-dropdown-wrapper1">
-                                        <div class="category-dropdown-button1 category-dropdown-selector1" onclick="toggleCategoryDropdownUnique1()">
-                                            <span id="selected-category-unique1">All Categories</span>
-                                            <i class="fas fa-chevron-down"></i>
-                                        </div>
-                                        <div class="category-dropdown-list-container1">
-                                            <div class="category-list1">
-                                                <div onclick="selectCategoryOptionUnique1(this)" class="active-category">All Categories</div>
-                                                <div onclick="selectCategoryOptionUnique1(this)">Technical</div>
-                                                <div onclick="selectCategoryOptionUnique1(this)">Training</div>
+                                    <div class="category-form-container1">
+                                        <div class="category-dropdown-wrapper1">
+                                            <div class="category-dropdown-button1 category-dropdown-selector1" onclick="toggleCategoryDropdownUnique1()">
+                                                <span id="selected-category-unique1">All Categories</span>
+                                                <i class="fas fa-chevron-down"></i>
+                                            </div>
+                                            <div class="category-dropdown-list-container1">
+                                                <div class="category-list1">
+                                                    <div onclick="selectCategoryOptionUnique1(this)" class="active-category">All Categories</div>
+                                                    <div onclick="selectCategoryOptionUnique1(this)">Technical</div>
+                                                    <div onclick="selectCategoryOptionUnique1(this)">Training</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="search-container search-box1">
-                                    <img class="search-icon" src="/Content/Assets/Search.svg" alt="Search Icon" />
-                                    <input type="text" id="file-search-video" placeholder="Search" onkeyup="filterVideoItems()">
-                                </div>
-                            </div>
-
-                            <!-- Video List (Example Content) -->
-                            <div class="scrollable-item-list content-container Video">
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/readIcon.svg" alt="read Icon" />
-                                        <span class="item-title1">FlisTA User Manual for Apple Version</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button1" data-pdf="Content/Assets/2024-01-30 08-38-38.mp4">View</button>
+                                    <div class="search-container search-box1 file-search-bar1">
+                                        <img class="search-icon" src="/Content/Assets/Search.svg" alt="Search Icon" />
+                                        <input type="text" id="file-search-video" placeholder="Search" onkeyup="filterVideoItems()">
                                     </div>
                                 </div>
 
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/unread.svg" alt="read Icon" />
-                                        <span class="item-title1">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button1" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/readIcon.svg" alt="read Icon" />
-                                        <span class="item-title1">FlisTA User Manual for Apple Version</span>
-                                        <span class="item-meta">Technical</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button1" data-pdf="Content/Assets/FliSTA User Manual for Apple version.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/readIcon.svg" alt="read Icon" />
-                                        <span class="item-title1">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button1" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/unread.svg" alt="read Icon" />
-                                        <span class="item-title1">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button1" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/readIcon.svg" alt="read Icon" />
-                                        <span class="item-title1">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button1" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/unread.svg" alt="read Icon" />
-                                        <span class="item-title1">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button1" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/readIcon.svg" alt="read Icon" />
-                                        <span class="item-title1">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button1" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
-
-                                <div class="item-list">
-                                    <div class="item-info">
-                                        <img class="read-icon" src="/Content/Assets/unread.svg" alt="read Icon" />
-                                        <span class="item-title1">Upload Document</span>
-                                        <span class="item-meta">Training</span>
-                                        <span class="item-date">Mar 26, 2024</span>
-                                        <button class="action-button1" data-pdf="Content/Assets/database design.pdf">View</button>
-                                    </div>
-                                </div>
+                                <!-- Video List -->
+                                <div class="scrollable-item-list content-container Video"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="dark-overlay8" class="dark-overlay" style="display: none;"></div>
+
+    <div id="overlay-pdf" class="overlay-pdf" style="display: none;">
+        <div class="iframe-container">
+            <!-- Loading Indicator -->
+            <div id="pdf-loading-indicator" class="loading-indicator">
+                <div class="spinner"></div>
+                <p>Loading file...</p>
+            </div>
+
+            <!-- New div for custom header -->
+            <div class="custom-header">
+                <img src="/Content/Assets/close-icon.svg" class="close-button" id="close-pdf-button-filerepo" alt="Close" />
+                <div id="file-name-display"></div> <!-- Placeholder for file name -->
+            </div>
+
+            <iframe id="pdf-frame" src="" style="width: 100%; height: 90%; border: none; display: none; margin-top:40px;"></iframe>
         </div>
     </div>
 

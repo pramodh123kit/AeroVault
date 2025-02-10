@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using Oracle.ManagedDataAccess.Client;
 using AeroVault.Models;
 using Microsoft.Extensions.Configuration;
@@ -8,117 +9,189 @@ namespace AeroVault.Data
     public class FileRepositoryDl
     {
         private readonly string _connectionString;
+        private readonly IConfiguration _configuration;
 
         public FileRepositoryDl(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
+            _configuration = configuration; 
         }
-
-        public List<DepartmentModel> GetActiveDepartments()
+        public List<DepartmentModel> GetNonDeletedDepartments()
         {
-            List<DepartmentModel> departments = new List<DepartmentModel>();
-
-            using (OracleConnection conn = new OracleConnection(_connectionString))
+            using (var connection = new OracleConnection(_connectionString))
             {
-                conn.Open();
+                connection.Open();
+                var command = new OracleCommand("SELECT * FROM DEPARTMENTS WHERE IS_DELETED = 0", connection);
+                var reader = command.ExecuteReader();
 
-                //string query = "SELECT DEPARTMENTID, DEPARTMENTNAME FROM DEPARTMENTS WHERE IS_DELETED = 0 ORDER BY DEPARTMENTNAME";
-                string query = "SELECT d.DepartmentID, d.DepartmentName, d.DivisionID, v.DivisionName, d.ADDED_DATE FROM DEPARTMENTS d JOIN DIVISIONS v ON d.DivisionID = v.DivisionID WHERE d.is_deleted = 0 AND v.IsDeleted = 0";
-
-
-
-                using (OracleCommand cmd = new OracleCommand(query, conn))
+                var departments = new List<DepartmentModel>();
+                while (reader.Read())
                 {
-                    using (OracleDataReader reader = cmd.ExecuteReader())
+                    departments.Add(new DepartmentModel
                     {
-                        while (reader.Read())
-                        {
-                            departments.Add(new DepartmentModel
-                            {
-                                DepartmentID = reader.GetInt32(reader.GetOrdinal("DEPARTMENTID")),
-                                DepartmentName = reader.GetString(reader.GetOrdinal("DEPARTMENTNAME"))
-                            });
-                        }
-                    }
+                        DepartmentID = reader.GetInt32(0),
+                        DepartmentName = reader.GetString(1),
+                        DivisionID = reader.GetInt32(2),
+                        IsDeleted = reader.GetInt32(3)
+                    });
                 }
+                return departments;
             }
-
-            return departments;
         }
-
-        public List<SystemModel> GetSystemsByDepartment(int departmentId)
+        public List<SystemModel> GetNonDeletedSystemsByDepartment(int departmentId)
         {
-            List<SystemModel> systems = new List<SystemModel>();
-
-            using (OracleConnection conn = new OracleConnection(_connectionString))
+            using (var connection = new OracleConnection(_connectionString))
             {
-                conn.Open();
+                connection.Open();
+                var command = new OracleCommand(@"
+            SELECT s.SYSTEMID, 
+                   s.SYSTEMNAME, 
+                   s.DESCRIPTION, 
+                   s.IS_DELETED,
+                   (SELECT COUNT(*) FROM Files f WHERE f.SystemID = s.SYSTEMID AND f.IS_DELETED = 0 AND f.FileType = 'Video') AS VideoCount,
+                   (SELECT COUNT(*) FROM Files f WHERE f.SystemID = s.SYSTEMID AND f.IS_DELETED = 0 AND f.FileType = 'Document') AS DocCount
+            FROM SYSTEMS s 
+            JOIN SYSTEM_DEPARTMENTS sd ON s.SYSTEMID = sd.SYSTEMID 
+            WHERE sd.DEPARTMENTID = :departmentId AND s.IS_DELETED = 0", connection);
+                command.Parameters.Add(new OracleParameter("departmentId", departmentId));
+                var reader = command.ExecuteReader();
 
-                string query = @"
-            SELECT s.SystemID, s.SystemName, s.Description 
-            FROM SYSTEMS s
-            JOIN SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
-            WHERE sd.DepartmentID = :DepartmentID AND s.IS_DELETED = 0";
-
-                using (OracleCommand cmd = new OracleCommand(query, conn))
+                var systems = new List<SystemModel>();
+                while (reader.Read())
                 {
-                    cmd.Parameters.Add(":DepartmentID", OracleDbType.Int32).Value = departmentId;
-
-                    using (OracleDataReader reader = cmd.ExecuteReader())
+                    systems.Add(new SystemModel
                     {
-                        while (reader.Read())
-                        {
-                            systems.Add(new SystemModel
-                            {
-                                SystemID = reader.GetInt32(reader.GetOrdinal("SystemID")),
-                                SystemName = reader.GetString(reader.GetOrdinal("SystemName")),
-                                Description = reader.GetString(reader.GetOrdinal("Description"))
-                            });
-                        }
-                    }
+                        SystemID = reader.GetInt32(0),
+                        SystemName = reader.GetString(1),
+                        Description = reader.GetString(2),
+                        IsDeleted = reader.GetInt32(3),
+                        VideoCount = reader.GetInt32(4), 
+                        DocCount = reader.GetInt32(5) 
+                    });
                 }
+                return systems;
             }
-
-            return systems;
         }
 
 
-        public List<FileModel> GetFilesBySystem(int systemId)
+        public List<FileModel> GetDocumentsBySystem(int systemId)
+
         {
-            List<FileModel> files = new List<FileModel>();
 
-            using (OracleConnection conn = new OracleConnection(_connectionString))
+            using (var connection = new OracleConnection(_connectionString))
+
             {
-                conn.Open();
 
-                string query = @"
-            SELECT FileID, SystemID, FileName, FileType, FileCategory, Added_Date 
+                connection.Open();
+
+                var command = new OracleCommand(@"
+
+            SELECT FileID, SystemID, FileName, FileType, FileCategory, Added_Date, UniqueFileIdentifier 
+
             FROM Files 
-            WHERE SystemID = :SystemID AND IS_DELETED = 0";
 
-                using (OracleCommand cmd = new OracleCommand(query, conn))
+            WHERE SystemID = :systemId AND FileType = 'Document' AND IS_DELETED = 0", connection);
+
+                command.Parameters.Add(new OracleParameter("systemId", systemId));
+
+                var reader = command.ExecuteReader();
+
+
+                var documents = new List<FileModel>();
+
+                while (reader.Read())
+
                 {
-                    cmd.Parameters.Add(":SystemID", OracleDbType.Int32).Value = systemId;
 
-                    using (OracleDataReader reader = cmd.ExecuteReader())
+                    documents.Add(new FileModel
+
                     {
-                        while (reader.Read())
-                        {
-                            files.Add(new FileModel
-                            {
-                                FileID = reader.GetInt32(reader.GetOrdinal("FileID")),
-                                SystemID = reader.GetInt32(reader.GetOrdinal("SystemID")),
-                                FileName = reader.GetString(reader.GetOrdinal("FileName")),
-                                FileType = reader.GetString(reader.GetOrdinal("FileType")),
-                                FileCategory = reader.GetString(reader.GetOrdinal("FileCategory")),
-                                AddedDate = reader.GetDateTime(reader.GetOrdinal("Added_Date"))
-                            });
-                        }
-                    }
+
+                        FileID = reader.GetInt32(0),
+
+                        SystemID = reader.GetInt32(1),
+
+                        FileName = reader.GetString(2),
+
+                        FileType = reader.GetString(3),
+
+                        FileCategory = reader.GetString(4),
+
+                        AddedDate = reader.IsDBNull(5) ? (DateTime?)null : reader.GetOracleDate(5).Value,
+
+                        UniqueFileIdentifier = reader.GetString(6) // Ensure this is included
+
+                    });
+
                 }
+
+                return documents;
+
             }
 
-            return files;
+        }
+
+
+        public List<FileModel> GetVideosBySystem(int systemId)
+
+        {
+
+            using (var connection = new OracleConnection(_connectionString))
+
+            {
+
+                connection.Open();
+
+                var command = new OracleCommand(@"
+
+            SELECT FileID, SystemID, FileName, FileType, FileCategory, Added_Date, UniqueFileIdentifier 
+
+            FROM Files 
+
+            WHERE SystemID = :systemId AND FileType = 'Video' AND IS_DELETED = 0", connection);
+
+                command.Parameters.Add(new OracleParameter("systemId", systemId));
+
+                var reader = command.ExecuteReader();
+
+
+                var videos = new List<FileModel>();
+
+                while (reader.Read())
+
+                {
+
+                    videos.Add(new FileModel
+
+                    {
+
+                        FileID = reader.GetInt32(0),
+
+                        SystemID = reader.GetInt32(1),
+
+                        FileName = reader.GetString(2),
+
+                        FileType = reader.GetString(3),
+
+                        FileCategory = reader.GetString(4),
+
+                        AddedDate = reader.IsDBNull(5) ? (DateTime?)null : reader.GetOracleDate(5).Value,
+
+                        UniqueFileIdentifier = reader.GetString(6) // Ensure this is included
+
+                    });
+
+                }
+
+                return videos;
+
+            }
+
+        }
+
+        public string GetBasePath()
+        {
+            return _configuration["FileSettings:BasePath"];
         }
     }
 }

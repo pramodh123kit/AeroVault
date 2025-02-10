@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="/Content/css/UserOverview.css" />
 </head>
 <body>
+    <input type="hidden" id="userRole" value="@Context.Session.GetString("UserRole")" />
+    <input type="hidden" id="staffName" value="@Context.Session.GetString("StaffName")" />
+
     <div class="banner-content">
         <h1>Welcome to AeroVault</h1>
         <p>Your IT Hub for Systems and File Management</p>

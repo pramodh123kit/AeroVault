@@ -8,30 +8,30 @@ using static AeroVault.Controllers.SystemsController;
 
 namespace AeroVault.Business
 {
-    public class SystemService
+    public class SystemBl
     {
-        private readonly SystemRepository _systemRepository;
+        private readonly SystemDl _systemDl;
 
-        public SystemService(SystemRepository systemRepository)
+        public SystemBl(SystemDl systemDl)
         {
-            _systemRepository = systemRepository;
+            _systemDl = systemDl;
         }
 
         public async Task<List<SystemModel>> GetAllSystemsAsync()
         {
-            return await _systemRepository.GetAllSystemsAsync();
+            return await _systemDl.GetAllSystemsAsync();
         }
 
         public async Task<bool> CheckSystemExistsAsync(string systemName)
         {
-            return await _systemRepository.CheckSystemExistsAsync(systemName);
+            return await _systemDl.CheckSystemExistsAsync(systemName);
         }
 
         public async Task<IActionResult> CreateSystemAsync(CreateSystemRequest request)
         {
             try
             {
-                var newSystemId = await _systemRepository.CreateSystemAsync(request);
+                var newSystemId = await _systemDl.CreateSystemAsync(request);
                 return new OkObjectResult(new
                 {
                     systemId = newSystemId,
@@ -49,7 +49,7 @@ namespace AeroVault.Business
 
         public async Task<IActionResult> DeleteSystemAsync(int systemId)
         {
-            var success = await _systemRepository.DeleteSystemAsync(systemId);
+            var success = await _systemDl.DeleteSystemAsync(systemId);
             if (!success)
             {
                 return new NotFoundObjectResult(new { message = "System not found" });
@@ -59,14 +59,14 @@ namespace AeroVault.Business
 
         public async Task<List<object>> GetDivisionsForPopupAsync()
         {
-            return await _systemRepository.GetDivisionsForPopupAsync();
+            return await _systemDl.GetDivisionsForPopupAsync();
         }
 
         public async Task<IActionResult> UpdateSystemAsync(UpdateSystemRequest request)
         {
             try
             {
-                var updatedSystem = await _systemRepository.UpdateSystemAsync(request);
+                var updatedSystem = await _systemDl.UpdateSystemAsync(request);
 
                 return new OkObjectResult(new
                 {
@@ -87,7 +87,7 @@ namespace AeroVault.Business
 
         public async Task<List<int>> GetSystemDepartmentIdsAsync(string systemName)
         {
-            return await _systemRepository.GetSystemDepartmentIdsAsync(systemName);
+            return await _systemDl.GetSystemDepartmentIdsAsync(systemName);
         }
 
 
@@ -95,7 +95,7 @@ namespace AeroVault.Business
         {
             try
             {
-                return await _systemRepository.SoftDeleteSystemAsync(systemName);
+                return await _systemDl.SoftDeleteSystemAsync(systemName);
             }
             catch (Exception ex)
             {
@@ -106,22 +106,22 @@ namespace AeroVault.Business
 
         public async Task<SystemModel> GetSystemDetailsAsync(string systemName)
         {
-            return await _systemRepository.GetSystemDetailsAsync(systemName);
+            return await _systemDl.GetSystemDetailsAsync(systemName);
         }
 
         public async Task<List<FileModel>> GetFilesBySystemIdAsync(int systemId)
         {
-            return await _systemRepository.GetFilesBySystemIdAsync(systemId);
+            return await _systemDl.GetFilesBySystemIdAsync(systemId);
         }
 
         public async Task<bool> SoftDeleteFileAsync(int fileId)
         {
-            return await _systemRepository.SoftDeleteFileAsync(fileId);
+            return await _systemDl.SoftDeleteFileAsync(fileId);
         }
 
         public async Task<bool> UpdateFileAsync(UpdateFileRequest request)
         {
-            return await _systemRepository.UpdateFileAsync(request);
+            return await _systemDl.UpdateFileAsync(request);
         }
     }
 }

@@ -10,12 +10,12 @@ namespace AeroVault.Controllers
 {
     public class DiagnosticsController : Controller
     {
-        private readonly LoginBL _loginBl;
+        private readonly LoginBl _loginBl;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<DiagnosticsController> _logger;
 
         public DiagnosticsController(
-            LoginBL loginBl,
+            LoginBl loginBl,
             IHttpContextAccessor httpContextAccessor,
             ILogger<DiagnosticsController> logger)
         {
@@ -45,27 +45,27 @@ namespace AeroVault.Controllers
             {
                 var testStaff = new StaffML
                 {
-                    StaffNo = "IN1957",     
-                    StaffPassword = "Sakura123kit"  
+                    StaffNo = "",     
+                    StaffPassword = ""  
                 };
 
-                bool isValidLogin = _loginBl.GetLoginValidation(testStaff, _httpContextAccessor);
+                //bool isValidLogin = _loginBl.GetLoginValidation(testStaff, _httpContextAccessor);
 
-                if (isValidLogin)
-                {
-                    connectionResults.Add("✅ APPSEC Authentication: Successful");
+                //if (isValidLogin)
+                //{
+                //    connectionResults.Add("✅ APPSEC Authentication: Successful");
 
-                    var userDetails = _loginBl.GetNameAndEmail(testStaff);
-                    if (userDetails != null)
-                    {
-                        connectionResults.Add($"👤 User Name: {userDetails.StaffName}");
-                        connectionResults.Add($"📧 Email: {userDetails.EmailAddress}");
-                    }
-                }
-                else
-                {
-                    connectionResults.Add("❌ APPSEC Authentication: Failed");
-                }
+                //    var userDetails = _loginBl.GetNameAndEmail(testStaff);
+                //    if (userDetails != null)
+                //    {
+                //        connectionResults.Add($"👤 User Name: {userDetails.StaffName}");
+                //        connectionResults.Add($"📧 Email: {userDetails.EmailAddress}");
+                //    }
+                //}
+                //else
+                //{
+                //    connectionResults.Add("❌ APPSEC Authentication: Failed");
+                //}
             }
             catch (Exception ex)
             {

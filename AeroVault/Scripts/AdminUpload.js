@@ -547,6 +547,10 @@ function viewFile(fileName, uniqueIdentifier) {
     const closePdfButton = document.getElementById('close-pdf-button');
     const darkOverlay = document.getElementById('dark-overlay8');
     const loadingIndicator = document.getElementById('pdf-loading-indicator');
+    const fileNameDisplay = document.getElementById('file-name-display');
+
+    // Set the file name in the custom header
+    fileNameDisplay.textContent = fileName;
 
     // Remove file extension if present
     fileName = fileName.replace(/\.[^/.]+$/, "");

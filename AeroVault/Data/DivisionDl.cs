@@ -8,13 +8,13 @@ using Microsoft.Extensions.Configuration; // Make sure to include this namespace
 
 namespace AeroVault.Data
 {
-    public class DivisionRepository
+    public class DivisionDl
     {
         private readonly string _connectionString;
         private readonly ApplicationDbContext _context;
 
         // Update the constructor to accept IConfiguration
-        public DivisionRepository(ApplicationDbContext context, IConfiguration configuration)
+        public DivisionDl(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
             _connectionString = configuration.GetConnectionString("DefaultConnection");
@@ -95,28 +95,32 @@ namespace AeroVault.Data
                 throw new ArgumentException("Division name cannot be empty.");
             }
 
-            try
+            using (var connection = new OracleConnection(_connectionString))
             {
-                string sql = "INSERT INTO DIVISIONS (DivisionName) VALUES (:DivisionName)";
-                var parameter = new OracleParameter(":DivisionName", divisionName);
+                await connection.OpenAsync();
 
-                int rowsAffected = await _context.Database.ExecuteSqlRawAsync(sql, parameter);
-
-                if (rowsAffected == 0)
+                // Get new Division ID from the sequence
+                int newDivisionId;
+                string getIdSql = "SELECT SEQ_DIVISIONID.NEXTVAL FROM DUAL";
+                using (var idCommand = new OracleCommand(getIdSql, connection))
                 {
-                    throw new Exception("No rows were inserted.");
+                    newDivisionId = Convert.ToInt32(await idCommand.ExecuteScalarAsync());
                 }
-            }
-            catch (OracleException ex)
-            {
-                Console.WriteLine($"Oracle Error: {ex.Message}");
-                Console.WriteLine($"Error Code: {ex.ErrorCode}");
-                throw;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Unexpected error: {ex.Message}");
-                throw;
+
+                // Insert new division
+                string sql = "INSERT INTO DIVISIONS (DivisionID, DivisionName) VALUES (:DivisionID, :DivisionName)";
+                using (var command = new OracleCommand(sql, connection))
+                {
+                    command.Parameters.Add(new OracleParameter(":DivisionID", newDivisionId));
+                    command.Parameters.Add(new OracleParameter(":DivisionName", divisionName));
+
+                    int rowsAffected = await command.ExecuteNonQueryAsync();
+
+                    if (rowsAffected == 0)
+                    {
+                        throw new Exception("No rows were inserted.");
+                    }
+                }
             }
         }
 
@@ -192,12 +196,13 @@ namespace AeroVault.Data
                 }
             }
         }
+
         public async Task<List<DepartmentModel>> GetDepartmentsByDivisionAsync(int divisionId)
         {
             using (var connection = new OracleConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string sql = "SELECT * FROM DEPARTMENTS WHERE DivisionID = :DivisionID AND IS_DELETED = 0"; 
+                string sql = "SELECT * FROM DEPARTMENTS WHERE DivisionID = :DivisionID AND IS_DELETED = 0";
                 using (var command = new OracleCommand(sql, connection))
                 {
                     command.Parameters.Add(new OracleParameter(":DivisionID", divisionId));
@@ -211,7 +216,7 @@ namespace AeroVault.Data
                                 DepartmentID = reader.GetInt32(0),
                                 DepartmentName = reader.GetString(1),
                                 DivisionID = reader.GetInt32(2),
-                                IsDeleted = reader.GetInt32(3) 
+                                IsDeleted = reader.GetInt32(3)
                             });
                         }
                         return departments;

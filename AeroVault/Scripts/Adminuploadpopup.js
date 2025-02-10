@@ -387,7 +387,15 @@ function handleDrop(e) {
         else return (bytes / 1048576).toFixed(1) + " MB";
     }
 
+function clearErrorMessages() {
+    const selectedFilesContainer = document.getElementById('selected-files');
+    const errorMessages = selectedFilesContainer.querySelectorAll('p[style="color: red;"]');
+    errorMessages.forEach(message => message.remove());
+}
+
 function uploadFiles() {
+    clearErrorMessages(); // Clear any existing error messages
+
     // Validate steps
     for (let step = 1; step < 4; step++) {
         if (!validateStep(step)) {
@@ -420,16 +428,10 @@ function uploadFiles() {
 
     // Create FormData for upload
     const formData = new FormData();
-
-    // Add system ID
     const systemId = selectedSystemCheckbox.getAttribute('data-system-id');
     formData.append('SystemId', systemId);
-
-    // Add category
     const category = selectedCategoryElement.textContent;
     formData.append('Category', category);
-
-    // Add files
     selectedFiles.forEach(file => {
         formData.append('Files', file);
     });
@@ -449,18 +451,86 @@ function uploadFiles() {
             return response.json();
         })
         .then(result => {
-            alert(result.message);
+            // Close the current popup
+            fileEditClosePopup8();
+
+            // Open a new popup with the success message
+            openSuccessPopup(result.message);
+
             // Reset the upload form
             resetFiles();
-            // Close the popup or reset steps
-            fileEditClosePopup8();
             // Refresh the table
             refreshTable();
         })
         .catch(error => {
             console.error('Upload error:', error);
-            alert('File upload failed: ' + error.message);
+            // Display error message in red text below the selected files
+            const selectedFilesContainer = document.getElementById('selected-files');
+            const errorMessage = document.createElement('p');
+            errorMessage.textContent = 'File upload failed: ' + error.message;
+            errorMessage.style.color = 'red';
+            errorMessage.style.marginTop = '-40px'; // Optional: Add some space above the error message
+
+            // Insert the error message after the selected files container
+            selectedFilesContainer.parentNode.insertBefore(errorMessage, selectedFilesContainer.nextSibling);
         });
+}
+
+function openSuccessPopup(message) {
+    // Check if the overlay already exists
+    let overlaySuccess = document.getElementById('dark-overlay');
+    if (!overlaySuccess) {
+        // Create a new overlay element
+        overlaySuccess = document.createElement('div');
+        overlaySuccess.id = 'dark-overlay';
+        overlaySuccess.className = 'dark-overlay-success';
+        overlaySuccess.style.display = 'block'; // Show the overlay
+        document.body.appendChild(overlaySuccess);
+
+        // Add event listener to the overlay to close the popup when clicked
+        overlaySuccess.addEventListener('click', closeSuccessPopup);
+    } else {
+        overlaySuccess.style.display = 'block'; // Show the existing overlay
+    }
+
+    // Create a new popup element
+    const successPopup = document.createElement('div');
+    successPopup.className = 'modal-notification system-added-popup';
+    successPopup.id = 'notification-popup';
+    successPopup.style.display = 'block';
+
+    successPopup.innerHTML = `
+        <div class="notification">
+            <div class="icon">
+                <img src="/Content/Assets/system-added-successfully.svg" alt="Success Icon" />
+            </div>
+            <div class="message">
+                ${message}
+            </div>
+            <div class="close">
+                <img src="/Content/Assets/AdminSystemDeletePopupCloseIcon.svg" alt="Close Icon" id="close-icon3" />
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(successPopup);
+
+    // Add event listener to close the popup when the close icon is clicked
+    const closeIcon = document.getElementById('close-icon3');
+    closeIcon.addEventListener('click', closeSuccessPopup);
+}
+
+function closeSuccessPopup() {
+    const successPopup = document.getElementById('notification-popup');
+    const darkOverlay = document.getElementById('dark-overlay');
+
+    if (successPopup) {
+        document.body.removeChild(successPopup);
+    }
+
+    if (darkOverlay) {
+        darkOverlay.style.display = 'none'; // Hide the overlay instead of removing it
+    }
 }
 
 function refreshTable() {

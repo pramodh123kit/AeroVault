@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
+
+    const userRole = document.getElementById('userRole')?.value || 'Role not found';
+    const staffName = document.getElementById('staffName')?.value || 'Name not found';
+
+    console.log('User Details:', {
+        Role: userRole,
+        Name: staffName
+    });
+
     function calculateReadPercentage(readFiles, totalFiles) {
         return Math.round((readFiles / totalFiles) * 100);
     }

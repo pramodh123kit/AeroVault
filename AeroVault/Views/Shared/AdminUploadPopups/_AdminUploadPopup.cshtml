@@ -286,7 +286,7 @@
                 <div class="step-content step-4-content" style="display: none;">
                     <div class="section-title">Select the files you want to upload</div>
                     <div id="drop-area" class="upload-area">
-                        <input type="file" id="fileElem" multiple accept="*/*" onchange="handleFiles(this.files)"
+                        <input type="file" id="fileElem" multiple accept=".mp4, .pdf" onchange="handleFiles(this.files)"
                                style="display:none">
                         <label for="fileElem" class="upload-label">
                             <img src="/Content/Assets/uploadicn.svg" alt="Upload Icon">
@@ -311,6 +311,7 @@
             </div>
         </div>
 
+        <div id="dark-overlay6" class="dark-overlay" style="display: none;"></div>
 
         <script src="/Scripts/jquery.min.js"></script>
         <script src="/Scripts/Adminuploadpopup.js"></script>

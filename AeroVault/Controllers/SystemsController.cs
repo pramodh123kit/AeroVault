@@ -11,10 +11,10 @@ namespace AeroVault.Controllers
     public class SystemsController : BaseAdminController
 
     {
-        private readonly SystemService _systemService;
+        private readonly SystemBl _systemService;
 
 
-        public SystemsController(ApplicationDbContext context, SystemService systemService) : base(context)
+        public SystemsController(ApplicationDbContext context, SystemBl systemService) : base(context)
         {
             _systemService = systemService;
         }
@@ -118,25 +118,22 @@ namespace AeroVault.Controllers
             try
             {
                 var result = await _systemService.UpdateSystemAsync(request);
-                return result; // This should return Ok() or other appropriate responses
+                return result; 
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error in UpdateSystem: {ex.Message}"); // Log the error
                 return StatusCode(500, new { message = "An error occurred while updating the system." });
             }
         }
 
         // DTO for updating a system
-        // DTO for updating a system
         public class UpdateSystemRequest
         {
-            public int SystemID { get; set; } // Add this line
+            public int SystemID { get; set; } 
             public string SystemName { get; set; }
             public string Description { get; set; }
             public List<int> DepartmentIds { get; set; }
         }
-
 
 
         [HttpGet]
@@ -164,11 +161,11 @@ namespace AeroVault.Controllers
             }
             catch (Exception ex)
             {
-                // Log the exception
                 Console.WriteLine($"Error in SoftDeleteSystem: {ex.Message}");
                 return StatusCode(500, new { message = "An error occurred while deleting the system." });
             }
         }
+
 
         [HttpGet]
         public async Task<IActionResult> GetSystemDetails(string systemName)
@@ -177,7 +174,7 @@ namespace AeroVault.Controllers
             return Json(systemDetails);
         }
 
-        // DTO for soft delete request
+        
         public class SoftDeleteSystemRequest
         {
             public string SystemName { get; set; }
@@ -242,7 +239,6 @@ namespace AeroVault.Controllers
             }
         }
 
-        // DTO for updating a file
         public class UpdateFileRequest
         {
             public int FileId { get; set; }
