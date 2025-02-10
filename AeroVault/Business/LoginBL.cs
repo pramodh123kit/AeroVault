@@ -10,6 +10,7 @@ using System.Net;
 using System.Security.Authentication;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace AeroVault.Business
 {
@@ -124,37 +125,56 @@ namespace AeroVault.Business
             {
                 string url = _configuration["AppSecSettings:AppSecService"].ToString();
                 string AppID = _configuration["AppSecSettings:AppId"].ToString();
-                var requestData = new List<KeyValuePair<string, string>>
+
+                using (HttpClient client = new HttpClient())
+                {
+                    var requestData = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("USERNAME",staffMl.StaffNo ),
+                new KeyValuePair<string, string>("USERNAME", staffMl.StaffNo),
                 new KeyValuePair<string, string>("PASSWORD", staffMl.StaffPassword),
                 new KeyValuePair<string, string>("APPSECAPPID", AppID)
             };
 
-                var content = new FormUrlEncodedContent(requestData);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
+                    var content = new FormUrlEncodedContent(requestData);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
 
-                HttpResponseMessage response = await client.PostAsync(url, content);
+                    HttpResponseMessage response = await client.PostAsync(url, content);
+                    response.EnsureSuccessStatusCode();
 
-                if (response.IsSuccessStatusCode)
-                {
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
 
-                    staffMl.UserRole = "AEVT-Admin";
+                    JArray responseData = JArray.Parse(jsonResponse);
 
-                    return staffMl;
+                    if (responseData.Count > 0)
+                    {
+                        var item = responseData[0];
+
+                        Console.WriteLine("PATH: " + item["PATH"]);
+                        Console.WriteLine("USERID: " + item["USERID"]);
+                        Console.WriteLine("DISPLAYNAME: " + item["DISPLAYNAME"]);
+                        Console.WriteLine("GRADE: " + item["GRADE"]);
+                        Console.WriteLine("PERMISSIONLEVEL: " + item["PERMISSIONLEVEL"]);
+                        Console.WriteLine("RESPONSE_CODE: " + item["RESPONSE_CODE"]);
+                        Console.WriteLine("RESPONSE_MESSAGE: " + item["RESPONSE_MESSAGE"]);
+                        Console.WriteLine();
+
+                        staffMl.UserRole = item["PERMISSIONLEVEL"]?.ToString() ?? "AEVT-Staff";
+                    }
+                    else
+                    {
+                        staffMl.UserRole = "AEVT-Staff";
+                    }
                 }
-                else
-                {
-                    staffMl.UserRole = "AEVT-Staff";
-                    
-                    return staffMl;
-                }
+
+                return staffMl;
             }
             catch (Exception ex)
             {
+                Console.WriteLine("Error: " + ex.Message);
                 return null;
             }
         }
+
 
 
         public StaffML GetNameAndEmail(StaffML staffNo)
