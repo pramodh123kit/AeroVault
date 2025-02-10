@@ -800,6 +800,7 @@ th {
         display: block;
     }
 
+
 .modal-unique {
     display: none;
     position: fixed;
@@ -887,6 +888,7 @@ th {
     padding-left: 10px;
 }
 
+
 .file-search-input1 {
     border: none;
     outline: none;
@@ -895,11 +897,13 @@ th {
     flex: 1;
 }
 
+
 .image-container img {
     width: 60%;
     height: 60%;
     margin: auto auto;
 }
+
 
 .image-container {
     flex-grow: 1;
@@ -907,6 +911,7 @@ th {
     justify-content: center;
     height: 450px;
 }
+
 
 .file-search-container2 {
     display: flex;
@@ -920,10 +925,12 @@ th {
     width: 40%;
 }
 
+
 .search-icon2 {
     margin-right: 08px;
     padding-left: 10px;
 }
+
 
 .file-search-input2 {
     border: none;
@@ -932,6 +939,7 @@ th {
     font-size: 16px;
     flex: 1;
 }
+
 
 .file-option-icon {
     height: 19px;
@@ -943,11 +951,13 @@ th {
     padding-bottom: 20px;
 }
 
+
 .scrollable-tbody {
     overflow-y: auto;
     overflow-x: auto;
     height: 400px;
 }
+
 
 .scrollable-tbody {
     scrollbar-width: thin;
@@ -963,15 +973,18 @@ th {
         border-radius: 10px;
     }
 
+
 #system-header {
     font-weight: bold;
 }
+
 
 
 .ReviewReviewTabs {
     display: flex;
     background-color: #e9f1fb;
 }
+
 
 .reviewtab {
     padding: 8px 75px; /* Adjust padding as needed */
@@ -1012,6 +1025,8 @@ th {
     justify-content: center; /* Center items vertically */
     height: 100%; /* Ensure it takes full height */
 }
+
+
 
 .staff-view-image {
     max-width: 80%; /* Adjust as needed */
@@ -1086,9 +1101,11 @@ th {
         background: transparent;
     }
 
+
 .system-name {
     font-size:18px;
 }
+
 
 .search-btn {
     background-color:#00436C;
@@ -1112,6 +1129,7 @@ th {
     margin-right: 10px; /* Add some space between the search input and the button */
 }
 
+
 .search-btn {
     padding: 5px 10px; /* Add padding for the button */
     background-color: #005580; /* Button background color */
@@ -1121,15 +1139,19 @@ th {
     cursor: pointer; /* Change cursor to pointer on hover */
 }
 
+
     .search-btn:hover {
         background-color: #004466; /* Darker shade on hover */
     }
+
 
 .staffAfterSearch {
     display: flex; /* Use flexbox for layout */
     justify-content: space-between; /* Distribute space evenly between child divs */
     align-items: center; /* Align items vertically centered */
 }
+
+
 
 .reviewtitle2,
 .container-for-search,
@@ -1138,10 +1160,13 @@ th {
     margin: 0 10px; /* Add horizontal margin for spacing */
 }
 
+
 /* Optional: To prevent the first and last divs from having extra margin */
 .reviewtitle2 {
     margin-left: 0; /* Remove left margin for the first div */
 }
+
+
 
 .staffViewDropdown-status-container {
     margin-right: 0; /* Remove right margin for the last div */
@@ -1154,4 +1179,52 @@ th {
     justify-content: flex-start; /* Align items to the start */
     min-height: 300px; /* Set a minimum height */
     overflow: hidden; /* Prevent overflow */
+}
+
+
+
+
+@media (max-width: 768px) {
+    /* Hide all sections by default */
+    .staffAfterSearch,
+    .staffcontentLayout,
+    .tableChanger,
+    .staffViewDropdown-status-container,
+    .staffViewSidebar2,
+    .staff-card-body {
+        display: none;
+    }
+
+   
+
+    /* Adjust input widths for mobile */
+    .file-search-input1 {
+        width: 100%; /* Full width on mobile */
+    }
+
+    /* Adjust button styles for mobile */
+    .search-btn {
+        width: 100%; /* Full width on mobile */
+        margin-top: 10px; /* Add some spacing */
+    }
+
+    /* Adjust the staff card layout */
+    .staff-card {
+        margin: 10px; /* Add some margin */
+    }
+
+    /* Adjust the table for mobile */
+    .table-container {
+        overflow-x: auto; /* Allow horizontal scrolling */
+    }
+
+    /* Adjust the table header for mobile */
+    table {
+        width: 100%; /* Full width on mobile */
+    }
+
+    /* Adjust the icons and text for better visibility */
+    .icon {
+        font-size: 1.2em; /* Increase icon size */
+    }
 }

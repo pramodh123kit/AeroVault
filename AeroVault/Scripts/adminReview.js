@@ -102,21 +102,23 @@ function populateFilesTable(files) {
     files.forEach(file => {
         const row = document.createElement('tr');
 
-        // Determine the icon based on the file category
+        // Determine the icon based on the file type
         const icon = file.fileType === 'Video'
             ? '/Content/Assets/system-video-icon.svg'
             : '/Content/Assets/system-file-icon.svg';
 
+        // Set the category based on the fileCategory property
+        const category = file.fileCategory === 'Training' ? 'Training' : 'Technical'; // Adjust as needed
+
         row.innerHTML = `
             <td><img src="${icon}" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> ${file.fileName}</td>
-            <td>${file.fileType}</td> <!-- Use file.fileType -->
+            <td>${category}</td> <!-- Display the category -->
             <td class="read-by-unique"></td> <!-- Leave empty -->
             <td class="pending-by-unique"></td> <!-- Leave empty -->
         `;
         tableBody.appendChild(row);
     });
 }
-
 function openReadModalUnique() {    
     document.getElementById("readModalUnique").style.display = "block";
 }
