@@ -159,6 +159,11 @@ namespace AeroVault.Business
                         Console.WriteLine();
 
                         staffMl.UserRole = item["PERMISSIONLEVEL"]?.ToString() ?? "AEVT-Staff";
+
+                        if (staffMl.UserRole == "NA")
+                        {
+                            staffMl.UserRole = "AEVT-Staff";
+                        }
                     }
                     else
                     {
