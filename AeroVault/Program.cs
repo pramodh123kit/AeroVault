@@ -55,16 +55,17 @@ namespace AeroVault
             builder.Services.AddScoped<ReviewBl>();
             builder.Services.AddScoped<LoginBL>();
             builder.Services.AddScoped<LoginDL>();
+            builder.Services.AddScoped<clsRole>();
 
             // Add this to your service configuration
-            builder.Services.AddSingleton(sp =>
-            {
-                var configuration = sp.GetRequiredService<IConfiguration>();
-                return new DBManager(
-                    Base.SLA_AUTH_ConnectionDataProvider,
-                    configuration.GetConnectionString("SLA_AUTH_ConnectionString")
-                );
-            });
+            //builder.Services.AddSingleton(sp =>
+            //{
+            //    var configuration = sp.GetRequiredService<IConfiguration>();
+            //    return new DBManager(
+            //        Base.SLA_AUTH_ConnectionDataProvider,
+            //        configuration.GetConnectionString("SLA_AUTH_ConnectionString")
+            //    );
+            //});
 
             builder.Logging.ClearProviders();
             builder.Logging.AddConsole();

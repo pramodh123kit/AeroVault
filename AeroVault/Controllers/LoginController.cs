@@ -24,7 +24,7 @@ namespace AeroVault.Controllers
         }
 
         [HttpPost]
-        public IActionResult Authenticate(string staffNo, string password)
+        public  IActionResult Authenticate(string staffNo, string password)
         {
             if (string.IsNullOrEmpty(staffNo) || string.IsNullOrEmpty(password))
             {
@@ -42,7 +42,8 @@ namespace AeroVault.Controllers
                     return View("LoginPage");
                 }
 
-                var userRole = _loginBl.GetRole(staffMl);
+                var userRole = _loginBl.GetRole(staffMl).GetAwaiter().GetResult();
+
                 if (!IsAuthorized(userRole.UserRole))
                 {
                     TempData["ErrorMessage"] = $"Unauthorized role: {userRole.UserRole}";

@@ -6,6 +6,10 @@ using AeroVault.Models;
 using Microsoft.AspNetCore.Http;
 using System.Data;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Net;
+using System.Security.Authentication;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace AeroVault.Business
 {
@@ -13,12 +17,26 @@ namespace AeroVault.Business
     {
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
+       // clsRole _role = new clsRole();
+
 
         public LoginBL(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
+
+            var connectionString = configuration.GetConnectionString("SLA_AUTH_ConnectionString");
+
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new Exception("SLA_AUTH_ConnectionString is not configured properly.");
+            }
+
+           
         }
+
+
+
 
         public bool GetLoginValidation(StaffML staffMl)
         {
@@ -26,7 +44,7 @@ namespace AeroVault.Business
 
             if (isValid)
             {
-                // Use HttpContextAccessor to set session
+               
                 _httpContextAccessor.HttpContext.Session.SetString("StaffNo", staffMl.StaffNo);
             }
 
@@ -39,7 +57,6 @@ namespace AeroVault.Business
             {
                 var adDomain = _configuration["AppSettings:ADDomain"];
 
-                // Add more detailed logging
                 Console.WriteLine($"Attempting AD authentication for user: {StaffNo}");
                 Console.WriteLine($"AD Domain: {adDomain}");
 
@@ -79,24 +96,66 @@ namespace AeroVault.Business
             }
         }
 
-        public StaffML GetRole(StaffML staffMl)
+        //public StaffML GetRole(StaffML staffMl)
+        //{
+        //    var staff = new StaffML();
+        //   // var role = new clsRole();
+
+        //    var dt = _role.getUserRolesforApplication(staffMl.StaffNo, "AEVT");
+
+        //    if (dt != null && dt.Rows.Count > 0)
+        //    {
+        //        staff.UserRole = "AEVT-Admin";
+        //    }
+        //    else
+        //    {
+        //        staff.UserRole = "AEVT-Staff";
+        //    }
+
+        //    return staff;
+        //}
+
+
+        public static readonly HttpClient client = new HttpClient();
+
+        public async Task<StaffML> GetRole(StaffML staffMl)
         {
-            var staff = new StaffML();
-            var role = new clsRole();
-
-            var dt = role.getUserRolesforApplication(staffMl.StaffNo, "AEVT");
-
-            if (dt != null && dt.Rows.Count > 0)
+            try
             {
-                staff.UserRole = "AEVT-Admin";
-            }
-            else
+                string url = _configuration["AppSecSettings:AppSecService"].ToString();
+                string AppID = _configuration["AppSecSettings:AppId"].ToString();
+                var requestData = new List<KeyValuePair<string, string>>
             {
-                staff.UserRole = "AEVT-Staff";
-            }
+                new KeyValuePair<string, string>("USERNAME",staffMl.StaffNo ),
+                new KeyValuePair<string, string>("PASSWORD", staffMl.StaffPassword),
+                new KeyValuePair<string, string>("APPSECAPPID", AppID)
+            };
 
-            return staff;
+                var content = new FormUrlEncodedContent(requestData);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
+
+                HttpResponseMessage response = await client.PostAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+
+                    staffMl.UserRole = "AEVT-Admin";
+
+                    return staffMl;
+                }
+                else
+                {
+                    staffMl.UserRole = "AEVT-Staff";
+                    
+                    return staffMl;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
+
 
         public StaffML GetNameAndEmail(StaffML staffNo)
         {
