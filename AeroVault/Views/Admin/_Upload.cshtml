@@ -23,7 +23,7 @@
                     <label class="status-label" for="status-selector" style="font-weight:normal;">Department</label>
                     <div class="status-dropdown">
                         <div class="status-dropdown-toggle status-selector" style="border:1px solid #00436C;" onclick="toggleStatusDropdown()">
-                            <span id="selected-status">All</span> <!-- Default selected value -->
+                            <span id="selected-status">All</span> 
                             <i class="fas fa-chevron-down" style="color: #00436C;"></i>
                         </div>
                         <div class="status-dropdown-content">
@@ -33,7 +33,7 @@
                                        onkeyup="filterStatusOptions()" onclick="event.stopPropagation()">
                             </div>
                             <div class="status-dropdown-list">
-                                <div onclick="selectStatusOption(this)">All</div> <!-- Add "All" option -->
+                                <div onclick="selectStatusOption(this)">All</div> 
                                 @if (Model != null && Model.Departments != null)
                                 {
                                     @foreach (var department in Model.Departments)
@@ -46,16 +46,11 @@
                     </div>
                 </div>
 
-
-
-
-
-
                 <div class="system-form-group" style="margin-top:0px;">
                     <label class="system-label" for="system-selector">System</label>
                     <div class="system-dropdown">
                         <div class="system-dropdown-toggle system-selector" style="border:1px solid #00436C;" onclick="togglesystemDropdown()">
-                            <span id="selected-system">All</span> <!-- Default selected value -->
+                            <span id="selected-system">All</span> 
                             <i class="fas fa-chevron-down" style="color: #00436C;"></i>
                         </div>
                         <div class="system-dropdown-content">
@@ -65,7 +60,7 @@
                                        onkeyup="filtersystemOptions()" onclick="event.stopPropagation()">
                             </div>
                             <div class="system-dropdown-list">
-                                <div onclick="selectsystemOption(this)">All</div> <!-- Add "All" option -->
+                                <div onclick="selectsystemOption(this)">All</div> 
                                 @if (Model != null && Model.Systems != null)
                                 {
                                     @foreach (var system in Model.Systems)
@@ -77,8 +72,6 @@
                         </div>
                     </div>
                 </div>
-
-
 
                 <div class="category-form-group" style="margin-top:0px;">
                     <label class="category-label" for="category-selector"> Category</label>
@@ -94,7 +87,7 @@
                                        onkeyup="filtercategoryOptions()" onclick="event.stopPropagation()">
                             </div>
                             <div class="category-dropdown-list">
-                                <div onclick="selectcategoryOption(this)">All</div> <!-- Add "All" option -->
+                                <div onclick="selectcategoryOption(this)">All</div> 
                                 <div onclick="selectcategoryOption(this)">Training</div>
                                 <div onclick="selectcategoryOption(this)">Technical</div>
                             </div>
@@ -102,20 +95,11 @@
                     </div>
                 </div>
 
-
-
-
-
-
-
-
                 <div class="file-search-container1" style="margin-bottom:0px;">
                     <img src="/Content/Assets/search-icon.svg" class="search-icon1" alt="Search Icon" />
                     <input id="SystemfileSearch" onkeyup="filterFiles()" placeholder="Search" type="text"
                            class="file-search-input1" style="width:200px;" />
                 </div>
-
-
 
             </div>
         </div>
@@ -151,7 +135,6 @@
                             <tr>
                                 <td>
                                     @{
-                                        // Get the file name without the extension
                                         var fileNameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(file.FileName);
                                         var fileExtension = System.IO.Path.GetExtension(file.FileName).ToLowerInvariant();
 
@@ -197,10 +180,8 @@
             </table>
         </div>
 
-        <!-- Tooltip for Multi-Departmental -->
         <div id="departmentTooltip" class="tooltip" style="display:none;"></div>
 
-        <!-- Pagination -->
         <div class="pagination">
             <button class="pagination-btn prev">Previous</button>
             <div class="page-numbers"></div>
@@ -209,7 +190,6 @@
     </div>
 </div>
 
-<!-- Department Popup -->
 <div class="department-popup" id="departmentPopup">
     <div class="popup-content">
         <ul>
@@ -225,19 +205,16 @@
 
 <div id="dark-overlay8" class="dark-overlay" style="display: none;"></div>
 
-<!-- Add this right after dark-overlay8 -->
 <div id="overlay-pdf" class="overlay-pdf" style="display: none;">
     <div class="iframe-container">
-        <!-- Loading Indicator -->
         <div id="pdf-loading-indicator" class="loading-indicator">
             <div class="spinner"></div>
             <p>Loading file...</p>
         </div>
 
-        <!-- New div for custom header -->
         <div class="custom-header">
             <img src="/Content/Assets/close-icon.svg" class="close-button" id="close-pdf-button" alt="Close" />
-            <div id="file-name-display"></div> <!-- Placeholder for file name -->
+            <div id="file-name-display"></div> 
         </div>
 
         <iframe id="pdf-frame" src="" style="width: 100%; height: 90%; border: none; display: none; margin-top:40px;"></iframe>

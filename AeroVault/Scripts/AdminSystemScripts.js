@@ -1904,49 +1904,29 @@ var originalFileCategory = ''; // Variable to store the original file category
 
 
 function openFileEditPopup(fileId, fileName, fileCategory) {
-
     // Set the file ID in a hidden input
-
     document.getElementById('file-id-to-edit').value = fileId;
 
-
     // Set the file name in the input field
-
     document.getElementById('file-name').value = fileName;
 
-
     // Set the file category in the dropdown
-
     const categoryDropdown = document.getElementById('category');
-
     categoryDropdown.value = fileCategory; // Set the selected value
 
-
-    // Store the original values
-
-    originalFileName = fileName;
-
-    originalFileCategory = fileCategory;
-
+    // Update the title in the popup
+    document.querySelector('.modal-header h2').textContent = `Edit ${fileName}`;
 
     // Open the file edit popup
-
     document.getElementById('dark-overlay5').style.display = 'block';
-
     document.getElementById('editfile-popup').style.display = 'block';
 
-
     // Initially disable the save button
-
     document.querySelector('.save-btn-file-edit').disabled = true;
 
-
     // Add event listeners to detect changes
-
     document.getElementById('file-name').addEventListener('input', checkForChangesEditFile);
-
     categoryDropdown.addEventListener('change', checkForChangesEditFile);
-
 }
 
 document.querySelector('.save-btn-file-edit').addEventListener('click', async function () {
