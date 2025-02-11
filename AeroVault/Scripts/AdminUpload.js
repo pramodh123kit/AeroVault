@@ -1,4 +1,3 @@
-// Global variables to store the selected category and filtered rows
 var selectedCategory = "All";
 var filteredRows = [];
 var currentPage = 1;
@@ -7,7 +6,6 @@ var selectedSystem = "All";
 var selectedDepartment = "All";
 
 document.getElementById('SystemfileSearch').addEventListener('keyup', filterTable);
-// Function to filter the table based on the selected category
 function filterTable() {
     const rows = document.querySelectorAll(".file-table tbody tr");
     const searchInput = document.getElementById('SystemfileSearch');
@@ -42,38 +40,30 @@ function filterTable() {
         }
     });
 
-    currentPage = 1; // Reset to the first page after filtering
+    currentPage = 1;
     updateTable();
     setupPagination();
 }
 
-
-
-// Modify the updateTable function to show only filtered rows
 function updateTable() {
     const rows = document.querySelectorAll(".file-table tbody tr");
     const start = (currentPage - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
-    // Hide all rows first
     rows.forEach(row => {
         row.style.display = "none";
     });
 
-    // Show only the filtered rows for the current page
     filteredRows.slice(start, end).forEach(row => {
         row.style.display = "";
     });
 }
-
-// Modify the setupPagination function to use filteredRows
 function setupPagination() {
     const totalRows = filteredRows.length;
     const totalPages = Math.ceil(totalRows / rowsPerPage);
     const paginationContainer = document.querySelector(".page-numbers");
     paginationContainer.innerHTML = "";
 
-    // Previous button
     const prevButton = document.querySelector(".prev");
     prevButton.onclick = () => {
         if (currentPage > 1) {
@@ -83,7 +73,6 @@ function setupPagination() {
         }
     };
 
-    // Next button
     const nextButton = document.querySelector(".next");
     nextButton.onclick = () => {
         if (currentPage < totalPages) {
@@ -93,7 +82,6 @@ function setupPagination() {
         }
     };
 
-    // Determine the range of page numbers to show
     let startPage, endPage;
     if (totalPages <= 5) {
         startPage = 1;
@@ -111,7 +99,6 @@ function setupPagination() {
         }
     }
 
-    // Generate page numbers
     for (let i = startPage; i <= endPage; i++) {
         const pageNum = document.createElement("span");
         pageNum.className = `page-number ${i === currentPage ? "active" : ""}`;
@@ -124,7 +111,6 @@ function setupPagination() {
         paginationContainer.appendChild(pageNum);
     }
 
-    // Add first page and ellipsis if needed
     if (startPage > 1) {
         const firstPage = document.createElement("span");
         firstPage.className = "page-number";
@@ -144,7 +130,6 @@ function setupPagination() {
         }
     }
 
-    // Add last page and ellipsis if needed
     if (endPage < totalPages) {
         if (endPage < totalPages - 1) {
             const endEllipsis = document.createElement("span");
@@ -164,12 +149,10 @@ function setupPagination() {
         paginationContainer.appendChild(lastPage);
     }
 
-    // Disable/enable prev and next buttons
     prevButton.disabled = currentPage === 1;
     nextButton.disabled = currentPage === totalPages;
 }
 
-// Modify the selectcategoryOption function to filter the table
 function selectcategoryOption(element) {
     selectedCategory = element.textContent || element.innerText;
     document.getElementById('selected-category').textContent = selectedCategory;
@@ -187,7 +170,6 @@ function selectcategoryOption(element) {
     });
     element.classList.add('active');
 
-    // Filter the rows based on the selected category
     filterTable();
 }
 function filtersystemOptions() {
@@ -246,34 +228,26 @@ function filterFiles() {
         }
     });
 
-    // Update pagination after filtering
     currentPage = 1;
     setupPagination();
 }
 
-// Initial setup
 filterTable();
 setupPagination();
 
-// Your existing functions below (unchanged)
-// Modify the window.onclick function to handle all dropdowns
 window.onclick = function (event) {
-    // Status Dropdown
     const statusDropdownContent = document.querySelector('.status-dropdown-content');
     const statusSelector = document.querySelector('.status-selector');
     const statusDropdownToggle = document.querySelector('.status-dropdown-toggle');
 
-    // System Dropdown
     const systemDropdownContent = document.querySelector('.system-dropdown-content');
     const systemSelector = document.querySelector('.system-selector');
     const systemDropdownToggle = document.querySelector('.system-dropdown-toggle');
 
-    // Category Dropdown
     const categoryDropdownContent = document.querySelector('.category-dropdown-content');
     const categorySelector = document.querySelector('.category-selector');
     const categoryDropdownToggle = document.querySelector('.category-dropdown-toggle');
 
-    // Function to reset a dropdown
     function resetDropdown(dropdownContent, selector, dropdownToggle) {
         if (dropdownContent && dropdownContent.style.display === 'block') {
             dropdownContent.style.display = 'none';
@@ -285,12 +259,10 @@ window.onclick = function (event) {
         }
     }
 
-    // Check if a dropdown is being opened
     const isStatusDropdownToggle = event.target.closest('.status-dropdown-toggle');
     const isSystemDropdownToggle = event.target.closest('.system-dropdown-toggle');
     const isCategoryDropdownToggle = event.target.closest('.category-dropdown-toggle');
 
-    // Reset other dropdowns if a new one is being opened
     if (isStatusDropdownToggle) {
         resetDropdown(systemDropdownContent, systemSelector, systemDropdownToggle);
         resetDropdown(categoryDropdownContent, categorySelector, categoryDropdownToggle);
@@ -301,7 +273,6 @@ window.onclick = function (event) {
         resetDropdown(statusDropdownContent, statusSelector, statusDropdownToggle);
         resetDropdown(systemDropdownContent, systemSelector, systemDropdownToggle);
     }
-    // Close all if clicked outside
     else if (!event.target.closest('.status-dropdown') &&
         !event.target.closest('.system-dropdown') &&
         !event.target.closest('.category-dropdown')) {
@@ -350,7 +321,6 @@ function selectStatusOption(element) {
     });
     element.classList.add('active');
 
-    // Filter the rows based on the selected department
     filterTable();
 }
 
@@ -367,7 +337,6 @@ function togglesystemDropdown() {
         selector.style.borderBottomRightRadius = '10px';
         selector.style.borderBottom = '1px solid #6D6D6D';
 
-        // Reset the search input and show all options
         document.getElementById('system-search-input').value = '';
         filtersystemOptions();
     } else {
@@ -378,7 +347,6 @@ function togglesystemDropdown() {
         selector.style.borderBottomRightRadius = '0';
         selector.style.borderBottom = 'none';
 
-        // Ensure all options are visible when the dropdown is opened
         const systemOptions = document.querySelectorAll('.system-dropdown-list div');
         systemOptions.forEach(option => {
             option.style.display = "";
@@ -404,7 +372,6 @@ function selectsystemOption(element) {
     });
     element.classList.add('active');
 
-    // Filter the rows based on the selected system
     filterTable();
 }
 
@@ -421,7 +388,6 @@ function togglecategoryDropdown() {
         selector.style.borderBottomRightRadius = '10px';
         selector.style.borderBottom = '1px solid #6D6D6D';
 
-        // Reset the search input and show all options
         document.getElementById('category-search-input').value = '';
         filtercategoryOptions();
     } else {
@@ -432,7 +398,6 @@ function togglecategoryDropdown() {
         selector.style.borderBottomRightRadius = '0';
         selector.style.borderBottom = 'none';
 
-        // Ensure all options are visible when the dropdown is opened
         const categoryOptions = document.querySelectorAll('.category-dropdown-list div');
         categoryOptions.forEach(option => {
             option.style.display = "";
@@ -457,46 +422,37 @@ function selectcategoryOption(element) {
     });
     element.classList.add('active');
 
-    // Filter the rows based on the selected category
     filterTable();
 }
 
-// Your existing functions continue below...
 
 function showDepartmentTooltip(event, departmentNames) {
     const tooltip = document.getElementById('departmentTooltip');
     const departments = departmentNames.split(', ');
 
-    // Populate the tooltip with department names
     tooltip.innerHTML = "<ul>" + departments.map(dept => `<li>${dept}</li>`).join('') + "</ul>";
 
-    // Position the tooltip
     tooltip.style.display = "block";
     tooltip.style.position = "absolute";
     tooltip.style.top = `${event.clientY}px`;
-    tooltip.style.left = `${event.clientX + 10}px`; // Adjust position as needed
+    tooltip.style.left = `${event.clientX + 10}px`;
 
-    // Add click event listener to document to close tooltip
+
     function closeTooltipOnOutsideClick(e) {
-        // Check if the click is outside the tooltip and not on the multi-departmental element
         if (!tooltip.contains(e.target) &&
             !event.target.classList.contains('multi-departmental')) {
             tooltip.style.display = 'none';
-            // Remove the event listener after closing
             document.removeEventListener('click', closeTooltipOnOutsideClick);
         }
     }
 
-    // Add a small delay to prevent immediate closure
     setTimeout(() => {
         document.addEventListener('click', closeTooltipOnOutsideClick);
     }, 0);
 
-    // Stop the original event from propagating
     event.stopPropagation();
 }
 
-// Optional: Remove the separate click event listener if you're using the above function
 document.addEventListener('click', function (event) {
     const tooltip = document.getElementById('departmentTooltip');
 
@@ -519,15 +475,12 @@ function fileEditClosePopup8() {
     document.getElementById("dark-overlay8").style.display = "none";
     document.getElementById("editfile-popup8").style.display = "none";
 
-    // Reset persistent selections
     persistentSelectedDepartments = [];
 
-    // Uncheck all department checkboxes
     document.querySelectorAll(".department").forEach(checkbox => {
         checkbox.checked = false;
     });
 
-    // Reset division styles
     document.querySelectorAll(".division").forEach(division => {
         updateDivisionHeaderStyle(division);
         updateSelectedCount(division);
@@ -541,7 +494,7 @@ document.querySelectorAll(".upload-btn").forEach(function (icon) {
 document.getElementById("close-logout8").onclick = fileEditClosePopup8;
 
 function viewFile(fileName, uniqueIdentifier) {
-    console.log("Attempting to view file:", fileName); // Log the file name
+    console.log("Attempting to view file:", fileName); 
     const overlayPdf = document.getElementById('overlay-pdf');
     const pdfFrame = document.getElementById('pdf-frame');
     const closePdfButton = document.getElementById('close-pdf-button');
@@ -549,13 +502,9 @@ function viewFile(fileName, uniqueIdentifier) {
     const loadingIndicator = document.getElementById('pdf-loading-indicator');
     const fileNameDisplay = document.getElementById('file-name-display');
 
-    // Set the file name in the custom header
     fileNameDisplay.textContent = fileName;
-
-    // Remove file extension if present
     fileName = fileName.replace(/\.[^/.]+$/, "");
 
-    // Find the file with the correct extension
     fetch(`/Upload/FindFile?fileName=${encodeURIComponent(fileName)}&uniqueIdentifier=${encodeURIComponent(uniqueIdentifier)}`)
         .then(response => {
             if (!response.ok) {
@@ -565,29 +514,23 @@ function viewFile(fileName, uniqueIdentifier) {
         })
         .then(data => {
             if (data.foundFileName) {
-                // Construct the URL to view the file
                 const fileUrl = `/Upload/ViewFile?fileName=${encodeURIComponent(data.foundFileName)}`;
 
-                // Show loading indicator
                 loadingIndicator.style.display = 'block';
                 pdfFrame.style.display = 'none';
 
-                // Set the iframe source
                 pdfFrame.src = fileUrl;
 
-                // Handle iframe load
                 pdfFrame.onload = function () {
                     loadingIndicator.style.display = 'none';
                     pdfFrame.style.display = 'block';
                 };
 
-                // Handle iframe error
                 pdfFrame.onerror = function () {
                     loadingIndicator.style.display = 'none';
                     alert('Error loading document. Please try again.');
                 };
 
-                // Show the overlay and dark background
                 overlayPdf.style.display = 'flex';
                 darkOverlay.style.display = 'block';
             } else {
@@ -599,26 +542,22 @@ function viewFile(fileName, uniqueIdentifier) {
             alert('An error occurred while trying to view the file.');
         });
 
-    // Close button functionality
     const closePdfButtonHandler = function () {
         overlayPdf.style.display = 'none';
         darkOverlay.style.display = 'none';
-        pdfFrame.src = ''; // Clear the source
+        pdfFrame.src = ''; 
         loadingIndicator.style.display = 'none';
 
-        // Remove the event listener to prevent multiple bindings
         closePdfButton.removeEventListener('click', closePdfButtonHandler);
     };
 
-    // Add event listener to close button
     closePdfButton.addEventListener('click', closePdfButtonHandler);
 
-    // Optional: Close when clicking outside the PDF viewer
     const darkOverlayHandler = function (event) {
         if (event.target === darkOverlay) {
             overlayPdf.style.display = 'none';
             darkOverlay.style.display = 'none';
-            pdfFrame.src = ''; // Clear the source
+            pdfFrame.src = '';
             loadingIndicator.style.display = 'none';
         }
     };
