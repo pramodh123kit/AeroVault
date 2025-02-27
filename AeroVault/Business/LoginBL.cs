@@ -147,6 +147,8 @@ namespace AeroVault.Business
 
                     if (responseData.Count > 0)
                     {
+
+
                         var item = responseData[0];
 
                         Console.WriteLine("PATH: " + item["PATH"]);
@@ -158,7 +160,28 @@ namespace AeroVault.Business
                         Console.WriteLine("RESPONSE_MESSAGE: " + item["RESPONSE_MESSAGE"]);
                         Console.WriteLine();
 
+                        string ldapPath = item["PATH"]?.ToString();
+
+                        if (!string.IsNullOrEmpty(ldapPath))
+                        {
+                            var parts = ldapPath.Split(',');
+                            int ouCount = 0; 
+                            foreach (var part in parts)
+                            {
+                                if (part.Trim().StartsWith("OU="))
+                                {
+                                    ouCount++;
+                                    if (ouCount == 2)
+                                    {
+                                        _httpContextAccessor.HttpContext.Session.SetString("Department", part.Trim().Substring(3)); 
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
                         staffMl.UserRole = item["PERMISSIONLEVEL"]?.ToString() ?? "AEVT-Staff";
+                        staffMl.StaffName = item["DISPLAYNAME"]?.ToString() ?? "Unknown User";
 
                         if (staffMl.UserRole == "NA")
                         {
@@ -170,7 +193,7 @@ namespace AeroVault.Business
                         staffMl.UserRole = "AEVT-Staff";
                     }
                 }
-
+                _httpContextAccessor.HttpContext.Session.SetString("StaffName", staffMl.StaffName);
                 return staffMl;
             }
             catch (Exception ex)
