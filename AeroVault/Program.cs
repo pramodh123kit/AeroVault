@@ -53,6 +53,10 @@ namespace AeroVault
             builder.Services.AddScoped<LoginBl>();
             builder.Services.AddScoped<LoginDl>();
 
+
+            builder.Services.AddSingleton<IConfiguration>(sp => sp.GetRequiredService<IConfiguration>());
+            builder.Services.AddScoped<DBManager>();
+
             builder.Services.AddSingleton(sp =>
             {
                 var configuration = sp.GetRequiredService<IConfiguration>();
@@ -107,9 +111,9 @@ namespace AeroVault
 
             app.MapControllerRoute(
                 name: "default",
-            //pattern: "{controller=Admin}/{action=Index}/{id?}");
+            pattern: "{controller=Admin}/{action=Index}/{id?}");
             //pattern: "{controller=userfilerepository}/{action=filerepository}/{id?}");
-            pattern: "{controller=login}/{action=index}/{id?}");
+            //pattern: "{controller=login}/{action=index}/{id?}");
             //pattern: "{controller=test}/{action=testconnection}/{id?}");
 
             app.Run();
