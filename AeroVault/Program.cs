@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using AeroVault.Models;
 using Microsoft.Extensions.FileProviders;
@@ -24,6 +25,12 @@ namespace AeroVault
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            // Configure FormOptions for file uploads
+            builder.Services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 500 * 1024 * 1024; // 500 MB
+            });
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddSession(options =>
