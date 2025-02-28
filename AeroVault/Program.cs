@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using AeroVault.Models;
 using Microsoft.Extensions.FileProviders;
@@ -24,6 +25,12 @@ namespace AeroVault
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            // Configure FormOptions for file uploads
+            builder.Services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 500 * 1024 * 1024; // 500 MB
+            });
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddSession(options =>
@@ -107,9 +114,9 @@ namespace AeroVault
 
             app.MapControllerRoute(
                 name: "default",
-                //pattern: "{controller=Admin}/{action=Index}/{id?}");
+            pattern: "{controller=Admin}/{action=Index}/{id?}");
             //pattern: "{controller=userfilerepository}/{action=filerepository}/{id?}");
-            pattern: "{controller=login}/{action=index}/{id?}");
+            //pattern: "{controller=login}/{action=index}/{id?}");
             //pattern: "{controller=test}/{action=testconnection}/{id?}");
 
             app.Run();
