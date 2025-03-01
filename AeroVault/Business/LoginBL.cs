@@ -18,8 +18,6 @@ namespace AeroVault.Business
     {
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
-       // clsRole _role = new clsRole();
-
 
         public LoginBl(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
@@ -32,12 +30,7 @@ namespace AeroVault.Business
             {
                 throw new Exception("SLA_AUTH_ConnectionString is not configured properly.");
             }
-
-           
         }
-
-
-
 
         public bool GetLoginValidation(StaffML staffMl)
         {
@@ -45,7 +38,6 @@ namespace AeroVault.Business
 
             if (isValid)
             {
-               
                 _httpContextAccessor.HttpContext.Session.SetString("StaffNo", staffMl.StaffNo);
             }
 
@@ -67,14 +59,48 @@ namespace AeroVault.Business
                     var obj = entry.NativeObject;
                     var search = new DirectorySearcher(entry)
                     {
-                        Filter = "(SAMAccountName=" + StaffNo + ")"
+                        Filter = $"(SAMAccountName={StaffNo})"
                     };
                     search.PropertiesToLoad.Add("cn");
+                    search.PropertiesToLoad.Add("displayName");
+                    search.PropertiesToLoad.Add("department");
                     var result = search.FindOne();
 
                     if (result != null)
                     {
                         Console.WriteLine($"User {StaffNo} authenticated successfully");
+
+                        // Retrieve staff name and department from AD
+                        var directoryEntry = result.GetDirectoryEntry();
+                        string staffName = directoryEntry.Properties["displayName"].Value?.ToString() ?? "Unknown User";
+                        string department = directoryEntry.Properties["department"].Value?.ToString() ?? "Unknown Department";
+
+                        // Log the retrieved values for debugging
+                        Console.WriteLine($"Retrieved StaffName: {staffName}");
+                        Console.WriteLine($"Retrieved Department: {department}");
+
+                        // Set staff name and department in the StaffML model
+                        var staffMl = new StaffML
+                        {
+                            StaffNo = StaffNo,
+                            StaffName = staffName,
+                            Department = department
+                        };
+
+                        // Store staff name and department in session
+                        _httpContextAccessor.HttpContext.Session.SetString("StaffName", staffName);
+                        _httpContextAccessor.HttpContext.Session.SetString("Department", department);
+
+                        // Log the values being set in the session
+                        Console.WriteLine($"StaffName set in session: {staffName}");
+                        Console.WriteLine($"Department set in session: {department}");
+
+                        // Set the user role to "AEVT-Staff" for normal staff
+                        staffMl.UserRole = "AEVT-Staff";
+
+                        // Store the user role in session
+                        _httpContextAccessor.HttpContext.Session.SetString("UserRole", staffMl.UserRole);
+
                         return true;
                     }
                     else
@@ -83,7 +109,6 @@ namespace AeroVault.Business
                         return false;
                     }
                 }
-
                 catch (Exception searchEx)
                 {
                     Console.WriteLine($"Error during AD search for {StaffNo}: {searchEx}");
@@ -97,26 +122,6 @@ namespace AeroVault.Business
             }
         }
 
-        //public StaffML GetRole(StaffML staffMl)
-        //{
-        //    var staff = new StaffML();
-        //   // var role = new clsRole();
-
-        //    var dt = _role.getUserRolesforApplication(staffMl.StaffNo, "AEVT");
-
-        //    if (dt != null && dt.Rows.Count > 0)
-        //    {
-        //        staff.UserRole = "AEVT-Admin";
-        //    }
-        //    else
-        //    {
-        //        staff.UserRole = "AEVT-Staff";
-        //    }
-
-        //    return staff;
-        //}
-
-
         public static readonly HttpClient client = new HttpClient();
 
         public async Task<StaffML> GetRole(StaffML staffMl)
@@ -129,11 +134,11 @@ namespace AeroVault.Business
                 using (HttpClient client = new HttpClient())
                 {
                     var requestData = new List<KeyValuePair<string, string>>
-            {
-                new KeyValuePair<string, string>("USERNAME", staffMl.StaffNo),
-                new KeyValuePair<string, string>("PASSWORD", staffMl.StaffPassword),
-                new KeyValuePair<string, string>("APPSECAPPID", AppID)
-            };
+                    {
+                        new KeyValuePair<string, string>("USERNAME", staffMl.StaffNo),
+                        new KeyValuePair<string, string>("PASSWORD", staffMl.StaffPassword),
+                        new KeyValuePair<string, string>("APPSECAPPID", AppID)
+                    };
 
                     var content = new FormUrlEncodedContent(requestData);
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
@@ -147,8 +152,6 @@ namespace AeroVault.Business
 
                     if (responseData.Count > 0)
                     {
-
-
                         var item = responseData[0];
 
                         Console.WriteLine("PATH: " + item["PATH"]);
@@ -165,7 +168,7 @@ namespace AeroVault.Business
                         if (!string.IsNullOrEmpty(ldapPath))
                         {
                             var parts = ldapPath.Split(',');
-                            int ouCount = 0; 
+                            int ouCount = 0;
                             foreach (var part in parts)
                             {
                                 if (part.Trim().StartsWith("OU="))
@@ -173,7 +176,7 @@ namespace AeroVault.Business
                                     ouCount++;
                                     if (ouCount == 2)
                                     {
-                                        _httpContextAccessor.HttpContext.Session.SetString("Department", part.Trim().Substring(3)); 
+                                        _httpContextAccessor.HttpContext.Session.SetString("Department", part.Trim().Substring(3));
                                         break;
                                     }
                                 }
@@ -187,13 +190,22 @@ namespace AeroVault.Business
                         {
                             staffMl.UserRole = "AEVT-Staff";
                         }
+
+                        // Store the user role in session
+                        _httpContextAccessor.HttpContext.Session.SetString("UserRole", staffMl.UserRole);
                     }
                     else
                     {
                         staffMl.UserRole = "AEVT-Staff";
                     }
                 }
-                _httpContextAccessor.HttpContext.Session.SetString("StaffName", staffMl.StaffName);
+
+                // Only set the staff name in session if it is not already set (i.e., for non-admin users)
+                if (string.IsNullOrEmpty(_httpContextAccessor.HttpContext.Session.GetString("StaffName")))
+                {
+                    _httpContextAccessor.HttpContext.Session.SetString("StaffName", staffMl.StaffName);
+                }
+
                 return staffMl;
             }
             catch (Exception ex)
@@ -202,8 +214,6 @@ namespace AeroVault.Business
                 return null;
             }
         }
-
-
 
         public StaffML GetNameAndEmail(StaffML staffNo)
         {
