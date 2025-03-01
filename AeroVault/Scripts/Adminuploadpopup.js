@@ -437,7 +437,11 @@ function uploadFiles() {
     });
 
     // Show loading indicator
-    alert(`Uploading ${selectedFiles.length} file(s)...`);
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    loadingIndicator.style.display = 'block'; // Show loading indicator
+
+    console.log("Showing loading indicator");
+    loadingIndicator.style.display = 'block';
 
     // Perform the upload
     fetch('/Upload/UploadFiles', {
@@ -473,6 +477,9 @@ function uploadFiles() {
 
             // Insert the error message after the selected files container
             selectedFilesContainer.parentNode.insertBefore(errorMessage, selectedFilesContainer.nextSibling);
+        })
+        .finally(() => {
+            loadingIndicator.style.display = 'none'; // Hide loading indicator
         });
 }
 
