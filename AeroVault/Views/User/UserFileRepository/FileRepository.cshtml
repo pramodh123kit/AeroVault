@@ -1,7 +1,10 @@
 ﻿@{
     ViewData["Title"] = "File Repository";
     ViewData["CustomNavbar"] = true;
-    ViewData["UserHeader"] = true;
+    ViewData["User Header"] = true;
+
+    // Get the department from the session
+    string loggedInDepartment = Context.Session.GetString("Department");
 }
 
 <html>
@@ -20,12 +23,14 @@
             <div class="row">
                 <!-- Left Side -->
                 <div class="col-lg-3 left-section" style="position: relative; min-height: 70vh; padding-right:0px;">
-                    <div class=" col-lg-6 col-md-6 col-sm-4 mb-2 dropdown-container">
+                    <div class="col-lg-6 col-md-6 col-sm-4 mb-2 dropdown-container">
                         <div class="custom-form-group">
                             <label class="custom-label" for="custom-selector">Select Department</label>
                             <div class="custom-dropdown">
                                 <div class="custom-dropdown-toggle custom-selector" onclick="toggleCustomDropdown()">
-                                    <span id="selected-option" style="color: #00436C;">Staff's dep name</span>
+                                    <span id="selected-option" style="color: #00436C;">
+                                        @loggedInDepartment
+                                    </span>
                                     <i class="fas fa-chevron-down" style="color:#00436C;"></i>
                                 </div>
                                 <div class="custom-dropdown-content">
@@ -36,7 +41,9 @@
                                     <div class="custom-dropdown-list">
                                         @foreach (var department in ViewBag.Departments)
                                         {
-                                            <div onclick="selectCustomOption(this)" data-department-id="@department.DepartmentID">@department.DepartmentName</div>
+                                            <div onclick="selectCustomOption(this)" data-department-id="@department.DepartmentID">
+                                                @department.DepartmentName
+                                            </div>
                                         }
                                     </div>
                                 </div>
@@ -161,7 +168,8 @@
 
                                     <div class="category-form-container1">
                                         <div class="category-dropdown-wrapper1">
-                                            <div class="category-dropdown-button1 category-dropdown-selector1" onclick="toggleCategoryDropdownUnique1()">
+                                            <div class="category-dropdown-button1 ```html
+                                            category-dropdown-selector1" onclick="toggleCategoryDropdownUnique1()">
                                                 <span id="selected-category-unique1">All Categories</span>
                                                 <i class="fas fa-chevron-down"></i>
                                             </div>
@@ -212,5 +220,16 @@
 
     <script src="/Scripts/jquery.min.js"></script>
     <script src="/Scripts/FileRepository.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const loggedInDepartment = '@loggedInDepartment';
+            const departmentOptions = document.querySelectorAll('.custom-dropdown-list div')
+            departmentOptions.forEach(option => {
+                if (option.textContent.trim() === loggedInDepartment) {
+                    selectCustomOption(option); 
+                }
+            });
+        });
+    </script>
 </body>
 </html>

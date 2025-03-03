@@ -17,8 +17,24 @@ namespace AeroVault.Controllers
 
         public IActionResult FileRepository()
         {
+            // Retrieve the logged-in staff's department from the session
+            string userDepartment = HttpContext.Session.GetString("Department") ?? "No Department";
+
+            // Fetch the department ID based on the department name
             var departments = _fileRepositoryBl.GetDepartments();
-            ViewBag.Departments = departments; 
+            var selectedDepartment = departments.FirstOrDefault(d => d.DepartmentName == userDepartment);
+
+            // Fetch systems for the selected department
+            List<SystemModel> systems = new List<SystemModel>();
+            if (selectedDepartment != null)
+            {
+                systems = _fileRepositoryBl.GetNonDeletedSystemsByDepartment(selectedDepartment.DepartmentID);
+            }
+
+            // Pass the departments and systems to the view
+            ViewBag.Departments = departments;
+            ViewBag.Systems = systems; // Pass the systems to the view
+
             return View("~/Views/User/UserFileRepository/FileRepository.cshtml");
         }
 

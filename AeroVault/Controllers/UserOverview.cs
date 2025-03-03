@@ -17,8 +17,8 @@ namespace AeroVault.Controllers
         {
             try
             {
-                // Assuming you have a way to get the current user's department
-                string userDepartment = "Testingaaaa"; // This should be dynamically retrieved
+                // Retrieve the department from the session
+                string userDepartment = HttpContext.Session.GetString("Department") ?? "No Department"; 
 
                 // Check if the department is active
                 bool isActive = _userOverviewBl.IsDepartmentActive(userDepartment);
