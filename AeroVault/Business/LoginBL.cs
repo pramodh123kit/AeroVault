@@ -68,44 +68,58 @@ namespace AeroVault.Business
 
                     if (result != null)
                     {
-                        Console.WriteLine($"User {StaffNo} authenticated successfully");
+                        Console.WriteLine($"User  {StaffNo} authenticated successfully");
 
-                        // Retrieve staff name and department from AD
+                        // Retrieve staff name from AD
                         var directoryEntry = result.GetDirectoryEntry();
                         string staffName = directoryEntry.Properties["displayName"].Value?.ToString() ?? "Unknown User";
-                        string department = directoryEntry.Properties["department"].Value?.ToString() ?? "Unknown Department";
 
                         // Log the retrieved values for debugging
                         Console.WriteLine($"Retrieved StaffName: {staffName}");
-                        Console.WriteLine($"Retrieved Department: {department}");
 
-                        // Set staff name and department in the StaffML model
+                        // Set staff name in the StaffML model
                         var staffMl = new StaffML
                         {
                             StaffNo = StaffNo,
                             StaffName = staffName,
-                            Department = department
+                            UserRole = "AEVT-Staff" // Set the user role to AEVT-Staff
                         };
 
-                        // Store staff name and department in session
+                        // Extract the department from the LDAP path
+                        string ldapPath = directoryEntry.Path; // Get the LDAP path directly from the directory entry
+
+                        if (!string.IsNullOrEmpty(ldapPath))
+                        {
+                            var parts = ldapPath.Split(',');
+                            int ouCount = 0;
+                            foreach (var part in parts)
+                            {
+                                if (part.Trim().StartsWith("OU="))
+                                {
+                                    ouCount++;
+                                    if (ouCount == 2) // Assuming the second OU is the department
+                                    {
+                                        string department = part.Trim().Substring(3); // Extract department name
+                                        _httpContextAccessor.HttpContext.Session.SetString("Department", department); // Set department in session
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        // Store staff name in session
                         _httpContextAccessor.HttpContext.Session.SetString("StaffName", staffName);
-                        _httpContextAccessor.HttpContext.Session.SetString("Department", department);
+                        _httpContextAccessor.HttpContext.Session.SetString("User Role", staffMl.UserRole); // Store user role in session
 
                         // Log the values being set in the session
                         Console.WriteLine($"StaffName set in session: {staffName}");
-                        Console.WriteLine($"Department set in session: {department}");
-
-                        // Set the user role to "AEVT-Staff" for normal staff
-                        staffMl.UserRole = "AEVT-Staff";
-
-                        // Store the user role in session
-                        _httpContextAccessor.HttpContext.Session.SetString("UserRole", staffMl.UserRole);
+                        Console.WriteLine($"Department set in session: {ldapPath}"); // Log the LDAP path for debugging
 
                         return true;
                     }
                     else
                     {
-                        Console.WriteLine($"User {StaffNo} authentication failed: No user found");
+                        Console.WriteLine($"User  {StaffNo} authentication failed: No user found");
                         return false;
                     }
                 }
@@ -121,6 +135,7 @@ namespace AeroVault.Business
                 return false;
             }
         }
+
 
         public static readonly HttpClient client = new HttpClient();
 
