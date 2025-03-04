@@ -475,12 +475,21 @@ function fileEditClosePopup8() {
     document.getElementById("dark-overlay8").style.display = "none";
     document.getElementById("editfile-popup8").style.display = "none";
 
+    // Reset persistent selections
     persistentSelectedDepartments = [];
 
+    // Reset the loading bar
+    const loadingBarContainer = document.getElementById('loadingBarContainer');
+    loadingBarContainer.style.display = 'none'; // Hide loading bar
+    const loadingBar = document.getElementById('loadingBar');
+    loadingBar.style.width = '0%'; // Reset loading bar width
+
+    // Uncheck all department checkboxes
     document.querySelectorAll(".department").forEach(checkbox => {
         checkbox.checked = false;
     });
 
+    // Update division header styles
     document.querySelectorAll(".division").forEach(division => {
         updateDivisionHeaderStyle(division);
         updateSelectedCount(division);
