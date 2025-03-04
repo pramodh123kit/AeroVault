@@ -109,10 +109,11 @@
 
 /* Content area */
 .uploadpop-up-content {
-  flex: 1;
-  padding: 15px;
-  background-color: white;
-  overflow-y: auto;
+    flex: 1;
+    padding: 15px;
+    background-color: white;
+    overflow-y: auto;
+    position: relative; /* Ensure this is relative to position children correctly */
 }
 
 /* Form elements */
@@ -246,7 +247,7 @@
     /* For Firefox */
     scrollbar-width: thin; /* Options: auto, thin */
     scrollbar-color: #00436c transparent; /* thumb color, track color */
-/*    margin-bottom:62px;*/
+    margin-bottom:62px;
 }
 
 /* WebKit Browsers (Chrome, Safari) */
