@@ -246,7 +246,7 @@
     /* For Firefox */
     scrollbar-width: thin; /* Options: auto, thin */
     scrollbar-color: #00436c transparent; /* thumb color, track color */
-    margin-bottom:62px;
+/*    margin-bottom:62px;*/
 }
 
 /* WebKit Browsers (Chrome, Safari) */

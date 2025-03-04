@@ -436,25 +436,29 @@ function uploadFiles() {
         formData.append('Files', file);
     });
 
-    // Show loading indicator
-    const loadingIndicator = document.getElementById('loadingIndicator');
-    loadingIndicator.style.display = 'block'; // Show loading indicator
-
-    console.log("Showing loading indicator");
-    loadingIndicator.style.display = 'block';
+    // Show loading bar
+    const loadingBarContainer = document.getElementById('loadingBarContainer');
+    loadingBarContainer.style.display = 'block'; // Show loading bar
+    const loadingBar = document.getElementById('loadingBar');
+    loadingBar.style.width = '0%'; // Reset loading bar width
 
     // Perform the upload
-    fetch('/Upload/UploadFiles', {
-        method: 'POST',
-        body: formData
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Upload failed');
-            }
-            return response.json();
-        })
-        .then(result => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/Upload/UploadFiles', true);
+
+    // Update the loading bar as the upload progresses
+    xhr.upload.onprogress = function (event) {
+        if (event.lengthComputable) {
+            const percentComplete = (event.loaded / event.total) * 100;
+            loadingBar.style.width = percentComplete + '%';
+            // Remove the line that updates the loading text
+            // loadingText.textContent = `${Math.round(percentComplete)}%`; // This line is removed
+        }
+    };
+
+    xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            const result = JSON.parse(xhr.responseText);
             // Close the current popup
             fileEditClosePopup8();
 
@@ -465,22 +469,18 @@ function uploadFiles() {
             resetFiles();
             // Refresh the table
             refreshTable();
-        })
-        .catch(error => {
-            console.error('Upload error:', error);
-            // Display error message in red text below the selected files
-            const selectedFilesContainer = document.getElementById('selected-files');
-            const errorMessage = document.createElement('p');
-            errorMessage.textContent = 'File upload failed: ' + error.message;
-            errorMessage.style.color = 'red';
-            errorMessage.style.marginTop = '-40px'; // Optional: Add some space above the error message
+        } else {
+            console.error('Upload error:', xhr.statusText);
+            alert('File upload failed: ' + xhr.statusText);
+        }
+    };
 
-            // Insert the error message after the selected files container
-            selectedFilesContainer.parentNode.insertBefore(errorMessage, selectedFilesContainer.nextSibling);
-        })
-        .finally(() => {
-            loadingIndicator.style.display = 'none'; // Hide loading indicator
-        });
+    xhr.onerror = function () {
+        console.error('Upload error:', xhr.statusText);
+        alert('File upload failed: ' + xhr.statusText);
+    };
+
+    xhr.send(formData);
 }
 
 function openSuccessPopup(message) {
