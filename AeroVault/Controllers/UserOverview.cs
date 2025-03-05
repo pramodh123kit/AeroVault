@@ -1,55 +1,80 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AeroVault.Business;
 using AeroVault.Models;
+using Oracle.ManagedDataAccess.Client;
 
 namespace AeroVault.Controllers
 {
     public class UserOverview : Controller
     {
         private readonly UserOverviewBl _userOverviewBl;
+        private readonly string _connectionString;
 
-        public UserOverview(UserOverviewBl userOverviewBl)
+        public UserOverview(UserOverviewBl userOverviewBl, IConfiguration configuration)
         {
             _userOverviewBl = userOverviewBl;
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         public IActionResult UserPageOverview()
         {
             try
             {
-                // Retrieve the department from the session
-                string userDepartment = HttpContext.Session.GetString("Department") ?? "No Department"; 
+                string userDepartment = HttpContext.Session.GetString("Department") ?? "No Department";
 
-                // Check if the department is active
                 bool isActive = _userOverviewBl.IsDepartmentActive(userDepartment);
                 ViewBag.IsDepartmentActive = isActive;
 
                 List<string> systems = new List<string>();
                 if (isActive)
                 {
-                    // Get systems for the specific department
                     systems = _userOverviewBl.GetSystemsByDepartment(userDepartment);
 
-                    // Get department counts
                     var (systemCount, documentCount, videoCount) = _userOverviewBl.GetDepartmentCounts(userDepartment);
                     ViewBag.SystemCount = systemCount;
                     ViewBag.DocumentCount = documentCount;
                     ViewBag.VideoCount = videoCount;
 
-                    // Get recent files for the department
                     var recentFiles = _userOverviewBl.GetRecentFilesByDepartment(userDepartment);
                     ViewBag.RecentFiles = recentFiles;
                 }
 
-                // Pass systems to the view
                 ViewBag.Systems = systems;
+
+                // Check if the staff record has already been inserted in this session
+                if (HttpContext.Session.GetString("StaffRecordInserted") == null)
+                {
+                    InsertStaffRecord();
+                    // Set session variable to indicate the record has been inserted
+                    HttpContext.Session.SetString("StaffRecordInserted", "true");
+                }
 
                 return View("~/Views/User/UserOverview/UserPageOverview.cshtml");
             }
             catch (Exception ex)
             {
-                // Log the exception
                 return View("Error");
+            }
+        }
+
+        private void InsertStaffRecord()
+        {
+            string staffNo = HttpContext.Session.GetString("StaffNo") ?? "Unknown";
+            string staffName = HttpContext.Session.GetString("StaffName") ?? "Unknown";
+
+            using (OracleConnection connection = new OracleConnection(_connectionString))
+            {
+                connection.Open();
+                string query = @"
+                    INSERT INTO Staff (StaffNo, StaffName)
+                    VALUES (:StaffNo, :StaffName)";
+
+                using (OracleCommand command = new OracleCommand(query, connection))
+                {
+                    command.Parameters.Add(":StaffNo", OracleDbType.Varchar2).Value = staffNo;
+                    command.Parameters.Add(":StaffName", OracleDbType.Varchar2).Value = staffName;
+                    command.ExecuteNonQuery();
+                }
             }
         }
     }
