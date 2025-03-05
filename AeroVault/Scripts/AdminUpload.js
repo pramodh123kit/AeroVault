@@ -42,7 +42,7 @@ function filterTable() {
 
     currentPage = 1;
     updateTable();
-    setupPagination();
+    setupPagination(filteredRows.length); // Pass the length of filteredRows
 }
 
 function updateTable() {
@@ -69,7 +69,7 @@ function setupPagination(totalRows) {
         if (currentPage > 1) {
             currentPage--;
             updateTable();
-            setupPagination(totalRows); // Update pagination numbers
+            setupPagination(filteredRows.length); // Update pagination numbers
         }
     };
 
@@ -78,7 +78,7 @@ function setupPagination(totalRows) {
         if (currentPage < totalPages) {
             currentPage++;
             updateTable();
-            setupPagination(totalRows); // Update pagination numbers
+            setupPagination(filteredRows.length); // Update pagination numbers
         }
     };
 
@@ -106,7 +106,7 @@ function setupPagination(totalRows) {
         pageNum.addEventListener("click", () => {
             currentPage = i; // Set the current page to the clicked page number
             updateTable(); // Update the table to show the correct rows
-            setupPagination(totalRows); // Update pagination numbers
+            setupPagination(filteredRows.length); // Update pagination numbers
         });
         paginationContainer.appendChild(pageNum);
     }
