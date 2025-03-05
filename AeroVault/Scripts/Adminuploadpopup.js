@@ -551,6 +551,8 @@ function refreshTable() {
         });
 }
 
+var currentPage = 1; // Track the current page
+var rowsPerPage = 10; // Number of rows per page
 function updateTableWithNewData(files) {
     const tbody = document.querySelector('.file-table tbody');
     tbody.innerHTML = ''; // Clear existing rows
@@ -599,6 +601,10 @@ function updateTableWithNewData(files) {
         row.innerHTML = `<td colspan="6" class="text-center">No files uploaded yet</td>`;
         tbody.appendChild(row);
     }
+
+    // After updating the table, reset pagination
+    currentPage = 1; // Reset to the first page
+    setupPagination(files.length); // Setup pagination based on the number of files
 }
     function filterDepartments(searchTerm) {
         const departments = document.querySelectorAll(".department-list li");
