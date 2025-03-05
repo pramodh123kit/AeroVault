@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace AeroVault.Controllers
 {
+    [AuthorizeUser]
+
     public class DepartmentsController : BaseAdminController
     {
         private readonly DepartmentBl _departmentBl;

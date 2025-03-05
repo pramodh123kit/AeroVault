@@ -5,7 +5,7 @@ using AeroVault.Data;
 
 namespace AeroVault.Controllers
 {
-
+    [AuthorizeUser]
     public class UserFileRepository : Controller
     {
         private readonly FileRepositoryBl _fileRepositoryBl;
@@ -17,6 +17,14 @@ namespace AeroVault.Controllers
 
         public IActionResult FileRepository()
         {
+
+            // Check if the user is an admin
+            if (HttpContext.Session.GetString("User Role") == "AEVT-Admin")
+            {
+                TempData["AccessDeniedMessage"] = "Access not given"; // Set the message
+                return RedirectToAction("Index", "Admin"); // Redirect to Admin Index
+            }
+
             // Retrieve the logged-in staff's department from the session
             string userDepartment = HttpContext.Session.GetString("Department") ?? "No Department";
 

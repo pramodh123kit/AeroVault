@@ -3,6 +3,13 @@
     ViewData["CustomNavbar"] = true;
     ViewData["User Header"] = true;
     ViewData["IsDashboardActive"] = true;
+
+    @if (TempData["AccessDeniedMessage"] != null)
+    {
+        <script>
+            alert('@TempData["AccessDeniedMessage"]');
+        </script>
+    }
 }
 
 <!DOCTYPE html>
@@ -23,11 +30,8 @@
         <p>Your IT Hub for Systems and File Management</p>
     </div>
 
-    <!-- Main Content -->
     <div class="main-container">
-        <!-- Left Column -->
         <div class="left-column">
-            <!-- User Info Card -->
             <div class="user-info-card">
                 <h2>@Context.Session.GetString("StaffName")</h2>
                 <p class="userdepartment">@Context.Session.GetString("Department")</p>
@@ -35,7 +39,6 @@
                 <p class="userjobtitle">@Context.Session.GetString("JobTitle")</p> *@
             </div>
          
-            <!-- Progress Section -->
             <div class="progress-section">
                 <h3>Your Progress</h3>
 
@@ -101,9 +104,7 @@
             </div>
         </div>
 
-        <!-- Right Column -->
         <div class="right-column">
-            <!-- Statistics Cards -->
             <div class="Cards">
                 <div class="Card">
                     <img src="/Content/Assets/systemiconsvg1.svg" />
@@ -118,17 +119,14 @@
                     <h1 class="card-count">@(ViewBag.VideoCount ?? 0)</h1>
                 </div>
             </div>
-
-          
             
-            <!-- Recently Added Files -->
             @{
                 Func<string, string> GetFileIcon = fileType => fileType?.ToLower() switch
                 {
                     "document" => "/Content/Assets/system-file-icon.svg",
                     "pdf" => "/Content/Assets/system-file-icon.svg",
                     "video" => "/Content/Assets/system-video-icon.svg",
-                    _ => "" // No icon for other file types
+                    _ => "" 
                 };
 
                 Func<string, string> GetFileNameWithoutExtension = fileName =>
@@ -143,7 +141,6 @@
                 };
             }
 
-            <!-- Recently Added Files -->
             <div class="recent-files">
                 <h3>Recently Added Files</h3>
                 <div class="file-list">
@@ -174,13 +171,9 @@
                     }
                 </div>
             </div>
-
-
-
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="/Scripts/jquery.min.js"></script>
     <script src="/Scripts/chart.min.js"></script>
     <script src="/Scripts/userOverview.js"></script>

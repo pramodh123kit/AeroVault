@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace AeroVault.Controllers
 {
+    [AuthorizeUser]
     public abstract class BaseAdminController : Controller
     {
         protected readonly ApplicationDbContext _context;

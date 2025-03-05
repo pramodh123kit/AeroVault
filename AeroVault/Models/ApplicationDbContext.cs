@@ -14,13 +14,10 @@ namespace AeroVault.Models
         public DbSet<DivisionModel> Divisions { get; set; }
         public DbSet<DepartmentModel> Departments { get; set; }
 
-        // Add this new DbSet for the junction table
         public DbSet<SystemDepartmentModel> SystemDepartments { get; set; }
 
-        // Add this method to configure relationships
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configure the many-to-many relationship
             modelBuilder.Entity<SystemDepartmentModel>()
                 .HasKey(sd => new { sd.SystemID, sd.DepartmentID });
 
@@ -37,7 +34,6 @@ namespace AeroVault.Models
             base.OnModelCreating(modelBuilder);
         }
 
-        // Existing TestConnectionAsync method...
         public async Task<bool> TestConnectionAsync()
         {
             try

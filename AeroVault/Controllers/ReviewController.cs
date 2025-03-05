@@ -3,6 +3,7 @@ using AeroVault.Controllers;
 using AeroVault.Models;
 using Microsoft.AspNetCore.Mvc;
 
+[AuthorizeUser]
 public class ReviewController : BaseAdminController
 {
     private readonly ReviewBl _reviewBl;

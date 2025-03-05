@@ -24,7 +24,7 @@ namespace AeroVault.Controllers
         }
 
         [HttpPost]
-        public  IActionResult Authenticate(string staffNo, string password)
+        public IActionResult Authenticate(string staffNo, string password)
         {
             if (string.IsNullOrEmpty(staffNo) || string.IsNullOrEmpty(password))
             {
@@ -51,7 +51,16 @@ namespace AeroVault.Controllers
                 }
 
                 SetUserSession(staffMl, userRole);
-                return RedirectToAction("UserPageOverview", "UserOverview");
+
+                // Redirect based on role
+                if (userRole.UserRole == "AEVT-Admin")
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                else if (userRole.UserRole == "AEVT-Staff")
+                {
+                    return RedirectToAction("UserPageOverview", "UserOverview"); // Ensure this matches the action name
+                }
             }
             catch (Exception ex)
             {
@@ -59,8 +68,10 @@ namespace AeroVault.Controllers
                 TempData["ErrorMessage"] = $"Error: {ex.Message}";
                 return View("LoginPage");
             }
-        }
 
+            // If none of the above conditions are met, return to the login page
+            return View("LoginPage");
+        }
         private bool IsAuthorized(string role)
         {
             return role == "AEVT-Admin" || role == "AEVT-Staff";
@@ -69,7 +80,7 @@ namespace AeroVault.Controllers
         private void SetUserSession(StaffML staff, StaffML role)
         {
             HttpContext.Session.SetString("StaffNo", staff.StaffNo);
-            HttpContext.Session.SetString("UserRole", role.UserRole);
+            HttpContext.Session.SetString("User Role", role.UserRole); // Ensure this is set correctly
 
             var userDetails = _loginBl.GetNameAndEmail(staff);
             if (userDetails != null)

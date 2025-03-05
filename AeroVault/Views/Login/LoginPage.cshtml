@@ -57,6 +57,16 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const loginUrl = '@Url.Action("Index", "Login")'; 
+
+            if (window.location.pathname !== loginUrl) {
+                window.location.href = loginUrl; 
+            }
+        });
+    </script>
     <script src="/Scripts/Login.js"></script>
+    
 </body>
 </html>
