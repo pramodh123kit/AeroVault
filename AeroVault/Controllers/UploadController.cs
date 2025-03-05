@@ -4,6 +4,7 @@ using AeroVault.Models;
 using Microsoft.AspNetCore.Mvc;
 using Oracle.ManagedDataAccess.Client;
 
+[AuthorizeUser]
 public class UploadController : BaseAdminController
 {
     private readonly UploadBl _uploadBl;

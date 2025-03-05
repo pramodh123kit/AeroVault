@@ -1,11 +1,12 @@
 ﻿using AeroVault.Business;
 using AeroVault.Controllers;
-using AeroVault.Data; // Include your repositories
-using AeroVault.Models; // Include your models
+using AeroVault.Data; 
+using AeroVault.Models; 
 using AeroVault.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
+[AuthorizeUser]
 public class OverviewController : BaseAdminController
 {
     private readonly DepartmentDl _departmentDl;
@@ -84,7 +85,6 @@ public class OverviewController : BaseAdminController
             Division_12_Count = divisionsForYear.Count
         };
 
-        // Log the counts for debugging
         Console.WriteLine($"Department Count: {viewModel.DepartmentCount}");
         Console.WriteLine($"System Count: {viewModel.SystemCount}");
         Console.WriteLine($"Division Count: {viewModel.DivisionCount}");
@@ -102,6 +102,4 @@ public class OverviewController : BaseAdminController
         _divisionDl = divisionDl;
         _uploadDl = uploadbl;
     }
-
-
 }

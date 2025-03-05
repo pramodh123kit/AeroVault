@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+[AuthorizeUser]
 public class DivisionsController : BaseAdminController
 {
     private readonly DivisionBl _divisionBl;

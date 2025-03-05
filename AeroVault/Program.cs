@@ -41,8 +41,6 @@ namespace AeroVault
             });
 
             builder.Services.AddControllersWithViews();
-
-            // Existing repository and service registrations
             builder.Services.AddScoped<DivisionDl>();
             builder.Services.AddScoped<DivisionBl>();
             builder.Services.AddScoped<UserOverviewBl>();
@@ -77,6 +75,19 @@ namespace AeroVault
             builder.Logging.AddConsole();
             builder.Logging.AddDebug();
             builder.Logging.AddConfiguration(builder.Configuration.GetSection("Logging"));
+
+            builder.Services.AddAuthentication("YourAuthenticationScheme")
+
+            .AddCookie("YourAuthenticationScheme", options =>
+            {
+                options.LoginPath = "/Login/Index"; 
+                options.AccessDeniedPath = "/Home/AccessDenied"; 
+            });
+
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly", policy => policy.RequireRole("AEVT-Admin"));
+            });
 
             var app = builder.Build();
 

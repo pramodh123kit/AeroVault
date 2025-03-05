@@ -2,6 +2,13 @@
 
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    @if (TempData["AccessDeniedMessage"] != null)
+    {
+        <script>
+            alert('@TempData["AccessDeniedMessage"]');
+        </script>
+    }
 }
 
 <div id="main-content">
@@ -11,7 +18,7 @@
     }
     else
     {
-        @Html.Partial("_Overview", Model) <!-- Pass the strongly typed model -->
+        @Html.Partial("_Overview", Model) 
     }
 </div>
 

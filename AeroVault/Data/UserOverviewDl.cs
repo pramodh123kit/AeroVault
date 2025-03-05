@@ -42,13 +42,11 @@ namespace AeroVault.Data
                 }
                 catch (OracleException ex)
                 {
-                    // Log the exception
                     Console.WriteLine($"Database error: {ex.Message}");
                     throw;
                 }
                 catch (Exception ex)
                 {
-                    // Log other exceptions
                     Console.WriteLine($"Unexpected error: {ex.Message}");
                     throw;
                 }
@@ -91,13 +89,11 @@ namespace AeroVault.Data
                 }
                 catch (OracleException ex)
                 {
-                    // Log the exception
                     Console.WriteLine($"Database error: {ex.Message}");
                     throw;
                 }
                 catch (Exception ex)
                 {
-                    // Log other exceptions
                     Console.WriteLine($"Unexpected error: {ex.Message}");
                     throw;
                 }
@@ -126,25 +122,23 @@ namespace AeroVault.Data
                         object result = command.ExecuteScalar();
                         if (result != null)
                         {
-                            return Convert.ToInt32(result) == 0; // Return true if IS_DELETED is 0
+                            return Convert.ToInt32(result) == 0; 
                         }
                     }
                 }
                 catch (OracleException ex)
                 {
-                    // Log the exception
                     Console.WriteLine($"Database error: {ex.Message}");
                     throw;
                 }
                 catch (Exception ex)
                 {
-                    // Log other exceptions
                     Console.WriteLine($"Unexpected error: {ex.Message}");
                     throw;
                 }
             }
 
-            return false; // Default return if department not found
+            return false; 
         }
 
         public (int SystemCount, int DocumentCount, int VideoCount) GetDepartmentCounts(string departmentName)
@@ -204,7 +198,6 @@ namespace AeroVault.Data
                 }
                 catch (OracleException ex)
                 {
-                    // Log the exception
                     Console.WriteLine($"Database error: {ex.Message}");
                     throw;
                 }
@@ -262,7 +255,7 @@ namespace AeroVault.Data
                                     FileName = reader.GetString(reader.GetOrdinal("FileName")),
                                     FileType = reader.GetString(reader.GetOrdinal("FileType")),
                                     AddedDate = reader.GetDateTime(reader.GetOrdinal("Added_Date")),
-                                    DepartmentName = departmentName, // From input parameter
+                                    DepartmentName = departmentName, 
                                     UniqueFileIdentifier = reader.IsDBNull(reader.GetOrdinal("UniqueFileIdentifier"))
                                         ? null
                                         : reader.GetString(reader.GetOrdinal("UniqueFileIdentifier")),
@@ -277,7 +270,6 @@ namespace AeroVault.Data
                 }
                 catch (OracleException ex)
                 {
-                    // Log the exception
                     Console.WriteLine($"Database error: {ex.Message}");
                     throw;
                 }

@@ -2,9 +2,11 @@
 using AeroVault.Business;
 using AeroVault.Models;
 using Oracle.ManagedDataAccess.Client;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AeroVault.Controllers
 {
+    [AuthorizeUser]
     public class UserOverview : Controller
     {
         private readonly UserOverviewBl _userOverviewBl;
@@ -18,6 +20,13 @@ namespace AeroVault.Controllers
 
         public IActionResult UserPageOverview()
         {
+            // Check if the user is an admin
+            if (HttpContext.Session.GetString("User Role") == "AEVT-Admin")
+            {
+                TempData["AccessDeniedMessage"] = "Access not given"; // Set the message
+                return RedirectToAction("Index", "Admin"); // Redirect to Admin Index
+            }
+
             try
             {
                 string userDepartment = HttpContext.Session.GetString("Department") ?? "No Department";

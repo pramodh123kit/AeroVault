@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 
 namespace AeroVault.Controllers
 {
+    [AuthorizeUser]
     public class DiagnosticsController : Controller
     {
         private readonly LoginBl _loginBl;
