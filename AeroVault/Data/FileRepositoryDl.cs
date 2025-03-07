@@ -193,5 +193,27 @@ namespace AeroVault.Data
         {
             return _configuration["FileSettings:BasePath"];
         }
+
+        public List<SystemDepartmentModel> GetSystemDepartmentsBySystemId(int systemId)
+        {
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                connection.Open();
+                var command = new OracleCommand("SELECT * FROM SYSTEM_DEPARTMENTS WHERE SYSTEMID = :systemId", connection);
+                command.Parameters.Add(new OracleParameter("systemId", systemId));
+                var reader = command.ExecuteReader();
+
+                var systemDepartments = new List<SystemDepartmentModel>();
+                while (reader.Read())
+                {
+                    systemDepartments.Add(new SystemDepartmentModel
+                    {
+                        SystemID = reader.GetInt32(0),
+                        DepartmentID = reader.GetInt32(1)
+                    });
+                }
+                return systemDepartments;
+            }
+        }
     }
 }

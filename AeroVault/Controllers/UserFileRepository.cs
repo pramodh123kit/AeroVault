@@ -17,7 +17,6 @@ namespace AeroVault.Controllers
 
         public IActionResult FileRepository()
         {
-
             // Check if the user is an admin
             if (HttpContext.Session.GetString("User Role") == "AEVT-Admin")
             {
@@ -39,9 +38,10 @@ namespace AeroVault.Controllers
                 systems = _fileRepositoryBl.GetNonDeletedSystemsByDepartment(selectedDepartment.DepartmentID);
             }
 
-            // Pass the departments and systems to the view
+            // Pass the departments, systems, and department ID to the view
             ViewBag.Departments = departments;
             ViewBag.Systems = systems; // Pass the systems to the view
+            ViewBag.DepartmentID = selectedDepartment?.DepartmentID; // Pass the department ID to the view
 
             return View("~/Views/User/UserFileRepository/FileRepository.cshtml");
         }
@@ -177,6 +177,28 @@ namespace AeroVault.Controllers
                 ".mkv" => "video/x-matroska",
                 _ => "application/octet-stream"
             };
+        }
+
+        [HttpGet]
+        public IActionResult CheckSystemBelongsToDepartment(int systemId)
+        {
+            // Retrieve the logged-in staff's department from the session
+            string userDepartment = HttpContext.Session.GetString("Department") ?? "No Department";
+
+            // Fetch the department ID based on the department name
+            var departments = _fileRepositoryBl.GetDepartments();
+            var selectedDepartment = departments.FirstOrDefault(d => d.DepartmentName == userDepartment);
+
+            if (selectedDepartment != null)
+            {
+                // Check if the system belongs to the department
+                var systemDepartments = _fileRepositoryBl.GetSystemDepartmentsBySystemId(systemId);
+                bool belongsToDepartment = systemDepartments.Any(sd => sd.DepartmentID == selectedDepartment.DepartmentID);
+
+                return Json(new { belongsToDepartment });
+            }
+
+            return Json(new { belongsToDepartment = false });
         }
     }
 }
