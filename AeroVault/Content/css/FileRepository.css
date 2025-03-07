@@ -1392,3 +1392,7 @@ iframe {
     border-bottom: 1px solid #938C8C;
     text-indent: 30px;
 }
+
+.pending-icon {
+    margin-right:10px;
+}

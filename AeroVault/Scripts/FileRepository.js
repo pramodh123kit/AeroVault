@@ -394,7 +394,7 @@ function selectCustomOption(element) {
 
     const uploadItems = document.querySelectorAll(".upload-list-new");
     uploadItems.forEach(uploadItem => {
-        uploadItem.style.backgroundColor = "white"; 
+        uploadItem.style.backgroundColor = "white";
         uploadItem.querySelector(".upload-name-all").style.fontWeight = "normal";
     });
 
@@ -409,10 +409,10 @@ function selectCustomOption(element) {
         })
         .then(systems => {
             const uploadListContainer = document.getElementById("upload-list-container");
-            uploadListContainer.innerHTML = ""; 
+            uploadListContainer.innerHTML = "";
 
             document.getElementById("system-selection-image").style.display = "block";
-            document.querySelector(".content-hidden").style.display = "none"; 
+            document.querySelector(".content-hidden").style.display = "none";
 
             if (systems.length === 0) {
                 // If no systems are found, display a message
@@ -441,12 +441,12 @@ function selectCustomOption(element) {
 
                     uploadItem.addEventListener("click", function () {
                         if (previouslySelectedItem) {
-                            previouslySelectedItem.style.backgroundColor = "white"; 
-                            previouslySelectedItem.querySelector(".upload-name-all").style.fontWeight = "normal"; 
+                            previouslySelectedItem.style.backgroundColor = "white";
+                            previouslySelectedItem.querySelector(".upload-name-all").style.fontWeight = "normal";
                         }
 
-                        this.style.backgroundColor = "#CFE5F2"; 
-                        this.querySelector(".upload-name-all").style.fontWeight = "bold"; 
+                        this.style.backgroundColor = "#CFE5F2";
+                        this.querySelector(".upload-name-all").style.fontWeight = "bold";
 
                         previouslySelectedItem = this;
 
@@ -460,10 +460,27 @@ function selectCustomOption(element) {
                             videoCountElement.textContent = system.videoCount;
                         }
 
+                        // Log the SystemID to the console
+                        console.log("Selected SystemID:", system.systemID);
+
+                        // Check if the selected system belongs to the logged-in user's department
+                        fetch(`/UserFileRepository/CheckSystemBelongsToDepartment?systemId=${system.systemID}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.belongsToDepartment) {
+                                    console.log("The selected system belongs to the logged-in user's department.");
+                                } else {
+                                    console.log("The selected system does NOT belong to the logged-in user's department.");
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Error checking system department:", error);
+                            });
+
                         loadDocumentsAndVideos(system.systemID);
 
                         document.getElementById("system-selection-image").style.display = "none";
-                        document.querySelector(".content-hidden").style.display = "block"; 
+                        document.querySelector(".content-hidden").style.display = "block";
                     });
                 });
             }
@@ -472,70 +489,84 @@ function selectCustomOption(element) {
             console.error("Error fetching systems:", error);
         });
 }
+
 function loadDocumentsAndVideos(systemID) {
-    // Fetch documents
-    fetch(`/UserFileRepository/GetDocumentsBySystem?systemId=${systemID}`)
+    // Check if the system belongs to the logged-in user's department
+    fetch(`/UserFileRepository/CheckSystemBelongsToDepartment?systemId=${systemID}`)
         .then(response => response.json())
-        .then(documents => {
-            const documentContainer = document.querySelector(".scrollable-item-list.content-container.Document");
-            documentContainer.innerHTML = "";
+        .then(data => {
+            const belongsToDepartment = data.belongsToDepartment;
 
-            if (documents.length === 0) {
-                const noDocumentsMessage = document.createElement("div");
-                noDocumentsMessage.className = "no-documents-found";
-                noDocumentsMessage.textContent = "No Documents Found";
-                documentContainer.appendChild(noDocumentsMessage);
-            } else {
-                documents.forEach(doc => {
-                    const fileNameWithoutExtension = doc.fileName.split('.').slice(0, -1).join('.');
-                    const docItem = document.createElement("div");
-                    docItem.className = "item-list";
-                    docItem.innerHTML = `
-                        <div class="item-info">
-                            <span class="item-title">${fileNameWithoutExtension}</span>
-                            <span class="item-meta">${doc.fileCategory}</span>
-                            <span class="item-date">${new Date(doc.addedDate).toLocaleDateString()}</span>
-                            <button class="action-button" onclick="viewFile('${doc.fileName}', '${doc.uniqueFileIdentifier}')">View</button>
-                        </div>
-                    `;
-                    documentContainer.appendChild(docItem);
+            // Fetch documents
+            fetch(`/UserFileRepository/GetDocumentsBySystem?systemId=${systemID}`)
+                .then(response => response.json())
+                .then(documents => {
+                    const documentContainer = document.querySelector(".scrollable-item-list.content-container.Document");
+                    documentContainer.innerHTML = "";
+
+                    if (documents.length === 0) {
+                        const noDocumentsMessage = document.createElement("div");
+                        noDocumentsMessage.className = "no-documents-found";
+                        noDocumentsMessage.textContent = "No Documents Found";
+                        documentContainer.appendChild(noDocumentsMessage);
+                    } else {
+                        documents.forEach(doc => {
+                            const fileNameWithoutExtension = doc.fileName.split('.').slice(0, -1).join('.');
+                            const docItem = document.createElement("div");
+                            docItem.className = "item-list";
+                            docItem.innerHTML = `
+                                <div class="item-info">
+                                    ${belongsToDepartment ? '<img src="/Content/Assets/pending-icon.svg" alt="Pending" class="pending-icon" />' : ''}
+                                    <span class="item-title">${fileNameWithoutExtension}</span>
+                                    <span class="item-meta">${doc.fileCategory}</span>
+                                    <span class="item-date">${new Date(doc.addedDate).toLocaleDateString()}</span>
+                                    <button class="action-button" onclick="viewFile('${doc.fileName}', '${doc.uniqueFileIdentifier}')">View</button>
+                                </div>
+                            `;
+                            documentContainer.appendChild(docItem);
+                        });
+                    }
                 });
-            }
-        });
 
-    // Fetch videos
-    fetch(`/UserFileRepository/GetVideosBySystem?systemId=${systemID}`)
-        .then(response => response.json())
-        .then(videos => {
-            const videoContainer = document.querySelector(".scrollable-item-list.content-container.Video");
-            videoContainer.innerHTML = "";
+            // Fetch videos
+            fetch(`/UserFileRepository/GetVideosBySystem?systemId=${systemID}`)
+                .then(response => response.json())
+                .then(videos => {
+                    const videoContainer = document.querySelector(".scrollable-item-list.content-container.Video");
+                    videoContainer.innerHTML = "";
 
-            if (videos.length === 0) {
-                const noVideosMessage = document.createElement("div");
-                noVideosMessage.className = "no-videos-found";
-                noVideosMessage.textContent = "No Videos Found";
-                videoContainer.appendChild(noVideosMessage);
-            } else {
-                videos.forEach(video => {
-                    const fileNameWithoutExtension = video.fileName.split('.').slice(0, -1).join('.');
-                    const videoItem = document.createElement("div");
-                    videoItem.className = "item-list";
-                    videoItem.innerHTML = `
-                        <div class="item-info">
-                            <span class="item-title1">${fileNameWithoutExtension}</span> 
-                            <span class="item-meta">${video.fileCategory}</span> 
-                            <span class="item-date">${new Date(video.addedDate).toLocaleDateString()}</span>
-                            <button class="action-button1" onclick="viewFile('${video.fileName}', '${video.uniqueFileIdentifier}')">View</button>
-                        </div>
-                    `;
-                    videoContainer.appendChild(videoItem);
+                    if (videos.length === 0) {
+                        const noVideosMessage = document.createElement("div");
+                        noVideosMessage.className = "no-videos-found";
+                        noVideosMessage.textContent = "No Videos Found";
+                        videoContainer.appendChild(noVideosMessage);
+                    } else {
+                        videos.forEach(video => {
+                            const fileNameWithoutExtension = video.fileName.split('.').slice(0, -1).join('.');
+                            const videoItem = document.createElement("div");
+                            videoItem.className = "item-list";
+                            videoItem.innerHTML = `
+                                <div class="item-info">
+                                    ${belongsToDepartment ? '<img src="/Content/Assets/pending-icon.svg" alt="Pending" class="pending-icon" />' : ''}
+                                    <span class="item-title1">${fileNameWithoutExtension}</span> 
+                                    <span class="item-meta">${video.fileCategory}</span> 
+                                    <span class="item-date">${new Date(video.addedDate).toLocaleDateString()}</span>
+                                    <button class="action-button1" onclick="viewFile('${video.fileName}', '${video.uniqueFileIdentifier}')">View</button>
+                                </div>
+                            `;
+                            videoContainer.appendChild(videoItem);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching videos:", error);
                 });
-            }
         })
         .catch(error => {
-            console.error("Error fetching videos:", error);
+            console.error("Error checking system department:", error);
         });
 }
+
 
 document.addEventListener("DOMContentLoaded", function () {
     var defaultDepartment = document.getElementById('selected-option').textContent;

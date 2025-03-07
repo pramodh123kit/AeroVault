@@ -37,5 +37,9 @@ namespace AeroVault.Business
         {
             return _fileRepositoryDl.GetBasePath();
         }
+        public List<SystemDepartmentModel> GetSystemDepartmentsBySystemId(int systemId)
+        {
+            return _fileRepositoryDl.GetSystemDepartmentsBySystemId(systemId);
+        }
     }
 }

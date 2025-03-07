@@ -168,8 +168,7 @@
 
                                     <div class="category-form-container1">
                                         <div class="category-dropdown-wrapper1">
-                                            <div class="category-dropdown-button1 ```html
-                                            category-dropdown-selector1" onclick="toggleCategoryDropdownUnique1()">
+                                            <div class="category-dropdown-button1 category-dropdown-selector1" onclick="toggleCategoryDropdownUnique1()">
                                                 <span id="selected-category-unique1">All Categories</span>
                                                 <i class="fas fa-chevron-down"></i>
                                             </div>
@@ -226,9 +225,13 @@
             const departmentOptions = document.querySelectorAll('.custom-dropdown-list div')
             departmentOptions.forEach(option => {
                 if (option.textContent.trim() === loggedInDepartment) {
-                    selectCustomOption(option); 
+                    selectCustomOption(option);
                 }
             });
+
+            // Log the DepartmentID to the console
+            const departmentID = @ViewBag.DepartmentID;
+            console.log("DepartmentID:", departmentID);
         });
     </script>
 </body>
