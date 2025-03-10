@@ -41,5 +41,16 @@ namespace AeroVault.Business
         {
             return _fileRepositoryDl.GetSystemDepartmentsBySystemId(systemId);
         }
+        public void RecordFileView(string staffNo, string uniqueIdentifier)
+        {
+            _fileRepositoryDl.RecordFileView(staffNo, uniqueIdentifier);
+        }
+        public bool CheckFileViewed(string staffNo, string uniqueIdentifier)
+
+        {
+
+            return _fileRepositoryDl.CheckFileViewed(staffNo, uniqueIdentifier);
+
+        }
     }
 }

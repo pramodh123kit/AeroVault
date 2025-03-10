@@ -215,5 +215,29 @@ namespace AeroVault.Data
                 return systemDepartments;
             }
         }
+        public void RecordFileView(string staffNo, string uniqueIdentifier)
+        {
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                connection.Open();
+                var command = new OracleCommand("INSERT INTO ViewedFiles (VIEWID, StaffNo, UniqueFileIdentifier) VALUES (VIEWEDFILES_SEQ.NEXTVAL, :staffNo, :uniqueIdentifier)", connection);
+                command.Parameters.Add(new OracleParameter("staffNo", staffNo));
+                command.Parameters.Add(new OracleParameter("uniqueIdentifier", uniqueIdentifier));
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public bool CheckFileViewed(string staffNo, string uniqueIdentifier)
+        {
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                connection.Open();
+                var command = new OracleCommand("SELECT COUNT(*) FROM ViewedFiles WHERE StaffNo = :staffNo AND UniqueFileIdentifier = :uniqueIdentifier", connection);
+                command.Parameters.Add(new OracleParameter("staffNo", staffNo));
+                command.Parameters.Add(new OracleParameter("uniqueIdentifier", uniqueIdentifier));
+                int count = Convert.ToInt32(command.ExecuteScalar());
+                return count > 0;
+            }
+        }
     }
 }
