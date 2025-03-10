@@ -491,82 +491,189 @@ function selectCustomOption(element) {
 }
 
 function loadDocumentsAndVideos(systemID) {
+
     // Check if the system belongs to the logged-in user's department
+
     fetch(`/UserFileRepository/CheckSystemBelongsToDepartment?systemId=${systemID}`)
+
         .then(response => response.json())
+
         .then(data => {
+
             const belongsToDepartment = data.belongsToDepartment;
 
+
             // Fetch documents
+
             fetch(`/UserFileRepository/GetDocumentsBySystem?systemId=${systemID}`)
+
                 .then(response => response.json())
+
                 .then(documents => {
+
                     const documentContainer = document.querySelector(".scrollable-item-list.content-container.Document");
+
                     documentContainer.innerHTML = "";
 
+
                     if (documents.length === 0) {
+
                         const noDocumentsMessage = document.createElement("div");
+
                         noDocumentsMessage.className = "no-documents-found";
+
                         noDocumentsMessage.textContent = "No Documents Found";
+
                         documentContainer.appendChild(noDocumentsMessage);
+
                     } else {
+
                         documents.forEach(doc => {
+
                             const fileNameWithoutExtension = doc.fileName.split('.').slice(0, -1).join('.');
+
                             const docItem = document.createElement("div");
+
                             docItem.className = "item-list";
+
+                            docItem.setAttribute("data-unique-identifier", doc.uniqueFileIdentifier);
+
                             docItem.innerHTML = `
+
                                 <div class="item-info">
+
                                     ${belongsToDepartment ? '<img src="/Content/Assets/pending-icon.svg" alt="Pending" class="pending-icon" />' : ''}
+
                                     <span class="item-title">${fileNameWithoutExtension}</span>
+
                                     <span class="item-meta">${doc.fileCategory}</span>
+
                                     <span class="item-date">${new Date(doc.addedDate).toLocaleDateString()}</span>
+
                                     <button class="action-button" onclick="viewFile('${doc.fileName}', '${doc.uniqueFileIdentifier}')">View</button>
+
                                 </div>
+
                             `;
+
                             documentContainer.appendChild(docItem);
+
+
+                            // Check if the file has been viewed by the current user
+
+                            checkFileViewed(doc.uniqueFileIdentifier, docItem);
+
                         });
+
                     }
+
                 });
+
 
             // Fetch videos
+
             fetch(`/UserFileRepository/GetVideosBySystem?systemId=${systemID}`)
+
                 .then(response => response.json())
+
                 .then(videos => {
+
                     const videoContainer = document.querySelector(".scrollable-item-list.content-container.Video");
+
                     videoContainer.innerHTML = "";
 
+
                     if (videos.length === 0) {
+
                         const noVideosMessage = document.createElement("div");
+
                         noVideosMessage.className = "no-videos-found";
+
                         noVideosMessage.textContent = "No Videos Found";
+
                         videoContainer.appendChild(noVideosMessage);
+
                     } else {
+
                         videos.forEach(video => {
+
                             const fileNameWithoutExtension = video.fileName.split('.').slice(0, -1).join('.');
+
                             const videoItem = document.createElement("div");
+
                             videoItem.className = "item-list";
+
+                            videoItem.setAttribute("data-unique-identifier", video.uniqueFileIdentifier);
+
                             videoItem.innerHTML = `
+
                                 <div class="item-info">
+
                                     ${belongsToDepartment ? '<img src="/Content/Assets/pending-icon.svg" alt="Pending" class="pending-icon" />' : ''}
+
                                     <span class="item-title1">${fileNameWithoutExtension}</span> 
+
                                     <span class="item-meta">${video.fileCategory}</span> 
+
                                     <span class="item-date">${new Date(video.addedDate).toLocaleDateString()}</span>
+
                                     <button class="action-button1" onclick="viewFile('${video.fileName}', '${video.uniqueFileIdentifier}')">View</button>
+
                                 </div>
+
                             `;
+
                             videoContainer.appendChild(videoItem);
+
+
+                            // Check if the video has been viewed by the current user
+
+                            checkFileViewed(video.uniqueFileIdentifier, videoItem);
+
                         });
+
                     }
-                })
-                .catch(error => {
-                    console.error("Error fetching videos:", error);
+
                 });
-        })
-        .catch(error => {
-            console.error("Error checking system department:", error);
+
         });
+
 }
 
+
+
+function checkFileViewed(uniqueIdentifier, docItem) {
+
+    const staffNo = document.getElementById('staffNo').value; // Get the logged-in user's StaffNo
+
+
+    fetch(`/UserFileRepository/CheckFileViewed?staffNo=${staffNo}&uniqueIdentifier=${uniqueIdentifier}`)
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            if (data.viewed) {
+
+                const icon = docItem.querySelector('.pending-icon');
+
+                if (icon) {
+
+                    icon.src = '/Content/Assets/read-icon.svg'; // Change to read icon if viewed
+
+                }
+
+            }
+
+        })
+
+        .catch(error => {
+
+            console.error('Error checking file viewed status:', error);
+
+        });
+
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     var defaultDepartment = document.getElementById('selected-option').textContent;
@@ -1105,60 +1212,196 @@ function filterDocumentItems() {
 }
 
 function viewFile(fileName, uniqueIdentifier) {
+
     const overlayPdf = document.getElementById('overlay-pdf');
+
     const pdfFrame = document.getElementById('pdf-frame');
+
     const closePdfButton = document.getElementById('close-pdf-button-filerepo');
+
     const darkOverlay = document.getElementById('dark-overlay8');
+
     const loadingIndicator = document.getElementById('pdf-loading-indicator');
+
     const fileNameDisplay = document.getElementById('file-name-display');
+
+
+    // Display the file name in the overlay
 
     fileNameDisplay.textContent = fileName;
 
+
+    // Fetch the file details
+
     fetch(`/UserFileRepository/FindFile?fileName=${encodeURIComponent(fileName)}&uniqueIdentifier=${encodeURIComponent(uniqueIdentifier)}`)
+
         .then(response => {
+
             if (!response.ok) {
+
                 throw new Error('Network response was not ok');
+
             }
+
             return response.json();
+
         })
+
         .then(data => {
+
             if (data.foundFileName) {
+
                 const fileUrl = `/UserFileRepository/ViewFile?fileName=${encodeURIComponent(data.foundFileName)}`;
 
+
+                // Show loading indicator while the file is being loaded
+
                 loadingIndicator.style.display = 'block';
+
                 pdfFrame.style.display = 'none';
+
+
+                // Set the source of the PDF frame to the file URL
 
                 pdfFrame.src = fileUrl;
 
+
+                // When the PDF is loaded, hide the loading indicator
+
                 pdfFrame.onload = function () {
+
                     loadingIndicator.style.display = 'none';
+
                     pdfFrame.style.display = 'block';
+
                 };
 
+
+                // Show the overlay and dark background
+
                 overlayPdf.style.display = 'flex';
+
                 darkOverlay.style.display = 'block';
+
+
+                // Record the file view
+
+                recordFileView(uniqueIdentifier);
+
             } else {
+
                 alert('File not found. Please check the file name.');
+
             }
+
         })
+
         .catch(error => {
+
             console.error('Error:', error);
+
             alert('An error occurred while trying to view the file.');
+
         });
 
+
+    // Close button handler to hide the overlay
+
     const closePdfButtonHandler = function () {
+
         overlayPdf.style.display = 'none';
+
         darkOverlay.style.display = 'none';
-        pdfFrame.src = ''; 
-        loadingIndicator.style.display = 'none';
+
+        pdfFrame.src = ''; // Clear the PDF frame source
+
+        loadingIndicator.style.display = 'none'; // Hide loading indicator
+
     };
+
+
+    // Add event listener to the close button
 
     closePdfButton.addEventListener('click', closePdfButtonHandler);
 
+
+    // Close the overlay when clicking on the dark overlay
+
     darkOverlay.onclick = function (event) {
+
         if (event.target === darkOverlay) {
+
             closePdfButtonHandler();
+
         }
+
     };
+
 }
 
+function recordFileView(uniqueIdentifier) {
+
+    const staffNo = document.getElementById('staffNo').value; // Get the logged-in user's StaffNo from a hidden input
+
+
+    fetch('/UserFileRepository/RecordFileView', {
+
+        method: 'POST',
+
+        headers: {
+
+            'Content-Type': 'application/json',
+
+        },
+
+        body: JSON.stringify({ staffNo, uniqueIdentifier }),
+
+    })
+
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error('Network response was not ok');
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(data => {
+
+            if (data.success) {
+
+                // Change the icon to "read-icon.svg"
+
+                const fileItem = document.querySelector(`.item-list[data-unique-identifier="${uniqueIdentifier}"]`);
+
+                if (fileItem) {
+
+                    const icon = fileItem.querySelector('.pending-icon');
+
+                    if (icon) {
+
+                        icon.src = '/Content/Assets/read-icon.svg'; // Update the icon to read
+
+                    }
+
+                }
+
+            } else {
+
+                console.error('Failed to record file view:', data.error);
+
+            }
+
+        })
+
+        .catch(error => {
+
+            console.error('Error:', error);
+
+        });
+
+}

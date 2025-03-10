@@ -200,5 +200,39 @@ namespace AeroVault.Controllers
 
             return Json(new { belongsToDepartment = false });
         }
+
+        [HttpPost]
+        public IActionResult RecordFileView([FromBody] RecordFileViewRequest request)
+        {
+            try
+            {
+                _fileRepositoryBl.RecordFileView(request.StaffNo, request.UniqueIdentifier);
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, error = ex.Message });
+            }
+        }
+
+        public class RecordFileViewRequest
+        {
+            public string StaffNo { get; set; }
+            public string UniqueIdentifier { get; set; }
+        }
+
+        [HttpGet]
+        public IActionResult CheckFileViewed(string staffNo, string uniqueIdentifier)
+        {
+            try
+            {
+                bool viewed = _fileRepositoryBl.CheckFileViewed(staffNo, uniqueIdentifier);
+                return Json(new { viewed });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { viewed = false, error = ex.Message });
+            }
+        }
     }
 }
