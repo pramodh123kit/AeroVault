@@ -812,46 +812,81 @@ function filterCategoryToggleStatusDropdown() {
 }
 
 function filterDocumentsByStatus(status) {
+
     const documentItems = document.querySelectorAll(".content-container.Document .item-list");
 
+
     documentItems.forEach(item => {
-        const iconSrc = item.querySelector('.read-icon').getAttribute('src');
+
+        const icon = item.querySelector('.pending-icon');
+
+        const iconSrc = icon ? icon.getAttribute('src') : '';
+
 
         if (status === "All (Read / Unread)") {
-            item.style.display = "block"; 
-        } else if (status === "Read" && iconSrc.includes("readIcon.svg")) {
-            item.style.display = "block"; 
-        } else if (status === "Pending" && iconSrc.includes("unread.svg")) {
+
             item.style.display = "block";
+
+        } else if (status === "Read" && iconSrc.includes("read-icon.svg")) {
+
+            item.style.display = "block";
+
+        } else if (status === "Pending" && iconSrc.includes("pending-icon.svg")) {
+
+            item.style.display = "block";
+
         } else {
-            item.style.display = "none"; 
+
+            item.style.display = "none";
+
         }
+
     });
+
 }
 
 function filterCategorySelectStatusOption(element) {
+
     var selectedStatus = element.textContent || element.innerText;
+
     document.getElementById('filter-category-selected-status').textContent = selectedStatus;
 
+
     // Close the dropdown
+
     document.querySelector('.filter-category-status-dropdown-content').style.display = 'none';
+
     document.querySelector('.filter-category-status-dropdown-toggle').classList.remove('open');
 
+
     // Reset styles
+
     var selector = document.querySelector('.filter-category-status-selector');
+
     selector.style.borderBottomLeftRadius = '10px';
+
     selector.style.borderBottomRightRadius = '10px';
+
     selector.style.borderBottom = '1px solid #6D6D6D';
 
+
     // Remove active class from all options
+
     var divs = document.querySelectorAll('.filter-category-status-dropdown-list div');
+
     divs.forEach(function (div) {
+
         div.classList.remove('active');
+
     });
+
     element.classList.add('active');
 
+
     // Call the filtering function
+
     filterDocumentsByStatus(selectedStatus);
+
 }
 
 
@@ -1028,23 +1063,39 @@ function toggleCategoryDropdownUnique1() {
 }
 
 function filterCategorySelectStatusOption1(element) {
+
     var selectedStatus = element.textContent || element.innerText;
+
     document.getElementById('filter-category-selected-status1').textContent = selectedStatus;
 
+
     document.querySelector('.filter-category-status-dropdown-content1').style.display = 'none';
+
     document.querySelector('.filter-category-status-dropdown-toggle1').classList.remove('open');
 
+
     var selector = document.querySelector('.filter-category-status-selector1');
+
     selector.style.borderBottomLeftRadius = '10px';
+
     selector.style.borderBottomRightRadius = '10px';
+
     selector.style.borderBottom = '1px solid #6D6D6D';
 
+
     var divs = document.querySelectorAll('.filter-category-status-dropdown-list1 div');
+
     divs.forEach(function (div) {
+
         div.classList.remove('active');
+
     });
+
     element.classList.add('active');
+
+
     filterVideosByStatus(selectedStatus);
+
 }
 
 function selectCategoryOptionUnique1(element) {
@@ -1150,19 +1201,36 @@ function selectCategoryOptionUnique1(element) {
 }
 
 function filterVideosByStatus(status) {
+
     const videoItems = document.querySelectorAll(".content-container.Video .item-list");
+
     videoItems.forEach(item => {
-        const iconSrc = item.querySelector('.read-icon').getAttribute('src');
+
+        const icon = item.querySelector('.pending-icon');
+
+        const iconSrc = icon ? icon.getAttribute('src') : '';
+
+
         if (status === "All (Read / Unread)") {
-            item.style.display = "block"; 
-        } else if (status === "Read" && iconSrc.includes("readIcon.svg")) {
-            item.style.display = "block"; 
-        } else if (status === "Pending" && iconSrc.includes("unread.svg")) {
-            item.style.display = "block"; 
+
+            item.style.display = "block";
+
+        } else if (status === "Read" && iconSrc.includes("read-icon.svg")) {
+
+            item.style.display = "block";
+
+        } else if (status === "Pending" && iconSrc.includes("pending-icon.svg")) {
+
+            item.style.display = "block";
+
         } else {
-            item.style.display = "none"; 
+
+            item.style.display = "none";
+
         }
+
     });
+
 }
 
 function filterVideosByCategory(category) {
