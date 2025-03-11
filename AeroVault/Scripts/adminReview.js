@@ -283,13 +283,63 @@ function pendingUsersSortTable(n) {
 }
 
 function staffViewPerformSearch() {
-    document.getElementById('system-view').style.display = 'none';
-    document.getElementById('staff-view').style.display = 'flex';
-    document.getElementById('staffAfterSearch').style.display = 'flex';
-    document.getElementById('staffcontentLayout').style.display = 'flex';
-    document.getElementById('staff-view-reviewcontent').style.display = 'none';
+    const staffNo = document.getElementById('staffViewSearchInput').value.trim();
 
-    adjustStaffViewContentHeight();
+    if (!staffNo) {
+        alert("Please enter a Staff ID.");
+        return;
+    }
+
+    // AJAX call to check if the StaffNo exists in VIEWEDFILES
+    fetch(`/Review/CheckStaffNoExists?staffNo=${staffNo}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Remove any existing error message
+            const existingErrorMessage = document.getElementById('staffNoErrorMessage');
+            if (existingErrorMessage) {
+                existingErrorMessage.remove();
+            }
+
+            if (data.exists) {
+                // Fetch staff details from STAFF table
+                fetch(`/Review/GetStaffDetails?staffNo=${staffNo}`)
+                    .then(response => response.json())
+                    .then(staffData => {
+                        // Update the staff card with the retrieved details
+                        document.querySelector('.staff-card-header .name').textContent = staffData.staffName;
+                        document.querySelector('.staff-card-header .id').textContent = `- ${staffData.staffNo}`;
+                        document.querySelector('.staff-card-body .left .item:nth-child(1) div').textContent = staffData.department;
+                        document.querySelector('.staff-card-body .left .item:nth-child(2) div').textContent = staffData.jobTitle;
+                        document.querySelector('.staff-card-body .right .item:nth-child(1) div').textContent = staffData.email;
+
+                        // Proceed to show the staff view
+                        document.getElementById('system-view').style.display = 'none';
+                        document.getElementById('staff-view').style.display = 'flex';
+                        document.getElementById('staffAfterSearch').style.display = 'flex';
+                        document.getElementById('staffcontentLayout').style.display = 'flex';
+                        document.getElementById('staff-view-reviewcontent').style.display = 'none';
+                        adjustStaffViewContentHeight();
+                    })
+                    .catch(error => {
+                        console.error('Error fetching staff details:', error);
+                    });
+            } else {
+                // Show error message
+                const errorMessage = document.createElement('div');
+                errorMessage.id = 'staffNoErrorMessage'; // Set an ID for the error message
+                errorMessage.textContent = "Staff ID does not exist in the VIEWEDFILES table.";
+                errorMessage.style.color = 'red';
+                document.querySelector('.staffView-search-box').appendChild(errorMessage);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 function adjustStaffViewContentHeight() {

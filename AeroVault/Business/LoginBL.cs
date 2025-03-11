@@ -64,8 +64,8 @@ namespace AeroVault.Business
                     search.PropertiesToLoad.Add("cn");
                     search.PropertiesToLoad.Add("displayName");
                     search.PropertiesToLoad.Add("department");
-                    search.PropertiesToLoad.Add("mail"); 
-                    search.PropertiesToLoad.Add("title"); 
+                    search.PropertiesToLoad.Add("mail");
+                    search.PropertiesToLoad.Add("title");
                     var result = search.FindOne();
 
                     if (result != null)
@@ -85,7 +85,7 @@ namespace AeroVault.Business
                         {
                             StaffNo = StaffNo,
                             StaffName = staffName,
-                            UserRole = "AEVT-Staff" 
+                            UserRole = "AEVT-Staff"
                         };
 
                         string ldapPath = directoryEntry.Path;
@@ -99,10 +99,10 @@ namespace AeroVault.Business
                                 if (part.Trim().StartsWith("OU="))
                                 {
                                     ouCount++;
-                                    if (ouCount == 2) 
+                                    if (ouCount == 2)
                                     {
-                                        string department = part.Trim().Substring(3); 
-                                        _httpContextAccessor.HttpContext.Session.SetString("Department", department); 
+                                        string department = part.Trim().Substring(3);
+                                        _httpContextAccessor.HttpContext.Session.SetString("Department", department);
                                         break;
                                     }
                                 }
@@ -110,8 +110,8 @@ namespace AeroVault.Business
                         }
 
                         _httpContextAccessor.HttpContext.Session.SetString("StaffName", staffName);
-                        _httpContextAccessor.HttpContext.Session.SetString("Email", email); 
-                        _httpContextAccessor.HttpContext.Session.SetString("JobTitle", jobTitle); 
+                        _httpContextAccessor.HttpContext.Session.SetString("Email", email);
+                        _httpContextAccessor.HttpContext.Session.SetString("JobTitle", jobTitle);
                         _httpContextAccessor.HttpContext.Session.SetString("UserRole", staffMl.UserRole);
 
                         Console.WriteLine($"StaffName set in session: {staffName}");

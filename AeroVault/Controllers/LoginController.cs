@@ -29,6 +29,7 @@ namespace AeroVault.Controllers
             if (string.IsNullOrEmpty(staffNo) || string.IsNullOrEmpty(password))
             {
                 TempData["ErrorMessage"] = "Username and password are required.";
+                _logger.LogInformation("Username and password are required.");
                 return View("LoginPage");
             }
 
@@ -39,6 +40,7 @@ namespace AeroVault.Controllers
                 if (!_loginBl.GetLoginValidation(staffMl))
                 {
                     TempData["ErrorMessage"] = "Invalid credentials.";
+                    _logger.LogInformation("Invalid credentials.");
                     return View("LoginPage");
                 }
 
@@ -47,6 +49,7 @@ namespace AeroVault.Controllers
                 if (!IsAuthorized(userRole.UserRole))
                 {
                     TempData["ErrorMessage"] = $"Unauthorized role: {userRole.UserRole}";
+                    _logger.LogInformation($"Unauthorized role: {userRole.UserRole}");
                     return View("LoginPage");
                 }
 

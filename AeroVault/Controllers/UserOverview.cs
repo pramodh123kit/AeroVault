@@ -70,18 +70,24 @@ namespace AeroVault.Controllers
         {
             string staffNo = HttpContext.Session.GetString("StaffNo") ?? "Unknown";
             string staffName = HttpContext.Session.GetString("StaffName") ?? "Unknown";
+            string email = HttpContext.Session.GetString("Email") ?? "No Email";
+            string department = HttpContext.Session.GetString("Department") ?? "No Department";
+            string jobTitle = HttpContext.Session.GetString("JobTitle") ?? "No Job Title";
 
             using (OracleConnection connection = new OracleConnection(_connectionString))
             {
                 connection.Open();
                 string query = @"
-                    INSERT INTO Staff (StaffNo, StaffName)
-                    VALUES (:StaffNo, :StaffName)";
+            INSERT INTO Staff (StaffNo, StaffName, Email, Department, JobTitle)
+            VALUES (:StaffNo, :StaffName, :Email, :Department, :JobTitle)";
 
                 using (OracleCommand command = new OracleCommand(query, connection))
                 {
                     command.Parameters.Add(":StaffNo", OracleDbType.Varchar2).Value = staffNo;
                     command.Parameters.Add(":StaffName", OracleDbType.Varchar2).Value = staffName;
+                    command.Parameters.Add(":Email", OracleDbType.Varchar2).Value = email;
+                    command.Parameters.Add(":Department", OracleDbType.Varchar2).Value = department;
+                    command.Parameters.Add(":JobTitle", OracleDbType.Varchar2).Value = jobTitle;
                     command.ExecuteNonQuery();
                 }
             }

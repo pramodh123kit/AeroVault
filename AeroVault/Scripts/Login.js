@@ -31,7 +31,7 @@
             event.preventDefault();
         } else {
             const loadingScreen = document.getElementById('loading-screen');
-            loadingScreen.style.display = 'flex'; 
+            loadingScreen.style.display = 'flex';
         }
     });
 
@@ -74,7 +74,7 @@
         popupBody.classList.add('modal-body');
 
         const icon = document.createElement('div');
-        icon.innerHTML = '⚠️'; 
+        icon.innerHTML = '⚠️';
         icon.style.fontSize = '50px';
         icon.style.marginBottom = '15px';
 
@@ -105,3 +105,4 @@
         }, 10);
     }
 });
+

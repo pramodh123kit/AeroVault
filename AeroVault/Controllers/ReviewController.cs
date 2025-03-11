@@ -37,4 +37,14 @@ public class ReviewController : BaseAdminController
         var files = await _reviewBl.GetFilesBySystemAsync(systemId);
         return Json(files);
     }
+    public async Task<IActionResult> CheckStaffNoExists(string staffNo)
+    {
+        bool exists = await _reviewBl.CheckStaffNoExistsAsync(staffNo);
+        return Json(new { exists });
+    }
+    public async Task<IActionResult> GetStaffDetails(string staffNo)
+    {
+        var staffDetails = await _reviewBl.GetStaffDetailsAsync(staffNo);
+        return Json(staffDetails);
+    }
 }
