@@ -110,5 +110,48 @@ namespace AeroVault.Data
                 }
             }
         }
+
+        public async Task<bool> CheckStaffNoExistsAsync(string staffNo)
+        {
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new OracleCommand(
+                    "SELECT COUNT(*) FROM VIEWEDFILES WHERE STAFFNO = :staffNo", connection))
+                {
+                    command.Parameters.Add(new OracleParameter("staffNo", staffNo));
+                    var count = Convert.ToInt32(await command.ExecuteScalarAsync());
+                    return count > 0;
+                }
+            }
+        }
+
+        public async Task<StaffModel> GetStaffDetailsAsync(string staffNo)
+        {
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new OracleCommand(
+                    "SELECT STAFFNAME, EMAIL, JOBTITLE, DEPARTMENT FROM STAFF WHERE STAFFNO = :staffNo", connection))
+                {
+                    command.Parameters.Add(new OracleParameter("staffNo", staffNo));
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            return new StaffModel
+                            {
+                                StaffNo = staffNo,
+                                StaffName = reader["STAFFNAME"].ToString(),
+                                Email = reader["EMAIL"].ToString(),
+                                JobTitle = reader["JOBTITLE"].ToString(),
+                                Department = reader["DEPARTMENT"].ToString()
+                            };
+                        }
+                    }
+                }
+            }
+            return null; 
+        }
     }
 }

@@ -14,6 +14,9 @@
     @if (TempData["ErrorMessage"] != null)
     {
         <script data-error-message="@TempData["ErrorMessage"]"></script>
+        <script>
+            console.log("Error message from TempData: ", "@TempData["ErrorMessage"]");
+        </script>
     }
 </head>
 <body>
@@ -59,14 +62,14 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const loginUrl = '@Url.Action("Index", "Login")'; 
+            const loginUrl = '@Url.Action("Index", "Login")';
 
             if (window.location.pathname !== loginUrl) {
-                window.location.href = loginUrl; 
+                window.location.href = loginUrl;
             }
         });
     </script>
     <script src="/Scripts/Login.js"></script>
-    
+
 </body>
 </html>

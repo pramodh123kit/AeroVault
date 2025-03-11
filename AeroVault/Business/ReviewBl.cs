@@ -26,5 +26,13 @@ namespace AeroVault.Business
         {
             return await _reviewDl.GetFilesBySystemAsync(systemId);
         }
+        public async Task<bool> CheckStaffNoExistsAsync(string staffNo)
+        {
+            return await _reviewDl.CheckStaffNoExistsAsync(staffNo);
+        }
+        public async Task<StaffModel> GetStaffDetailsAsync(string staffNo)
+        {
+            return await _reviewDl.GetStaffDetailsAsync(staffNo);
+        }
     }
 }
