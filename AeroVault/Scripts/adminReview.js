@@ -88,13 +88,19 @@ function loadReviewContent(systemName, department) {
 }
 
 
-function populateFilesTable(files, uniqueFileIdentifiers, viewedDates) {
+function populateFilesTable(files, uniqueFileIdentifiers, viewedFiles) {
     const tableBody = document.querySelector('.table-container tbody');
     tableBody.innerHTML = ''; // Clear existing rows
 
     // Get the StaffNo from the staff card
     const staffNo = document.querySelector('.staff-card-header .id').textContent.trim().substring(2); // Assuming the format is "- StaffNo"
     console.log(`StaffNo to be checked is: ${staffNo}`); // Log the StaffNo
+
+    // Create a map for quick lookup of viewed dates by uniqueFileIdentifier
+    const viewedDateMap = {};
+    viewedFiles.forEach(viewedFile => {
+        viewedDateMap[viewedFile.uniqueFileIdentifier] = viewedFile.viewedDate;
+    });
 
     // Iterate over each file and create a row
     files.forEach(file => {
@@ -105,28 +111,35 @@ function populateFilesTable(files, uniqueFileIdentifiers, viewedDates) {
             ? `<img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-option-icon" />`
             : `<img src="/Content/Assets/system-file-icon.svg" alt="Document Icon" class="file-option-icon" />`;
 
-        // Check if the file's UNIQUEFILEIDENTIFIER is in the uniqueFileIdentifiers array
-        const index = uniqueFileIdentifiers.indexOf(file.UniqueFileIdentifier);
-        const isRead = index !== -1;
-        const statusText = isRead ? 'Read' : 'Pending';
-        const statusClass = isRead ? 'status-read' : 'status-pending';
+        // Check if the file's uniqueFileIdentifier is in the uniqueFileIdentifiers array
+        const isRead = uniqueFileIdentifiers.includes(file.uniqueFileIdentifier); // Check if the file has been read
+        const statusText = isRead ? 'Read' : 'Pending'; // Set status based on whether it has been read
+        const statusClass = isRead ? 'status-read' : 'status-pending'; // Set class for styling
 
-        // Log the UNIQUEFILEIDENTIFIER and VIEWEDDATE if the file has been read
+        // Get the viewed date if the file has been read
+        const viewedDate = isRead ? formatDate(viewedDateMap[file.uniqueFileIdentifier]) : '-'; // Format the viewed date
+
+        // Log the uniqueFileIdentifier and VIEWEDDATE if the file has been read
         if (isRead) {
-            console.log(`UNIQUEFILEIDENTIFIER: ${file.UniqueFileIdentifier}, VIEWEDDATE: ${viewedDates[index]}`);
+            console.log(`UNIQUEFILEIDENTIFIER: ${file.uniqueFileIdentifier}, VIEWEDDATE: ${viewedDate}`);
         }
 
         row.innerHTML = `
             <td>${icon}${file.fileName}</td>
             <td>${file.fileCategory}</td>
-            <td class="${statusClass}">${statusText}</td>
+            <td>${file.uniqueFileIdentifier}</td>
+            <td>${viewedDate}</td> <!-- Display the formatted viewed date -->
             <td class="${statusClass}">${statusText}</td>
         `;
         tableBody.appendChild(row);
     });
 }
 
-
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const options = { month: 'short', day: '2-digit', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options); // Format as "Mar 12, 2025"
+}
 function openReadModalUnique() {    
     document.getElementById("readModalUnique").style.display = "block";
 }
@@ -584,9 +597,15 @@ function fetchFilesBySystem(systemId) {
             const staffNo = document.querySelector('.staff-card-header .id').textContent.trim().substring(2);
             return fetch(`/Review/GetUniqueFileIdentifiers?staffNo=${staffNo}`)
                 .then(response => response.json())
-                .then(data => {
-                    // Populate the table with the fetched files and unique file identifiers
-                    populateFilesTable(files, data.uniqueFileIdentifiers);
+                .then(uniqueData => {
+                    // Fetch viewed files for the current staffNo
+                    return fetch(`/Review/GetViewedFiles?staffNo=${staffNo}`)
+                        .then(response => response.json())
+                        .then(viewedFiles => {
+                            // Populate the table with the fetched files, unique file identifiers, and viewed files
+                            const uniqueFileIdentifiers = uniqueData.uniqueFileIdentifiers;
+                            populateFilesTable(files, uniqueFileIdentifiers, viewedFiles);
+                        });
                 });
         })
         .catch(error => console.error('Error fetching files:', error));
