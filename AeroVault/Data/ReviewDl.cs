@@ -1,5 +1,6 @@
 ﻿using AeroVault.Models;
 using Oracle.ManagedDataAccess.Client;
+using System.Threading.Tasks; // For async methods
 
 namespace AeroVault.Data
 {
@@ -152,6 +153,31 @@ namespace AeroVault.Data
                 }
             }
             return null; 
+        }
+
+        public async Task<DepartmentModel> GetDepartmentByNameAsync(string departmentName)
+        {
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new OracleCommand(
+                    "SELECT DepartmentID, DepartmentName FROM DEPARTMENTS WHERE DepartmentName = :departmentName AND IS_DELETED = 0", connection))
+                {
+                    command.Parameters.Add(new OracleParameter("departmentName", departmentName));
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            return new DepartmentModel
+                            {
+                                DepartmentID = Convert.ToInt32(reader["DepartmentID"]),
+                                DepartmentName = reader["DepartmentName"].ToString()
+                            };
+                        }
+                    }
+                }
+            }
+            return null;
         }
     }
 }
