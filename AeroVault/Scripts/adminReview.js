@@ -89,26 +89,40 @@ function loadReviewContent(systemName, department) {
 
 
 function populateFilesTable(files) {
-    const tableBody = document.querySelector('#fileTableUnique tbody');
-    tableBody.innerHTML = ''; 
+
+    const tableBody = document.querySelector('.table-container tbody');
+
+    tableBody.innerHTML = ''; // Clear existing rows
+
 
     files.forEach(file => {
+
         const row = document.createElement('tr');
 
-        const icon = file.fileType === 'Video'
-            ? '/Content/Assets/system-video-icon.svg'
-            : '/Content/Assets/system-file-icon.svg';
 
-        const category = file.fileCategory === 'Training' ? 'Training' : 'Technical'; 
+        const icon = file.fileType === 'Video'
+
+            ? '<i class="fas fa-play-circle icon"></i>'
+
+            : '<i class="fas fa-file-alt icon"></i>';
+
 
         row.innerHTML = `
-            <td><img src="${icon}" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> ${file.fileName}</td>
-            <td>${category}</td> <!-- Display the category -->
-            <td class="read-by-unique"></td> <!-- Leave empty -->
-            <td class="pending-by-unique"></td> <!-- Leave empty -->
+
+            <td>${icon}${file.fileName}</td>
+
+            <td>${file.fileCategory}</td>
+
+            <td>-</td>
+
+            <td class="status-pending">Pending</td>
+
         `;
+
         tableBody.appendChild(row);
+
     });
+
 }
 function openReadModalUnique() {    
     document.getElementById("readModalUnique").style.display = "block";
@@ -392,27 +406,43 @@ function filterStaffViewTable() {
 }
 
 function showFlightPlanningTable() {
-    const pcImage = document.querySelector('.staff-view-image');
-    if (pcImage) {
-        pcImage.style.display = 'none';
-    }
-    document.querySelector('.tableChanger').style.display = 'block';
-}
 
+    const pcImage = document.querySelector('.staff-view-image');
+
+    if (pcImage) {
+
+        pcImage.style.display = 'none';
+
+    }
+
+    document.querySelector('.tableChanger').style.display = 'block';
+
+}
 function staffViewActive(event) {
+
     const menuItems = document.querySelectorAll('.menu-item');
+
     menuItems.forEach(item => {
+
         item.classList.remove('active');
+
     });
+
 
     event.currentTarget.classList.add('active');
 
+
     const pcImage = document.querySelector('.staff-view-image');
+
     if (pcImage) {
+
         pcImage.style.display = 'none';
+
     }
 
+
     showFlightPlanningTable();
+
 }
 
 function toggleStatusDropdown() {
@@ -505,65 +535,63 @@ function selectStatusOption(element) {
 
 
 function updateStaffViewSidebar2(systems) {
-
     const sidebar = document.querySelector('.staffViewSidebar2');
-
     sidebar.innerHTML = '';
 
-
     if (systems.length === 0) {
-
         sidebar.innerHTML = '<div class="no-systems">No systems found</div>';
-
     } else {
-
         systems.forEach(system => {
-
             const menuItem = document.createElement('div');
-
             menuItem.className = 'menu-item';
-
             menuItem.dataset.systemId = system.systemID; // Store SystemID in data attribute
 
-
             // Update the onclick function to fetch files when a system is selected
-
             menuItem.onclick = function () {
-
                 fetchFilesBySystem(system.systemID); // Call the new function
-
                 staffViewActive(event); // Keep the existing functionality
-
             };
 
-
             menuItem.innerHTML = `<i class="fas fa-folder"></i><span>${system.systemName}</span>`;
-
             sidebar.appendChild(menuItem);
-
         });
-
     }
-
 }
 
 
 function fetchFilesBySystem(systemId) {
+
     // Fetch the system details to get the system name
-    fetch(`/Review/GetSystemById?systemId=${systemId}`) // Assuming you have an endpoint to get system details
+
+    fetch(`/Review/GetSystemById?systemId=${systemId}`)
+
         .then(response => response.json())
+
         .then(system => {
+
             // Update the system name in the h2 element
+
             document.querySelector('.system-name').textContent = system.systemName;
 
+
             // Fetch the files associated with the system
+
             return fetch(`/Review/GetFilesBySystem?systemId=${systemId}`);
+
         })
+
         .then(response => response.json())
+
         .then(files => {
+
             console.log(files); // Log the files to the console
+
+            populateFilesTable(files); // Populate the table with the fetched files
+
         })
+
         .catch(error => console.error('Error fetching files:', error));
+
 }
 
 function updateStaffViewSidebar(systems) {
