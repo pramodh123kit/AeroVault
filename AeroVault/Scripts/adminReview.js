@@ -88,7 +88,7 @@ function loadReviewContent(systemName, department) {
 }
 
 
-function populateFilesTable(files) {
+function populateFilesTable(files, uniqueFileIdentifiers, viewedDates) {
     const tableBody = document.querySelector('.table-container tbody');
     tableBody.innerHTML = ''; // Clear existing rows
 
@@ -96,55 +96,33 @@ function populateFilesTable(files) {
     const staffNo = document.querySelector('.staff-card-header .id').textContent.trim().substring(2); // Assuming the format is "- StaffNo"
     console.log(`StaffNo to be checked is: ${staffNo}`); // Log the StaffNo
 
-    // Create an array of promises to fetch viewed status for each file
-    const viewedPromises = files.map(file => {
-        return fetch(`/Review/CheckFileViewed?staffNo=${staffNo}&uniqueFileIdentifier=${file.UniqueFileIdentifier}`)
-            .then(response => response.json())
-            .then(viewedData => {
-                // Log the UNIQUEFILEIDENTIFIER or FileName if the file has been read
-                if (viewedData.status === "Read") {
-                    console.log(`File read: ${file.UniqueFileIdentifier} - ${file.FileName}`);
-                } else {
-                    console.log(`File pending: ${file.UniqueFileIdentifier} - ${file.FileName}`);
-                }
-                return {
-                    file: file,
-                    viewedDate: viewedData.viewedDate,
-                    status: viewedData.status
-                };
-            });
-    });
+    // Iterate over each file and create a row
+    files.forEach(file => {
+        const row = document.createElement('tr');
 
-    // Wait for all promises to resolve
-    Promise.all(viewedPromises).then(results => {
-        results.forEach(result => {
-            const file = result.file;
-            const row = document.createElement('tr');
+        // Determine the icon based on the file type
+        const icon = file.fileType === 'Video'
+            ? `<img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-option-icon" />`
+            : `<img src="/Content/Assets/system-file-icon.svg" alt="Document Icon" class="file-option-icon" />`;
 
-            // Determine the icon based on the file type
-            const icon = file.fileType === 'Video'
-                ? `<img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-option-icon" />`
-                : `<img src="/Content/Assets/system-file-icon.svg" alt="Document Icon" class="file-option-icon" />`;
+        // Check if the file's UNIQUEFILEIDENTIFIER is in the uniqueFileIdentifiers array
+        const index = uniqueFileIdentifiers.indexOf(file.UniqueFileIdentifier);
+        const isRead = index !== -1;
+        const statusText = isRead ? 'Read' : 'Pending';
+        const statusClass = isRead ? 'status-read' : 'status-pending';
 
-            // Format the viewed date
-            const viewedDate = result.viewedDate ? new Date(result.viewedDate).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: '2-digit'
-            }) : '-';
+        // Log the UNIQUEFILEIDENTIFIER and VIEWEDDATE if the file has been read
+        if (isRead) {
+            console.log(`UNIQUEFILEIDENTIFIER: ${file.UniqueFileIdentifier}, VIEWEDDATE: ${viewedDates[index]}`);
+        }
 
-            // Set the status class based on whether the file was read
-            const statusClass = result.status === 'Read' ? 'status-read' : 'status-pending';
-            const statusText = result.status || 'Pending';
-
-            row.innerHTML = `
-                <td>${icon}${file.fileName}</td>
-                <td>${file.fileCategory}</td>
-                <td class="${statusClass}">${viewedDate}</td>
-                <td class="${statusClass}">${statusText}</td>
-            `;
-            tableBody.appendChild(row);
-        });
+        row.innerHTML = `
+            <td>${icon}${file.fileName}</td>
+            <td>${file.fileCategory}</td>
+            <td class="${statusClass}">${statusText}</td>
+            <td class="${statusClass}">${statusText}</td>
+        `;
+        tableBody.appendChild(row);
     });
 }
 
@@ -328,6 +306,9 @@ function staffViewPerformSearch() {
         alert("Please enter a Staff ID.");
         return;
     }
+
+    // Check if the StaffNo exists in VIEWEDFILES
+    checkStaffNoExists(staffNo);
 
     fetch(`/Review/CheckStaffNoExists?staffNo=${staffNo}`)
         .then(response => response.json())
@@ -585,38 +566,30 @@ function updateStaffViewSidebar2(systems) {
 
 
 function fetchFilesBySystem(systemId) {
-
     // Fetch the system details to get the system name
-
     fetch(`/Review/GetSystemById?systemId=${systemId}`)
-
         .then(response => response.json())
-
         .then(system => {
-
             // Update the system name in the h2 element
-
             document.querySelector('.system-name').textContent = system.systemName;
 
-
             // Fetch the files associated with the system
-
             return fetch(`/Review/GetFilesBySystem?systemId=${systemId}`);
-
         })
-
         .then(response => response.json())
-
         .then(files => {
-
             console.log(files); // Log the files to the console
 
-            populateFilesTable(files); // Populate the table with the fetched files
-
+            // Fetch unique file identifiers for the current staffNo
+            const staffNo = document.querySelector('.staff-card-header .id').textContent.trim().substring(2);
+            return fetch(`/Review/GetUniqueFileIdentifiers?staffNo=${staffNo}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Populate the table with the fetched files and unique file identifiers
+                    populateFilesTable(files, data.uniqueFileIdentifiers);
+                });
         })
-
         .catch(error => console.error('Error fetching files:', error));
-
 }
 
 function updateStaffViewSidebar(systems) {
@@ -674,4 +647,28 @@ function getDepartmentId(departmentName) {
     return fetch(`/Review/GetDepartmentId?departmentName=${encodeURIComponent(departmentName)}`)
         .then(response => response.json())
         .then(data => data.departmentId);
+}
+
+function checkStaffNoExists(staffNo) {
+    fetch(`/Review/CheckStaffNoExists?staffNo=${staffNo}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.exists) {
+                console.log("yes");
+                // Fetch unique file identifiers and viewed dates
+                fetch(`/Review/GetViewedFiles?staffNo=${staffNo}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Unique File Identifiers and Viewed Dates:", data);
+                        // Pass the identifiers and viewed dates to populateFilesTable
+                        const uniqueFileIdentifiers = data.map(file => file.UniqueFileIdentifier);
+                        const viewedDates = data.map(file => file.ViewedDate);
+                        populateFilesTable(files, uniqueFileIdentifiers, viewedDates);
+                    })
+                    .catch(error => console.error('Error fetching viewed files:', error));
+            } else {
+                console.log("no");
+            }
+        })
+        .catch(error => console.error('Error checking StaffNo:', error));
 }
