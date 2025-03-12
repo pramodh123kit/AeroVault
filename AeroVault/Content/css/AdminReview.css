@@ -1232,3 +1232,11 @@ th {
 .no-systems {
     margin-left:20px;
 }
+
+.status-read {
+    color: green; /* Change the color to green for read status */
+}
+
+/*.status-pending {
+    color: orange; 
+}*/

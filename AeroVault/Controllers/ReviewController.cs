@@ -57,4 +57,10 @@ public class ReviewController : BaseAdminController
         var system = await _reviewBl.GetSystemByIdAsync(systemId);
         return Json(system);
     }
+    [HttpGet]
+    public async Task<IActionResult> CheckFileViewed(string staffNo, string uniqueFileIdentifier)
+    {
+        var viewedFile = await _reviewBl.CheckFileViewedAsync(staffNo, uniqueFileIdentifier);
+        return Json(viewedFile);
+    }
 }
