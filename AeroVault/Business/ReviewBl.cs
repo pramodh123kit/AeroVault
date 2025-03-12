@@ -1,5 +1,6 @@
 ﻿using AeroVault.Data;
 using AeroVault.Models;
+using System.Threading.Tasks; // For async methods
 
 namespace AeroVault.Business
 {
@@ -33,6 +34,10 @@ namespace AeroVault.Business
         public async Task<StaffModel> GetStaffDetailsAsync(string staffNo)
         {
             return await _reviewDl.GetStaffDetailsAsync(staffNo);
+        }
+        public async Task<DepartmentModel> GetDepartmentByNameAsync(string departmentName)
+        {
+            return await _reviewDl.GetDepartmentByNameAsync(departmentName);
         }
     }
 }

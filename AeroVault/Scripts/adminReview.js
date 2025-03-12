@@ -290,55 +290,37 @@ function staffViewPerformSearch() {
         return;
     }
 
-    // AJAX call to check if the StaffNo exists in VIEWEDFILES
     fetch(`/Review/CheckStaffNoExists?staffNo=${staffNo}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
-            // Remove any existing error message
-            const existingErrorMessage = document.getElementById('staffNoErrorMessage');
-            if (existingErrorMessage) {
-                existingErrorMessage.remove();
-            }
-
             if (data.exists) {
-                // Fetch staff details from STAFF table
                 fetch(`/Review/GetStaffDetails?staffNo=${staffNo}`)
                     .then(response => response.json())
                     .then(staffData => {
-                        // Update the staff card with the retrieved details
                         document.querySelector('.staff-card-header .name').textContent = staffData.staffName;
                         document.querySelector('.staff-card-header .id').textContent = `- ${staffData.staffNo}`;
                         document.querySelector('.staff-card-body .left .item:nth-child(1) div').textContent = staffData.department;
                         document.querySelector('.staff-card-body .left .item:nth-child(2) div').textContent = staffData.jobTitle;
                         document.querySelector('.staff-card-body .right .item:nth-child(1) div').textContent = staffData.email;
 
-                        // Proceed to show the staff view
+                        // Fetch Department ID and then systems
+                        getDepartmentId(staffData.department).then(departmentId => {
+                            return fetch(`/Review/GetSystemsByDepartment?departmentId=${departmentId}`);
+                        }).then(response => response.json())
+                            .then(systems => {
+                                updateStaffViewSidebar2(systems);
+                            });
+
                         document.getElementById('system-view').style.display = 'none';
                         document.getElementById('staff-view').style.display = 'flex';
                         document.getElementById('staffAfterSearch').style.display = 'flex';
                         document.getElementById('staffcontentLayout').style.display = 'flex';
                         document.getElementById('staff-view-reviewcontent').style.display = 'none';
                         adjustStaffViewContentHeight();
-                    })
-                    .catch(error => {
-                        console.error('Error fetching staff details:', error);
                     });
             } else {
-                // Show error message
-                const errorMessage = document.createElement('div');
-                errorMessage.id = 'staffNoErrorMessage'; // Set an ID for the error message
-                errorMessage.textContent = "Staff ID does not exist in the VIEWEDFILES table.";
-                errorMessage.style.color = 'red';
-                document.querySelector('.staffView-search-box').appendChild(errorMessage);
+                // Handle error
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
         });
 }
 
@@ -473,31 +455,86 @@ function filterStatusOptions() {
 }
 
 function selectStatusOption(element) {
+
     var selectedStatus = element.textContent || element.innerText;
+
     document.getElementById('selected-status').textContent = selectedStatus;
+
     document.querySelector('.status-dropdown-content').style.display = 'none';
+
     document.querySelector('.status-dropdown-toggle').classList.remove('open');
 
+
     var selector = document.querySelector('.status-selector');
+
     selector.style.borderBottomLeftRadius = '10px';
+
     selector.style.borderBottomRightRadius = '10px';
+
     selector.style.borderBottom = '1px solid #6D6D6D';
+
 
     var departmentId = element.getAttribute('data-department-id');
 
+
     const imageContainer = document.querySelector('.image-container');
+
     const systemReviewTable = document.getElementById('system-review-table');
 
-    imageContainer.style.display = 'flex'; 
-    systemReviewTable.style.display = 'none'; 
+
+    imageContainer.style.display = 'flex';
+
+    systemReviewTable.style.display = 'none';
+
 
     fetch(`/Review/GetSystemsByDepartment?departmentId=${departmentId}`)
+
         .then(response => response.json())
+
         .then(data => {
-            console.log(data); 
-            updateStaffViewSidebar(data);
+
+            console.log(data);
+
+            updateStaffViewSidebar2(data);
+
         })
+
         .catch(error => console.error('Error fetching systems:', error));
+
+}
+
+
+function updateStaffViewSidebar2(systems) {
+
+    const sidebar = document.querySelector('.staffViewSidebar2');
+
+    sidebar.innerHTML = '';
+
+
+    if (systems.length === 0) {
+
+        sidebar.innerHTML = '<div class="no-systems">No systems found</div>';
+
+    } else {
+
+        systems.forEach(system => {
+
+            const menuItem = document.createElement('div');
+
+            menuItem.className = 'menu-item';
+
+            menuItem.dataset.systemId = system.systemID;
+
+            menuItem.onclick = function () { staffViewActive(event); };
+
+            menuItem.innerHTML = `<i class="fas fa-folder"></i><span>${system.systemName}</span>`;
+
+            sidebar.appendChild(menuItem);
+
+        });
+
+    }
+
 }
 
 function updateStaffViewSidebar(systems) {
@@ -550,3 +587,9 @@ window.onclick = function (event) {
         }
     }
 };
+
+function getDepartmentId(departmentName) {
+    return fetch(`/Review/GetDepartmentId?departmentName=${encodeURIComponent(departmentName)}`)
+        .then(response => response.json())
+        .then(data => data.departmentId);
+}

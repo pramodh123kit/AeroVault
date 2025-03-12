@@ -29,7 +29,7 @@ public class ReviewController : BaseAdminController
     public async Task<IActionResult> GetSystemsByDepartment(int departmentId)
     {
         var systems = await _reviewBl.GetSystemsByDepartmentAsync(departmentId);
-        return Json(systems); 
+        return Json(systems);
     }
 
     public async Task<IActionResult> GetFilesBySystem(int systemId)
@@ -46,5 +46,10 @@ public class ReviewController : BaseAdminController
     {
         var staffDetails = await _reviewBl.GetStaffDetailsAsync(staffNo);
         return Json(staffDetails);
+    }
+    public async Task<IActionResult> GetDepartmentId(string departmentName)
+    {
+        var department = await _reviewBl.GetDepartmentByNameAsync(departmentName);
+        return Json(new { departmentId = department?.DepartmentID });
     }
 }
