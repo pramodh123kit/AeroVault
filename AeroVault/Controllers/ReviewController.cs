@@ -52,4 +52,9 @@ public class ReviewController : BaseAdminController
         var department = await _reviewBl.GetDepartmentByNameAsync(departmentName);
         return Json(new { departmentId = department?.DepartmentID });
     }
+    public async Task<IActionResult> GetSystemById(int systemId)
+    {
+        var system = await _reviewBl.GetSystemByIdAsync(systemId);
+        return Json(system);
+    }
 }

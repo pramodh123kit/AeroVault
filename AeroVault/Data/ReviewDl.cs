@@ -179,5 +179,30 @@ namespace AeroVault.Data
             }
             return null;
         }
+        public async Task<SystemModel> GetSystemByIdAsync(int systemId)
+        {
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new OracleCommand(
+                    "SELECT SystemID, SystemName, Description FROM SYSTEMS WHERE SystemID = :systemId AND IS_DELETED = 0", connection))
+                {
+                    command.Parameters.Add(new OracleParameter("systemId", systemId));
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            return new SystemModel
+                            {
+                                SystemID = Convert.ToInt32(reader["SystemID"]),
+                                SystemName = reader["SystemName"].ToString(),
+                                Description = reader["Description"].ToString()
+                            };
+                        }
+                    }
+                }
+            }
+            return null; // Return null if not found
+        }
     }
 }
