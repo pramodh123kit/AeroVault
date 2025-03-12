@@ -121,7 +121,7 @@ namespace AeroVault.Data
                 {
                     command.Parameters.Add(new OracleParameter("staffNo", staffNo));
                     var count = Convert.ToInt32(await command.ExecuteScalarAsync());
-                    return count > 0;
+                    return count > 0; // Returns true if count is greater than 0
                 }
             }
         }
@@ -228,6 +228,58 @@ namespace AeroVault.Data
                 }
             }
             return new ViewedFileModel { ViewedDate = null, Status = "Pending" }; // Not viewed
+        }
+
+        public async Task<List<string>> GetUniqueFileIdentifiersByStaffNoAsync(string staffNo)
+        {
+            var uniqueFileIdentifiers = new List<string>();
+
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new OracleCommand(
+                    "SELECT UNIQUEFILEIDENTIFIER FROM VIEWEDFILES WHERE STAFFNO = :staffNo", connection))
+                {
+                    command.Parameters.Add(new OracleParameter("staffNo", staffNo));
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            uniqueFileIdentifiers.Add(reader["UNIQUEFILEIDENTIFIER"].ToString());
+                        }
+                    }
+                }
+            }
+
+            return uniqueFileIdentifiers;
+        }
+
+        public async Task<List<ViewedFileModel>> GetViewedFilesByStaffNoAsync(string staffNo)
+        {
+            var viewedFiles = new List<ViewedFileModel>();
+
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new OracleCommand(
+                    "SELECT UNIQUEFILEIDENTIFIER, VIEWEDDATE FROM VIEWEDFILES WHERE STAFFNO = :staffNo", connection))
+                {
+                    command.Parameters.Add(new OracleParameter("staffNo", staffNo));
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            viewedFiles.Add(new ViewedFileModel
+                            {
+                                UniqueFileIdentifier = reader["UNIQUEFILEIDENTIFIER"].ToString(),
+                                ViewedDate = reader["VIEWEDDATE"] != DBNull.Value ? Convert.ToDateTime(reader["VIEWEDDATE"]) : (DateTime?)null
+                            });
+                        }
+                    }
+                }
+            }
+
+            return viewedFiles;
         }
     }
 }
