@@ -523,9 +523,19 @@ function updateStaffViewSidebar2(systems) {
 
             menuItem.className = 'menu-item';
 
-            menuItem.dataset.systemId = system.systemID;
+            menuItem.dataset.systemId = system.systemID; // Store SystemID in data attribute
 
-            menuItem.onclick = function () { staffViewActive(event); };
+
+            // Update the onclick function to fetch files when a system is selected
+
+            menuItem.onclick = function () {
+
+                fetchFilesBySystem(system.systemID); // Call the new function
+
+                staffViewActive(event); // Keep the existing functionality
+
+            };
+
 
             menuItem.innerHTML = `<i class="fas fa-folder"></i><span>${system.systemName}</span>`;
 
@@ -535,6 +545,25 @@ function updateStaffViewSidebar2(systems) {
 
     }
 
+}
+
+
+function fetchFilesBySystem(systemId) {
+    // Fetch the system details to get the system name
+    fetch(`/Review/GetSystemById?systemId=${systemId}`) // Assuming you have an endpoint to get system details
+        .then(response => response.json())
+        .then(system => {
+            // Update the system name in the h2 element
+            document.querySelector('.system-name').textContent = system.systemName;
+
+            // Fetch the files associated with the system
+            return fetch(`/Review/GetFilesBySystem?systemId=${systemId}`);
+        })
+        .then(response => response.json())
+        .then(files => {
+            console.log(files); // Log the files to the console
+        })
+        .catch(error => console.error('Error fetching files:', error));
 }
 
 function updateStaffViewSidebar(systems) {
