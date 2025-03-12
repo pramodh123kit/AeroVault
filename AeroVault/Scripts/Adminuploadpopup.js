@@ -436,21 +436,29 @@ function uploadFiles() {
         formData.append('Files', file);
     });
 
-    // Show loading indicator
-    alert(`Uploading ${selectedFiles.length} file(s)...`);
+    // Show loading bar
+    const loadingBarContainer = document.getElementById('loadingBarContainer');
+    loadingBarContainer.style.display = 'block'; // Show loading bar
+    const loadingBar = document.getElementById('loadingBar');
+    loadingBar.style.width = '0%'; // Reset loading bar width
 
     // Perform the upload
-    fetch('/Upload/UploadFiles', {
-        method: 'POST',
-        body: formData
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Upload failed');
-            }
-            return response.json();
-        })
-        .then(result => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/Upload/UploadFiles', true);
+
+    // Update the loading bar as the upload progresses
+    xhr.upload.onprogress = function (event) {
+        if (event.lengthComputable) {
+            const percentComplete = (event.loaded / event.total) * 100;
+            loadingBar.style.width = percentComplete + '%';
+            // Remove the line that updates the loading text
+            // loadingText.textContent = `${Math.round(percentComplete)}%`; // This line is removed
+        }
+    };
+
+    xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            const result = JSON.parse(xhr.responseText);
             // Close the current popup
             fileEditClosePopup8();
 
@@ -461,19 +469,18 @@ function uploadFiles() {
             resetFiles();
             // Refresh the table
             refreshTable();
-        })
-        .catch(error => {
-            console.error('Upload error:', error);
-            // Display error message in red text below the selected files
-            const selectedFilesContainer = document.getElementById('selected-files');
-            const errorMessage = document.createElement('p');
-            errorMessage.textContent = 'File upload failed: ' + error.message;
-            errorMessage.style.color = 'red';
-            errorMessage.style.marginTop = '-40px'; // Optional: Add some space above the error message
+        } else {
+            console.error('Upload error:', xhr.statusText);
+            alert('File upload failed: ' + xhr.statusText);
+        }
+    };
 
-            // Insert the error message after the selected files container
-            selectedFilesContainer.parentNode.insertBefore(errorMessage, selectedFilesContainer.nextSibling);
-        });
+    xhr.onerror = function () {
+        console.error('Upload error:', xhr.statusText);
+        alert('File upload failed: ' + xhr.statusText);
+    };
+
+    xhr.send(formData);
 }
 
 function openSuccessPopup(message) {
@@ -544,6 +551,8 @@ function refreshTable() {
         });
 }
 
+var currentPage = 1; // Track the current page
+var rowsPerPage = 10; // Number of rows per page
 function updateTableWithNewData(files) {
     const tbody = document.querySelector('.file-table tbody');
     tbody.innerHTML = ''; // Clear existing rows
@@ -592,6 +601,10 @@ function updateTableWithNewData(files) {
         row.innerHTML = `<td colspan="6" class="text-center">No files uploaded yet</td>`;
         tbody.appendChild(row);
     }
+
+    // After updating the table, reset pagination
+    currentPage = 1; // Reset to the first page
+    setupPagination(files.length); // Setup pagination based on the number of files
 }
     function filterDepartments(searchTerm) {
         const departments = document.querySelectorAll(".department-list li");

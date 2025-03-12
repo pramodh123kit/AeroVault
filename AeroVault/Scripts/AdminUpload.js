@@ -42,7 +42,7 @@ function filterTable() {
 
     currentPage = 1;
     updateTable();
-    setupPagination();
+    setupPagination(filteredRows.length); // Pass the length of filteredRows
 }
 
 function updateTable() {
@@ -51,25 +51,25 @@ function updateTable() {
     const end = start + rowsPerPage;
 
     rows.forEach(row => {
-        row.style.display = "none";
+        row.style.display = "none"; // Hide all rows
     });
 
-    filteredRows.slice(start, end).forEach(row => {
-        row.style.display = "";
-    });
+    // Show only the rows for the current page
+    for (let i = start; i < end && i < rows.length; i++) {
+        rows[i].style.display = ""; // Show the rows for the current page
+    }
 }
-function setupPagination() {
-    const totalRows = filteredRows.length;
+function setupPagination(totalRows) {
     const totalPages = Math.ceil(totalRows / rowsPerPage);
     const paginationContainer = document.querySelector(".page-numbers");
-    paginationContainer.innerHTML = "";
+    paginationContainer.innerHTML = ""; // Clear existing pagination numbers
 
     const prevButton = document.querySelector(".prev");
     prevButton.onclick = () => {
         if (currentPage > 1) {
             currentPage--;
             updateTable();
-            setupPagination();
+            setupPagination(filteredRows.length); // Update pagination numbers
         }
     };
 
@@ -78,7 +78,7 @@ function setupPagination() {
         if (currentPage < totalPages) {
             currentPage++;
             updateTable();
-            setupPagination();
+            setupPagination(filteredRows.length); // Update pagination numbers
         }
     };
 
@@ -104,53 +104,16 @@ function setupPagination() {
         pageNum.className = `page-number ${i === currentPage ? "active" : ""}`;
         pageNum.textContent = i;
         pageNum.addEventListener("click", () => {
-            currentPage = i;
-            updateTable();
-            setupPagination();
+            currentPage = i; // Set the current page to the clicked page number
+            updateTable(); // Update the table to show the correct rows
+            setupPagination(filteredRows.length); // Update pagination numbers
         });
         paginationContainer.appendChild(pageNum);
     }
 
-    if (startPage > 1) {
-        const firstPage = document.createElement("span");
-        firstPage.className = "page-number";
-        firstPage.textContent = "1";
-        firstPage.addEventListener("click", () => {
-            currentPage = 1;
-            updateTable();
-            setupPagination();
-        });
-        paginationContainer.insertBefore(firstPage, paginationContainer.firstChild);
-
-        if (startPage > 2) {
-            const startEllipsis = document.createElement("span");
-            startEllipsis.className = "page-number ellipsis";
-            startEllipsis.textContent = "...";
-            paginationContainer.insertBefore(startEllipsis, paginationContainer.firstChild.nextSibling);
-        }
-    }
-
-    if (endPage < totalPages) {
-        if (endPage < totalPages - 1) {
-            const endEllipsis = document.createElement("span");
-            endEllipsis.className = "page-number ellipsis";
-            endEllipsis.textContent = "...";
-            paginationContainer.appendChild(endEllipsis);
-        }
-
-        const lastPage = document.createElement("span");
-        lastPage.className = "page-number";
-        lastPage.textContent = totalPages;
-        lastPage.addEventListener("click", () => {
-            currentPage = totalPages;
-            updateTable();
-            setupPagination();
-        });
-        paginationContainer.appendChild(lastPage);
-    }
-
-    prevButton.disabled = currentPage === 1;
-    nextButton.disabled = currentPage === totalPages;
+    prevButton.disabled = currentPage === 1; // Disable previous button if on first page
+    nextButton.disabled = currentPage === totalPages; // Disable next button if on last page
+    updateTable();
 }
 
 function selectcategoryOption(element) {
@@ -475,12 +438,21 @@ function fileEditClosePopup8() {
     document.getElementById("dark-overlay8").style.display = "none";
     document.getElementById("editfile-popup8").style.display = "none";
 
+    // Reset persistent selections
     persistentSelectedDepartments = [];
 
+    // Reset the loading bar
+    const loadingBarContainer = document.getElementById('loadingBarContainer');
+    loadingBarContainer.style.display = 'none'; // Hide loading bar
+    const loadingBar = document.getElementById('loadingBar');
+    loadingBar.style.width = '0%'; // Reset loading bar width
+
+    // Uncheck all department checkboxes
     document.querySelectorAll(".department").forEach(checkbox => {
         checkbox.checked = false;
     });
 
+    // Update division header styles
     document.querySelectorAll(".division").forEach(division => {
         updateDivisionHeaderStyle(division);
         updateSelectedCount(division);
