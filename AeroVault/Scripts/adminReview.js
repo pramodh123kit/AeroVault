@@ -89,41 +89,66 @@ function loadReviewContent(systemName, department) {
 
 
 function populateFilesTable(files) {
-
     const tableBody = document.querySelector('.table-container tbody');
-
     tableBody.innerHTML = ''; // Clear existing rows
 
+    // Get the StaffNo from the staff card
+    const staffNo = document.querySelector('.staff-card-header .id').textContent.trim().substring(2); // Assuming the format is "- StaffNo"
+    console.log(`StaffNo to be checked is: ${staffNo}`); // Log the StaffNo
 
-    files.forEach(file => {
-
-        const row = document.createElement('tr');
-
-
-        const icon = file.fileType === 'Video'
-
-            ? '<i class="fas fa-play-circle icon"></i>'
-
-            : '<i class="fas fa-file-alt icon"></i>';
-
-
-        row.innerHTML = `
-
-            <td>${icon}${file.fileName}</td>
-
-            <td>${file.fileCategory}</td>
-
-            <td>-</td>
-
-            <td class="status-pending">Pending</td>
-
-        `;
-
-        tableBody.appendChild(row);
-
+    // Create an array of promises to fetch viewed status for each file
+    const viewedPromises = files.map(file => {
+        return fetch(`/Review/CheckFileViewed?staffNo=${staffNo}&uniqueFileIdentifier=${file.UniqueFileIdentifier}`)
+            .then(response => response.json())
+            .then(viewedData => {
+                // Log the UNIQUEFILEIDENTIFIER or FileName if the file has been read
+                if (viewedData.status === "Read") {
+                    console.log(`File read: ${file.UniqueFileIdentifier} - ${file.FileName}`);
+                } else {
+                    console.log(`File pending: ${file.UniqueFileIdentifier} - ${file.FileName}`);
+                }
+                return {
+                    file: file,
+                    viewedDate: viewedData.viewedDate,
+                    status: viewedData.status
+                };
+            });
     });
 
+    // Wait for all promises to resolve
+    Promise.all(viewedPromises).then(results => {
+        results.forEach(result => {
+            const file = result.file;
+            const row = document.createElement('tr');
+
+            // Determine the icon based on the file type
+            const icon = file.fileType === 'Video'
+                ? `<img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-option-icon" />`
+                : `<img src="/Content/Assets/system-file-icon.svg" alt="Document Icon" class="file-option-icon" />`;
+
+            // Format the viewed date
+            const viewedDate = result.viewedDate ? new Date(result.viewedDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: '2-digit'
+            }) : '-';
+
+            // Set the status class based on whether the file was read
+            const statusClass = result.status === 'Read' ? 'status-read' : 'status-pending';
+            const statusText = result.status || 'Pending';
+
+            row.innerHTML = `
+                <td>${icon}${file.fileName}</td>
+                <td>${file.fileCategory}</td>
+                <td class="${statusClass}">${viewedDate}</td>
+                <td class="${statusClass}">${statusText}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    });
 }
+
+
 function openReadModalUnique() {    
     document.getElementById("readModalUnique").style.display = "block";
 }
