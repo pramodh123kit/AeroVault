@@ -220,10 +220,22 @@ namespace AeroVault.Data
             using (var connection = new OracleConnection(_connectionString))
             {
                 connection.Open();
-                var command = new OracleCommand("INSERT INTO ViewedFiles (VIEWID, StaffNo, UniqueFileIdentifier) VALUES (VIEWEDFILES_SEQ.NEXTVAL, :staffNo, :uniqueIdentifier)", connection);
-                command.Parameters.Add(new OracleParameter("staffNo", staffNo));
-                command.Parameters.Add(new OracleParameter("uniqueIdentifier", uniqueIdentifier));
-                command.ExecuteNonQuery();
+
+                // Check if the record already exists
+                var checkCommand = new OracleCommand("SELECT COUNT(*) FROM ViewedFiles WHERE StaffNo = :staffNo AND UniqueFileIdentifier = :uniqueIdentifier", connection);
+                checkCommand.Parameters.Add(new OracleParameter("staffNo", staffNo));
+                checkCommand.Parameters.Add(new OracleParameter("uniqueIdentifier", uniqueIdentifier));
+
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                // If the record does not exist, insert a new one
+                if (count == 0)
+                {
+                    var command = new OracleCommand("INSERT INTO ViewedFiles (VIEWID, StaffNo, UniqueFileIdentifier) VALUES (VIEWEDFILES_SEQ.NEXTVAL, :staffNo, :uniqueIdentifier)", connection);
+                    command.Parameters.Add(new OracleParameter("staffNo", staffNo));
+                    command.Parameters.Add(new OracleParameter("uniqueIdentifier", uniqueIdentifier));
+                    command.ExecuteNonQuery();
+                }
             }
         }
 
