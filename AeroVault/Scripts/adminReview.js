@@ -127,8 +127,7 @@ function populateFilesTable(files, uniqueFileIdentifiers, viewedFiles) {
         row.innerHTML = `
             <td>${icon}${file.fileName}</td>
             <td>${file.fileCategory}</td>
-            <td>${file.uniqueFileIdentifier}</td>
-            <td>${viewedDate}</td> <!-- Display the formatted viewed date -->
+            <td>${viewedDate}</td>
             <td class="${statusClass}">${statusText}</td>
         `;
         tableBody.appendChild(row);
@@ -320,9 +319,6 @@ function staffViewPerformSearch() {
         return;
     }
 
-    // Check if the StaffNo exists in VIEWEDFILES
-    checkStaffNoExists(staffNo);
-
     fetch(`/Review/CheckStaffNoExists?staffNo=${staffNo}`)
         .then(response => response.json())
         .then(data => {
@@ -341,7 +337,7 @@ function staffViewPerformSearch() {
                             return fetch(`/Review/GetSystemsByDepartment?departmentId=${departmentId}`);
                         }).then(response => response.json())
                             .then(systems => {
-                                updateStaffViewSidebar2(systems);
+                                updateStaffViewSidebar2(systems); // Update staffViewSidebar2
                             });
 
                         document.getElementById('system-view').style.display = 'none';
@@ -504,58 +500,38 @@ function filterStatusOptions() {
 }
 
 function selectStatusOption(element) {
-
     var selectedStatus = element.textContent || element.innerText;
-
     document.getElementById('selected-status').textContent = selectedStatus;
-
     document.querySelector('.status-dropdown-content').style.display = 'none';
-
     document.querySelector('.status-dropdown-toggle').classList.remove('open');
 
-
     var selector = document.querySelector('.status-selector');
-
     selector.style.borderBottomLeftRadius = '10px';
-
     selector.style.borderBottomRightRadius = '10px';
-
     selector.style.borderBottom = '1px solid #6D6D6D';
-
 
     var departmentId = element.getAttribute('data-department-id');
 
-
     const imageContainer = document.querySelector('.image-container');
-
     const systemReviewTable = document.getElementById('system-review-table');
 
-
     imageContainer.style.display = 'flex';
-
     systemReviewTable.style.display = 'none';
 
-
+    // Fetch systems for the selected department and update staffViewSidebar
     fetch(`/Review/GetSystemsByDepartment?departmentId=${departmentId}`)
-
         .then(response => response.json())
-
         .then(data => {
-
-            console.log(data);
-
-            updateStaffViewSidebar2(data);
-
+            console.log(data); // Log the systems to the console for debugging
+            updateStaffViewSidebar(data); // Update the staffViewSidebar with the fetched systems
         })
-
         .catch(error => console.error('Error fetching systems:', error));
-
 }
 
 
 function updateStaffViewSidebar2(systems) {
     const sidebar = document.querySelector('.staffViewSidebar2');
-    sidebar.innerHTML = '';
+    sidebar.innerHTML = ''; // Clear existing content
 
     if (systems.length === 0) {
         sidebar.innerHTML = '<div class="no-systems">No systems found</div>';
@@ -565,9 +541,9 @@ function updateStaffViewSidebar2(systems) {
             menuItem.className = 'menu-item';
             menuItem.dataset.systemId = system.systemID; // Store SystemID in data attribute
 
-            // Update the onclick function to fetch files when a system is selected
+            // Add an event handler specific to staffViewSidebar2
             menuItem.onclick = function () {
-                fetchFilesBySystem(system.systemID); // Call the new function
+                fetchFilesBySystem(system.systemID); // Fetch files for the selected system
                 staffViewActive(event); // Keep the existing functionality
             };
 
@@ -577,14 +553,21 @@ function updateStaffViewSidebar2(systems) {
     }
 }
 
-
 function fetchFilesBySystem(systemId) {
     // Fetch the system details to get the system name
     fetch(`/Review/GetSystemById?systemId=${systemId}`)
         .then(response => response.json())
         .then(system => {
-            // Update the system name in the h2 element
-            document.querySelector('.system-name').textContent = system.systemName;
+            // Update the system name in the header
+            const headerElement = document.getElementById('system-header');
+            headerElement.innerHTML = system.systemName; // Set the system name
+
+            // Hide the image container and show the system review table
+            const imageContainer = document.querySelector('.image-container');
+            const systemReviewTable = document.getElementById('system-review-table');
+
+            imageContainer.style.display = 'none'; // Hide the image container
+            systemReviewTable.style.display = 'block'; // Show the system review table
 
             // Fetch the files associated with the system
             return fetch(`/Review/GetFilesBySystem?systemId=${systemId}`);
@@ -611,9 +594,10 @@ function fetchFilesBySystem(systemId) {
         .catch(error => console.error('Error fetching files:', error));
 }
 
+
 function updateStaffViewSidebar(systems) {
     const sidebar = document.querySelector('.staffViewSidebar');
-    sidebar.innerHTML = ''; 
+    sidebar.innerHTML = ''; // Clear existing content
 
     if (systems.length === 0) {
         sidebar.innerHTML = '<div class="no-systems">No systems found</div>';
@@ -621,9 +605,15 @@ function updateStaffViewSidebar(systems) {
         systems.forEach(system => {
             const menuItem = document.createElement('div');
             menuItem.className = 'menu-item';
-            menuItem.dataset.systemId = system.systemID; 
-            menuItem.onclick = function () { loadReviewContent(system.systemName, this); }; 
-            menuItem.innerHTML = `<i class="fas fa-folder"></i><span>${system.systemName}</span>`; 
+            menuItem.dataset.systemId = system.systemID; // Store SystemID in data attribute
+
+            // Add an event handler specific to staffViewSidebar
+            menuItem.onclick = function () {
+                fetchFilesBySystem(system.systemID); // Fetch files for the selected system
+                staffViewActive(event); // Keep the existing functionality
+            };
+
+            menuItem.innerHTML = `<i class="fas fa-folder"></i><span>${system.systemName}</span>`;
             sidebar.appendChild(menuItem);
         });
     }
