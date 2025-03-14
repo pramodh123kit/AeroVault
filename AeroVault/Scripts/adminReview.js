@@ -89,7 +89,7 @@ function loadReviewContent(systemName, department) {
 
 
 function populateFilesTable(files, uniqueFileIdentifiers, viewedFiles) {
-    const tableBody = document.querySelector('.table-container tbody');
+    const tableBody = document.querySelector('#fileTableUnique tbody');
     tableBody.innerHTML = ''; // Clear existing rows
 
     // Get the StaffNo from the staff card
@@ -124,11 +124,16 @@ function populateFilesTable(files, uniqueFileIdentifiers, viewedFiles) {
             console.log(`UNIQUEFILEIDENTIFIER: ${file.uniqueFileIdentifier}, VIEWEDDATE: ${viewedDate}`);
         }
 
+        // Update the row to include fileName and fileCategory
         row.innerHTML = `
             <td>${icon}${file.fileName}</td>
             <td>${file.fileCategory}</td>
-            <td>${viewedDate}</td>
-            <td class="${statusClass}">${statusText}</td>
+            <td class="read-by-unique">
+                <i class="fas fa-eye"></i>154 <span class="clickable-icon-unique" onclick="openReadModalUnique()"></span>
+            </td>
+            <td class="pending-by-unique">
+                <i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span>
+            </td>
         `;
         tableBody.appendChild(row);
     });
@@ -569,12 +574,12 @@ function fetchFilesBySystem(systemId) {
             imageContainer.style.display = 'none'; // Hide the image container
             systemReviewTable.style.display = 'block'; // Show the system review table
 
-            // Fetch the files associated with the system
-            return fetch(`/Review/GetFilesBySystem?systemId=${systemId}`);
+            // Fetch the non-deleted files associated with the system
+            return fetch(`/Review/GetNonDeletedFilesBySystem?systemId=${systemId}`);
         })
         .then(response => response.json())
         .then(files => {
-            console.log(files); // Log the files to the console
+            console.log("Non-deleted files:", files); // Log the non-deleted files
 
             // Fetch unique file identifiers for the current staffNo
             const staffNo = document.querySelector('.staff-card-header .id').textContent.trim().substring(2);
