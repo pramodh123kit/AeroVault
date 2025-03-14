@@ -151,7 +151,7 @@ namespace AeroVault.Data
                     }
                 }
             }
-            return null; 
+            return null;
         }
 
         public async Task<DepartmentModel> GetDepartmentByNameAsync(string departmentName)

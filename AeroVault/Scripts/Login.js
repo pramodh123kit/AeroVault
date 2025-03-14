@@ -1,6 +1,15 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('form');
+
+
     const usernameInput = document.getElementById('username');
+
+    usernameInput.addEventListener('input', function () {
+
+        this.value = this.value.toUpperCase(); // Convert the input value to uppercase in real-time
+
+    });
+
     const passwordInput = document.getElementById('password');
     const errorUsername = document.getElementById('error');
     const errorPassword = document.getElementById('error2');

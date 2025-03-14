@@ -22,7 +22,7 @@ function showStaffView() {
 
     const pcImage = document.querySelector('.staff-view-image');
     if (pcImage) {
-        pcImage.style.display = 'block'; 
+        pcImage.style.display = 'block';
     }
 }
 
@@ -44,13 +44,13 @@ function filterDepartments() {
 }
 
 function toggleReviewDropdown(event) {
-    event.stopPropagation(); 
+    event.stopPropagation();
     const parentLi = event.currentTarget;
     const dropdown = parentLi.querySelector('.reviewdropdown');
 
     if (dropdown.style.display === 'block') {
-        dropdown.style.display = 'none'; 
-        parentLi.classList.remove('open'); 
+        dropdown.style.display = 'none';
+        parentLi.classList.remove('open');
     } else {
         const allDropdowns = document.querySelectorAll('.reviewdropdown');
         allDropdowns.forEach((dd) => {
@@ -58,8 +58,8 @@ function toggleReviewDropdown(event) {
             dd.parentElement.classList.remove('open');
         });
 
-        dropdown.style.display = 'block'; 
-        parentLi.classList.add('open'); 
+        dropdown.style.display = 'block';
+        parentLi.classList.add('open');
     }
 }
 
@@ -84,12 +84,12 @@ function loadReviewContent(systemName, department) {
         .then(data => {
             populateFilesTable(data);
         })
-        .catch(error => console.error('Error fetching files:', error)); 
+        .catch(error => console.error('Error fetching files:', error));
 }
 
 
 function populateFilesTable(files, uniqueFileIdentifiers, viewedFiles) {
-    const tableBody = document.querySelector('#fileTableUnique tbody');
+    const tableBody = document.querySelector('.table-container tbody');
     tableBody.innerHTML = ''; // Clear existing rows
 
     // Get the StaffNo from the staff card
@@ -124,16 +124,11 @@ function populateFilesTable(files, uniqueFileIdentifiers, viewedFiles) {
             console.log(`UNIQUEFILEIDENTIFIER: ${file.uniqueFileIdentifier}, VIEWEDDATE: ${viewedDate}`);
         }
 
-        // Update the row to include fileName and fileCategory
         row.innerHTML = `
             <td>${icon}${file.fileName}</td>
             <td>${file.fileCategory}</td>
-            <td class="read-by-unique">
-                <i class="fas fa-eye"></i>154 <span class="clickable-icon-unique" onclick="openReadModalUnique()"></span>
-            </td>
-            <td class="pending-by-unique">
-                <i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span>
-            </td>
+            <td>${viewedDate}</td>
+            <td class="${statusClass}">${statusText}</td>
         `;
         tableBody.appendChild(row);
     });
@@ -144,19 +139,19 @@ function formatDate(dateString) {
     const options = { month: 'short', day: '2-digit', year: 'numeric' };
     return date.toLocaleDateString('en-US', options); // Format as "Mar 12, 2025"
 }
-function openReadModalUnique() {    
+function openReadModalUnique() {
     document.getElementById("readModalUnique").style.display = "block";
 }
 
-function closeReadModalUnique() {    
+function closeReadModalUnique() {
     document.getElementById("readModalUnique").style.display = "none";
 }
 
-function openPendingModalUnique() {    
+function openPendingModalUnique() {
     document.getElementById("pendingModalUnique").style.display = "block";
 }
 
-function closePendingModalUnique() {    
+function closePendingModalUnique() {
     document.getElementById("pendingModalUnique").style.display = "none";
 }
 
@@ -317,8 +312,7 @@ function pendingUsersSortTable(n) {
 }
 
 function staffViewPerformSearch() {
-    const staffNo = document.getElementById('staffViewSearchInput').value.trim();
-
+    const staffNo = document.getElementById('staffViewSearchInput').value.trim().toUpperCase();
     if (!staffNo) {
         alert("Please enter a Staff ID.");
         return;
@@ -360,7 +354,7 @@ function staffViewPerformSearch() {
 
 function adjustStaffViewContentHeight() {
     const staffViewContent = document.querySelector('.staffViewContent');
-    staffViewContent.style.height = '450px'; 
+    staffViewContent.style.height = '450px';
 }
 
 function filterStaffViewSidebar() {
@@ -385,12 +379,12 @@ function staffViewDropdown() {
 
     if (cardBody.classList.contains('expanded')) {
         cardBody.classList.remove('expanded');
-        cardBody.style.maxHeight = '0px'; 
+        cardBody.style.maxHeight = '0px';
         dropdownIcon.classList.remove('fa-chevron-up');
         dropdownIcon.classList.add('fa-chevron-down');
     } else {
         cardBody.classList.add('expanded');
-        cardBody.style.maxHeight = cardBody.scrollHeight + "px"; 
+        cardBody.style.maxHeight = cardBody.scrollHeight + "px";
         dropdownIcon.classList.remove('fa-chevron-down');
         dropdownIcon.classList.add('fa-chevron-up');
     }
@@ -400,7 +394,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var cardBody = document.getElementById('staff-card-body');
     cardBody.style.maxHeight = '0px';
     cardBody.style.borderTop = 'none';
-    cardBody.style.padding = '0 20px'; 
+    cardBody.style.padding = '0 20px';
 });
 
 function filterStaffViewTable() {
@@ -505,57 +499,116 @@ function filterStatusOptions() {
 }
 
 function selectStatusOption(element) {
+
     var selectedStatus = element.textContent || element.innerText;
+
     document.getElementById('selected-status').textContent = selectedStatus;
+
     document.querySelector('.status-dropdown-content').style.display = 'none';
+
     document.querySelector('.status-dropdown-toggle').classList.remove('open');
 
+
     var selector = document.querySelector('.status-selector');
+
     selector.style.borderBottomLeftRadius = '10px';
+
     selector.style.borderBottomRightRadius = '10px';
+
     selector.style.borderBottom = '1px solid #6D6D6D';
+
 
     var departmentId = element.getAttribute('data-department-id');
 
+
     const imageContainer = document.querySelector('.image-container');
+
     const systemReviewTable = document.getElementById('system-review-table');
 
+
     imageContainer.style.display = 'flex';
+
     systemReviewTable.style.display = 'none';
 
+
     // Fetch systems for the selected department and update staffViewSidebar
+
     fetch(`/Review/GetSystemsByDepartment?departmentId=${departmentId}`)
+
         .then(response => response.json())
+
         .then(data => {
+
             console.log(data); // Log the systems to the console for debugging
+
             updateStaffViewSidebar(data); // Update the staffViewSidebar with the fetched systems
+
         })
+
         .catch(error => console.error('Error fetching systems:', error));
+
+}
+
+function selectSystem(system) {
+
+    const systemName = system.querySelector('span').textContent; // Get the system name
+
+    const headerElement = document.getElementById('system-header');
+
+    headerElement.textContent = systemName; // Update the header with the system name
+
+
+    // Optionally, you can also fetch files for the selected system
+
+    const systemId = system.dataset.systemId; // Get the system ID
+
+    fetchFilesForSystemView(systemId); // Fetch files for the selected system
+
 }
 
 
+
 function updateStaffViewSidebar2(systems) {
+
     const sidebar = document.querySelector('.staffViewSidebar2');
+
     sidebar.innerHTML = ''; // Clear existing content
 
+
     if (systems.length === 0) {
+
         sidebar.innerHTML = '<div class="no-systems">No systems found</div>';
+
     } else {
+
         systems.forEach(system => {
+
             const menuItem = document.createElement('div');
+
             menuItem.className = 'menu-item';
+
             menuItem.dataset.systemId = system.systemID; // Store SystemID in data attribute
 
+
             // Add an event handler specific to staffViewSidebar2
+
             menuItem.onclick = function () {
-                fetchFilesBySystem(system.systemID); // Fetch files for the selected system
+
+                selectSystemForStaffView(menuItem); // Call the new selectSystemForStaffView function
+
                 staffViewActive(event); // Keep the existing functionality
+
             };
 
+
             menuItem.innerHTML = `<i class="fas fa-folder"></i><span>${system.systemName}</span>`;
+
             sidebar.appendChild(menuItem);
+
         });
+
     }
+
 }
 
 function fetchFilesBySystem(systemId) {
@@ -600,28 +653,48 @@ function fetchFilesBySystem(systemId) {
 }
 
 
+
 function updateStaffViewSidebar(systems) {
+
     const sidebar = document.querySelector('.staffViewSidebar');
+
     sidebar.innerHTML = ''; // Clear existing content
 
+
     if (systems.length === 0) {
+
         sidebar.innerHTML = '<div class="no-systems">No systems found</div>';
+
     } else {
+
         systems.forEach(system => {
+
             const menuItem = document.createElement('div');
+
             menuItem.className = 'menu-item';
+
             menuItem.dataset.systemId = system.systemID; // Store SystemID in data attribute
 
+
             // Add an event handler specific to staffViewSidebar
+
             menuItem.onclick = function () {
-                fetchFilesBySystem(system.systemID); // Fetch files for the selected system
+
+                selectSystem(menuItem); // Call the new selectSystem function
+
                 staffViewActive(event); // Keep the existing functionality
+
             };
 
+
             menuItem.innerHTML = `<i class="fas fa-folder"></i><span>${system.systemName}</span>`;
+
             sidebar.appendChild(menuItem);
+
         });
+
     }
+
 }
 
 function showAllStatusOptions() {
@@ -685,4 +758,133 @@ function checkStaffNoExists(staffNo) {
             }
         })
         .catch(error => console.error('Error checking StaffNo:', error));
+}
+
+
+
+
+function fetchFilesForStaffView(systemId) {
+    const staffNo = document.querySelector('.staff-card-header .id').textContent.trim().substring(2); // Get the StaffNo
+
+    // Fetch the non-deleted files associated with the system
+    fetch(`/Review/GetNonDeletedFilesBySystem?systemId=${systemId}`)
+        .then(response => response.json())
+        .then(files => {
+            // Fetch viewed files for the current staffNo
+            return fetch(`/Review/GetViewedFiles?staffNo=${staffNo}`)
+                .then(response => response.json())
+                .then(viewedFiles => {
+                    // Populate the table with the fetched files and viewed files
+                    populateFilesTableForStaffView(files, viewedFiles);
+                });
+        })
+        .catch(error => console.error('Error fetching files:', error));
+}
+
+
+function populateFilesTableForStaffView(files, viewedFiles) {
+    const tableBody = document.querySelector('.tableChanger tbody'); // Select the tbody within the tableChanger
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    // Create a map for quick lookup of viewed dates by uniqueFileIdentifier
+    const viewedDateMap = {};
+    viewedFiles.forEach(viewedFile => {
+        viewedDateMap[viewedFile.uniqueFileIdentifier] = viewedFile.viewedDate;
+    });
+
+    // Iterate over each file and create a row
+    files.forEach(file => {
+        const row = document.createElement('tr');
+
+        // Determine the icon based on the file type
+        const icon = file.fileType === 'Video'
+            ? `<img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-option-icon" />`
+            : `<img src="/Content/Assets/system-file-icon.svg" alt="Document Icon" class="file-option-icon" />`;
+
+        // Get the viewed date if the file has been read
+        const viewedDate = viewedDateMap[file.uniqueFileIdentifier]
+            ? formatDate(viewedDateMap[file.uniqueFileIdentifier])
+            : '-'; // Format the viewed date
+
+        // Determine the status
+        const statusText = viewedDate !== '-' ? 'Read' : 'Pending'; // Set status based on whether it has been read
+        const statusClass = viewedDate !== '-' ? 'status-read' : 'status-pending'; // Set class for styling
+
+        row.innerHTML = `
+            <td>${icon}${file.fileName}</td>
+            <td>${file.fileCategory}</td>
+            <td>${viewedDate}</td>
+            <td class="${statusClass}">${statusText}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+
+    // Make the tableChanger visible
+    const tableChanger = document.querySelector('.tableChanger');
+    tableChanger.style.display = 'block'; // Show the tableChanger
+}
+
+
+function populateFilesTableForSystemView(files) {
+    const tableBody = document.querySelector('#fileTableUnique tbody'); // Select the tbody within the table-container-unique
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    // Iterate over each file and create a row
+    files.forEach(file => {
+        const row = document.createElement('tr');
+
+        // Determine the icon based on the file type
+        const icon = file.fileType === 'Video'
+            ? `<img src="/Content/Assets/system-video-icon.svg" alt="Video Icon" class="file-option-icon" />`
+            : `<img src="/Content/Assets/system-file-icon.svg" alt="Document Icon" class="file-option-icon" />`;
+
+        // Update the row to include fileName and fileCategory
+        row.innerHTML = `
+            <td>${icon}${file.fileName}</td>
+            <td>${file.fileCategory}</td>
+            <td class="read-by-unique">
+                <i class="fas fa-eye"></i>154 <span class="clickable-icon-unique" onclick="openReadModalUnique()"></span>
+            </td>
+            <td class="pending-by-unique">
+                <i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+
+    // Make the system review table visible
+    const systemReviewTable = document.getElementById('system-review-table');
+    systemReviewTable.style.display = 'block';
+
+    const systemReviewTable2 = document.getElementById('image-container-id');
+    systemReviewTable2.style.display = 'none';
+}
+
+
+function fetchFilesForSystemView(systemId) {
+    // Fetch the non-deleted files associated with the system
+    fetch(`/Review/GetNonDeletedFilesBySystem?systemId=${systemId}`)
+        .then(response => response.json())
+        .then(files => {
+            // Populate the table with the fetched files
+            populateFilesTableForSystemView(files);
+        })
+        .catch(error => console.error('Error fetching files:', error));
+}
+
+function selectSystemForStaffView(system) {
+
+    const systemName = system.querySelector('span').textContent; // Get the system name
+
+    const headerElement = document.querySelector('.system-name'); // Select the header element
+
+    headerElement.textContent = systemName; // Update the header with the system name
+
+
+    // Optionally, you can also fetch files for the selected system
+
+    const systemId = system.dataset.systemId; // Get the system ID
+
+    fetchFilesForStaffView(systemId); // Fetch files for the selected system
+
 }
