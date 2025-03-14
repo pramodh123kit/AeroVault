@@ -17,8 +17,6 @@
         <div class="reviewtitle">
             Select a Department to Review System Activity
         </div>
-
-
         <div class="sidebar-line">
             <div class="status-form-group">
                 <div class="status-dropdown">
@@ -56,15 +54,10 @@
                 </div>
             </div>
 
-            <div class="staffViewSidebar">
-                <!-- This will be populated dynamically -->
-            </div>
+            <div class="staffViewSidebar"></div>
         </div>
     </div>
     <div class="reviewcontent" id="system-view-reviewcontent">
-
-
-
         <div class="image-container">
             <img src="/Content/Assets/system-background-icon.svg" alt="System Background Image" />
         </div>
@@ -74,12 +67,6 @@
                 <div class="header-unique" id="system-header">
                     System Name
                 </div>
-                @* <div class="search-bar-unique"> *@
-                @*     <img src="/Content/Assets/search-icon.svg" alt="Search Icon" /> *@
-                @*     <input type="text" id="searchInputUnique" placeholder="Search Department" *@
-                @*         onkeyup="searchTableUnique()" /> *@
-                @* </div> *@
-
                 <div class="file-search-container2" style="margin-bottom:0px;">
                     <img src="/Content/Assets/search-icon.svg" class="search-icon2" alt="Search Icon" />
                     <input id="SystemfileSearch" onkeyup="filterFiles()" placeholder="Search" type="text"
@@ -275,7 +262,6 @@
                                     <td>Pramodh Lihinikaduwa</td>
                                     <td>Jan 04,2023</td>
                                 </tr>
-                                <!-- Add more rows as needed -->
                             </tbody>
                         </table>
                     </div>
@@ -310,7 +296,6 @@
                                     <td>John Doe</td>
                                     <td>Jan 05, 2023</td>
                                 </tr>
-                                <!-- Add more rows as needed -->
                             </tbody>
                         </table>
                     </div>
@@ -322,7 +307,6 @@
 <div class="reviewcontainer" id="staff-view" style="display: none;">
     <div class="reviewcontent">
         <div id="staff-view-reviewcontent">
-            <!-- Replace this with your desired reviewcontent for Staff View -->
             <div class="staffView-container">
                 <h2 class="staffView-title">Enter Name/ Staff ID to Review Individual Activity</h2>
                 <div class="staffView-search-box">
@@ -362,7 +346,6 @@
                            class="file-search-input1" style="width:200px;" />
                 </div>
                 <div class="staffViewSidebar2">
-                    <!-- This will be populated dynamically -->
                 </div>
                 </div>
             <div class="staffViewContent">
@@ -411,19 +394,15 @@
                                 <tr>
                                     <th>File Name</th>
                                     <th>Category</th>
-                                    <th>uniqueFileIdentifier</th>
                                     <th>Viewed date</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Rows will be dynamically inserted here -->
                             </tbody>
                         </table>
                     </div>
                 </div>
-
-
                 <img src="/Content/Assets/PCpic.svg" class="staff-view-image" style="display: none; transform: scale(0.6);" />
             </div>
         </div>
