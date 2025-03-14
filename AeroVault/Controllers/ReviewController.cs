@@ -78,4 +78,10 @@ public class ReviewController : BaseAdminController
         var viewedFiles = await _reviewBl.GetViewedFilesByStaffNoAsync(staffNo);
         return Json(viewedFiles);
     }
+    public async Task<IActionResult> GetNonDeletedFilesBySystem(int systemId)
+    {
+        var files = await _reviewBl.GetFilesBySystemAsync(systemId);
+        var nonDeletedFiles = files.Where(f => f.IsDeleted == 0).ToList(); // Filter out deleted files
+        return Json(nonDeletedFiles);
+    }
 }
