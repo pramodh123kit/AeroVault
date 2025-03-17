@@ -3,6 +3,7 @@ using AeroVault.Business;
 using AeroVault.Models;
 using Oracle.ManagedDataAccess.Client;
 using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace AeroVault.Controllers
 {
@@ -22,13 +23,44 @@ namespace AeroVault.Controllers
         {
             if (HttpContext.Session.GetString("User Role") == "AEVT-Admin")
             {
-                TempData["AccessDeniedMessage"] = "Access not given"; 
-                return RedirectToAction("Index", "Admin"); 
+                TempData["AccessDeniedMessage"] = "Access not given";
+                return RedirectToAction("Index", "Admin");
             }
 
             try
             {
                 string userDepartment = HttpContext.Session.GetString("Department") ?? "No Department";
+
+                string staffNo = HttpContext.Session.GetString("StaffNo");
+
+
+                // Get the count of viewed files
+
+                int viewedFileCountByDepartment = _userOverviewBl.GetViewedFileCountByDepartment(staffNo, userDepartment);
+
+                ViewBag.ViewedFileCountByDepartment = viewedFileCountByDepartment;
+
+
+                // Get the total count of non-deleted files in the user's department
+
+                int totalFilesCount = _userOverviewBl.GetTotalFilesCountByDepartment(userDepartment);
+
+                ViewBag.TotalFilesCount = totalFilesCount;
+
+
+                // Calculate the pending file count
+
+                int pendingFileCount = totalFilesCount - viewedFileCountByDepartment;
+
+                ViewBag.PendingFileCount = pendingFileCount;
+
+
+                // Log the counts
+
+                Console.WriteLine($"Total Files Count: {totalFilesCount}");
+
+                Console.WriteLine($"Pending Files Count: {pendingFileCount}");
+
 
                 bool isActive = _userOverviewBl.IsDepartmentActive(userDepartment);
                 ViewBag.IsDepartmentActive = isActive;
@@ -59,6 +91,7 @@ namespace AeroVault.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error: {ex.Message}");
                 return View("Error");
             }
         }
