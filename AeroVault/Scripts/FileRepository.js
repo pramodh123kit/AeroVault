@@ -461,16 +461,15 @@ function selectCustomOption(element) {
                         }
 
                         // Log the SystemID to the console
-                        console.log("Selected SystemID:", system.systemID);
 
                         // Check if the selected system belongs to the logged-in user's department
                         fetch(`/UserFileRepository/CheckSystemBelongsToDepartment?systemId=${system.systemID}`)
                             .then(response => response.json())
                             .then(data => {
                                 if (data.belongsToDepartment) {
-                                    console.log("The selected system belongs to the logged-in user's department.");
+                                    console.log("");
                                 } else {
-                                    console.log("The selected system does NOT belong to the logged-in user's department.");
+                                    console.log("");
                                 }
                             })
                             .catch(error => {

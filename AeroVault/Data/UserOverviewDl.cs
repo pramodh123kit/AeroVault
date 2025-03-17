@@ -277,6 +277,130 @@ namespace AeroVault.Data
 
             return recentFiles;
         }
+
+        public int GetViewedFileCountByDepartment(string staffNo, string department)
+        {
+            using (OracleConnection connection = new OracleConnection(_connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string query = @"
+                SELECT COUNT(*) 
+                FROM VIEWEDFILES VF
+                JOIN FILES F ON VF.UNIQUEFILEIDENTIFIER = F.UniqueFileIdentifier
+                JOIN SYSTEMS S ON F.SystemID = S.SystemID
+                JOIN SYSTEM_DEPARTMENTS SD ON S.SystemID = SD.SystemID
+                JOIN DEPARTMENTS D ON SD.DepartmentID = D.DepartmentID
+                WHERE VF.STAFFNO = :StaffNo AND D.DEPARTMENTNAME = :Department";
+
+                    using (OracleCommand command = new OracleCommand(query, connection))
+                    {
+                        command.Parameters.Add(":StaffNo", OracleDbType.Varchar2).Value = staffNo;
+                        command.Parameters.Add(":Department", OracleDbType.Varchar2).Value = department;
+
+                        return Convert.ToInt32(command.ExecuteScalar());
+                    }
+                }
+                catch (OracleException ex)
+                {
+                    Console.WriteLine($"Database error: {ex.Message}");
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Unexpected error: {ex.Message}");
+                    throw;
+                }
+            }
+        }
+        public int GetPendingFileCount(string staffNo, string department)
+        {
+            using (OracleConnection connection = new OracleConnection(_connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string query = @"
+                SELECT COUNT(*) 
+                FROM FILES F
+                JOIN SYSTEMS S ON F.SystemID = S.SystemID
+                JOIN SYSTEM_DEPARTMENTS SD ON S.SystemID = SD.SystemID
+                JOIN DEPARTMENTS D ON SD.DepartmentID = D.DEPARTMENTID
+                WHERE D.DEPARTMENTNAME = :Department 
+                AND F.IS_DELETED = 0 
+                AND F.UniqueFileIdentifier NOT IN (
+                    SELECT UNIQUEFILEIDENTIFIER 
+                    FROM VIEWEDFILES 
+                    WHERE STAFFNO = :StaffNo
+                )";
+
+                    using (OracleCommand command = new OracleCommand(query, connection))
+                    {
+                        command.Parameters.Add(":StaffNo", OracleDbType.Varchar2).Value = staffNo;
+                        command.Parameters.Add(":Department", OracleDbType.Varchar2).Value = department;
+
+                        // Log the parameters being passed
+                        Console.WriteLine($"Executing Pending File Count Query with StaffNo: {staffNo} and Department: {department}");
+
+                        int count = Convert.ToInt32(command.ExecuteScalar());
+
+                        // Log the result of the query
+                        Console.WriteLine($"Pending File Count Result: {count}");
+
+                        return count;
+                    }
+                }
+                catch (OracleException ex)
+                {
+                    Console.WriteLine($"Database error: {ex.Message}");
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Unexpected error: {ex.Message}");
+                    throw;
+                }
+            }
+        }
+
+        public int GetTotalFilesCountByDepartment(string department)
+        {
+            using (OracleConnection connection = new OracleConnection(_connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string query = @"
+                SELECT COUNT(*) 
+                FROM FILES F
+                JOIN SYSTEMS S ON F.SystemID = S.SystemID
+                JOIN SYSTEM_DEPARTMENTS SD ON S.SystemID = SD.SystemID
+                JOIN DEPARTMENTS D ON SD.DepartmentID = D.DEPARTMENTID
+                WHERE D.DEPARTMENTNAME = :Department 
+                AND F.IS_DELETED = 0";
+
+                    using (OracleCommand command = new OracleCommand(query, connection))
+                    {
+                        command.Parameters.Add(":Department", OracleDbType.Varchar2).Value = department;
+
+                        return Convert.ToInt32(command.ExecuteScalar());
+                    }
+                }
+                catch (OracleException ex)
+                {
+                    Console.WriteLine($"Database error: {ex.Message}");
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Unexpected error: {ex.Message}");
+                    throw;
+                }
+            }
+        }
     }
 }
-
