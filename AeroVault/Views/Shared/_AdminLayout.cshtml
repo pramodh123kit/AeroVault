@@ -24,7 +24,7 @@
             <img src="/Content/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" class="logo" />
             <div class="profile-info" style="margin-top:0px">
                 <img src="/Content/Assets/AdminProf.svg" alt="Profile Picture">
-                <span class="name">Pramodh Lihinikaduwa</span>
+                <span class="name">@Context.Session.GetString("StaffName")</span>
             </div>
             <div class="profile-details" style="display: none;">
                 <p>Additional information about Pramodh Lihinikaduwa.</p>
@@ -109,6 +109,11 @@
     @Html.Partial("AdminPopups/_AdminLogoutPopup")
 
     <script src="/Scripts/jquery.min.js"></script>
+    <script>
+        const staffNo = '@Context.Session.GetString("StaffNo")';
+        const staffName = '@Context.Session.GetString("StaffName")';
+        const department = '@Context.Session.GetString("Department")';
+    </script>
     <script src="/Scripts/AdminLayoutScripts.js"></script>
     <script>
                 if (typeof jQuery !== 'undefined') {
