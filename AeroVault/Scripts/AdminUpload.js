@@ -23,6 +23,7 @@ function filterTable() {
         const cells = row.querySelectorAll("td");
         let matchSearch = true;
 
+        // Check if the search input matches any cell
         if (searchFilter) {
             matchSearch = false;
             cells.forEach(cell => {
@@ -32,6 +33,7 @@ function filterTable() {
             });
         }
 
+        // Check if the selected department matches the department in the row
         if ((selectedCategory === "All" || category === selectedCategory) &&
             (selectedSystem === "All" || system === selectedSystem) &&
             (selectedDepartment === "All" || department === selectedDepartment) &&
@@ -50,13 +52,14 @@ function updateTable() {
     const start = (currentPage - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
+    // Hide all rows initially
     rows.forEach(row => {
-        row.style.display = "none"; // Hide all rows
+        row.style.display = "none";
     });
 
-    // Show only the rows for the current page
-    for (let i = start; i < end && i < rows.length; i++) {
-        rows[i].style.display = ""; // Show the rows for the current page
+    // Show only the filtered rows for the current page
+    for (let i = start; i < end && i < filteredRows.length; i++) {
+        filteredRows[i].style.display = ""; // Show the filtered rows for the current page
     }
 }
 function setupPagination(totalRows) {
@@ -192,11 +195,10 @@ function filterFiles() {
     });
 
     currentPage = 1;
-    setupPagination();
+    setupPagination(filteredRows.length);
 }
 
-filterTable();
-setupPagination();
+
 
 window.onclick = function (event) {
     const statusDropdownContent = document.querySelector('.status-dropdown-content');
@@ -284,6 +286,7 @@ function selectStatusOption(element) {
     });
     element.classList.add('active');
 
+    // Call filterTable to update the table based on the selected department
     filterTable();
 }
 
@@ -536,3 +539,7 @@ function viewFile(fileName, uniqueIdentifier) {
 
     darkOverlay.onclick = darkOverlayHandler;
 }
+
+
+filterTable();
+setupPagination(filteredRows.length);

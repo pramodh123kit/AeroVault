@@ -27,7 +27,6 @@ namespace AeroVault.Services
 
         public async Task<(bool Success, string Message, object Data)> AddDepartmentAsync(string departmentName, int divisionId)
         {
-            // Validate inputs
             if (string.IsNullOrWhiteSpace(departmentName))
             {
                 return (false, "Department name cannot be empty.", null);
@@ -35,14 +34,12 @@ namespace AeroVault.Services
 
             try
             {
-                // Check if department already exists
                 bool exists = await _departmentDl.DepartmentExistsAsync(departmentName, divisionId);
                 if (exists)
                 {
                     return (false, "A department with this name already exists in the selected division.", null);
                 }
 
-                // Add department
                 var (departmentId, divisionName) = await _departmentDl.AddDepartmentAsync(departmentName, divisionId);
 
                 return (true, "Department added successfully.", new

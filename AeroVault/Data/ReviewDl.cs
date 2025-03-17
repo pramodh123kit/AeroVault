@@ -121,7 +121,7 @@ namespace AeroVault.Data
                 {
                     command.Parameters.Add(new OracleParameter("staffNo", staffNo));
                     var count = Convert.ToInt32(await command.ExecuteScalarAsync());
-                    return count > 0; // Returns true if count is greater than 0
+                    return count > 0; 
                 }
             }
         }
@@ -201,7 +201,7 @@ namespace AeroVault.Data
                     }
                 }
             }
-            return null; // Return null if not found
+            return null; 
         }
         public async Task<ViewedFileModel> CheckFileViewedAsync(string staffNo, string uniqueFileIdentifier)
         {
@@ -227,7 +227,7 @@ namespace AeroVault.Data
                     }
                 }
             }
-            return new ViewedFileModel { ViewedDate = null, Status = "Pending" }; // Not viewed
+            return new ViewedFileModel { ViewedDate = null, Status = "Pending" }; 
         }
 
         public async Task<List<string>> GetUniqueFileIdentifiersByStaffNoAsync(string staffNo)
@@ -254,6 +254,7 @@ namespace AeroVault.Data
             return uniqueFileIdentifiers;
         }
 
+
         public async Task<List<ViewedFileModel>> GetViewedFilesByStaffNoAsync(string staffNo)
         {
             var viewedFiles = new List<ViewedFileModel>();
@@ -262,7 +263,10 @@ namespace AeroVault.Data
             {
                 await connection.OpenAsync();
                 using (var command = new OracleCommand(
-                    "SELECT UNIQUEFILEIDENTIFIER, VIEWEDDATE FROM VIEWEDFILES WHERE STAFFNO = :staffNo", connection))
+                    "SELECT v.UNIQUEFILEIDENTIFIER, v.VIEWEDDATE, s.STAFFNO, s.STAFFNAME " +
+                    "FROM VIEWEDFILES v " +
+                    "JOIN STAFF s ON v.STAFFNO = s.STAFFNO " +
+                    "WHERE v.STAFFNO = :staffNo", connection))
                 {
                     command.Parameters.Add(new OracleParameter("staffNo", staffNo));
                     using (var reader = await command.ExecuteReaderAsync())
@@ -272,6 +276,65 @@ namespace AeroVault.Data
                             viewedFiles.Add(new ViewedFileModel
                             {
                                 UniqueFileIdentifier = reader["UNIQUEFILEIDENTIFIER"].ToString(),
+                                ViewedDate = reader["VIEWEDDATE"] != DBNull.Value ? Convert.ToDateTime(reader["VIEWEDDATE"]) : (DateTime?)null,
+                                StaffNo = reader["STAFFNO"].ToString(),
+                                StaffName = reader["STAFFNAME"].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+
+            return viewedFiles;
+        }
+
+        public async Task<int> GetViewedFileCountAsync(string uniqueFileIdentifier)
+        {
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new OracleCommand(
+                    @"SELECT COUNT(DISTINCT v.STAFFNO) 
+              FROM VIEWEDFILES v
+              JOIN FILES f ON v.UNIQUEFILEIDENTIFIER = f.UNIQUEFILEIDENTIFIER
+              JOIN SYSTEM_DEPARTMENTS sd ON f.SystemID = sd.SystemID
+              JOIN STAFF s ON v.STAFFNO = s.STAFFNO
+              JOIN DEPARTMENTS d ON sd.DepartmentID = d.DepartmentID
+              WHERE v.UNIQUEFILEIDENTIFIER = :uniqueFileIdentifier
+              AND s.DEPARTMENT = d.DepartmentName", connection))
+                {
+                    command.Parameters.Add(new OracleParameter("uniqueFileIdentifier", uniqueFileIdentifier));
+                    return Convert.ToInt32(await command.ExecuteScalarAsync());
+                }
+            }
+        }
+
+        public async Task<List<ViewedFileModel>> GetStaffNosByUniqueFileIdentifierAsync(string uniqueFileIdentifier)
+        {
+            var viewedFiles = new List<ViewedFileModel>();
+
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new OracleCommand(
+                    @"SELECT v.STAFFNO, s.STAFFNAME, v.VIEWEDDATE 
+              FROM VIEWEDFILES v
+              JOIN STAFF s ON v.STAFFNO = s.STAFFNO
+              JOIN FILES f ON v.UNIQUEFILEIDENTIFIER = f.UNIQUEFILEIDENTIFIER
+              JOIN SYSTEM_DEPARTMENTS sd ON f.SystemID = sd.SystemID
+              JOIN DEPARTMENTS d ON sd.DepartmentID = d.DepartmentID
+              WHERE v.UNIQUEFILEIDENTIFIER = :uniqueFileIdentifier
+              AND s.DEPARTMENT = d.DepartmentName", connection))
+                {
+                    command.Parameters.Add(new OracleParameter("uniqueFileIdentifier", uniqueFileIdentifier));
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            viewedFiles.Add(new ViewedFileModel
+                            {
+                                StaffNo = reader["STAFFNO"].ToString(),
+                                StaffName = reader["STAFFNAME"].ToString(),
                                 ViewedDate = reader["VIEWEDDATE"] != DBNull.Value ? Convert.ToDateTime(reader["VIEWEDDATE"]) : (DateTime?)null
                             });
                         }

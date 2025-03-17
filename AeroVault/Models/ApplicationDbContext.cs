@@ -9,7 +9,6 @@ namespace AeroVault.Models
             : base(options)
         {
         }
-
         public DbSet<SystemModel> Systems { get; set; }
         public DbSet<DivisionModel> Divisions { get; set; }
         public DbSet<DepartmentModel> Departments { get; set; }

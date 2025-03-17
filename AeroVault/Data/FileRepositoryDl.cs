@@ -73,122 +73,63 @@ namespace AeroVault.Data
             }
         }
 
-
         public List<FileModel> GetDocumentsBySystem(int systemId)
-
         {
-
             using (var connection = new OracleConnection(_connectionString))
-
             {
-
                 connection.Open();
-
                 var command = new OracleCommand(@"
-
             SELECT FileID, SystemID, FileName, FileType, FileCategory, Added_Date, UniqueFileIdentifier 
-
             FROM Files 
-
             WHERE SystemID = :systemId AND FileType = 'Document' AND IS_DELETED = 0", connection);
-
                 command.Parameters.Add(new OracleParameter("systemId", systemId));
-
                 var reader = command.ExecuteReader();
-
-
                 var documents = new List<FileModel>();
-
                 while (reader.Read())
-
                 {
-
                     documents.Add(new FileModel
-
                     {
-
                         FileID = reader.GetInt32(0),
-
                         SystemID = reader.GetInt32(1),
-
                         FileName = reader.GetString(2),
-
                         FileType = reader.GetString(3),
-
                         FileCategory = reader.GetString(4),
-
                         AddedDate = reader.IsDBNull(5) ? (DateTime?)null : reader.GetOracleDate(5).Value,
-
-                        UniqueFileIdentifier = reader.GetString(6) // Ensure this is included
-
+                        UniqueFileIdentifier = reader.GetString(6) 
                     });
-
                 }
-
                 return documents;
-
             }
-
         }
-
 
         public List<FileModel> GetVideosBySystem(int systemId)
-
         {
-
             using (var connection = new OracleConnection(_connectionString))
-
             {
-
                 connection.Open();
-
                 var command = new OracleCommand(@"
-
             SELECT FileID, SystemID, FileName, FileType, FileCategory, Added_Date, UniqueFileIdentifier 
-
             FROM Files 
-
             WHERE SystemID = :systemId AND FileType = 'Video' AND IS_DELETED = 0", connection);
-
                 command.Parameters.Add(new OracleParameter("systemId", systemId));
-
                 var reader = command.ExecuteReader();
-
-
                 var videos = new List<FileModel>();
-
                 while (reader.Read())
-
                 {
-
                     videos.Add(new FileModel
-
                     {
-
                         FileID = reader.GetInt32(0),
-
                         SystemID = reader.GetInt32(1),
-
                         FileName = reader.GetString(2),
-
                         FileType = reader.GetString(3),
-
                         FileCategory = reader.GetString(4),
-
                         AddedDate = reader.IsDBNull(5) ? (DateTime?)null : reader.GetOracleDate(5).Value,
-
-                        UniqueFileIdentifier = reader.GetString(6) // Ensure this is included
-
+                        UniqueFileIdentifier = reader.GetString(6) 
                     });
-
                 }
-
                 return videos;
-
             }
-
         }
-
         public string GetBasePath()
         {
             return _configuration["FileSettings:BasePath"];
@@ -221,14 +162,12 @@ namespace AeroVault.Data
             {
                 connection.Open();
 
-                // Check if the record already exists
                 var checkCommand = new OracleCommand("SELECT COUNT(*) FROM ViewedFiles WHERE StaffNo = :staffNo AND UniqueFileIdentifier = :uniqueIdentifier", connection);
                 checkCommand.Parameters.Add(new OracleParameter("staffNo", staffNo));
                 checkCommand.Parameters.Add(new OracleParameter("uniqueIdentifier", uniqueIdentifier));
 
                 int count = Convert.ToInt32(checkCommand.ExecuteScalar());
 
-                // If the record does not exist, insert a new one
                 if (count == 0)
                 {
                     var command = new OracleCommand("INSERT INTO ViewedFiles (VIEWID, StaffNo, UniqueFileIdentifier) VALUES (VIEWEDFILES_SEQ.NEXTVAL, :staffNo, :uniqueIdentifier)", connection);

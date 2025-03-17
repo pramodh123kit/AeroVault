@@ -126,7 +126,6 @@ namespace AeroVault.Data
                 await connection.OpenAsync();
                 transaction = connection.BeginTransaction();
 
-                // Get the next value from the sequence
                 int newSystemId;
                 string sequenceSql = "SELECT SEQ_SYSTEMID.NEXTVAL FROM dual";
                 using (var sequenceCommand = new OracleCommand(sequenceSql, connection))
@@ -134,7 +133,6 @@ namespace AeroVault.Data
                     newSystemId = Convert.ToInt32(await sequenceCommand.ExecuteScalarAsync());
                 }
 
-                // Insert new system using the new SystemID
                 string insertSql = @"
         INSERT INTO SYSTEMS (SYSTEMID, SYSTEMNAME, DESCRIPTION) 
         VALUES (:SystemID, :SystemName, :Description)";
@@ -149,7 +147,6 @@ namespace AeroVault.Data
                     await insertCommand.ExecuteNonQueryAsync();
                 }
 
-                // Insert system-department associations
                 string insertAssociationSql = @"
         INSERT INTO SYSTEM_DEPARTMENTS (SYSTEMID, DEPARTMENTID) 
         VALUES (:SystemID, :DepartmentID)";
@@ -271,7 +268,6 @@ namespace AeroVault.Data
 
         public async Task<SystemModel> UpdateSystemAsync(UpdateSystemRequest request)
         {
-            // Validate the request object
             if (request == null)
             {
                 Console.WriteLine("UpdateSystemAsync: Received null request");
@@ -297,10 +293,8 @@ namespace AeroVault.Data
                 {
                     try
                     {
-                        // Log the request for debugging
                         Console.WriteLine($"Attempting to update system with ID: '{request.SystemID}'");
 
-                        // Update system name and description using SystemID
                         string updateSql = @"
                 UPDATE SYSTEMS 
                 SET SYSTEMNAME = :SystemName, 
@@ -324,7 +318,6 @@ namespace AeroVault.Data
                             }
                         }
 
-                        // Continue with deleting and inserting department associations...
                         string deleteSql = @"
                 DELETE FROM SYSTEM_DEPARTMENTS 
                 WHERE SYSTEMID = :SystemID";
@@ -353,12 +346,12 @@ namespace AeroVault.Data
                         }
 
                         transaction.Commit();
-                        return await GetSystemByIdAsync(request.SystemID); // Fetch the updated system by ID
+                        return await GetSystemByIdAsync(request.SystemID);
                     }
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        throw; // Rethrow the exception to be handled by the controller
+                        throw; 
                     }
                 }
             }
@@ -501,7 +494,7 @@ namespace AeroVault.Data
                     }
                 }
             }
-            return null; // Return null if not found
+            return null; 
         }
 
         public async Task<List<FileModel>> GetFilesBySystemIdAsync(int systemId)
@@ -591,7 +584,6 @@ namespace AeroVault.Data
                 {
                     try
                     {
-                        // First, fetch the current file details
                         string fetchSql = @"
                     SELECT FileName, FileCategory 
                     FROM Files 
@@ -615,16 +607,14 @@ namespace AeroVault.Data
                                 else
                                 {
                                     transaction.Rollback();
-                                    return false; // File not found
+                                    return false; 
                                 }
                             }
                         }
 
-                        // Determine which fields to update
                         string updateSql;
                         OracleCommand updateCommand;
 
-                        // Use the current values if not provided in the request
                         string fileNameToUpdate = request.FileName ?? currentFileName;
                         string fileCategoryToUpdate = request.FileCategory ?? currentFileCategory;
 
@@ -644,11 +634,11 @@ namespace AeroVault.Data
                         if (rowsAffected == 0)
                         {
                             transaction.Rollback();
-                            return false; // No rows updated, file not found
+                            return false; 
                         }
 
                         transaction.Commit();
-                        return true; // Update successful
+                        return true; 
                     }
                     catch (Exception ex)
                     {

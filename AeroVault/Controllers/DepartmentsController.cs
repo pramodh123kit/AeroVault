@@ -70,11 +70,6 @@ namespace AeroVault.Controllers
             });
         }
 
-
-
-
-
-
         [HttpPut]
         public async Task<IActionResult> SoftDeleteDepartment([FromBody] DepartmentDeleteModel model)
         {
@@ -86,7 +81,6 @@ namespace AeroVault.Controllers
             return Json(new { success = true, message = result.Message, departmentId = model.DepartmentId });
         }
 
-
         [HttpGet]
         public async Task<IActionResult> GetSystemsByDepartment(int departmentId)
         {
@@ -95,24 +89,15 @@ namespace AeroVault.Controllers
         }
 
         public class UpdateDepartmentRequest
-
         {
-
             public int DepartmentId { get; set; }
-
             public string DepartmentName { get; set; }
-
             public int DivisionId { get; set; }
-
         }
 
-
         public class DepartmentDeleteModel
-
         {
-
             public int DepartmentId { get; set; }
-
         }
     }
 }

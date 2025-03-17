@@ -55,5 +55,16 @@ namespace AeroVault.Business
         {
             return await _reviewDl.GetViewedFilesByStaffNoAsync(staffNo);
         }
+        public async Task<int> GetViewedFileCountAsync(string uniqueFileIdentifier)
+
+        {
+
+            return await _reviewDl.GetViewedFileCountAsync(uniqueFileIdentifier);
+
+        }
+        public async Task<List<ViewedFileModel>> GetStaffNosByUniqueFileIdentifierAsync(string uniqueFileIdentifier)
+        {
+            return await _reviewDl.GetStaffNosByUniqueFileIdentifierAsync(uniqueFileIdentifier);
+        }
     }
 }

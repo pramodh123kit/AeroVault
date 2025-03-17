@@ -81,7 +81,19 @@ public class ReviewController : BaseAdminController
     public async Task<IActionResult> GetNonDeletedFilesBySystem(int systemId)
     {
         var files = await _reviewBl.GetFilesBySystemAsync(systemId);
-        var nonDeletedFiles = files.Where(f => f.IsDeleted == 0).ToList(); // Filter out deleted files
+        var nonDeletedFiles = files.Where(f => f.IsDeleted == 0).ToList(); 
         return Json(nonDeletedFiles);
+    }
+    [HttpGet]
+    public async Task<IActionResult> GetViewedFileCount(string uniqueFileIdentifier)
+    {
+        int count = await _reviewBl.GetViewedFileCountAsync(uniqueFileIdentifier);
+        return Json(new { count });
+    }
+    [HttpGet]
+    public async Task<IActionResult> GetStaffNosByUniqueFileIdentifier(string uniqueFileIdentifier)
+    {
+        var staffDetails = await _reviewBl.GetStaffNosByUniqueFileIdentifierAsync(uniqueFileIdentifier);
+        return Json(staffDetails);
     }
 }

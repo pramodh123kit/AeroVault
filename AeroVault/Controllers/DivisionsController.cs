@@ -17,14 +17,12 @@ public class DivisionsController : BaseAdminController
         _divisionBl = divisionBl;
     }
 
-    // GET: /Divisions
     public async Task<IActionResult> IndexAsync()
     {
         var divisionsList = await _divisionBl.GetAllDivisionsAsync();
         return PartialView("~/Views/Admin/_Divisions.cshtml", divisionsList);
     }
 
-    // GET: /Divisions/GetAll
     [HttpGet]
     public async Task<IActionResult> GetAllDivisions()
     {
@@ -32,7 +30,6 @@ public class DivisionsController : BaseAdminController
         return Json(divisions);
     }
 
-    // POST: /Divisions/Add
     [HttpPost]
     public async Task<IActionResult> AddDivision([FromForm] string divisionName)
     {
@@ -66,7 +63,6 @@ public class DivisionsController : BaseAdminController
         }
     }
 
-    // POST: /Divisions/Update
     [HttpPost]
     public async Task<IActionResult> UpdateDivision(string originalName, string newDivisionName)
     {
@@ -95,7 +91,6 @@ public class DivisionsController : BaseAdminController
         }
     }
 
-    // POST: /Divisions/Delete
     [HttpPost]
     public async Task<IActionResult> SoftDeleteDivision([FromBody] DivisionDeleteModel model)
     {
@@ -136,7 +131,6 @@ public class DivisionsController : BaseAdminController
 
 }
 
-// Model for soft delete
 public class DivisionDeleteModel
 {
     public int DivisionId { get; set; }
