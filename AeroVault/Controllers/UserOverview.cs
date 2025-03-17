@@ -20,11 +20,10 @@ namespace AeroVault.Controllers
 
         public IActionResult UserPageOverview()
         {
-            // Check if the user is an admin
             if (HttpContext.Session.GetString("User Role") == "AEVT-Admin")
             {
-                TempData["AccessDeniedMessage"] = "Access not given"; // Set the message
-                return RedirectToAction("Index", "Admin"); // Redirect to Admin Index
+                TempData["AccessDeniedMessage"] = "Access not given"; 
+                return RedirectToAction("Index", "Admin"); 
             }
 
             try
@@ -50,11 +49,9 @@ namespace AeroVault.Controllers
 
                 ViewBag.Systems = systems;
 
-                // Check if the staff record has already been inserted in this session
                 if (HttpContext.Session.GetString("StaffRecordInserted") == null)
                 {
                     InsertStaffRecord();
-                    // Set session variable to indicate the record has been inserted
                     HttpContext.Session.SetString("StaffRecordInserted", "true");
                 }
 

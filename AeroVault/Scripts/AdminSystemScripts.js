@@ -1217,7 +1217,7 @@ async function editSystem() {
     // Validate inputs
     if (!systemId) {
         console.error('No system ID selected');
-        showCustomAlert('Please select a system to edit');
+        /*showCustomAlert('Please select a system to edit');*/
         return;
     }
 

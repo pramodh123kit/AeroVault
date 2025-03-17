@@ -26,7 +26,6 @@ namespace AeroVault
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            // Configure FormOptions for file uploads
             builder.Services.Configure<FormOptions>(options =>
             {
                 options.MultipartBodyLengthLimit = 500 * 1024 * 1024; // 500 MB
@@ -57,6 +56,8 @@ namespace AeroVault
             builder.Services.AddScoped<ReviewBl>();
             builder.Services.AddScoped<LoginBl>();
             builder.Services.AddScoped<LoginDl>();
+            builder.Services.AddScoped<AdminOverviewDl>();
+            builder.Services.AddScoped<AdminOverviewBl>();
 
             builder.Services.AddSingleton(sp =>
             {
@@ -125,9 +126,9 @@ namespace AeroVault
 
             app.MapControllerRoute(
                 name: "default",
-            //pattern: "{controller=Admin}/{action=Index}/{id?}");
+            pattern: "{controller=Admin}/{action=Index}/{id?}");
             //pattern: "{controller=userfilerepository}/{action=filerepository}/{id?}");
-            pattern: "{controller=login}/{action=index}/{id?}");
+            //pattern: "{controller=login}/{action=index}/{id?}");
             //pattern: "{controller=test}/{action=testconnection}/{id?}");
 
             app.Run();

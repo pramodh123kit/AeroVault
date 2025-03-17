@@ -4,7 +4,7 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration; // Make sure to include this namespace
+using Microsoft.Extensions.Configuration; 
 
 namespace AeroVault.Repositories
 {
@@ -142,14 +142,12 @@ namespace AeroVault.Repositories
                 int newDepartmentId = 0;
                 string divisionName = "";
 
-                // Get the next value from the sequence
                 string sequenceSql = "SELECT SEQ_DEPARTMENTID.NEXTVAL FROM dual";
                 using (var sequenceCommand = new OracleCommand(sequenceSql, connection))
                 {
                     newDepartmentId = Convert.ToInt32(await sequenceCommand.ExecuteScalarAsync());
                 }
 
-                // Insert Department using the new DepartmentID
                 string insertSql = @"
         INSERT INTO Departments (DepartmentID, DepartmentName, DivisionID) 
         VALUES (:DepartmentID, :DepartmentName, :DivisionID)";
@@ -163,7 +161,6 @@ namespace AeroVault.Repositories
                     await insertCommand.ExecuteNonQueryAsync();
                 }
 
-                // Fetch Division Name
                 string divisionNameSql = "SELECT DivisionName FROM Divisions WHERE DivisionID = :DivisionID";
                 using (var divisionCommand = new OracleCommand(divisionNameSql, connection))
                 {

@@ -468,7 +468,7 @@ function uploadFiles() {
             // Reset the upload form
             resetFiles();
             // Refresh the table
-            refreshTable();
+            //refreshTable();
         } else {
             console.error('Upload error:', xhr.statusText);
             alert('File upload failed: ' + xhr.statusText);

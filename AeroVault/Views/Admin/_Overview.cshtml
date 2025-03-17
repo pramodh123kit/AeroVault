@@ -109,10 +109,21 @@
                 </div>
             </div>
             <div class="outerBarChartsContainer">
-                <div class="header2 barchart-header">
-                    <h2>Logged In Staff</h2>
-                    <p>Sep 1  - Oct 1 </p>
-                </div>
+            @{
+                var currentDate = DateTime.Now;
+
+                var firstDayOfCurrentMonth = new DateTime(currentDate.Year, currentDate.Month, 1);
+
+                var firstDayOfNextMonth = firstDayOfCurrentMonth.AddMonths(1);
+
+                var formattedCurrentMonth = firstDayOfCurrentMonth.ToString("MMM d");
+                var formattedNextMonth = firstDayOfNextMonth.ToString("MMM d");
+            }
+
+            <div class="header2 barchart-header">
+                <h2>Logged In Staff</h2>
+                <p>@formattedCurrentMonth - @formattedNextMonth</p>
+            </div>
                 <div class="contentInfo barchart-contentInfo">
                     <div class="BarChart">
                         <canvas id="myChart2" class="myChart2" style="box-sizing: border-box;"></canvas>
@@ -121,16 +132,6 @@
             </div>
         </div>
     </div>
-
-
-    <script src="/Scripts/jquery.min.js"></script>
+<script src="/Scripts/jquery.min.js"></script>
 <script src="/Scripts/chart.min.js"></script>
-<script>
-    console.log("Chart.js loaded:", typeof Chart !== 'undefined'); // Should log true
-
-    if (typeof Chart === 'undefined') {
-        console.error('Chart.js failed to load!');
-        // Optionally load from CDN here if needed
-    }
-</script>
-    <script src="/Scripts/AdminOverview.js"></script>
+<script src="/Scripts/AdminOverview.js"></script>

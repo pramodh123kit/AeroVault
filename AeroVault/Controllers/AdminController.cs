@@ -10,8 +10,8 @@ namespace AeroVault.Controllers
         {
             if (HttpContext.Session.GetString("User Role") == "AEVT-Staff")
             {
-                TempData["AccessDeniedMessage"] = "Access not given"; 
-                return RedirectToAction("UserPageOverview", "UserOverview"); 
+                TempData["AccessDeniedMessage"] = "Access not given";
+                return RedirectToAction("UserPageOverview", "UserOverview");
             }
 
             return View();

@@ -13,7 +13,6 @@ namespace AeroVault.Controllers
             _context = context;
         }
 
-        // Action to test the database connection
         public async Task<IActionResult> TestConnection()
         {
             var canConnect = await _context.TestConnectionAsync();

@@ -4,7 +4,7 @@ using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration; // Make sure to include this namespace
+using Microsoft.Extensions.Configuration; 
 
 namespace AeroVault.Data
 {
@@ -13,7 +13,6 @@ namespace AeroVault.Data
         private readonly string _connectionString;
         private readonly ApplicationDbContext _context;
 
-        // Update the constructor to accept IConfiguration
         public DivisionDl(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
@@ -99,7 +98,6 @@ namespace AeroVault.Data
             {
                 await connection.OpenAsync();
 
-                // Get new Division ID from the sequence
                 int newDivisionId;
                 string getIdSql = "SELECT SEQ_DIVISIONID.NEXTVAL FROM DUAL";
                 using (var idCommand = new OracleCommand(getIdSql, connection))
@@ -107,7 +105,6 @@ namespace AeroVault.Data
                     newDivisionId = Convert.ToInt32(await idCommand.ExecuteScalarAsync());
                 }
 
-                // Insert new division
                 string sql = "INSERT INTO DIVISIONS (DivisionID, DivisionName) VALUES (:DivisionID, :DivisionName)";
                 using (var command = new OracleCommand(sql, connection))
                 {
@@ -151,12 +148,10 @@ namespace AeroVault.Data
             {
                 await connection.OpenAsync();
 
-                // Start a transaction
                 using (var transaction = connection.BeginTransaction())
                 {
                     try
                     {
-                        // First, soft delete all departments associated with this division
                         string deleteDepartmentsSql = @"
                     UPDATE DEPARTMENTS 
                     SET IS_DELETED = 1 
@@ -169,7 +164,6 @@ namespace AeroVault.Data
                             await departmentsCommand.ExecuteNonQueryAsync();
                         }
 
-                        // Then, soft delete the division
                         string updateDivisionSql = @"
                     UPDATE DIVISIONS 
                     SET IsDeleted = 1 
@@ -181,7 +175,6 @@ namespace AeroVault.Data
                             divisionCommand.Parameters.Add(new OracleParameter(":DivisionId", divisionId));
                             int rowsAffected = await divisionCommand.ExecuteNonQueryAsync();
 
-                            // Commit the transaction
                             transaction.Commit();
 
                             return rowsAffected > 0;
@@ -189,7 +182,6 @@ namespace AeroVault.Data
                     }
                     catch (Exception)
                     {
-                        // Rollback the transaction in case of any error
                         transaction.Rollback();
                         throw;
                     }

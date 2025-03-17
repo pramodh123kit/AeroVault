@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 [AuthorizeUser]
 public class OverviewController : BaseAdminController
 {
+
+    private readonly AdminOverviewBl _adminOverviewBl;
     private readonly DepartmentDl _departmentDl;
     private readonly SystemDl _systemDl;
     private readonly DivisionDl _divisionDl;
@@ -51,7 +53,15 @@ public class OverviewController : BaseAdminController
         var departmentsForThree = await _departmentDl.GetDepartmentsAddedAfterAsync(threeMonthsAgo);
         var departmentsForSix = await _departmentDl.GetDepartmentsAddedAfterAsync(sixMonthsAgo);
         var departmentsForYear = await _departmentDl.GetDepartmentsAddedAfterAsync(oneYearAgo);
+        var staffLoginTimes = await _adminOverviewBl.GetStaffLoginTimesAsync();
 
+        foreach (var loginTime in staffLoginTimes)
+
+        {
+
+            Console.WriteLine($"Staff logged in at: {loginTime.TimeOfLoggingIn}");
+
+        }
         var viewModel = new OverviewViewModel
         {
             DepartmentCount = departments.Count,
@@ -94,12 +104,20 @@ public class OverviewController : BaseAdminController
         return PartialView("~/Views/Admin/_Overview.cshtml", viewModel);
     }
 
-    public OverviewController(ApplicationDbContext context, DepartmentDl departmentDl, SystemDl systemDl, DivisionDl divisionDl, UploadBl uploadbl)
-        : base(context)
+    public OverviewController(ApplicationDbContext context, DepartmentDl departmentDl, SystemDl systemDl, DivisionDl divisionDl, UploadBl uploadbl, AdminOverviewBl adminOverviewBl, AdminOverviewDl adminOverviewDl)
+    : base(context)
     {
         _departmentDl = departmentDl;
         _systemDl = systemDl;
         _divisionDl = divisionDl;
         _uploadDl = uploadbl;
+        _adminOverviewBl = adminOverviewBl;
+    }
+
+    [HttpGet]
+    public async Task<JsonResult> GetStaffLoginTimes()
+    {
+        var staffLoginTimes = await _adminOverviewBl.GetStaffLoginTimesAsync();
+        return Json(staffLoginTimes.Select(s => new { timeOfLoggingIn = s.TimeOfLoggingIn.ToString("yyyy-MM-dd HH:mm:ss") }));
     }
 }
