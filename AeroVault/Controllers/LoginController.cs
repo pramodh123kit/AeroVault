@@ -39,8 +39,8 @@ namespace AeroVault.Controllers
 
                 if (!_loginBl.GetLoginValidation(staffMl))
                 {
-                    TempData["ErrorMessage"] = "Invalid credentials.";
-                    _logger.LogInformation("Invalid credentials.");
+                    TempData["ErrorMessage"] = "Wrong Username or Password.";
+                    _logger.LogInformation("Wrong Username or Password.");
                     return View("LoginPage");
                 }
 
