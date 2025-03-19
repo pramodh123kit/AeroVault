@@ -183,12 +183,25 @@ function openReadModalUnique(uniqueFileIdentifier, fileName) {
                 return; // Exit if no staff have read the file
             }
 
-            // Populate the modal with the staff details
+            // Create a map to store unique staff entries
+            const uniqueStaffMap = new Map();
+
+            // Iterate over the staff details and add them to the map
+            staffDetails.forEach(staff => {
+                if (!uniqueStaffMap.has(staff.staffNo)) {
+                    uniqueStaffMap.set(staff.staffNo, staff);
+                }
+            });
+
+            // Convert the map values back to an array
+            const uniqueStaffDetails = Array.from(uniqueStaffMap.values());
+
+            // Populate the modal with the unique staff details
             const readUsersTableBody = document.querySelector('#readUsers-dataTable tbody');
             readUsersTableBody.innerHTML = ''; // Clear existing rows
 
             // Log each STAFFNO in the modal
-            staffDetails.forEach(staff => {
+            uniqueStaffDetails.forEach(staff => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${staff.staffNo}</td>
@@ -203,7 +216,6 @@ function openReadModalUnique(uniqueFileIdentifier, fileName) {
         })
         .catch(error => console.error('Error fetching staff numbers:', error));
 }
-
 function formatViewedDate(dateString) {
     const date = new Date(dateString);
     const options = { month: 'short', day: '2-digit', year: 'numeric' };
