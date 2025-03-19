@@ -308,7 +308,6 @@ namespace AeroVault.Data
                 }
             }
         }
-
         public async Task<List<ViewedFileModel>> GetStaffNosByUniqueFileIdentifierAsync(string uniqueFileIdentifier)
         {
             var viewedFiles = new List<ViewedFileModel>();
@@ -317,7 +316,7 @@ namespace AeroVault.Data
             {
                 await connection.OpenAsync();
                 using (var command = new OracleCommand(
-                    @"SELECT v.STAFFNO, s.STAFFNAME, v.VIEWEDDATE 
+                    @"SELECT DISTINCT v.STAFFNO, s.STAFFNAME, v.VIEWEDDATE 
               FROM VIEWEDFILES v
               JOIN STAFF s ON v.STAFFNO = s.STAFFNO
               JOIN FILES f ON v.UNIQUEFILEIDENTIFIER = f.UNIQUEFILEIDENTIFIER
@@ -344,5 +343,6 @@ namespace AeroVault.Data
 
             return viewedFiles;
         }
+
     }
 }
