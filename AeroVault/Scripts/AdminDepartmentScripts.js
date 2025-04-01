@@ -254,7 +254,7 @@ window.onclick = function (event) {
                 dropdownToggle.classList.remove('open');
             }
 
-            // Adjust selector styles
+            // Adjust selector styles//
             selector.style.borderBottomLeftRadius = '10px';
             selector.style.borderBottomRightRadius = '10px';
             selector.style.borderBottom = '1px solid #6D6D6D';
