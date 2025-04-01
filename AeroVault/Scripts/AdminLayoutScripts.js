@@ -19,7 +19,7 @@ function loadContent(controllerName, pageTitle) {
     }, 100);
 
     // Define the base URL correctly
-    const baseUrWel = window.location.origin + "/";
+   // const baseUrWel = window.location.origin + "/";
 
     // Define the correct mapping for controllers and actions
     const controllerMap = {
@@ -206,9 +206,9 @@ document.addEventListener("DOMContentLoaded", function () {
         link.addEventListener('click', function (event) {
             event.preventDefault(); // Prevent default action
 
+            // Remove active class and restore original icon for all links
             document.querySelectorAll('.nav-link').forEach(otherLink => {
                 otherLink.classList.remove('active');
-
                 const otherIcon = otherLink.querySelector('img');
                 if (otherIcon) {
                     const originalIcon = otherIcon.getAttribute('data-original');
@@ -218,35 +218,53 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
 
+            // Add active class to clicked link
             this.classList.add('active');
 
+            // Change icon source for the clicked link
             const icon = this.querySelector('img');
             let activeIcon = this.getAttribute('data-icon');
 
             if (icon && activeIcon) {
-               
                 if (activeIcon.startsWith('~/')) {
+                    // Replace `~/` with the correct base URL
                     activeIcon = activeIcon.replace('~/', window.location.origin + '/');
                 }
+
+                // Add /AeroVaultCore if the base URL contains it
+                if (window.location.pathname.includes('/AeroVaultCore')) {
+                    activeIcon = '/AeroVaultCore' + activeIcon;
+                }
+
                 icon.src = activeIcon;
             }
         });
 
+        // Store the original icon source
         const icon = link.querySelector('img');
         if (icon) {
             icon.setAttribute('data-original', icon.src);
         }
 
+        // Handle mouseover to change the icon source
         link.addEventListener('mouseover', function () {
             let hoverIcon = this.getAttribute('data-icon');
             if (icon && hoverIcon) {
                 if (hoverIcon.startsWith('~/')) {
+                    // Replace `~/` with the correct base URL on hover as well
                     hoverIcon = hoverIcon.replace('~/', window.location.origin + '/');
                 }
+
+                // Add /AeroVaultCore if the base URL contains it
+                if (window.location.pathname.includes('/AeroVaultCore')) {
+                    hoverIcon = '/AeroVaultCore' + hoverIcon;
+                }
+
                 icon.src = hoverIcon;
             }
         });
 
+        // Handle mouseout to restore the original icon unless the link is active
         link.addEventListener('mouseout', function () {
             if (!link.classList.contains('active')) {
                 const originalIcon = icon.getAttribute('data-original');
@@ -256,6 +274,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
 
 });
 

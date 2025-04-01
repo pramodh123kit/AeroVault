@@ -12,7 +12,7 @@
         <h2>Upload History</h2>
 
         <button class="upload-btn">
-            <img src="/Content/Assets/Uploadbtn1.svg" class="upload-btn-icn" alt="upload Icon">
+            <img src="~/Content/Assets/Uploadbtn1.svg" class="upload-btn-icn" alt="upload Icon">
             Upload Files
         </button>
     </div>
@@ -29,7 +29,7 @@
                         </div>
                         <div class="status-dropdown-content">
                             <div class="status-search-container">
-                                <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                                <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
                                 <input type="text" id="status-search-input" placeholder="Search Department"
                                        onkeyup="filterStatusOptions()" onclick="event.stopPropagation()">
                             </div>
@@ -56,7 +56,7 @@
                         </div>
                         <div class="system-dropdown-content">
                             <div class="system-search-container">
-                                <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                                <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
                                 <input type="text" id="system-search-input" placeholder="Search System"
                                        onkeyup="filtersystemOptions()" onclick="event.stopPropagation()">
                             </div>
@@ -83,7 +83,7 @@
                         </div>
                         <div class="category-dropdown-content">
                             <div class="category-search-container">
-                                <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                                <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
                                 <input type="text" id="category-search-input" placeholder="Search Category"
                                        onkeyup="filtercategoryOptions()" onclick="event.stopPropagation()">
                             </div>
@@ -97,7 +97,7 @@
                 </div>
 
                 <div class="file-search-container1" style="margin-bottom:0px;">
-                    <img src="/Content/Assets/search-icon.svg" class="search-icon1" alt="Search Icon" />
+                    <img src="~/Content/Assets/search-icon.svg" class="search-icon1" alt="Search Icon" />
                     <input id="SystemfileSearch" onkeyup="filterFiles()" placeholder="Search" type="text"
                            class="file-search-input1" style="width:200px;" />
                 </div>
@@ -141,12 +141,12 @@
 
                                         if (file.FileType?.ToLower() == "document")
                                         {
-                                            <img src="/Content/Assets/system-file-icon.svg" alt="File Icon" class="file-icon" />
+                                            <img src="~/Content/Assets/system-file-icon.svg" alt="File Icon" class="file-icon" />
                                         }
                                         else if (file.FileType?.ToLower() == "video" ||
                                         new[] { ".mp4", ".avi", ".mov", ".wmv", ".mkv" }.Contains(fileExtension))
                                         {
-                                            <img src="/Content/Assets/system-video-icon.svg" alt="File Icon" class="file-icon" />
+                                            <img src="~/Content/Assets/system-video-icon.svg" alt="File Icon" class="file-icon" />
                                         }
                                     }
                                     @fileNameWithoutExtension
@@ -165,7 +165,7 @@
                                 </td>
                                 <td>@(file.AddedDate?.ToString("MMM dd, yyyy") ?? "N/A")</td>
                                 <td>
-                                    <img src="/Content/Assets/fileviewicn.svg" alt="View" class="view-icon"
+                                    <img src="~/Content/Assets/fileviewicn.svg" alt="View" class="view-icon"
                                          onclick="viewFile('@file.FileName', '@file.UniqueFileIdentifier')" />
                                 </td>
                             </tr>
@@ -215,7 +215,7 @@
         </div>
 
         <div class="custom-header">
-            <img src="/Content/Assets/close-icon.svg" class="close-button" id="close-pdf-button" alt="Close" />
+            <img src="~/Content/Assets/close-icon.svg" class="close-button" id="close-pdf-button" alt="Close" />
             <div id="file-name-display"></div> 
         </div>
 

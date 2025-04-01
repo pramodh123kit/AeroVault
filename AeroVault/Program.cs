@@ -119,13 +119,13 @@ namespace AeroVault
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Content")),
-                RequestPath = "/Content"  // ✅ Fix: Remove basePath here
+                RequestPath = $"/Content"  // ✅ Fix: Remove basePath here
             });
 
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Scripts")),
-                RequestPath = "/Scripts"  // ✅ Fix: Remove basePath here
+                RequestPath = $"/Scripts"   // ✅ Fix: Remove basePath here
             });
 
             // Middleware and Routing
