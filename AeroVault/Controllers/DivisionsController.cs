@@ -6,32 +6,30 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+[AuthorizeUser]
 public class DivisionsController : BaseAdminController
 {
-    private readonly DivisionService _divisionService;
+    private readonly DivisionBl _divisionBl;
 
-    public DivisionsController(ApplicationDbContext context, DivisionService divisionService)
+    public DivisionsController(ApplicationDbContext context, DivisionBl divisionBl)
         : base(context)
     {
-        _divisionService = divisionService;
+        _divisionBl = divisionBl;
     }
 
-    // GET: /Divisions
     public async Task<IActionResult> IndexAsync()
     {
-        var divisionsList = await _divisionService.GetAllDivisionsAsync();
+        var divisionsList = await _divisionBl.GetAllDivisionsAsync();
         return PartialView("~/Views/Admin/_Divisions.cshtml", divisionsList);
     }
 
-    // GET: /Divisions/GetAll
     [HttpGet]
     public async Task<IActionResult> GetAllDivisions()
     {
-        var divisions = await _divisionService.GetAllDivisionsAsync();
+        var divisions = await _divisionBl.GetAllDivisionsAsync();
         return Json(divisions);
     }
 
-    // POST: /Divisions/Add
     [HttpPost]
     public async Task<IActionResult> AddDivision([FromForm] string divisionName)
     {
@@ -46,7 +44,7 @@ public class DivisionsController : BaseAdminController
 
         try
         {
-            await _divisionService.AddDivisionAsync(divisionName);
+            await _divisionBl.AddDivisionAsync(divisionName);
             Console.WriteLine($"Division '{divisionName}' added successfully");
             return Ok(new
             {
@@ -65,7 +63,6 @@ public class DivisionsController : BaseAdminController
         }
     }
 
-    // POST: /Divisions/Update
     [HttpPost]
     public async Task<IActionResult> UpdateDivision(string originalName, string newDivisionName)
     {
@@ -76,7 +73,7 @@ public class DivisionsController : BaseAdminController
 
         try
         {
-            await _divisionService.UpdateDivisionNameAsync(originalName, newDivisionName);
+            await _divisionBl.UpdateDivisionNameAsync(originalName, newDivisionName);
             return Ok(new
             {
                 Message = "Division updated successfully",
@@ -94,7 +91,6 @@ public class DivisionsController : BaseAdminController
         }
     }
 
-    // POST: /Divisions/Delete
     [HttpPost]
     public async Task<IActionResult> SoftDeleteDivision([FromBody] DivisionDeleteModel model)
     {
@@ -105,7 +101,7 @@ public class DivisionsController : BaseAdminController
 
         try
         {
-            var result = await _divisionService.SoftDeleteDivisionAsync(model.DivisionId);
+            var result = await _divisionBl.SoftDeleteDivisionAsync(model.DivisionId);
             if (result.Success)
             {
                 return Ok(new { Message = result.Message });
@@ -129,13 +125,12 @@ public class DivisionsController : BaseAdminController
     [HttpGet]
     public async Task<IActionResult> GetDepartmentsByDivision(int divisionId)
     {
-        var departments = await _divisionService.GetDepartmentsByDivisionAsync(divisionId);
+        var departments = await _divisionBl.GetDepartmentsByDivisionAsync(divisionId);
         return Json(departments);
     }
 
 }
 
-// Model for soft delete
 public class DivisionDeleteModel
 {
     public int DivisionId { get; set; }

@@ -1,16 +1,19 @@
 ﻿using AeroVault.Business;
 using AeroVault.Controllers;
-using AeroVault.Data; // Include your repositories
-using AeroVault.Models; // Include your models
+using AeroVault.Data; 
+using AeroVault.Models; 
 using AeroVault.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
+[AuthorizeUser]
 public class OverviewController : BaseAdminController
 {
-    private readonly DepartmentRepository _departmentRepository;
-    private readonly SystemRepository _systemRepository;
-    private readonly DivisionRepository _divisionRepository;
+
+    private readonly AdminOverviewBl _adminOverviewBl;
+    private readonly DepartmentDl _departmentDl;
+    private readonly SystemDl _systemDl;
+    private readonly DivisionDl _divisionDl;
     private readonly UploadBl _uploadDl;
 
     public async Task<IActionResult> Index()
@@ -21,17 +24,17 @@ public class OverviewController : BaseAdminController
         DateTime sixMonthsAgo = DateTime.Now.AddMonths(-6);
         DateTime oneYearAgo = DateTime.Now.AddMonths(-12);
 
-        var divisions = await _divisionRepository.GetAllDivisionsAsync();
-        var divisionsForOne = await _divisionRepository.GetDivisionsAddedAfterAsync(onemonthago);
-        var divisionsForThree = await _divisionRepository.GetDivisionsAddedAfterAsync(threeMonthsAgo);
-        var divisionsForSix = await _divisionRepository.GetDivisionsAddedAfterAsync(sixMonthsAgo);
-        var divisionsForYear = await _divisionRepository.GetDivisionsAddedAfterAsync(oneYearAgo);
+        var divisions = await _divisionDl.GetAllDivisionsAsync();
+        var divisionsForOne = await _divisionDl.GetDivisionsAddedAfterAsync(onemonthago);
+        var divisionsForThree = await _divisionDl.GetDivisionsAddedAfterAsync(threeMonthsAgo);
+        var divisionsForSix = await _divisionDl.GetDivisionsAddedAfterAsync(sixMonthsAgo);
+        var divisionsForYear = await _divisionDl.GetDivisionsAddedAfterAsync(oneYearAgo);
 
-        var systems = await _systemRepository.GetAllSystemsAsync();
-        var systemsForOne = await _systemRepository.GetSystemsAddedAfterAsync(onemonthago);
-        var systemsForThree = await _systemRepository.GetSystemsAddedAfterAsync(threeMonthsAgo);
-        var systemsForSix = await _systemRepository.GetSystemsAddedAfterAsync(sixMonthsAgo);
-        var systemsForYear = await _systemRepository.GetSystemsAddedAfterAsync(oneYearAgo);
+        var systems = await _systemDl.GetAllSystemsAsync();
+        var systemsForOne = await _systemDl.GetSystemsAddedAfterAsync(onemonthago);
+        var systemsForThree = await _systemDl.GetSystemsAddedAfterAsync(threeMonthsAgo);
+        var systemsForSix = await _systemDl.GetSystemsAddedAfterAsync(sixMonthsAgo);
+        var systemsForYear = await _systemDl.GetSystemsAddedAfterAsync(oneYearAgo);
 
         var videos = _uploadDl.GetVideos();
         var videosForOne = _uploadDl.GetVideos(onemonthago);
@@ -45,12 +48,20 @@ public class OverviewController : BaseAdminController
         var documentsForSix = _uploadDl.GetDocuments(sixMonthsAgo);
         var documentsForYear = _uploadDl.GetDocuments(oneYearAgo);
 
-        var departments = await _departmentRepository.GetAllDepartmentsAsync();
-        var departmentsForOne = await _departmentRepository.GetDepartmentsAddedAfterAsync(onemonthago);
-        var departmentsForThree = await _departmentRepository.GetDepartmentsAddedAfterAsync(threeMonthsAgo);
-        var departmentsForSix = await _departmentRepository.GetDepartmentsAddedAfterAsync(sixMonthsAgo);
-        var departmentsForYear = await _departmentRepository.GetDepartmentsAddedAfterAsync(oneYearAgo);
+        var departments = await _departmentDl.GetAllDepartmentsAsync();
+        var departmentsForOne = await _departmentDl.GetDepartmentsAddedAfterAsync(onemonthago);
+        var departmentsForThree = await _departmentDl.GetDepartmentsAddedAfterAsync(threeMonthsAgo);
+        var departmentsForSix = await _departmentDl.GetDepartmentsAddedAfterAsync(sixMonthsAgo);
+        var departmentsForYear = await _departmentDl.GetDepartmentsAddedAfterAsync(oneYearAgo);
+        var staffLoginTimes = await _adminOverviewBl.GetStaffLoginTimesAsync();
 
+        foreach (var loginTime in staffLoginTimes)
+
+        {
+
+            Console.WriteLine($"Staff logged in at: {loginTime.TimeOfLoggingIn}");
+
+        }
         var viewModel = new OverviewViewModel
         {
             DepartmentCount = departments.Count,
@@ -84,7 +95,6 @@ public class OverviewController : BaseAdminController
             Division_12_Count = divisionsForYear.Count
         };
 
-        // Log the counts for debugging
         Console.WriteLine($"Department Count: {viewModel.DepartmentCount}");
         Console.WriteLine($"System Count: {viewModel.SystemCount}");
         Console.WriteLine($"Division Count: {viewModel.DivisionCount}");
@@ -94,14 +104,20 @@ public class OverviewController : BaseAdminController
         return PartialView("~/Views/Admin/_Overview.cshtml", viewModel);
     }
 
-    public OverviewController(ApplicationDbContext context, DepartmentRepository departmentRepository, SystemRepository systemRepository, DivisionRepository divisionRepository, UploadBl uploadbl)
-        : base(context)
+    public OverviewController(ApplicationDbContext context, DepartmentDl departmentDl, SystemDl systemDl, DivisionDl divisionDl, UploadBl uploadbl, AdminOverviewBl adminOverviewBl, AdminOverviewDl adminOverviewDl)
+    : base(context)
     {
-        _departmentRepository = departmentRepository;
-        _systemRepository = systemRepository;
-        _divisionRepository = divisionRepository;
+        _departmentDl = departmentDl;
+        _systemDl = systemDl;
+        _divisionDl = divisionDl;
         _uploadDl = uploadbl;
+        _adminOverviewBl = adminOverviewBl;
     }
 
-
+    [HttpGet]
+    public async Task<JsonResult> GetStaffLoginTimes()
+    {
+        var staffLoginTimes = await _adminOverviewBl.GetStaffLoginTimesAsync();
+        return Json(staffLoginTimes.Select(s => new { timeOfLoggingIn = s.TimeOfLoggingIn.ToString("yyyy-MM-dd HH:mm:ss") }));
+    }
 }

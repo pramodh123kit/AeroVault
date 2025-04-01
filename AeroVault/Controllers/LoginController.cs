@@ -8,10 +8,10 @@ namespace AeroVault.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly LoginBL _loginBl;
+        private readonly LoginBl _loginBl;
         private readonly ILogger<LoginController> _logger;
 
-        public LoginController(LoginBL loginBl, ILogger<LoginController> logger)
+        public LoginController(LoginBl loginBl, ILogger<LoginController> logger)
         {
             _loginBl = loginBl;
             _logger = logger;
@@ -24,11 +24,12 @@ namespace AeroVault.Controllers
         }
 
         [HttpPost]
-        public  IActionResult Authenticate(string staffNo, string password)
+        public IActionResult Authenticate(string staffNo, string password)
         {
             if (string.IsNullOrEmpty(staffNo) || string.IsNullOrEmpty(password))
             {
                 TempData["ErrorMessage"] = "Username and password are required.";
+                _logger.LogInformation("Username and password are required.");
                 return View("LoginPage");
             }
 
@@ -38,7 +39,8 @@ namespace AeroVault.Controllers
 
                 if (!_loginBl.GetLoginValidation(staffMl))
                 {
-                    TempData["ErrorMessage"] = "Invalid credentials.";
+                    TempData["ErrorMessage"] = "Wrong Username or Password.";
+                    _logger.LogInformation("Wrong Username or Password.");
                     return View("LoginPage");
                 }
 
@@ -47,11 +49,20 @@ namespace AeroVault.Controllers
                 if (!IsAuthorized(userRole.UserRole))
                 {
                     TempData["ErrorMessage"] = $"Unauthorized role: {userRole.UserRole}";
+                    _logger.LogInformation($"Unauthorized role: {userRole.UserRole}");
                     return View("LoginPage");
                 }
 
                 SetUserSession(staffMl, userRole);
-                return RedirectToAction("UserPageOverview", "UserOverview");
+
+                if (userRole.UserRole == "AEVT-Admin")
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                else if (userRole.UserRole == "AEVT-Staff")
+                {
+                    return RedirectToAction("UserPageOverview", "UserOverview"); 
+                }
             }
             catch (Exception ex)
             {
@@ -59,8 +70,9 @@ namespace AeroVault.Controllers
                 TempData["ErrorMessage"] = $"Error: {ex.Message}";
                 return View("LoginPage");
             }
-        }
 
+            return View("LoginPage");
+        }
         private bool IsAuthorized(string role)
         {
             return role == "AEVT-Admin" || role == "AEVT-Staff";
@@ -69,7 +81,7 @@ namespace AeroVault.Controllers
         private void SetUserSession(StaffML staff, StaffML role)
         {
             HttpContext.Session.SetString("StaffNo", staff.StaffNo);
-            HttpContext.Session.SetString("UserRole", role.UserRole);
+            HttpContext.Session.SetString("User Role", role.UserRole); 
 
             var userDetails = _loginBl.GetNameAndEmail(staff);
             if (userDetails != null)

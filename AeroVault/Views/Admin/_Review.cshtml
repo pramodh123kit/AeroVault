@@ -1,9 +1,8 @@
 @model AeroVault.Models.DepartmentViewModel
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-<link href="/Content/css/AdminReview.css" rel="stylesheet" />
-
-<script src="/Scripts/adminReview.js" defer></script>
+<link href="~/Content/css/all.min.css" rel="stylesheet">
+<link href="~/Content/css/AdminReview.css" rel="stylesheet" />
+<script src="~/Scripts/adminReview.js" defer></script>
 
 <div class="ReviewReviewTabs">
     <div class="reviewtab active" id="system-reviewtab" onclick="showSystemView()">
@@ -18,10 +17,8 @@
         <div class="reviewtitle">
             Select a Department to Review System Activity
         </div>
-
-
         <div class="sidebar-line">
-            <div class="status-form-group">
+            <div class="status-form-group" style="width:90%; margin-top:0px;">
                 <div class="status-dropdown">
                     <div class="status-dropdown-toggle status-selector" onclick="toggleStatusDropdown()">
                         <span id="selected-status">Select a Department</span>
@@ -29,7 +26,7 @@
                     </div>
                     <div class="status-dropdown-content">
                         <div class="status-search-container">
-                            <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                            <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
                             <input type="text" id="status-search-input" placeholder="Search Department"
                                    onkeyup="filterStatusOptions()" onclick="event.stopPropagation()">
                         </div>
@@ -50,24 +47,19 @@
                         </div>
                     </div>
                     <div class="file-search-container1" style="margin-bottom:0px;">
-                        <img src="/Content/Assets/search-icon.svg" class="search-icon1" alt="Search Icon" />
+                        <img src="~/Content/Assets/search-icon.svg" class="search-icon1" alt="Search Icon" />
                         <input id="searchInputStaff" onkeyup="filterStaffViewSidebar()" placeholder="Search System" type="text"
                                class="file-search-input1" style="width:200px;" />
                     </div>
                 </div>
             </div>
 
-            <div class="staffViewSidebar">
-                <!-- This will be populated dynamically -->
-            </div>
+            <div class="staffViewSidebar"></div>
         </div>
     </div>
     <div class="reviewcontent" id="system-view-reviewcontent">
-
-
-
-        <div class="image-container">
-            <img src="/Content/Assets/system-background-icon.svg" alt="System Background Image" />
+        <div class="image-container" id="image-container-id">
+            <img src="~/Content/Assets/system-background-icon.svg" alt="System Background Image" />
         </div>
 
         <div id="system-review-table" style="display:none;">
@@ -75,16 +67,9 @@
                 <div class="header-unique" id="system-header">
                     System Name
                 </div>
-                @* <div class="search-bar-unique"> *@
-                @*     <img src="/Content/Assets/search-icon.svg" alt="Search Icon" /> *@
-                @*     <input type="text" id="searchInputUnique" placeholder="Search Department" *@
-                @*         onkeyup="searchTableUnique()" /> *@
-                @* </div> *@
-
                 <div class="file-search-container2" style="margin-bottom:0px;">
-                    <img src="/Content/Assets/search-icon.svg" class="search-icon2" alt="Search Icon" />
-                    <input id="SystemfileSearch" onkeyup="filterFiles()" placeholder="Search" type="text"
-                           class="file-search-input2" style="width:200px;" />
+                    <img src="~/Content/Assets/search-icon.svg" class="search-icon2" alt="Search Icon">
+                    <input id="SystemfileSearch" onkeyup="filterFiles()" placeholder="Search File Name" type="text" class="file-search-input2" style="width:200px;">
                 </div>
 
             </div>
@@ -96,153 +81,11 @@
                                 <th>File Name</th>
                                 <th>Category</th>
                                 <th>Read by</th>
-                                <th>Pending by</th>
+                                @* <th>Pending by</th> *@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
-                                <td>Reports</td>
-                                <td class="read-by-unique">
-                                    <i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
-                                                                        onclick="openReadModalUnique()"></span>
-                                </td>
-                                <td class="pending-by-unique">
-                                    <i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document2.pdf </td>
-                                <td>Invoices</td>
-                                <td class="read-by-unique">
-                                    <i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
-                                                                        onclick="openReadModalUnique()"></span>
-                                </td>
-                                <td class="pending-by-unique">
-                                    <i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
-                                <td>Reports</td>
-                                <td class="read-by-unique">
-                                    <i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
-                                                                        onclick="openReadModalUnique()"></span>
-                                </td>
-                                <td class="pending-by-unique">
-                                    <i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
-                                <td>Reports</td>
-                                <td class="read-by-unique">
-                                    <i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
-                                                                        onclick="openReadModalUnique()"></span>
-                                </td>
-                                <td class="pending-by-unique">
-                                    <i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
-                                <td>Reports</td>
-                                <td class="read-by-unique">
-                                    <i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
-                                                                        onclick="openReadModalUnique()"></span>
-                                </td>
-                                <td class="pending-by-unique">
-                                    <i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
-                                <td>Reports</td>
-                                <td class="read-by-unique">
-                                    <i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
-                                                                        onclick="openReadModalUnique()"></span>
-                                </td>
-                                <td class="pending-by-unique">
-                                    <i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
-                                <td>Reports</td>
-                                <td class="read-by-unique">
-                                    <i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
-                                                                        onclick="openReadModalUnique()"></span>
-                                </td>
-                                <td class="pending-by-unique">
-                                    <i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
-                                <td>Reports</td>
-                                <td class="read-by-unique">
-                                    <i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
-                                                                        onclick="openReadModalUnique()"></span>
-                                </td>
-                                <td class="pending-by-unique">
-                                    <i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
-                                <td>Reports</td>
-                                <td class="read-by-unique">
-                                    <i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
-                                                                        onclick="openReadModalUnique()"></span>
-                                </td>
-                                <td class="pending-by-unique">
-                                    <i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
-                                <td>Reports</td>
-                                <td class="read-by-unique">
-                                    <i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
-                                                                        onclick="openReadModalUnique()"></span>
-                                </td>
-                                <td class="pending-by-unique">
-                                    <i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
-                                <td>Reports</td>
-                                <td class="read-by-unique">
-                                    <i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
-                                                                        onclick="openReadModalUnique()"></span>
-                                </td>
-                                <td class="pending-by-unique">
-                                    <i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
-                                <td>Reports</td>
-                                <td class="read-by-unique">
-                                    <i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
-                                                                        onclick="openReadModalUnique()"></span>
-                                </td>
-                                <td class="pending-by-unique">
-                                    <i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><img src="/Content/Assets/system-file-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" /> Document1.pdf </td>
-                                <td>Reports</td>
-                                <td class="read-by-unique">
-                                    <i class="fas fa-eye"></i>154 <span class="clickable-icon-unique"
-                                                                        onclick="openReadModalUnique()"></span>
-                                </td>
-                                <td class="pending-by-unique">
-                                    <i class="fas fa-hourglass-half"></i>233 <span class="clickable-icon-unique" onclick="openPendingModalUnique()"></span>
-                                </td>
-                            </tr>
+                           
                         </tbody>
                     </table>
                 </div>
@@ -258,8 +101,11 @@
                         <h2 id="readModal-title">Read Users - Document.pdf</h2>
                     </div>
                     <div class="readUsers-search-bar">
-                        <input type="text" id="readUsers-searchInput" onkeyup="searchTable()"
-                               placeholder="Search by Staff ID">
+                        <div class="read-search-bar-container">
+                            <img src="~/Content/Assets/search-icon.svg" class="search-icon2" alt="Search Icon">
+                            <input type="text" id="readUsers-searchInput" onkeyup="searchTable()" placeholder="Search by Staff ID" autocomplete="off">
+                        </div>
+                        
                     </div>
                     <div class="readUsers-table-container">
                         <table id="readUsers-dataTable">
@@ -271,12 +117,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>IN1957</td>
-                                    <td>Pramodh Lihinikaduwa</td>
-                                    <td>Jan 04,2023</td>
-                                </tr>
-                                <!-- Add more rows as needed -->
                             </tbody>
                         </table>
                     </div>
@@ -306,12 +146,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>IN1958</td>
-                                    <td>John Doe</td>
-                                    <td>Jan 05, 2023</td>
-                                </tr>
-                                <!-- Add more rows as needed -->
                             </tbody>
                         </table>
                     </div>
@@ -323,123 +157,54 @@
 <div class="reviewcontainer" id="staff-view" style="display: none;">
     <div class="reviewcontent">
         <div id="staff-view-reviewcontent">
-            <!-- Replace this with your desired reviewcontent for Staff View -->
             <div class="staffView-container">
-                <h2 class="staffView-title">Enter Name/ Staff ID to Review Individual Activity</h2>
+                <h2 class="staffView-title">Enter Staff ID to Review Individual Activity</h2>
                 <div class="staffView-search-box">
-                    <input type="text" id="staffViewSearchInput" placeholder="Search by Name or Staff ID">
+                    <input type="text" id="staffViewSearchInput" placeholder="Search by Staff ID">
                     <button onclick="staffViewPerformSearch()">Search</button>
+                    <div id="error-message" style="color: red; display: none; margin-top: 5px;"></div>
                 </div>
-                <img src="/Content/Assets/StaffViewBottom.png" />
+                <img src="~/Content/Assets/StaffViewBottom.png" />
             </div>
         </div>
 
-        <div class="staffAfterSearch" id="staffAfterSearch" style="display:none;">
-            <div class="reviewtitle2">
-                Select a system to Review Individual Activity
+        <div class="staffAfterSearch" id="staffAfterSearch" style="display:none; display: flex; justify-content: space-between; align-items: center; width: 101.5%;">
+            <div class="reviewtitle2" style="margin-bottom: 20px; display: flex; align-items: center;">
+                <img src="~/Content/Assets/back-btn.svg" alt="Back" id="backButton"
+                     style="cursor: pointer; margin-right: 10px; display: inline-block; vertical-align: middle;"
+                     onclick="goBack()">
+                <span style="display: inline-block; vertical-align: middle;">Select a system to Review Individual Activity</span>
             </div>
-            <div class="container-for-search">
-                <div class="file-search-container1">
-                    <img src="/Content/Assets/search-icon.svg" class="search-icon1" alt="Search Icon" />
-                    <input id="searchInputStaff" onkeyup="filterStaffViewSidebar()" placeholder="Search by Name or Staff ID" type="text"
-                           class="file-search-input1" style="width:200px;" />
-                </div>
-                <button class="search-btn">Search</button>
-            </div>
-            <div class="staffViewDropdown-status-container">
-                <label for="staffViewDropdown-status" class="staffViewDropdown-status-label">Status</label>
-                <select id="staffViewDropdown-status" class="staffViewDropdown-status-select">
-                    <option value="all">All</option>
-                    <option value="pending">Pending</option>
-                    <option value="read">Read</option>
-                </select>
+              
+
+            <div class="status-form-group" style="margin-top:0px; width: 30%; margin-right: 2%;">
+                @* <div class="staffViewDropdown-status-container" style="margin-top: 20px; display: flex; align-items: center;"> *@
+                    <label for="staffViewDropdown-status" class="staffViewDropdown-status-label">Status</label>
+                    <select id="staffViewDropdown-status" class="staffViewDropdown-status-select" style="margin-left: 10px;">
+                        <option value="all">All</option>
+                        <option value="pending">Pending</option>
+                        <option value="read">Read</option>
+                    </select>
+                @* </div> *@
             </div>
         </div>
+
         <div class="staffcontentLayout" id="staffcontentLayout" style="display:none;">
             <div class="search-and-sidebar-container">
                 <div class="file-search-container1" style="margin-bottom:20px;">
-                    <img src="/Content/Assets/search-icon.svg" class="search-icon1" alt="Search Icon" />
-                    <input id="searchInputStaff" onkeyup="filterStaffViewSidebar()" placeholder="Search System" type="text"
-                           class="file-search-input1" style="width:200px;" />
+                    <img src="~/Content/Assets/search-icon.svg" class="search-icon1" alt="Search Icon">
+                    <input id="searchInputStaff" onkeyup="filterStaffViewSidebar()" placeholder="Search System" type="text" class="file-search-input1" style="width:200px;" autocomplete="off">
                 </div>
-                <div class="staffViewSidebar2"> 
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>AeroProcure</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Flight Tracking</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Flight Dispatch</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Operational Control</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Crew Scheduling</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Maintenance Tracking</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Flight Planning</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Aircraft Monitoring</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Flight Dispatch</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Weather Monitoring</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Passenger Services</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Cargo Management</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Security Control</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Ground Handling</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Fuel Management</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Flight Safety</span>
-                    </div>
-                    <div class="menu-item" onclick="staffViewActive(event)">
-                        <i class="fas fa-folder"></i>
-                        <span>Emergency Response</span>
-                    </div>
+                <div class="staffViewSidebar2">
                 </div>
-                </div>
+            </div>
             <div class="staffViewContent">
                 <div class="staff-card">
                     <div class="staff-card-header" onclick="staffViewDropdown()">
                         <div class="staff-card-header-left">
                             <i class="fas fa-user-circle"></i>
-                            <div class="name">Pramodh Lihinikaduwa</div>
-                            <div class="id">- IN1957</div>
+                            <div class="name"></div>
+                            <div class="id"></div>
                         </div>
                         <div class="staff-card-header-right">
                             <i class="fas fa-chevron-down" id="staff-dropdown-icon"></i>
@@ -449,21 +214,17 @@
                         <div class="left">
                             <div class="item">
                                 <i class="fas fa-building"></i>
-                                <div>Information Technology Department</div>
+                                <div></div>
                             </div>
                             <div class="item">
                                 <i class="fas fa-briefcase"></i>
-                                <div>On the Job Trainee</div>
+                                <div></div>
                             </div>
                         </div>
                         <div class="right">
                             <div class="item">
                                 <i class="fas fa-envelope"></i>
-                                <div>bhanuka.lihinikaduwa@srilanakan.com</div>
-                            </div>
-                            <div class="item">
-                                <i class="fas fa-phone"></i>
-                                <div>+94743 23 1979</div>
+                                <div></div>
                             </div>
                         </div>
                     </div>
@@ -472,9 +233,8 @@
                     <div class="staff-header">
                         <h2 class="system-name">Flight Planning</h2>
                         <div class="staff-search-container">
-                            <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
-                            <input type="text" id="staffSearchInput" onkeyup="filterStaffViewTable()"
-                                   placeholder="Search">
+                            <img src="~/Content/Assets/search-icon.svg" alt="Search Icon">
+                            <input type="text" id="staffSearchInput" onkeyup="filterStaffViewTable()" placeholder="Search File Name" autocomplete="off">
                         </div>
                     </div>
                     <div class="table-container">
@@ -488,93 +248,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><i class="fas fa-file-alt icon"></i>Operational Control System Overview</td>
-                                    <td>Technical</td>
-                                    <td>-</td>
-                                    <td class="status-pending">Pending</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <i class="fas fa-play-circle icon"></i>Flight Schedule Optimization Techniques
-                                    </td>
-                                    <td>Training</td>
-                                    <td>Mar 20,2024</td>
-                                    <td class="status-read">Read</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <i class="fas fa-play-circle icon"></i>Best Practices for Operational Control
-                                    </td>
-                                    <td>Technical</td>
-                                    <td>-</td>
-                                    <td class="status-pending">Pending</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fas fa-file-alt icon"></i>Real-time Flight Operations Monitoring</td>
-                                    <td>Training</td>
-                                    <td>Feb 05,2024</td>
-                                    <td class="status-read">Read</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <i class="fas fa-file-alt icon"></i>System Integration with Flight Management
-                                    </td>
-                                    <td>Technical</td>
-                                    <td>-</td>
-                                    <td class="status-pending">Pending</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fas fa-play-circle icon"></i>Webinar: Enhancing Efficiency</td>
-                                    <td>Training</td>
-                                    <td>Mar 18,2024</td>
-                                    <td class="status-read">Read</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fas fa-file-alt icon"></i>Real-time Flight Operations Monitoring</td>
-                                    <td>Technical</td>
-                                    <td>-</td>
-                                    <td class="status-pending">Pending</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <i class="fas fa-play-circle icon"></i>Flight Schedule Optimization Techniques
-                                    </td>
-                                    <td>Training</td>
-                                    <td>Mar 20,2024</td>
-                                    <td class="status-read">Read</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <i class="fas fa-play-circle icon"></i>Flight Schedule Optimization Techniques
-                                    </td>
-                                    <td>Training</td>
-                                    <td>Mar 20,2024</td>
-                                    <td class="status-read">Read</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <i class="fas fa-play-circle icon"></i>Flight Schedule Optimization Techniques
-                                    </td>
-                                    <td>Training</td>
-                                    <td>Mar 20,2024</td>
-                                    <td class="status-read">Read</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <i class="fas fa-play-circle icon"></i>Flight Schedule Optimization Techniques
-                                    </td>
-                                    <td>Training</td>
-                                    <td>Mar 20,2024</td>
-                                    <td class="status-read">Read</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-
-
-                <img src="/Content/Assets/PCpic.svg" class="staff-view-image" style="display: none; transform: scale(0.6);" />
+                <img src="~/Content/Assets/PCpic.svg" class="staff-view-image" style="display: none; transform: scale(0.6);" />
             </div>
         </div>
     </div>

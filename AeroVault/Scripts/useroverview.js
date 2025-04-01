@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return Math.round((readFiles / totalFiles) * 100);
     }
 
-    // Initialize chart with initial values
     const readFileCount = 90;
     const totalFiles = 100;
     const readPercentage = calculateReadPercentage(readFileCount, totalFiles);
@@ -22,12 +21,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const progressChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['Processed Files', 'Pending Files'], // Add labels
+            labels: ['Processed Files', 'Pending Files'], 
             datasets: [{
                 data: [readPercentage, pendingPercentage],
                 backgroundColor: [
-                    '#2a5298',   // Blue for Read files
-                    '#f5f5f5'    // Gray for Pending files
+                    '#2a5298',   
+                    '#f5f5f5'    
                 ],
                 borderWidth: 0
             }]
@@ -39,13 +38,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     display: false
                 },
                 tooltip: {
-                    enabled: true, // Enable tooltips
+                    enabled: true, 
                     callbacks: {
                         label: function (context) {
                             const label = context.label;
                             const value = context.parsed;
 
-                            // Customize tooltip text
                             if (label === 'Processed Files') {
                                 return `Read: ${readFileCount} files`;
                             } else {
@@ -53,12 +51,12 @@ document.addEventListener('DOMContentLoaded', function () {
                             }
                         },
                         title: function () {
-                            return 'Total Files'; // Optional: custom title
+                            return 'Total Files'; 
                         }
                     },
-                    backgroundColor: 'rgba(0,0,0,0.7)', // Tooltip background color
-                    titleColor: '#fff', // Title text color
-                    bodyColor: '#fff',   // Body text color
+                    backgroundColor: 'rgba(0,0,0,0.7)', 
+                    titleColor: '#fff', 
+                    bodyColor: '#fff',   
 
                 }
             },
@@ -74,14 +72,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 const centerX = width / 2;
                 const centerY = height / 2;
 
-                // Draw percentage
                 ctx.font = 'bold 32px Arial';
                 ctx.fillStyle = '#000000';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'bottom';
                 ctx.fillText(readPercentage + '%', centerX, centerY);
 
-                // Draw "Completed" text
                 ctx.font = '16px Arial';
                 ctx.fillStyle = '#666666';
                 ctx.textBaseline = 'top';
@@ -91,68 +87,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }]
     });
-
-    // Rest of the code remains the same...
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function toggleCustomDropdown() {
-    // Check if dropdown is disabled
     var dropdown = document.querySelector('.custom-dropdown');
     if (dropdown.classList.contains('disabled')) {
         return false;
@@ -197,7 +133,6 @@ function filterCustomOptions() {
 }
 
 function selectCustomOption(element) {
-    // Prevent selection if dropdown is disabled
     var dropdown = document.querySelector('.custom-dropdown');
     if (dropdown.classList.contains('disabled')) {
         return false;
@@ -220,13 +155,11 @@ function selectCustomOption(element) {
     element.classList.add('active');
 }
 
-// Modify window.onclick to prevent interactions when disabled
 window.onclick = function (event) {
     const dropdown = document.querySelector('.custom-dropdown');
     const dropdownContent = document.querySelector('.custom-dropdown-content');
     const selector = document.querySelector('.custom-selector');
 
-    // If dropdown is disabled, do nothing
     if (dropdown.classList.contains('disabled')) {
         return;
     }

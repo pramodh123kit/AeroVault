@@ -1217,7 +1217,7 @@ async function editSystem() {
     // Validate inputs
     if (!systemId) {
         console.error('No system ID selected');
-        showCustomAlert('Please select a system to edit');
+        /*showCustomAlert('Please select a system to edit');*/
         return;
     }
 
@@ -1299,14 +1299,14 @@ function showSuccessNotification1(message) {
 
 // Close notification popup and dark overlay when clicking on the dark overlay or close icon
 document.getElementById('dark-overlay').addEventListener('click', function () {
-    closeNotificationPopup();
+    closeNotificationPopup1();
 });
 
 document.getElementById('close-icon-system-edit').addEventListener('click', function () {
-    closeNotificationPopup();
+    closeNotificationPopup1();
 });
 
-function closeNotificationPopup() {
+function closeNotificationPopup1() {
     const notificationPopup = document.getElementById('notification-popup-edit');
     const darkOverlay = document.getElementById('dark-overlay');
 
@@ -1733,103 +1733,68 @@ document.getElementById('edit-reset-btn').addEventListener('click', resetEditPop
 
 
 async function loadSystemFiles(systemId) {
-
     try {
-
         const response = await fetch(`/Systems/GetSystemFiles?systemId=${systemId}`);
-
         const files = await response.json();
 
-
         const fileTableBody = document.querySelector('.file-table tbody');
-
         const tableContainer = document.querySelector('.table-container');
-
         const systemContainer = document.querySelector('.system-container');
 
-
         if (files.length > 0) {
-
             // Clear existing rows
-
             fileTableBody.innerHTML = '';
 
-
             // Populate file table
-
             files.forEach(file => {
-
                 const row = document.createElement('tr');
 
-
-
                 // Determine file icon based on file type
-
                 let fileIcon = '/Content/Assets/system-doc-icon.svg'; // default
-
                 if (file.fileType && file.fileType.toLowerCase().includes('video')) {
-
                     fileIcon = '/Content/Assets/system-video-icon.svg';
-
                 }
 
+                // Remove file extension from fileName
+                const fileNameWithoutExtension = file.fileName.split('.').slice(0, -1).join('.');
+
                 row.innerHTML = `
-    <td>
-        <img src="${fileIcon}" alt="File Icon" class="file-icon" /> 
-        ${file.fileName}
-    </td>
-    <td>${file.fileCategory || 'Uncategorized'}</td>
-    <td>
-        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" 
-             onclick="openFileEditPopup(${file.fileID}, '${file.fileName}', '${file.fileCategory || ''}')"/>
-        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" 
-             data-file-id="${file.fileID}" 
-             data-file-name="${file.fileName}" 
-             onclick="openFileDeletePopup(${file.fileID}, '${file.fileName}')"/>
-    </td>
-`;
-                
+                    <td>
+                        <img src="${fileIcon}" alt="File Icon" class="file-icon" /> 
+                        ${fileNameWithoutExtension}
+                    </td>
+                    <td>${file.fileCategory || 'Uncategorized'}</td>
+                    <td>
+                        <img src="/Content/Assets/system-file-edit-icon.svg" alt="File Edit Icon" class="file-option-icon file-edit-icon" 
+                             onclick="openFileEditPopup(${file.fileID}, '${file.fileName}', '${file.fileCategory || ''}')"/>
+                        <img src="/Content/Assets/system-file-delete-icon.svg" alt="File Delete Icon" class="file-option-icon file-delete-icon" 
+                             data-file-id="${file.fileID}" 
+                             data-file-name="${file.fileName}" 
+                             onclick="openFileDeletePopup(${file.fileID}, '${file.fileName}')"/>
+                    </td>
+                `;
 
                 fileTableBody.appendChild(row);
-
             });
 
-
             // Show table container
-
             tableContainer.style.display = 'block';
-
         } else {
-
             // No files found
-
             fileTableBody.innerHTML = `
-
                 <tr>
-
                     <td colspan="3" style="text-align: center; padding: 20px;">
-
                         No files found in this system
-
                     </td>
-
                 </tr>
-
             `;
-
         }
 
-
         // Ensure system container is visible
-
         systemContainer.style.display = 'block';
-
     } catch (error) {
-
         console.error('Error loading system files:', error);
-
     }
-
 }
 
 
@@ -1904,49 +1869,29 @@ var originalFileCategory = ''; // Variable to store the original file category
 
 
 function openFileEditPopup(fileId, fileName, fileCategory) {
-
     // Set the file ID in a hidden input
-
     document.getElementById('file-id-to-edit').value = fileId;
 
-
     // Set the file name in the input field
-
     document.getElementById('file-name').value = fileName;
 
-
     // Set the file category in the dropdown
-
     const categoryDropdown = document.getElementById('category');
-
     categoryDropdown.value = fileCategory; // Set the selected value
 
-
-    // Store the original values
-
-    originalFileName = fileName;
-
-    originalFileCategory = fileCategory;
-
+    // Update the title in the popup
+    document.querySelector('.modal-header h2').textContent = `Edit ${fileName}`;
 
     // Open the file edit popup
-
     document.getElementById('dark-overlay5').style.display = 'block';
-
     document.getElementById('editfile-popup').style.display = 'block';
 
-
     // Initially disable the save button
-
     document.querySelector('.save-btn-file-edit').disabled = true;
 
-
     // Add event listeners to detect changes
-
     document.getElementById('file-name').addEventListener('input', checkForChangesEditFile);
-
     categoryDropdown.addEventListener('change', checkForChangesEditFile);
-
 }
 
 document.querySelector('.save-btn-file-edit').addEventListener('click', async function () {

@@ -34,7 +34,6 @@ function filterCustomOptions() {
 }
 
 function selectCustomOption(element) {
-    // Trim the selected option to remove any extra whitespace
     var selectedOption = (element.textContent || element.innerText).trim();
     var divisionId = element.getAttribute('data-division-id'); 
 
@@ -47,21 +46,16 @@ function selectCustomOption(element) {
     selector.style.borderBottomRightRadius = '10px';
     selector.style.borderBottom = '1px solid #6D6D6D';
 
-    // Get the input element
     var departmentNameInput = document.getElementById('department-name');
 
-    // Set the value and data attribute with trimmed value
     departmentNameInput.value = selectedOption;
     departmentNameInput.setAttribute('data-original-name', selectedOption);
 
-    // Update the current selected division ID
     currentSelectedDivisionId = divisionId; 
     currentSelectedDivisionName = selectedOption; 
 
-    // Ensure text alignment
     departmentNameInput.style.textAlign = 'left';
 
-    // Highlight the selected dropdown item
     var divs = document.querySelectorAll('.custom-dropdown-list div');
     divs.forEach(div => {
         div.classList.remove('active');
@@ -72,14 +66,11 @@ function selectCustomOption(element) {
     element.style.backgroundColor = "#BBDCF9";
     element.style.fontWeight = "bold";
 
-    // Update systems name
     document.querySelector('.systems-name').innerText = selectedOption;
 
-    // Show/hide containers
     document.querySelector('.image-container').style.display = 'none';
     document.querySelector('.system-container').style.display = 'block';
 
-    // Call setDivisionName with trimmed value
     setDivisionName(selectedOption);
 }
 
@@ -109,10 +100,8 @@ function depDeleteopenPopup() {
         return;
     }
 
-    // Update the delete popup header
     updateDeletePopupHeader();
 
-    // Fetch departments for the selected division
     fetch(`/Divisions/GetDepartmentsByDivision?divisionId=${currentSelectedDivisionId}`)
         .then(response => response.json())
         .then(departments => {
@@ -130,7 +119,6 @@ function depDeleteopenPopup() {
                 });
             }
 
-            // Show the delete popup
             document.getElementById('dark-overlay-dep2').style.display = 'block';
             document.getElementById('deletedepartment-popup').style.display = 'block';
         })
@@ -150,13 +138,11 @@ function depDeleteClosePopup() {
 document.querySelector('.delete-dep-button').onclick = depDeleteopenPopup;
 
 document.getElementById('close-icon-dep2').onclick = depDeleteClosePopup;
-//document.getElementById('dark-overlay-dep2').onclick = depDeleteClosePopup;
 document.getElementById('cancel-btn').onclick = depDeleteClosePopup;
 
 
 
 
-// DEPARTMENT ADD POPUP
 function depAddopenPopup() {
     document.getElementById('dark-overlay-dep1').style.display = 'block';
     document.getElementById('adddepartment-popup').style.display = 'block';
@@ -172,13 +158,10 @@ function depAddClosePopup() {
 document.querySelector('.add-dep-button').onclick = depAddopenPopup;
 
 document.getElementById('close-icon-dep1').onclick = depAddClosePopup;
-//document.getElementById('dark-overlay-dep1').onclick = depAddClosePopup;
 
 function addNewDepartment() {
-    // Get the input field value
     var divisionName = document.getElementById('new-department-name').value.trim();
 
-    // Check if the input is not empty
     if (divisionName) {
         depAddClosePopup();
 
@@ -202,15 +185,12 @@ function addNewDepartment() {
 document.querySelector('.add-new-dep-popup-btn').onclick = addNewDepartment;
 
 
-// Function to close the notification popup
 function closeNotificationPopup() {
     document.getElementById('dark-overlay-dep3').style.display = 'none';
     document.getElementById('notification-popup2').style.display = 'none';
 }
 
-// Add event listeners
 document.getElementById('close-icon-dep3').addEventListener('click', closeNotificationPopup);
-//document.getElementById('close-division-added-btn').addEventListener('click', closeNotificationPopup);
 document.getElementById('dark-overlay-dep3').addEventListener('click', closeNotificationPopup);
 
 
@@ -231,31 +211,24 @@ function highlightSystem(selectedItem) {
     selectedItem.style.backgroundColor = "#BBDCF9";
     selectedItem.style.fontWeight = "bold";
 
-    // Set the system name in the header
     document.querySelector('.systems-name').innerText = systemName;
 
-    // Prefill the input with the division name
     document.getElementById('department-name').value = systemName;
 
-    // Set the original division name as a data attribute
     document.getElementById('department-name').setAttribute('data-original-name', systemName);
     document.querySelector('.image-container').style.display = 'none';
     document.querySelector('.system-container').style.display = 'block';
 
-    // Call setDivisionName to handle any additional logic
     setDivisionName(systemName);
 }
 function setDivisionName(divisionName) {
     const departmentNameInput = document.getElementById('department-name');
 
-    // Trim the division name
     const trimmedDivisionName = divisionName.trim();
 
-    // Set value and data attribute with trimmed name
     departmentNameInput.value = trimmedDivisionName;
     departmentNameInput.setAttribute('data-original-name', trimmedDivisionName);
 
-    // Set global original division name
     originalDivisionName = trimmedDivisionName;
 
     const saveChangesButton = document.querySelector('.div-edit');
@@ -276,11 +249,9 @@ function filterSystems() {
     });
 }
 
-// Store the original division name
 var originalDivisionName = '';
 
 function setDivisionName(divisionName) {
-    // Set the input value
     document.getElementById('department-name').value = divisionName;
 
     originalDivisionName = divisionName;
@@ -295,7 +266,6 @@ document.getElementById('department-name').addEventListener('input', function ()
     const originalName = this.getAttribute('data-original-name');
     const currentDivisionName = this.value.trim();
 
-    // Always enable the save button when the input changes
     if (currentDivisionName !== '') {
         saveChangesButton.disabled = false;
         saveChangesButton.classList.remove('disabled-button');
@@ -312,7 +282,7 @@ function saveChanges() {
         return;
     }
 
-    // AJAX call to update division name
+    
     $.ajax({
         type: 'POST',
         url: '/Divisions/UpdateDivision',
@@ -321,7 +291,8 @@ function saveChanges() {
             newDivisionName: newDivisionName
         },
         success: function (response) {
-            // Update the list item text in the system list
+            
+
             const listItems = document.querySelectorAll('#systemList li');
             listItems.forEach(item => {
                 if (item.textContent.trim() === originalDivisionName) {
@@ -329,7 +300,7 @@ function saveChanges() {
                 }
             });
 
-            // Update the dropdown list
+            
             const dropdownItems = document.querySelectorAll('.custom-dropdown-list div');
             dropdownItems.forEach(item => {
                 if (item.textContent.trim() === originalDivisionName) {
@@ -337,7 +308,7 @@ function saveChanges() {
                 }
             });
 
-            // Update the selected option span
+            
             const selectedOptionSpan = document.getElementById('selected-option');
             if (selectedOptionSpan) {
                 selectedOptionSpan.textContent = newDivisionName;
@@ -350,12 +321,12 @@ function saveChanges() {
 
             originalDivisionName = newDivisionName;
 
-            // Disable save button again
+            
             const saveChangesButton = document.querySelector('.edit-system-button');
             saveChangesButton.disabled = true;
             saveChangesButton.classList.add('disabled-button');
 
-            // Show division updated popup
+            
             showDivisionUpdatedPopup();
         },
         error: function (xhr, status, error) {
@@ -372,7 +343,7 @@ function showDivisionUpdatedPopup() {
         darkOverlay.style.display = 'block';
         popup.style.display = 'block';
 
-        // Setup listeners every time the popup is shown
+        
         setupDivisionUpdatedPopupListeners();
     }
 }
@@ -417,13 +388,12 @@ function setupDivisionUpdatedPopupListeners() {
 document.querySelector('.reset-changes').addEventListener('click', function () {
     document.getElementById('department-name').value = originalDivisionName;
 
-    // Disable save changes button
+    
     const saveChangesButton = document.querySelector('.div-edit');
     saveChangesButton.disabled = true;
     saveChangesButton.classList.add('disabled-button');
 });
 
-// Attach the save changes function to the button
 document.querySelector('.div-edit').addEventListener('click', saveChanges);
 document.addEventListener('DOMContentLoaded', setupDivisionUpdatedPopupListeners);
 
@@ -434,78 +404,132 @@ var currentSelectedDivisionName = null;
 
 
 function showDivisionDeletedSuccessPopup(divisionName) {
-    // First, close any existing popups
+
+    
+
     depDeleteClosePopup();
 
-    // Show the dark overlay
-    const darkOverlay = document.getElementById('dark-overlay-div2');
+
+
+    const darkOverlay = document.getElementById('dark-overlay-dep2');
+
     if (darkOverlay) {
+
         darkOverlay.style.display = 'block';
+
     }
 
-    // Create the success popup
+
+
     const successPopup = document.createElement('div');
+
     successPopup.className = 'modal-delete-system division-deleted-success-popup del-div-pop';
+
     successPopup.innerHTML = `
+
         <div class="modal-header-delete-system" style="display: flex; align-items: center; justify-content: center; width:auto;">
+
             <h2 style="margin: 0; text-align: center;">Division Deleted</h2>
+
+            <button class="popup-close" id="close-icon-success-popup" style="margin-left: auto; cursor: pointer; font-size: 38px;">&times;</button>
+
         </div>
+
         <div style="text-align: center; padding: 20px;">
+
             <img src="Content/Assets/system-added-successfully.svg" alt="Success" style="max-width: 100px; margin-bottom: 15px;">
+
             <p>Division "${divisionName}" and its associated departments have been successfully deleted.</p>
+
         </div>
+
         <div class="modal-footer div-div-delete-popup" style="padding: 20px; margin-bottom:0px; justify-content: center; padding-top:0px;">
+
             <button class="delete-btn division-deleted-ok-btn" style="background-color:#00436C;">OK</button>
+
         </div>
+
     `;
 
-    // Add to body
+
+
     document.body.appendChild(successPopup);
 
-    // Add event listener to OK button
+
+
     const okButton = successPopup.querySelector('.division-deleted-ok-btn');
-    okButton.addEventListener('click', () => {
-        // Remove the popup
-        successPopup.remove();
 
-        // Hide the dark overlay
-        if (darkOverlay) {
-            darkOverlay.style.display = 'none';
-        }
+    okButton.addEventListener('click', closeSuccessPopup);
 
-        // Hide the system container
-        const systemContainer = document.querySelector('.system-container');
-        if (systemContainer) {
-            systemContainer.style.display = 'none'; // Hide the system container
-        }
 
-        // Show the image container
-        const imageContainer = document.querySelector('.image-container');
-        if (imageContainer) {
-            imageContainer.style.display = 'block'; // Show the image container
-        }
-    });
 
-    // Optional: Close popup if clicking outside
-    darkOverlay.addEventListener('click', (event) => {
-        if (event.target === darkOverlay) {
-            successPopup.remove();
-            darkOverlay.style.display = 'none';
-        }
-    });
+    const closeButton = successPopup.querySelector('#close-icon-success-popup');
+
+    closeButton.addEventListener('click', closeSuccessPopup);
+
+
+
+    darkOverlay.addEventListener('click', closeSuccessPopup);
+
 }
 
-// Modify the confirmDeleteDivision function to use the new popup
+
+function closeSuccessPopup() {
+
+    const successPopup = document.querySelector('.division-deleted-success-popup');
+
+    if (successPopup) {
+
+        successPopup.remove();
+
+    }
+
+
+    const darkOverlay = document.getElementById('dark-overlay-dep2');
+
+    if (darkOverlay) {
+
+        darkOverlay.style.display = 'none';
+
+    }
+
+
+
+    currentSelectedDivisionId = null;
+
+    currentSelectedDivisionName = null;
+
+
+
+    const systemContainer = document.querySelector('.system-container');
+
+    if (systemContainer) {
+
+        systemContainer.style.display = 'none'; 
+
+    }
+
+
+
+    const imageContainer = document.querySelector('.image-container');
+
+    if (imageContainer) {
+
+        imageContainer.style.display = 'block'; 
+
+    }
+
+}
+
 function confirmDeleteDivision() {
     if (!currentSelectedDivisionId) {
         alert('Please select a division to delete');
         return;
     }
 
-    // Clear the input field for department name before the deletion process
     const departmentNameInput = document.getElementById('department-name');
     if (departmentNameInput) {
-        departmentNameInput.value = ''; // Clear the input field
+        departmentNameInput.value = '';
     }
 
     $.ajax({
@@ -516,7 +540,6 @@ function confirmDeleteDivision() {
             DivisionId: parseInt(currentSelectedDivisionId)
         }),
         success: function (response) {
-            // Remove the division from the list
             const listItems = document.querySelectorAll('#systemList li');
             listItems.forEach(item => {
                 if (item.textContent.trim() === currentSelectedDivisionName) {
@@ -524,7 +547,6 @@ function confirmDeleteDivision() {
                 }
             });
 
-            // Remove from custom dropdown
             const dropdownItems = document.querySelectorAll('.custom-dropdown-list div');
             dropdownItems.forEach(item => {
                 if (item.textContent.trim() === currentSelectedDivisionName) {
@@ -532,26 +554,21 @@ function confirmDeleteDivision() {
                 }
             });
 
-            // Close the delete popup
             depDeleteClosePopup();
 
-            // Show the new success popup
             showDivisionDeletedSuccessPopup(currentSelectedDivisionName);
 
-            // Reset the selected division
             currentSelectedDivisionId = null;
             currentSelectedDivisionName = null;
 
-            // Hide the system container
             const systemContainer = document.querySelector('.system-container');
             if (systemContainer) {
-                systemContainer.style.display = 'none'; // Hide the system container
+                systemContainer.style.display = 'none';
             }
 
-            // Show the image container
             const imageContainer = document.querySelector('.image-container');
             if (imageContainer) {
-                imageContainer.style.display = 'block'; // Show the image container
+                imageContainer.style.display = 'block'; 
             }
 
             const selectedOptionSpan = document.getElementById('selected-option');
@@ -565,9 +582,7 @@ function confirmDeleteDivision() {
 }
 
 function updateDeletePopupHeader() {
-    // Update the popup header to include the selected division name
     document.querySelector('#deletedepartment-popup h2').textContent = `Delete ${currentSelectedDivisionName} Division?`;
 }
 
-// Modify your existing delete button event listener
 document.querySelector('.delete-btn').addEventListener('click', confirmDeleteDivision);

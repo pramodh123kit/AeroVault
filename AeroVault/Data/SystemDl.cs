@@ -9,12 +9,12 @@ using System.Xml.Linq;
 
 namespace AeroVault.Data
 {
-    public class SystemRepository
+    public class SystemDl
     {
         private readonly string _connectionString;
         private readonly ApplicationDbContext _context;
 
-        public SystemRepository(ApplicationDbContext context, IConfiguration configuration)
+        public SystemDl(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
             _connectionString = configuration.GetConnectionString("DefaultConnection");
@@ -126,33 +126,30 @@ namespace AeroVault.Data
                 await connection.OpenAsync();
                 transaction = connection.BeginTransaction();
 
-                // Insert new system
                 int newSystemId;
+                string sequenceSql = "SELECT SEQ_SYSTEMID.NEXTVAL FROM dual";
+                using (var sequenceCommand = new OracleCommand(sequenceSql, connection))
+                {
+                    newSystemId = Convert.ToInt32(await sequenceCommand.ExecuteScalarAsync());
+                }
+
                 string insertSql = @"
-            INSERT INTO SYSTEMS (SYSTEMNAME, DESCRIPTION) 
-            VALUES (:SystemName, :Description)
-            RETURNING SYSTEMID INTO :NewSystemID";
+        INSERT INTO SYSTEMS (SYSTEMID, SYSTEMNAME, DESCRIPTION) 
+        VALUES (:SystemID, :SystemName, :Description)";
 
                 using (var insertCommand = new OracleCommand(insertSql, connection))
                 {
                     insertCommand.Transaction = transaction;
+                    insertCommand.Parameters.Add(new OracleParameter(":SystemID", newSystemId));
                     insertCommand.Parameters.Add(new OracleParameter(":SystemName", request.SystemName.Trim()));
                     insertCommand.Parameters.Add(new OracleParameter(":Description", request.Description));
 
-                    var systemIdParam = new OracleParameter(":NewSystemID", OracleDbType.Int32)
-                    {
-                        Direction = System.Data.ParameterDirection.Output
-                    };
-                    insertCommand.Parameters.Add(systemIdParam);
-
                     await insertCommand.ExecuteNonQueryAsync();
-                    newSystemId = ConvertOracleDecimal(systemIdParam.Value);
                 }
 
-                // Insert system-department associations
                 string insertAssociationSql = @"
-            INSERT INTO SYSTEM_DEPARTMENTS (SYSTEMID, DEPARTMENTID) 
-            VALUES (:SystemID, :DepartmentID)";
+        INSERT INTO SYSTEM_DEPARTMENTS (SYSTEMID, DEPARTMENTID) 
+        VALUES (:SystemID, :DepartmentID)";
 
                 foreach (var departmentId in request.DepartmentIds)
                 {
@@ -271,7 +268,6 @@ namespace AeroVault.Data
 
         public async Task<SystemModel> UpdateSystemAsync(UpdateSystemRequest request)
         {
-            // Validate the request object
             if (request == null)
             {
                 Console.WriteLine("UpdateSystemAsync: Received null request");
@@ -297,10 +293,8 @@ namespace AeroVault.Data
                 {
                     try
                     {
-                        // Log the request for debugging
                         Console.WriteLine($"Attempting to update system with ID: '{request.SystemID}'");
 
-                        // Update system name and description using SystemID
                         string updateSql = @"
                 UPDATE SYSTEMS 
                 SET SYSTEMNAME = :SystemName, 
@@ -324,7 +318,6 @@ namespace AeroVault.Data
                             }
                         }
 
-                        // Continue with deleting and inserting department associations...
                         string deleteSql = @"
                 DELETE FROM SYSTEM_DEPARTMENTS 
                 WHERE SYSTEMID = :SystemID";
@@ -353,12 +346,12 @@ namespace AeroVault.Data
                         }
 
                         transaction.Commit();
-                        return await GetSystemByIdAsync(request.SystemID); // Fetch the updated system by ID
+                        return await GetSystemByIdAsync(request.SystemID);
                     }
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        throw; // Rethrow the exception to be handled by the controller
+                        throw; 
                     }
                 }
             }
@@ -501,7 +494,7 @@ namespace AeroVault.Data
                     }
                 }
             }
-            return null; // Return null if not found
+            return null; 
         }
 
         public async Task<List<FileModel>> GetFilesBySystemIdAsync(int systemId)
@@ -591,7 +584,6 @@ namespace AeroVault.Data
                 {
                     try
                     {
-                        // First, fetch the current file details
                         string fetchSql = @"
                     SELECT FileName, FileCategory 
                     FROM Files 
@@ -615,16 +607,14 @@ namespace AeroVault.Data
                                 else
                                 {
                                     transaction.Rollback();
-                                    return false; // File not found
+                                    return false; 
                                 }
                             }
                         }
 
-                        // Determine which fields to update
                         string updateSql;
                         OracleCommand updateCommand;
 
-                        // Use the current values if not provided in the request
                         string fileNameToUpdate = request.FileName ?? currentFileName;
                         string fileCategoryToUpdate = request.FileCategory ?? currentFileCategory;
 
@@ -644,11 +634,11 @@ namespace AeroVault.Data
                         if (rowsAffected == 0)
                         {
                             transaction.Rollback();
-                            return false; // No rows updated, file not found
+                            return false; 
                         }
 
                         transaction.Commit();
-                        return true; // Update successful
+                        return true; 
                     }
                     catch (Exception ex)
                     {

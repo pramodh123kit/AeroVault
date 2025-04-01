@@ -1,20 +1,22 @@
-﻿@page
-@model AeroVault.Models.UserProfilePopupModel
-@{
-}
-<link rel="stylesheet" href="/Content/css/UserProfileStyles.css">
+﻿@* @page *@
+@* @model AeroVault.Models.UserProfilePopupModel *@
+@* @{ *@
+@* } *@
+<link rel="stylesheet" href="~/Content/css/UserProfileStyles.css">
 
 <div class="modal-notification-edit4" id="editfile-popup6" style="display: none;">
 
-    <div class="modal-header3" style="height:50px; padding:0;">
-        <img src="/Content/Assets/close-icon.svg" class="close-icon6" id="close-icon6" />
+    <div class="modal-header3" style="height:30px; padding:0; margin-bottom:20px;">
+        <img src="~/Content/Assets/close-icon.svg" class="close-icon6" id="close-icon6" />
     </div>
 
     <div class="modal-body4">
-        <img src="/Content/Assets/UserProfilePic.svg" alt="User Icon" width="60" height="60"  />
-        <p style="text-align:center; margin-top:10px; font-weight:bold; margin-bottom:0px;">IN1955</p>
-        <p style="text-align:center; margin-top:5px; margin-bottom:0px;">Rusith Manorathna</p>
-        <p style="text-align:center; margin-top:5px; margin-bottom:10px;">Information Technology</p>
+        @* <img src="/Content/Assets/UserProfilePic.svg" alt="User Icon" width="60" height="60"  /> *@
+        <p style="text-align:center; margin-top:10px; font-weight:bold; margin-bottom:0px;">@Context.Session.GetString("StaffNo")</p>
+
+        <p style="text-align:center; margin-top:5px; margin-bottom:0px;">@Context.Session.GetString("StaffName")</p>
+
+        <p style="text-align:center; margin-top:5px; margin-bottom:10px;">@Context.Session.GetString("Department")</p>
     </div>
 
 </div>

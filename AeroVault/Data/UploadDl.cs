@@ -1,28 +1,15 @@
 ﻿using AeroVault.Models;
-
 using Oracle.ManagedDataAccess.Client;
-
-using Microsoft.Extensions.Configuration; // Make sure to include this namespace
-
+using Microsoft.Extensions.Configuration;
 
 namespace AeroVault.Data
 {
-
     public class UploadDl
-
-    {
-
+    { 
         private readonly string _connectionString;
-
-
-        // Update the constructor to accept IConfiguration
-
         public UploadDl(IConfiguration configuration)
-
         {
-
             _connectionString = configuration.GetConnectionString("DefaultConnection");
-
         }
 
         public List<DepartmentModel> GetActiveDepartments()
@@ -70,10 +57,8 @@ namespace AeroVault.Data
                     }
                 }
             }
-
             return departments;
         }
-
 
         public List<SystemModel> GetActiveSystems()
         {
@@ -104,13 +89,12 @@ namespace AeroVault.Data
                                 SystemID = Convert.ToInt32(reader["SYSTEMID"]),
                                 SystemName = reader["SYSTEMNAME"].ToString(),
                                 Description = reader["DESCRIPTION"].ToString(),
-                                IsDeleted = 0 // Assuming you want to set this to 0 since you're fetching active systems
+                                IsDeleted = 0 
                             });
                         }
                     }
                 }
             }
-
             return systems;
         }
 
@@ -144,10 +128,8 @@ namespace AeroVault.Data
                     }
                 }
             }
-
             return divisions;
         }
-
 
         public List<SystemModel> GetActiveSystemsByDepartment(int departmentId)
         {
@@ -160,7 +142,7 @@ namespace AeroVault.Data
             SELECT s.SYSTEMID, s.SYSTEMNAME, s.DESCRIPTION 
             FROM SYSTEMS s
             JOIN SYSTEM_DEPARTMENTS sd ON s.SYSTEMID = sd.SYSTEMID
-            WHERE sd.DEPARTMENTID = :departmentId AND s.IS_DELETED = 0"; // Ensure we only get non-deleted systems
+            WHERE sd.DEPARTMENTID = :departmentId AND s.IS_DELETED = 0";
 
                 using (var command = new OracleCommand(query, connection))
                 {
@@ -174,21 +156,18 @@ namespace AeroVault.Data
                                 SystemID = Convert.ToInt32(reader["SYSTEMID"]),
                                 SystemName = reader["SYSTEMNAME"].ToString(),
                                 Description = reader["DESCRIPTION"].ToString(),
-                                IsDeleted = 0 // Since we're fetching non-deleted systems
+                                IsDeleted = 0 
                             });
                         }
                     }
                 }
             }
-
             return systems;
         }
-
 
         public List<FileModel> GetAllFiles()
         {
             var files = new List<FileModel>();
-
             using (var connection = new OracleConnection(_connectionString))
             {
                 connection.Open();
@@ -215,6 +194,12 @@ namespace AeroVault.Data
         WHERE 
             s.IS_DELETED = 0 
             AND f.IS_DELETED = 0
+            AND EXISTS (
+                SELECT 1 
+                FROM System_Departments sd
+                JOIN Departments d ON sd.DepartmentID = d.DepartmentID
+                WHERE sd.SystemID = s.SystemID AND d.IS_DELETED = 0
+            )
         GROUP BY 
             f.FileID, 
             f.SystemID, 
@@ -250,69 +235,64 @@ namespace AeroVault.Data
                                 DepartmentNames = reader["DepartmentNames"].ToString()
                             };
 
-                            // Set DepartmentName based on the count of departments
                             fileModel.DepartmentName = Convert.ToInt32(reader["DepartmentCount"]) > 1 ? "Multi-Departmental" : fileModel.DepartmentNames;
-
                             files.Add(fileModel);
                         }
                     }
                 }
             }
-
             return files;
         }
-
-
-
-
         public List<FileModel> GetFilesByType(string fileType, DateTime? fromDate = null)
         {
             var files = new List<FileModel>();
-
             using (var connection = new OracleConnection(_connectionString))
             {
                 connection.Open();
                 var query = @"
-            SELECT 
-                f.FileID, 
-                f.SystemID, 
-                f.FileName, 
-                f.FileType, 
-                f.FileCategory, 
-                f.Added_Date,
-                s.SystemName,
-                LISTAGG(d.DepartmentName, ', ') WITHIN GROUP (ORDER BY d.DepartmentName) AS DepartmentNames,
-                COUNT(d.DepartmentID) AS DepartmentCount
-            FROM 
-                Files f
-            JOIN 
-                Systems s ON f.SystemID = s.SystemID
-            LEFT JOIN 
-                System_Departments sd ON s.SystemID = sd.SystemID
-            LEFT JOIN 
-                Departments d ON sd.DepartmentID = d.DepartmentID AND d.IS_DELETED = 0
-            WHERE 
-                s.IS_DELETED = 0 
-                AND f.IS_DELETED = 0
-                AND f.FileType = :fileType";
+        SELECT 
+            f.FileID, 
+            f.SystemID, 
+            f.FileName, 
+            f.FileType, 
+            f.FileCategory,
+            f.Added_Date,
+            s.SystemName,
+            LISTAGG(d.DepartmentName, ', ') WITHIN GROUP (ORDER BY d.DepartmentName) AS DepartmentNames,
+            COUNT(d.DepartmentID) AS DepartmentCount
+        FROM 
+            Files f
+        JOIN 
+            Systems s ON f.SystemID = s.SystemID
+        LEFT JOIN 
+            System_Departments sd ON s.SystemID = sd.SystemID
+        LEFT JOIN 
+            Departments d ON sd.DepartmentID = d.DepartmentID AND d.IS_DELETED = 0
+        WHERE 
+            s.IS_DELETED = 0 
+            AND f.IS_DELETED = 0
+            AND f.FileType = :fileType
+            AND EXISTS (
+                SELECT 1 
+                FROM System_Departments sd
+                JOIN Departments d ON sd.DepartmentID = d.DEPARTMENTID
+                WHERE sd.SystemID = s.SystemID AND d.IS_DELETED = 0
+            )";
 
-                // Add date filter if fromDate is provided
                 if (fromDate.HasValue)
                 {
                     query += " AND f.Added_Date >= :fromDate";
                 }
 
                 query += @"
-            GROUP BY 
-                f.FileID, f.SystemID, f.FileName, f.FileType, f.FileCategory, f.Added_Date, s.SystemName
-            ORDER BY 
-                f.Added_Date DESC";
+        GROUP BY 
+            f.FileID, f.SystemID, f.FileName, f.FileType, f.FileCategory, f.Added_Date, s.SystemName
+        ORDER BY 
+            f.Added_Date DESC";
 
                 using (var command = new OracleCommand(query, connection))
                 {
                     command.Parameters.Add(new OracleParameter("fileType", fileType));
-
-                    // Add the fromDate parameter if it exists
                     if (fromDate.HasValue)
                     {
                         command.Parameters.Add(new OracleParameter("fromDate", fromDate.Value));
@@ -338,18 +318,14 @@ namespace AeroVault.Data
                                 DepartmentNames = reader["DepartmentNames"].ToString()
                             };
 
-                            // Set DepartmentName based on the count of departments
                             fileModel.DepartmentName = Convert.ToInt32(reader["DepartmentCount"]) > 1 ? "Multi-Departmental" : fileModel.DepartmentNames;
-
                             files.Add(fileModel);
                         }
                     }
                 }
             }
-
             return files;
         }
-
 
         public void SaveFileRecords(List<FileModel> fileRecords)
         {
@@ -360,27 +336,27 @@ namespace AeroVault.Data
                 foreach (var file in fileRecords)
                 {
                     var query = @"
-INSERT INTO Files (
-    FileID, 
-    SystemID, 
-    FileName, 
-    FileType, 
-    FileCategory, 
-    Added_Date, 
-    Added_Time, 
-    IS_DELETED,
-    UniqueFileIdentifier
-) VALUES (
-    FILES_SEQ.NEXTVAL, 
-    :SystemID, 
-    :FileName, 
-    :FileType, 
-    :FileCategory, 
-    :Added_Date, 
-    :Added_Time, 
-    :IS_DELETED,
-    :UniqueFileIdentifier
-)";
+                    INSERT INTO Files (
+                        FileID, 
+                        SystemID, 
+                        FileName, 
+                        FileType, 
+                        FileCategory, 
+                        Added_Date, 
+                        Added_Time, 
+                        IS_DELETED,
+                        UniqueFileIdentifier
+                    ) VALUES (
+                        FILES_SEQ.NEXTVAL, 
+                        :SystemID, 
+                        :FileName, 
+                        :FileType, 
+                        :FileCategory, 
+                        :Added_Date, 
+                        :Added_Time, 
+                        :IS_DELETED,
+                        :UniqueFileIdentifier
+                    )";
 
                     using (var command = new OracleCommand(query, connection))
                     {

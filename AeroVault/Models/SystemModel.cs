@@ -17,5 +17,8 @@ namespace AeroVault.Models
         public ICollection<SystemDepartmentModel> SystemDepartments { get; set; }
 
         public DateTime? AddedDate { get; set; }
+
+        public int VideoCount { get; set; }
+        public int DocCount { get; set; }
     }
 }

@@ -8,19 +8,16 @@ using AeroVault.Services;
 
 namespace AeroVault.Controllers
 {
+    [AuthorizeUser]
     public class SystemsController : BaseAdminController
 
     {
-        private readonly SystemService _systemService;
+        private readonly SystemBl _systemService;
 
-
-        public SystemsController(ApplicationDbContext context, SystemService systemService) : base(context)
+        public SystemsController(ApplicationDbContext context, SystemBl systemService) : base(context)
         {
             _systemService = systemService;
         }
-
-
-
 
         public async Task<IActionResult> Index()
         {
@@ -53,7 +50,6 @@ namespace AeroVault.Controllers
         {
             try
             {
-                // Validate input
                 if (string.IsNullOrWhiteSpace(request.SystemName))
                 {
                     return BadRequest(new { message = "System name is required" });
@@ -64,21 +60,17 @@ namespace AeroVault.Controllers
                     return BadRequest(new { message = "At least one department must be selected" });
                 }
 
-                // Check if system already exists
                 var exists = await _systemService.CheckSystemExistsAsync(request.SystemName);
                 if (exists)
                 {
                     return Conflict(new { message = "A system with this name already exists" });
                 }
 
-                // Create system
                 var result = await _systemService.CreateSystemAsync(request);
                 return result;
             }
             catch (Exception ex)
             {
-                // Log the exception
-                //_logger.LogError(ex, "Error creating system");
                 return StatusCode(500, new { message = "An error occurred while creating the system" });
             }
         }
@@ -96,21 +88,17 @@ namespace AeroVault.Controllers
             var divisions = await _systemService.GetDivisionsForPopupAsync();
             return Json(divisions);
         }
-
-        // DTO for the request
         public class SystemExistsRequest
         {
             public string SystemName { get; set; }
         }
 
-        // DTO for creating a system
         public class CreateSystemRequest
         {
             public string SystemName { get; set; }
             public string Description { get; set; }
             public List<int> DepartmentIds { get; set; }
         }
-
 
         [HttpPut]
         public async Task<IActionResult> UpdateSystem([FromBody] UpdateSystemRequest request)
@@ -126,7 +114,6 @@ namespace AeroVault.Controllers
             }
         }
 
-        // DTO for updating a system
         public class UpdateSystemRequest
         {
             public int SystemID { get; set; } 
@@ -245,6 +232,5 @@ namespace AeroVault.Controllers
             public string FileName { get; set; }
             public string FileCategory { get; set; }
         }
-
     }
 }

@@ -1,20 +1,19 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AeroVault.Models;
-using Oracle.ManagedDataAccess.Client;
-using System;
-using System.Text.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace AeroVault.Controllers
 {
+    [AuthorizeUser]
     public class AdminController : Controller
     {
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("User Role") == "AEVT-Staff")
+            {
+                TempData["AccessDeniedMessage"] = "Access not given";
+                return RedirectToAction("UserPageOverview", "UserOverview");
+            }
+
             return View();
         }
 

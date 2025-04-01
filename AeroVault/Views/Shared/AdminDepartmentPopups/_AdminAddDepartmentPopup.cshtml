@@ -1,11 +1,11 @@
 ﻿@model AeroVault.Views.Shared.AdminDepartmentPopups._AdminAddDepartmentPopupModel
 
-<link rel="stylesheet" href="/Content/css/AdminAddDep.css">
+<link rel="stylesheet" href="~/Content/css/AdminAddDep.css">
 
 <div class="modal-notification-edit" id="adddepartment-popup" style="display: none;">
     <div class="modal-header">
         <h2>Add Department</h2>
-        <img src="/Content/Assets/close-icon.svg" id="close-icon-dep1" style="cursor:pointer;" />
+        <img src="~/Content/Assets/close-icon.svg" id="close-icon-dep1" style="cursor:pointer;" />
     </div>
 
     <div class="modal-body">
@@ -31,7 +31,7 @@
 
                 <div class="unique-dropdown-content">
                     <div class="unique-search-container">
-                        <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                        <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
                         <input type="text" id="unique-search-input" placeholder="Search Division" onkeyup="filterUniqueOptions()" onclick="event.stopPropagation()">
                     </div>
                     <div class="unique-dropdown-list" id="division-dropdown-list">
@@ -52,5 +52,5 @@
     </div>
 </div>
 
-<script src="/Scripts/AdminAddDepScripts.js"></script>
+<script src="~/Scripts/AdminAddDepScripts.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

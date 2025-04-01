@@ -387,7 +387,15 @@ function handleDrop(e) {
         else return (bytes / 1048576).toFixed(1) + " MB";
     }
 
+function clearErrorMessages() {
+    const selectedFilesContainer = document.getElementById('selected-files');
+    const errorMessages = selectedFilesContainer.querySelectorAll('p[style="color: red;"]');
+    errorMessages.forEach(message => message.remove());
+}
+
 function uploadFiles() {
+    clearErrorMessages(); // Clear any existing error messages
+
     // Validate steps
     for (let step = 1; step < 4; step++) {
         if (!validateStep(step)) {
@@ -420,47 +428,116 @@ function uploadFiles() {
 
     // Create FormData for upload
     const formData = new FormData();
-
-    // Add system ID
     const systemId = selectedSystemCheckbox.getAttribute('data-system-id');
     formData.append('SystemId', systemId);
-
-    // Add category
     const category = selectedCategoryElement.textContent;
     formData.append('Category', category);
-
-    // Add files
     selectedFiles.forEach(file => {
         formData.append('Files', file);
     });
 
-    // Show loading indicator
-    alert(`Uploading ${selectedFiles.length} file(s)...`);
+    // Show loading bar
+    const loadingBarContainer = document.getElementById('loadingBarContainer');
+    loadingBarContainer.style.display = 'block'; // Show loading bar
+    const loadingBar = document.getElementById('loadingBar');
+    loadingBar.style.width = '0%'; // Reset loading bar width
 
     // Perform the upload
-    fetch('/Upload/UploadFiles', {
-        method: 'POST',
-        body: formData
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Upload failed');
-            }
-            return response.json();
-        })
-        .then(result => {
-            alert(result.message);
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/Upload/UploadFiles', true);
+
+    // Update the loading bar as the upload progresses
+    xhr.upload.onprogress = function (event) {
+        if (event.lengthComputable) {
+            const percentComplete = (event.loaded / event.total) * 100;
+            loadingBar.style.width = percentComplete + '%';
+            // Remove the line that updates the loading text
+            // loadingText.textContent = `${Math.round(percentComplete)}%`; // This line is removed
+        }
+    };
+
+    xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            const result = JSON.parse(xhr.responseText);
+            // Close the current popup
+            fileEditClosePopup8();
+
+            // Open a new popup with the success message
+            openSuccessPopup(result.message);
+
             // Reset the upload form
             resetFiles();
-            // Close the popup or reset steps
-            fileEditClosePopup8();
             // Refresh the table
-            refreshTable();
-        })
-        .catch(error => {
-            console.error('Upload error:', error);
-            alert('File upload failed: ' + error.message);
-        });
+            //refreshTable();
+        } else {
+            console.error('Upload error:', xhr.statusText);
+            alert('File upload failed: ' + xhr.statusText);
+        }
+    };
+
+    xhr.onerror = function () {
+        console.error('Upload error:', xhr.statusText);
+        alert('File upload failed: ' + xhr.statusText);
+    };
+
+    xhr.send(formData);
+}
+
+function openSuccessPopup(message) {
+    // Check if the overlay already exists
+    let overlaySuccess = document.getElementById('dark-overlay');
+    if (!overlaySuccess) {
+        // Create a new overlay element
+        overlaySuccess = document.createElement('div');
+        overlaySuccess.id = 'dark-overlay';
+        overlaySuccess.className = 'dark-overlay-success';
+        overlaySuccess.style.display = 'block'; // Show the overlay
+        document.body.appendChild(overlaySuccess);
+
+        // Add event listener to the overlay to close the popup when clicked
+        overlaySuccess.addEventListener('click', closeSuccessPopup);
+    } else {
+        overlaySuccess.style.display = 'block'; // Show the existing overlay
+    }
+
+    // Create a new popup element
+    const successPopup = document.createElement('div');
+    successPopup.className = 'modal-notification system-added-popup';
+    successPopup.id = 'notification-popup';
+    successPopup.style.display = 'block';
+
+    successPopup.innerHTML = `
+        <div class="notification">
+            <div class="icon">
+                <img src="/Content/Assets/system-added-successfully.svg" alt="Success Icon" />
+            </div>
+            <div class="message">
+                ${message}
+            </div>
+            <div class="close">
+                <img src="/Content/Assets/AdminSystemDeletePopupCloseIcon.svg" alt="Close Icon" id="close-icon3" />
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(successPopup);
+
+    // Add event listener to close the popup when the close icon is clicked
+    const closeIcon = document.getElementById('close-icon3');
+    closeIcon.addEventListener('click', closeSuccessPopup);
+}
+
+function closeSuccessPopup() {
+    const successPopup = document.getElementById('notification-popup');
+    const darkOverlay = document.getElementById('dark-overlay');
+
+    if (successPopup) {
+        document.body.removeChild(successPopup);
+    }
+
+    if (darkOverlay) {
+        darkOverlay.style.display = 'none'; // Hide the overlay instead of removing it
+    }
 }
 
 function refreshTable() {
@@ -474,6 +551,8 @@ function refreshTable() {
         });
 }
 
+var currentPage = 1; // Track the current page
+var rowsPerPage = 10; // Number of rows per page
 function updateTableWithNewData(files) {
     const tbody = document.querySelector('.file-table tbody');
     tbody.innerHTML = ''; // Clear existing rows
@@ -522,6 +601,10 @@ function updateTableWithNewData(files) {
         row.innerHTML = `<td colspan="6" class="text-center">No files uploaded yet</td>`;
         tbody.appendChild(row);
     }
+
+    // After updating the table, reset pagination
+    currentPage = 1; // Reset to the first page
+    setupPagination(files.length); // Setup pagination based on the number of files
 }
     function filterDepartments(searchTerm) {
         const departments = document.querySelectorAll(".department-list li");

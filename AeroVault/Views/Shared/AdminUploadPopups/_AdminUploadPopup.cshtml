@@ -5,10 +5,22 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="/Content/css/Adminuploadpopup.css" />
+    <link rel="stylesheet" href="~/Content/css/Adminuploadpopup.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link href="/Content/css/all.min.css" rel="stylesheet">
-
+    <link href="~/Content/css/all.min.css" rel="stylesheet">
+    <style>
+        #loadingBarContainer {
+            border:solid 0.5px #000;
+            border-radius:5px;
+            background-color:#fff;
+            width:50%;
+            position: absolute; /* Position it absolutely */
+            top: 450px; /* Adjust this value to position it correctly */
+            left: 10px;
+            right: 0;
+            display: none; /* Initially hidden */
+        }
+    </style>
 </head>
 
 <body>
@@ -18,7 +30,7 @@
 
             <h2>Upload Files</h2>
 
-            <img src="/Content/Assets/close-icon.svg" class="close-btn8" alt="Cancel Icon" id="close-logout8" style="cursor:pointer;">
+            <img src="~/Content/Assets/close-icon.svg" class="close-btn8" alt="Cancel Icon" id="close-logout8" style="cursor:pointer;">
 
         </div>
 
@@ -83,7 +95,7 @@
                     <div class="section-title">Select the departments you want to upload your files</div>
                     <div class="add-system-searchbar">
                         <div class="file-search-container">
-                            <img src="/Content/Assets/search-icon.svg" class="search-icon" alt="Search Icon" />
+                            <img src="~/Content/Assets/search-icon.svg" class="search-icon" alt="Search Icon" />
                             <input id="DepartmentsDivisionsSearch" onkeyup="filterDepartmentsDivisions()"
                                    placeholder="Search" type="text" class="file-search-input" />
                         </div>
@@ -143,7 +155,7 @@
                     <div class="section-title">Select the systems you want to upload your files</div>
                     <div class="add-system-searchbar">
                         <div class="file-search-container">
-                            <img src="/Content/Assets/search-icon.svg" class="search-icon" alt="Search Icon" />
+                            <img src="~/Content/Assets/search-icon.svg" class="search-icon" alt="Search Icon" />
                             <input id="DepartmentsDivisionsSearch" onkeyup="filterDepartmentsDivisions()"
                                    placeholder="Search" type="text" class="file-search-input" />
                         </div>
@@ -245,7 +257,7 @@
 
                                 <div class="fileCategory-search-container">
 
-                                    <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                                    <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
 
                                     <input type="text" id="fileCategory-search-input" placeholder="Search File Category"
                                            onkeyup="filterFileCategoryOptions()" onclick="event.stopPropagation()">
@@ -271,7 +283,7 @@
 
 
 
-                    <img src="/Content/Assets/typelist.svg" alt="Description of Image" class="category-image">
+                    <img src="~/Content/Assets/typelist.svg" alt="Description of Image" class="category-image">
                     <div class="button-container">
                         <button class="back-button" onclick="goToStep(2)">
                             <i class="fas fa-chevron-left"></i> Back
@@ -289,7 +301,7 @@
                         <input type="file" id="fileElem" multiple accept=".mp4, .pdf" onchange="handleFiles(this.files)"
                                style="display:none">
                         <label for="fileElem" class="upload-label">
-                            <img src="/Content/Assets/uploadicn.svg" alt="Upload Icon">
+                            <img src="~/Content/Assets/uploadicn.svg" alt="Upload Icon">
                             <p>Drag and drop files here or</p>
                             <button type="button" class="browse-btn" onclick="document.getElementById('fileElem').click()">Browse Files</button>
                         </label>
@@ -298,6 +310,12 @@
                     <div id="selected-files" class="selected-files">
                         <p>No files selected</p>
                     </div>
+
+                    <!-- Loading Bar -->
+                    <div id="loadingBarContainer" style="display: none; margin-top: 20px;">
+                        <div id="loadingBar" style="width: 0%; height: 10px; background-color: #00436c; border-radius: 5px;"></div>
+                    </div>
+
                     <div class="button-container">
                         <button class="back-button" onclick="goToStep(3)">
                             <i class="fas fa-chevron-left"></i> Back
@@ -311,9 +329,10 @@
             </div>
         </div>
 
+        <div id="dark-overlay6" class="dark-overlay" style="display: none;"></div>
 
-        <script src="/Scripts/jquery.min.js"></script>
-        <script src="/Scripts/Adminuploadpopup.js"></script>
+        <script src="~/Scripts/jquery.min.js"></script>
+        <script src="~/Scripts/Adminuploadpopup.js"></script>
     </div>
 </body>
 

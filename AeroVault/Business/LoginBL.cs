@@ -10,17 +10,16 @@ using System.Net;
 using System.Security.Authentication;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace AeroVault.Business
 {
-    public class LoginBL
+    public class LoginBl
     {
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
-       // clsRole _role = new clsRole();
 
-
-        public LoginBL(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+        public LoginBl(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
@@ -31,12 +30,7 @@ namespace AeroVault.Business
             {
                 throw new Exception("SLA_AUTH_ConnectionString is not configured properly.");
             }
-
-           
         }
-
-
-
 
         public bool GetLoginValidation(StaffML staffMl)
         {
@@ -44,7 +38,6 @@ namespace AeroVault.Business
 
             if (isValid)
             {
-               
                 _httpContextAccessor.HttpContext.Session.SetString("StaffNo", staffMl.StaffNo);
             }
 
@@ -66,23 +59,72 @@ namespace AeroVault.Business
                     var obj = entry.NativeObject;
                     var search = new DirectorySearcher(entry)
                     {
-                        Filter = "(SAMAccountName=" + StaffNo + ")"
+                        Filter = $"(SAMAccountName={StaffNo})"
                     };
                     search.PropertiesToLoad.Add("cn");
+                    search.PropertiesToLoad.Add("displayName");
+                    search.PropertiesToLoad.Add("department");
+                    search.PropertiesToLoad.Add("mail");
+                    search.PropertiesToLoad.Add("title");
                     var result = search.FindOne();
 
                     if (result != null)
                     {
-                        Console.WriteLine($"User {StaffNo} authenticated successfully");
+                        Console.WriteLine($"User    {StaffNo} authenticated successfully");
+
+                        var directoryEntry = result.GetDirectoryEntry();
+                        string staffName = directoryEntry.Properties["displayName"].Value?.ToString() ?? "Unknown User";
+                        string email = directoryEntry.Properties["mail"].Value?.ToString() ?? "No Email";
+                        string jobTitle = directoryEntry.Properties["title"].Value?.ToString() ?? "No Job Title";
+
+                        Console.WriteLine($"Retrieved StaffName: {staffName}");
+                        Console.WriteLine($"Retrieved Email: {email}");
+                        Console.WriteLine($"Retrieved Job Title: {jobTitle}");
+
+                        var staffMl = new StaffML
+                        {
+                            StaffNo = StaffNo,
+                            StaffName = staffName,
+                            UserRole = "AEVT-Staff"
+                        };
+
+                        string ldapPath = directoryEntry.Path;
+
+                        if (!string.IsNullOrEmpty(ldapPath))
+                        {
+                            var parts = ldapPath.Split(',');
+                            int ouCount = 0;
+                            foreach (var part in parts)
+                            {
+                                if (part.Trim().StartsWith("OU="))
+                                {
+                                    ouCount++;
+                                    if (ouCount == 2)
+                                    {
+                                        string department = part.Trim().Substring(3);
+                                        _httpContextAccessor.HttpContext.Session.SetString("Department", department);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        _httpContextAccessor.HttpContext.Session.SetString("StaffName", staffName);
+                        _httpContextAccessor.HttpContext.Session.SetString("Email", email);
+                        _httpContextAccessor.HttpContext.Session.SetString("JobTitle", jobTitle);
+                        _httpContextAccessor.HttpContext.Session.SetString("UserRole", staffMl.UserRole);
+
+                        Console.WriteLine($"StaffName set in session: {staffName}");
+                        Console.WriteLine($"Department set in session: {ldapPath}");
+
                         return true;
                     }
                     else
                     {
-                        Console.WriteLine($"User {StaffNo} authentication failed: No user found");
+                        Console.WriteLine($"User    {StaffNo} authentication failed: No user found");
                         return false;
                     }
                 }
-
                 catch (Exception searchEx)
                 {
                     Console.WriteLine($"Error during AD search for {StaffNo}: {searchEx}");
@@ -96,25 +138,6 @@ namespace AeroVault.Business
             }
         }
 
-        //public StaffML GetRole(StaffML staffMl)
-        //{
-        //    var staff = new StaffML();
-        //   // var role = new clsRole();
-
-        //    var dt = _role.getUserRolesforApplication(staffMl.StaffNo, "AEVT");
-
-        //    if (dt != null && dt.Rows.Count > 0)
-        //    {
-        //        staff.UserRole = "AEVT-Admin";
-        //    }
-        //    else
-        //    {
-        //        staff.UserRole = "AEVT-Staff";
-        //    }
-
-        //    return staff;
-        //}
-
 
         public static readonly HttpClient client = new HttpClient();
 
@@ -124,38 +147,88 @@ namespace AeroVault.Business
             {
                 string url = _configuration["AppSecSettings:AppSecService"].ToString();
                 string AppID = _configuration["AppSecSettings:AppId"].ToString();
-                var requestData = new List<KeyValuePair<string, string>>
-            {
-                new KeyValuePair<string, string>("USERNAME",staffMl.StaffNo ),
-                new KeyValuePair<string, string>("PASSWORD", staffMl.StaffPassword),
-                new KeyValuePair<string, string>("APPSECAPPID", AppID)
-            };
 
-                var content = new FormUrlEncodedContent(requestData);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
-
-                HttpResponseMessage response = await client.PostAsync(url, content);
-
-                if (response.IsSuccessStatusCode)
+                using (HttpClient client = new HttpClient())
                 {
+                    var requestData = new List<KeyValuePair<string, string>>
+                    {
+                        new KeyValuePair<string, string>("USERNAME", staffMl.StaffNo),
+                        new KeyValuePair<string, string>("PASSWORD", staffMl.StaffPassword),
+                        new KeyValuePair<string, string>("APPSECAPPID", AppID)
+                    };
 
-                    staffMl.UserRole = "AEVT-Admin";
+                    var content = new FormUrlEncodedContent(requestData);
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
 
-                    return staffMl;
+                    HttpResponseMessage response = await client.PostAsync(url, content);
+                    response.EnsureSuccessStatusCode();
+
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+
+                    JArray responseData = JArray.Parse(jsonResponse);
+
+                    if (responseData.Count > 0)
+                    {
+                        var item = responseData[0];
+
+                        Console.WriteLine("PATH: " + item["PATH"]);
+                        Console.WriteLine("USERID: " + item["USERID"]);
+                        Console.WriteLine("DISPLAYNAME: " + item["DISPLAYNAME"]);
+                        Console.WriteLine("GRADE: " + item["GRADE"]);
+                        Console.WriteLine("PERMISSIONLEVEL: " + item["PERMISSIONLEVEL"]);
+                        Console.WriteLine("RESPONSE_CODE: " + item["RESPONSE_CODE"]);
+                        Console.WriteLine("RESPONSE_MESSAGE: " + item["RESPONSE_MESSAGE"]);
+                        Console.WriteLine();
+
+                        string ldapPath = item["PATH"]?.ToString();
+
+                        if (!string.IsNullOrEmpty(ldapPath))
+                        {
+                            var parts = ldapPath.Split(',');
+                            int ouCount = 0;
+                            foreach (var part in parts)
+                            {
+                                if (part.Trim().StartsWith("OU="))
+                                {
+                                    ouCount++;
+                                    if (ouCount == 2)
+                                    {
+                                        _httpContextAccessor.HttpContext.Session.SetString("Department", part.Trim().Substring(3));
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        staffMl.UserRole = item["PERMISSIONLEVEL"]?.ToString() ?? "AEVT-Staff";
+                        staffMl.StaffName = item["DISPLAYNAME"]?.ToString() ?? "Unknown User";
+
+                        if (staffMl.UserRole == "NA")
+                        {
+                            staffMl.UserRole = "AEVT-Staff";
+                        }
+
+                        _httpContextAccessor.HttpContext.Session.SetString("UserRole", staffMl.UserRole);
+                    }
+                    else
+                    {
+                        staffMl.UserRole = "AEVT-Staff";
+                    }
                 }
-                else
+
+                if (string.IsNullOrEmpty(_httpContextAccessor.HttpContext.Session.GetString("StaffName")))
                 {
-                    staffMl.UserRole = "AEVT-Staff";
-                    
-                    return staffMl;
+                    _httpContextAccessor.HttpContext.Session.SetString("StaffName", staffMl.StaffName);
                 }
+
+                return staffMl;
             }
             catch (Exception ex)
             {
+                Console.WriteLine("Error: " + ex.Message);
                 return null;
             }
         }
-
 
         public StaffML GetNameAndEmail(StaffML staffNo)
         {

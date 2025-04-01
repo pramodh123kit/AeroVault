@@ -3,6 +3,13 @@
     ViewData["CustomNavbar"] = true;
     ViewData["User Header"] = true;
     ViewData["IsDashboardActive"] = true;
+
+    @if (TempData["AccessDeniedMessage"] != null)
+    {
+        <script>
+            alert('@TempData["AccessDeniedMessage"]');
+        </script>
+    }
 }
 
 <!DOCTYPE html>
@@ -10,9 +17,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/Content/css/site.css" />
-    <link href="/Content/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/Content/css/UserOverview.css" />
+    <link rel="stylesheet" href="~/Content/css/site.css" />
+    <link href="~/Content/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/css/UserOverview.css" />
 </head>
 <body>
     <input type="hidden" id="userRole" value="@Context.Session.GetString("UserRole")" />
@@ -23,21 +30,19 @@
         <p>Your IT Hub for Systems and File Management</p>
     </div>
 
-    <!-- Main Content -->
     <div class="main-container">
-        <!-- Left Column -->
         <div class="left-column">
-            <!-- User Info Card -->
             <div class="user-info-card">
-                <h2>Rusith Manorathna</h2>
-                <p class="userdepartment">Testingaaaa</p>
+                <h2>@Context.Session.GetString("StaffName")</h2>
+                <p class="userdepartment">@Context.Session.GetString("Department")</p>
+                @* <p class="useremail">@Context.Session.GetString("Email")</p>  *@
+                @* <p class="userjobtitle">@Context.Session.GetString("JobTitle")</p> *@
             </div>
          
-            <!-- Progress Section -->
             <div class="progress-section">
                 <h3>Your Progress</h3>
 
-                <div class="custom-form-group">
+                <div class="custom-form-group" style="display:none;">
                     <label class="custom-label" for="custom-selector">Select System</label>
                     <div class="custom-dropdown @(ViewBag.IsDepartmentActive && ViewBag.Systems != null && ViewBag.Systems.Count > 0 ? "" : "disabled")">
                         <div class="custom-dropdown-toggle custom-selector"
@@ -50,7 +55,7 @@
                         </div>
                         <div class="custom-dropdown-content" style="display: none;">
                             <div class="custom-search-container">
-                                <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                                <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
                                 <input type="text" id="custom-search-input" placeholder="Search System"
                                        onkeyup="filterCustomOptions()"
                                        onclick="event.stopPropagation()"
@@ -99,34 +104,29 @@
             </div>
         </div>
 
-        <!-- Right Column -->
         <div class="right-column">
-            <!-- Statistics Cards -->
             <div class="Cards">
                 <div class="Card">
-                    <img src="/Content/Assets/systemiconsvg1.svg" />
+                    <img src="~/Content/Assets/systemiconsvg1.svg" />
                     <h1 class="card-count">@(ViewBag.SystemCount ?? 0)</h1>
                 </div>
                 <div class="Card">
-                    <img src="/Content/Assets/documenticonsvg1.svg" />
+                    <img src="~/Content/Assets/documenticonsvg1.svg" />
                     <h1 class="card-count">@(ViewBag.DocumentCount ?? 0)</h1>
                 </div>
                 <div class="Card">
-                    <img src="/Content/Assets/videosiconsvg1.svg" />
+                    <img src="~/Content/Assets/videosiconsvg1.svg" />
                     <h1 class="card-count">@(ViewBag.VideoCount ?? 0)</h1>
                 </div>
             </div>
-
-          
             
-            <!-- Recently Added Files -->
             @{
                 Func<string, string> GetFileIcon = fileType => fileType?.ToLower() switch
                 {
                     "document" => "/Content/Assets/system-file-icon.svg",
                     "pdf" => "/Content/Assets/system-file-icon.svg",
                     "video" => "/Content/Assets/system-video-icon.svg",
-                    _ => "" // No icon for other file types
+                    _ => "" 
                 };
 
                 Func<string, string> GetFileNameWithoutExtension = fileName =>
@@ -141,7 +141,6 @@
                 };
             }
 
-            <!-- Recently Added Files -->
             <div class="recent-files">
                 <h3>Recently Added Files</h3>
                 <div class="file-list">
@@ -172,15 +171,305 @@
                     }
                 </div>
             </div>
-
-
-
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="/Scripts/jquery.min.js"></script>
-    <script src="/Scripts/chart.min.js"></script>
-    <script src="/Scripts/userOverview.js"></script>
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/chart.min.js"></script>
+    <script>
+                document.addEventListener('DOMContentLoaded', function () {
+
+            const userRole = document.getElementById('userRole')?.value || 'Role not found';
+            const staffName = document.getElementById('staffName')?.value || 'Name not found';
+
+            console.log('User Details:', {
+                Role: userRole,
+                Name: staffName
+            });
+
+            function calculateReadPercentage(readFiles, totalFiles) {
+                return Math.round((readFiles / totalFiles) * 100);
+            }
+
+                const readFileCount = @ViewBag.ViewedFileCountByDepartment; // Read files count
+
+        const totalFiles = @ViewBag.TotalFilesCount;
+
+            console.log("Files Read by User in Their Department: ", readFileCount);
+
+        console.log("Total Files in User's Department: ", totalFiles);
+
+
+
+
+
+
+                const readPercentage = calculateReadPercentage(readFileCount, totalFiles);
+
+        const pendingPercentage = 100 - readPercentage;
+
+
+        const ctx = document.getElementById('progressChart').getContext('2d');
+
+        const progressChart = new Chart(ctx, {
+
+            type: 'doughnut',
+
+            data: {
+
+                labels: ['Processed Files', 'Pending Files'],
+
+                datasets: [{
+
+                    data: [readPercentage, pendingPercentage],
+
+                    backgroundColor: [
+
+                        '#2a5298',
+
+                        '#f5f5f5'
+
+                    ],
+
+                    borderWidth: 0
+
+                }]
+
+            },
+
+            options: {
+
+                cutout: '70%',
+
+                plugins: {
+
+                    legend: {
+
+                        display: false
+
+                    },
+
+                    tooltip: {
+
+                        enabled: true,
+
+                        callbacks: {
+
+                            label: function (context) {
+
+                                const label = context.label;
+
+                                const value = context.parsed;
+
+
+                                if (label === 'Processed Files') {
+
+                                    return `Read: ${readFileCount} files`;
+
+                                } else {
+
+                                    return `Pending: ${totalFiles - readFileCount} files`;
+
+                                }
+
+                            },
+
+                            title: function () {
+
+                                return 'Total Files';
+
+                            }
+
+                        },
+
+                        backgroundColor: 'rgba(0,0,0,0.7)',
+
+                        titleColor: '#fff',
+
+                        bodyColor: '#fff',
+
+                    }
+
+                },
+
+                responsive: true,
+
+                maintainAspectRatio: false
+
+            },
+
+            plugins: [{
+
+                id: 'centerText',
+
+                afterDraw: (chart) => {
+
+                    const { ctx, chartArea: { width, height } } = chart;
+
+                    ctx.save();
+
+
+                    const centerX = width / 2;
+
+                    const centerY = height / 2;
+
+
+                    ctx.font = 'bold 32px Arial';
+
+                    ctx.fillStyle = '#000000';
+
+                    ctx.textAlign = 'center';
+
+                    ctx.textBaseline = 'bottom';
+
+                    ctx.fillText(readPercentage + '%', centerX, centerY);
+
+
+                    ctx.font = '16px Arial';
+
+                    ctx.fillStyle = '#666666';
+
+                    ctx.textBaseline = 'top';
+
+                    ctx.fillText('Completed', centerX, centerY);
+
+
+                    ctx.restore();
+
+                }
+
+            }]
+
+        });
+        });
+        function toggleCustomDropdown() {
+            var dropdown = document.querySelector('.custom-dropdown');
+            if (dropdown.classList.contains('disabled')) {
+                return false;
+            }
+
+            var dropdownContent = document.querySelector('.custom-dropdown-content');
+            var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
+            var selector = document.querySelector('.custom-selector');
+
+            if (dropdownContent.style.display === 'block') {
+                dropdownContent.style.display = 'none';
+                dropdownToggle.classList.remove('open');
+
+                selector.style.borderBottomLeftRadius = '10px';
+                selector.style.borderBottomRightRadius = '10px';
+                selector.style.borderBottom = '1px solid #6D6D6D';
+            } else {
+                dropdownContent.style.display = 'block';
+                dropdownToggle.classList.add('open');
+
+                selector.style.borderBottomLeftRadius = '0';
+                selector.style.borderBottomRightRadius = '0';
+                selector.style.borderBottom = 'none';
+                document.getElementById('custom-search-input').value = '';
+                showAllCustomOptions();
+            }
+        }
+
+        function filterCustomOptions() {
+            var input, filter, div, i, txtValue;
+            input = document.getElementById('custom-search-input');
+            filter = input.value.toUpperCase();
+            div = document.querySelectorAll('.custom-dropdown-list div');
+            for (i = 0; i < div.length; i++) {
+                txtValue = div[i].textContent || div[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    div[i].style.display = "";
+                } else {
+                    div[i].style.display = "none";
+                }
+            }
+        }
+
+        function selectCustomOption(element) {
+            var dropdown = document.querySelector('.custom-dropdown');
+            if (dropdown.classList.contains('disabled')) {
+                return false;
+            }
+
+            var selectedOption = element.textContent || element.innerText;
+            document.getElementById('selected-option').textContent = selectedOption;
+            document.querySelector('.custom-dropdown-content').style.display = 'none';
+            document.querySelector('.custom-dropdown-toggle').classList.remove('open');
+
+            var selector = document.querySelector('.custom-selector');
+            selector.style.borderBottomLeftRadius = '10px';
+            selector.style.borderBottomRightRadius = '10px';
+            selector.style.borderBottom = '1px solid #6D6D6D';
+
+            var divs = document.querySelectorAll('.custom-dropdown-list div');
+            divs.forEach(function (div) {
+                div.classList.remove('active');
+            });
+            element.classList.add('active');
+        }
+
+        window.onclick = function (event) {
+            const dropdown = document.querySelector('.custom-dropdown');
+            const dropdownContent = document.querySelector('.custom-dropdown-content');
+            const selector = document.querySelector('.custom-selector');
+
+            if (dropdown.classList.contains('disabled')) {
+                return;
+            }
+
+            if (!event.target.matches('.custom-dropdown-toggle') &&
+                !event.target.matches('.custom-dropdown-toggle *') &&
+                !event.target.matches('#custom-search-input')) {
+
+                if (dropdownContent.style.display === 'block') {
+                    dropdownContent.style.display = 'none';
+                    document.getElementById('custom-search-input').value = '';
+                    filterCustomOptions();
+                    document.querySelector('.custom-dropdown-toggle').classList.remove('open');
+
+                    selector.style.borderBottomLeftRadius = '10px';
+                    selector.style.borderBottomRightRadius = '10px';
+                    selector.style.borderBottom = '1px solid #6D6D6D';
+                }
+            }
+        };
+
+        function showAllCustomOptions() {
+            var divs = document.querySelectorAll('.custom-dropdown-list div');
+            divs.forEach(function (div) {
+                div.style.display = "";
+            });
+        }
+
+        document.getElementById('custom-search-input').addEventListener('blur', function () {
+            const selector = document.querySelector('.custom-selector');
+
+            selector.style.borderBottomLeftRadius = '10px';
+            selector.style.borderBottomRightRadius = '10px';
+
+            selector.style.border = '1px solid #6D6D6D';
+        });
+
+        window.onclick = function (event) {
+            const dropdownContent = document.querySelector('.custom-dropdown-content');
+            const selector = document.querySelector('.custom-selector');
+
+            if (!event.target.matches('.custom-dropdown-toggle') && !event.target.matches('.custom-dropdown-toggle *') && !event.target.matches('#custom-search-input')) {
+
+                if (dropdownContent.style.display === 'block') {
+                    dropdownContent.style.display = 'none';
+                    document.getElementById('custom-search-input').value = '';
+                    filterCustomOptions();
+                    document.querySelector('.custom-dropdown-toggle').classList.remove('open');
+
+                    selector.style.borderBottomLeftRadius = '10px';
+                    selector.style.borderBottomRightRadius = '10px';
+                    selector.style.borderBottom = '1px solid #6D6D6D';
+                }
+            }
+        };
+    </script>
+    @* <script src="/Scripts/userOverview.js"></script> *@
 </body>
 </html>

@@ -10,7 +10,7 @@
 
 .reviewcontainer {
     display: flex;
-    /*    height: 79vh;*/
+    height: 94%;
     width: 100%;
 }
 
@@ -272,7 +272,7 @@
 }
 
 .staffView-search-box {
-    display: flex;
+    /*display: flex;*/
     justify-content: center;
     align-items: center;
     margin-top: 20px;
@@ -285,6 +285,7 @@
         border: 1px solid #ccc;
         border-radius: 5px;
         font-size: 16px;
+        outline: none;
     }
 
     .staffView-search-box button {
@@ -348,19 +349,27 @@
 }
 
 .staffViewDropdown-status-label {
-    margin-bottom: 5px;
-    font-size: 14px;
+    /*    margin-bottom: 5px;*/
+    font-size: 16px;
     color: #333333;
     font-weight: bold;
+    margin-left: 33%;
 }
 
 .staffViewDropdown-status-select {
-    width: 75%;
-    font-size: 14px;
-    padding: 4px;
+
+
+
+        width: 45%;
+    font-size: 16px;
+    padding: 8px;
     border: 1px solid #00436C;
-    border-radius: 4px;
+    border-radius: 10px;
+    outline: none;
     color: #333333;
+
+
+
 }
 
 .staffViewSidebar {
@@ -438,6 +447,7 @@
     .staffViewContent img {
         margin-right: 08px;
         padding-left: 10px;
+        margin-bottom: -3px;
     }
 
 .staff-view-image-review {
@@ -511,7 +521,7 @@
     transition: max-height 0.3s ease, border-top 0.3s ease, padding 0.3s ease;
     overflow: hidden;
     max-height: 0;
-    border-top: 2px solid #ddd;
+/*    border-top: 2px solid #ddd;*/
     padding: 0 20px;
 }
 
@@ -597,7 +607,7 @@ th {
 }
 
 td {
-    font-size: 14px;
+    font-size: 16px;
     padding: 18px;
     text-align: left;
     border-bottom: 1px solid #7D7D7D;
@@ -631,7 +641,7 @@ th {
 .readUsers-container,
 .pendingUsers-container {
     border-radius: 1%;
-    margin-left: 30%;
+    margin: auto auto;
     width: 60%;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -642,7 +652,7 @@ th {
 .pendingUsers-header {
     background-color: #004b8d;
     color: white;
-    padding: 15px 20px;
+    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -651,13 +661,14 @@ th {
     .readUsers-header h1,
     .pendingUsers-header h1 {
         font-size: 18px;
+        font-weight:bold;
         margin: 0;
     }
 
 .readUsers-title,
 .pendingUsers-title {
-    padding: 15px 20px;
-    font-size: 16px;
+    padding: 10px 20px;
+    font-size: 14px;
     font-weight: bold;
 }
 
@@ -668,12 +679,22 @@ th {
     justify-content: flex-end;
 }
 
+
+.read-search-bar-container {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
     .readUsers-search-bar input,
     .pendingUsers-searchBar input {
         width: 300px;
+        outline: none;
         padding: 8px;
-        border: 1px solid #ddd;
+        border: none;
+        
         border-radius: 4px;
+        font-size: 16px;
     }
 
 .readUsers-table-container,
@@ -800,6 +821,7 @@ th {
         display: block;
     }
 
+
 .modal-unique {
     display: none;
     position: fixed;
@@ -815,16 +837,13 @@ th {
 }
 
 .close-unique {
-    color: #aaa;
+    color: #fff;
     float: right;
-    font-size: 28px;
-    font-weight: bold;
+    font-size: 30px;
 }
 
     .close-unique:hover,
     .close-unique:focus {
-        color: black;
-        text-decoration: none;
         cursor: pointer;
     }
 
@@ -835,35 +854,35 @@ th {
 
 @media (max-width: 768px) {
     .reviewcontainer {
-        flex-direction: column; /* Change to column layout */
+        flex-direction: column; 
     }
 
     .reviewsidebar-reviewcontainer {
-        width: 100%; /* Make sidebar full width */
-        order: 1; /* Set order to 1 to appear first */
+        width: 100%; 
+        order: 1; 
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
     }
 
     .reviewcontent {
-        width: 100%; /* Make content full width */
-        order: 2; /* Set order to 2 to appear second */
+        width: 100%; 
+        order: 2; 
         border-top-right-radius: 10px;
         border-bottom-right-radius: 10px;
         border-bottom-left-radius: 10px;
     }
 
     .image-container {
-        width: 100%; /* Make image container full width */
-        order: 3; /* Set order to 3 to appear third */
-        display: flex; /* Ensure it displays as flex */
-        justify-content: center; /* Center the image */
-        margin-top: 10px; /* Optional: Add some margin for spacing */
+        width: 100%; 
+        order: 3; 
+        display: flex; 
+        justify-content: center; 
+        margin-top: 10px; 
     }
 
     #system-review-table {
-        width: 100%; /* Make table full width */
-        order: 4; /* Set order to 4 to appear fourth */
+        width: 100%; 
+        order: 4;
     }
 
     .sidebar-line {
@@ -887,6 +906,7 @@ th {
     padding-left: 10px;
 }
 
+
 .file-search-input1 {
     border: none;
     outline: none;
@@ -895,11 +915,13 @@ th {
     flex: 1;
 }
 
+
 .image-container img {
     width: 60%;
     height: 60%;
     margin: auto auto;
 }
+
 
 .image-container {
     flex-grow: 1;
@@ -907,6 +929,7 @@ th {
     justify-content: center;
     height: 450px;
 }
+
 
 .file-search-container2 {
     display: flex;
@@ -920,10 +943,15 @@ th {
     width: 40%;
 }
 
+.readModal-title {
+    font-size: 17px;
+}
+
+
 .search-icon2 {
-    margin-right: 08px;
     padding-left: 10px;
 }
+
 
 .file-search-input2 {
     border: none;
@@ -932,6 +960,7 @@ th {
     font-size: 16px;
     flex: 1;
 }
+
 
 .file-option-icon {
     height: 19px;
@@ -943,11 +972,13 @@ th {
     padding-bottom: 20px;
 }
 
+
 .scrollable-tbody {
     overflow-y: auto;
     overflow-x: auto;
     height: 400px;
 }
+
 
 .scrollable-tbody {
     scrollbar-width: thin;
@@ -963,9 +994,11 @@ th {
         border-radius: 10px;
     }
 
+
 #system-header {
     font-weight: bold;
 }
+
 
 
 .ReviewReviewTabs {
@@ -973,8 +1006,9 @@ th {
     background-color: #e9f1fb;
 }
 
+
 .reviewtab {
-    padding: 8px 75px; /* Adjust padding as needed */
+    padding: 8px 75px; 
     cursor: pointer;
     border: 1px solid #ddd;
     border-bottom: none;
@@ -983,15 +1017,15 @@ th {
     font-weight: 600;
     color: #626161;
     letter-spacing: 0.2px;
-    position: relative; /* Add this to position the border correctly */
-    top: 5px; /* Adjust this value to align the text */
+    position: relative; 
+    top: 5px; 
 }
 
     .reviewtab.active {
         background-color: #fff;
-        border-top: 5px solid #023881; /* Keep the border */
+        border-top: 5px solid #023881;
         color: #023881;
-        top: 0; /* Reset top position for active tab */
+        top: 0; 
     }
 
 
@@ -1007,15 +1041,17 @@ th {
 
 
 .staffViewContent {
-    flex-direction: column; /* Stack items vertically */
-    align-items: center; /* Center items horizontally */
-    justify-content: center; /* Center items vertically */
-    height: 100%; /* Ensure it takes full height */
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    height: 100%; 
 }
 
+
+
 .staff-view-image {
-    max-width: 80%; /* Adjust as needed */
-    height: auto; /* Maintain aspect ratio */
+    max-width: 80%; 
+    height: auto; 
 }
 
 
@@ -1052,7 +1088,7 @@ th {
 
 .search-and-sidebar-container {
     display: flex;
-    flex-direction: column; /* Stack items vertically */
+    flex-direction: column; 
 
 }
 
@@ -1061,18 +1097,17 @@ th {
     align-items: center;
     border-bottom: 1px solid #c0bebe;
     padding: 5px 0;
-    margin-bottom: 20px; /* Remove margin to keep it close to the sidebar */
+    margin-bottom: 20px; 
 }
 
 .staffViewSidebar2 {
-    margin-top: 0; /* Remove margin to keep it close to the search bar */
+    margin-top: 0; 
     padding: 0px;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #00436C transparent;
 }
 
-    /* Scrollbar styles */
     .staffViewSidebar2::-webkit-scrollbar {
         width: 8px;
     }
@@ -1086,9 +1121,11 @@ th {
         background: transparent;
     }
 
+
 .system-name {
     font-size:18px;
 }
+
 
 .search-btn {
     background-color:#00436C;
@@ -1099,59 +1136,318 @@ th {
 
 
 .container-for-search {
-    display: flex; /* Use flexbox to align items horizontally */
-    align-items: center; /* Center items vertically */
+    display: flex; 
+    align-items: center; 
     margin-left: 200px;
 }
 
 .file-search-container1 {
-    display: flex; /* Use flexbox for the search container */
-    align-items: center; /* Center items vertically */
-    border-bottom: 1px solid #c0bebe; /* Optional: Add a border for styling */
-    padding: 5px 0; /* Optional: Add padding for spacing */
-    margin-right: 10px; /* Add some space between the search input and the button */
+    display: flex; 
+    align-items: center; 
+    border-bottom: 1px solid #c0bebe; 
+    padding: 5px 0; 
+    margin-right: 10px; 
 }
+
 
 .search-btn {
-    padding: 5px 10px; /* Add padding for the button */
-    background-color: #005580; /* Button background color */
-    color: white; /* Button text color */
-    border: none; /* Remove border */
-    border-radius: 5px; /* Optional: Add border radius */
-    cursor: pointer; /* Change cursor to pointer on hover */
+    padding: 5px 10px;
+    background-color: #005580; 
+    color: white;
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
 }
+
 
     .search-btn:hover {
-        background-color: #004466; /* Darker shade on hover */
+        background-color: #004466; 
     }
 
+
 .staffAfterSearch {
-    display: flex; /* Use flexbox for layout */
-    justify-content: space-between; /* Distribute space evenly between child divs */
-    align-items: center; /* Align items vertically centered */
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
 }
+
+
 
 .reviewtitle2,
 .container-for-search,
 .staffViewDropdown-status-container {
-    flex: 1; /* Allow each div to grow equally */
-    margin: 0 10px; /* Add horizontal margin for spacing */
+    flex: 1; 
+    margin: 0 10px; 
 }
 
-/* Optional: To prevent the first and last divs from having extra margin */
+
 .reviewtitle2 {
-    margin-left: 0; /* Remove left margin for the first div */
+    margin-left: 0; 
 }
+
+
 
 .staffViewDropdown-status-container {
-    margin-right: 0; /* Remove right margin for the last div */
+    margin-right: 0; 
 }
 
 .staffViewContent {
     display: flex;
-    flex-direction: column; /* Stack items vertically */
-    align-items: center; /* Center items horizontally */
-    justify-content: flex-start; /* Align items to the start */
-    min-height: 300px; /* Set a minimum height */
-    overflow: hidden; /* Prevent overflow */
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: flex-start; 
+    min-height: 300px; 
 }
+
+
+
+
+@media (max-width: 768px) {
+    .staffAfterSearch,
+    .staffcontentLayout,
+    .tableChanger,
+    .staffViewDropdown-status-container,
+    .staffViewSidebar2,
+    .staff-card-body {
+        display: none;
+    }
+
+
+    .file-search-input1 {
+        width: 100%; 
+    }
+
+    .search-btn {
+        width: 100%; 
+        margin-top: 10px; 
+    }
+
+    .staff-card {
+        margin: 10px; 
+    }
+
+    .table-container {
+        overflow-x: auto; 
+    }
+
+    table {
+        width: 100%; 
+    }
+
+    .icon {
+        font-size: 1.2em;
+    }
+}
+
+.no-systems {
+    margin-left:20px;
+}
+
+.status-read {
+    color: green;
+}
+
+
+
+#fileTableUnique {
+    width: 100%;
+
+    table-layout: fixed;
+}
+
+    #fileTableUnique th, #fileTableUnique td {
+        overflow: hidden; 
+
+        text-overflow: ellipsis; 
+
+        white-space: nowrap; 
+    }
+
+        #fileTableUnique th:nth-child(1), #fileTableUnique td:nth-child(1) {
+            width: 40%; 
+        }
+
+        #fileTableUnique th:nth-child(2), #fileTableUnique td:nth-child(2) {
+            width: 30%;
+        }
+
+        #fileTableUnique th:nth-child(3), #fileTableUnique td:nth-child(3) {
+            width: 15%; 
+        }
+
+        #fileTableUnique th:nth-child(4), #fileTableUnique td:nth-child(4) {
+            width: 15%; 
+        }
+
+.tableChanger table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.tableChanger th, .tableChanger td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+    .tableChanger th:nth-child(1), .tableChanger td:nth-child(1) {
+        width: 40%;
+    }
+
+    .tableChanger th:nth-child(2), .tableChanger td:nth-child(2) {
+        width: 30%;
+    }
+
+    .tableChanger th:nth-child(3), .tableChanger td:nth-child(3) {
+        width: 15%;
+    }
+
+    .tableChanger th:nth-child(4), .tableChanger td:nth-child(4) {
+        width: 15%;
+    }
+#readUsers-dataTable {
+    width: 100%;
+    table-layout: fixed;
+}
+
+    #readUsers-dataTable th, #readUsers-dataTable td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+        #readUsers-dataTable th:nth-child(1), #readUsers-dataTable td:nth-child(1) {
+            width: 30%;
+        }
+
+        #readUsers-dataTable th:nth-child(2), #readUsers-dataTable td:nth-child(2) {
+            width: 50%;
+        }
+
+        #readUsers-dataTable th:nth-child(3), #readUsers-dataTable td:nth-child(3) {
+            width: 20%;
+        }
+
+
+#backButton {
+    width: 34px;
+    height: auto; 
+    margin-right: 10px; 
+    cursor: pointer; 
+}
+
+
+.status-form-group {
+    margin-bottom: 0px;
+    width: auto;
+    margin-top: 30px;
+    z-index: 800;
+}
+
+
+
+.status-dropdown {
+    position: relative;
+    display: inline-block;
+    /*    width: 100%;*/
+    margin-top: 10px;
+}
+
+.status-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 100%;
+    border: 1px solid #6D6D6D;
+    border-top: none;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 1;
+}
+
+.status-dropdown-list {
+    height: 150px;
+    overflow-y: scroll;
+}
+
+    .status-dropdown-list::-webkit-scrollbar {
+        width: 10px;
+        background-color: #fff;
+    }
+
+    .status-dropdown-list::-webkit-scrollbar-thumb {
+        background-color: #135176;
+        border-radius: 100px;
+        height: 20px;
+    }
+
+    .status-dropdown-list div {
+        padding: 8px 16px;
+        cursor: pointer;
+    }
+
+        .status-dropdown-list div:hover {
+            background-color: #BBDCF9;
+        }
+
+    .status-dropdown-list .active {
+        font-weight: bold;
+    }
+
+.status-dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #6D6D6D;
+    border-bottom: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    .status-dropdown-toggle i {
+        margin-left: 10px;
+        transition: transform 0.3s;
+    }
+
+    .status-dropdown-toggle.open i {
+        transform: rotate(180deg);
+    }
+
+.status-selector {
+    border: 1px solid #6D6D6D;
+    border-radius: 10px;
+}
+
+.status-search-container {
+    display: flex;
+    border-bottom: 1px solid #938C8C;
+    margin: 20px;
+    margin-top: 0px;
+}
+
+    .status-search-container img {
+        color: #999;
+        margin-right: 5px;
+        font-size: 20px;
+        margin-left: 5px;
+    }
+
+    .status-search-container input {
+        border: none;
+        color: #000;
+        font-size: 16px;
+        outline: none;
+        flex: 1;
+        padding: 5px;
+    }
+
+#status-search-input {
+    margin-left: 0px;
+    border: none;
+}
+
+.status-dropdown-toggle::after {
+    content: none;
+}
+

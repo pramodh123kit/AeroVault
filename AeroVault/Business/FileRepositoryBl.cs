@@ -1,5 +1,6 @@
 ﻿using AeroVault.Data;
 using AeroVault.Models;
+using System.Collections.Generic;
 
 namespace AeroVault.Business
 {
@@ -12,19 +13,44 @@ namespace AeroVault.Business
             _fileRepositoryDl = fileRepositoryDl;
         }
 
-        public List<DepartmentModel> GetActiveDepartments()
+        public List<DepartmentModel> GetDepartments()
         {
-            return _fileRepositoryDl.GetActiveDepartments();
+            return _fileRepositoryDl.GetNonDeletedDepartments();
         }
 
-        public List<SystemModel> GetSystemsByDepartment(int departmentId)
+        public List<SystemModel> GetNonDeletedSystemsByDepartment(int departmentId)
         {
-            return _fileRepositoryDl.GetSystemsByDepartment(departmentId);
+            return _fileRepositoryDl.GetNonDeletedSystemsByDepartment(departmentId);
         }
 
-        public List<FileModel> GetFilesBySystem(int systemId)
+        public List<FileModel> GetDocumentsBySystem(int systemId)
         {
-            return _fileRepositoryDl.GetFilesBySystem(systemId);
+            return _fileRepositoryDl.GetDocumentsBySystem(systemId);
+        }
+
+        public List<FileModel> GetVideosBySystem(int systemId)
+        {
+            return _fileRepositoryDl.GetVideosBySystem(systemId);
+        }
+
+        public string GetBasePath()
+        {
+            return _fileRepositoryDl.GetBasePath();
+        }
+        public List<SystemDepartmentModel> GetSystemDepartmentsBySystemId(int systemId)
+        {
+            return _fileRepositoryDl.GetSystemDepartmentsBySystemId(systemId);
+        }
+        public void RecordFileView(string staffNo, string uniqueIdentifier)
+        {
+            _fileRepositoryDl.RecordFileView(staffNo, uniqueIdentifier);
+        }
+        public bool CheckFileViewed(string staffNo, string uniqueIdentifier)
+
+        {
+
+            return _fileRepositoryDl.CheckFileViewed(staffNo, uniqueIdentifier);
+
         }
     }
 }
