@@ -3,15 +3,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/Content/css/UserSidebarStyles.css">
+    <link rel="stylesheet" href="~/Content/css/UserSidebarStyles.css">
 </head>
 <body>
     <div class="modal-notification-edit9" id="editfile-popup7" style="display: none;">
         <div class="sidebar" id="sidebar">
-            <img src="/Content/Assets/admin-sidebar-peacock1.svg" alt="Sri Lankan IT Systems Logo" class="footer-logo  peacock-background" />
-            <img src="/Content/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" class="logo" />
+            <img src="~/Content/Assets/admin-sidebar-peacock1.svg" alt="Sri Lankan IT Systems Logo" class="footer-logo  peacock-background" />
+            <img src="~/Content/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" class="logo" />
             <div class="profile-info" style="margin-top:0px" marign-left:0px;>
-                <img src="/Content/Assets/AdminProf.svg" alt="Profile Picture">
+                <img src="~/Content/Assets/AdminProf.svg" alt="Profile Picture">
                 <span class="name">@Context.Session.GetString("StaffName")</span>
             </div>
             <div class="profile-details" style="display: none;">
@@ -27,7 +27,7 @@
                     <a class="nav-link" asp-area="" asp-controller="User FileRepository" asp-action="FileRepository">File Repository</a>
                 </li>
             </ul>
-            <img src="/Content/Assets/admin-sidebar-SLA-logo.svg" alt="Sri Lankan Peacock brand" class="footer-logo" />
+            <img src="~/Content/Assets/admin-sidebar-SLA-logo.svg" alt="Sri Lankan Peacock brand" class="footer-logo" />
         </div>
     </div>
 
@@ -61,6 +61,6 @@
         });
     </script>
 
-    <script src="/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.min.js"></script>
 </body>
 </html>

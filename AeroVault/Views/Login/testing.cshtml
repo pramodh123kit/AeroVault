@@ -2,7 +2,7 @@
 
 <head>
 
-    <link href="/Content/css/all.min.css" rel="stylesheet">
+    <link href="~/Content/css/all.min.css" rel="stylesheet">
 
     <style>
         .status-form-group {
@@ -128,7 +128,7 @@
             </div>
             <div class="status-dropdown-content">
                 <div class="status-search-container">
-                    <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                    <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
                     <input type="text" id="status-search-input" placeholder="Search Status"
                         onkeyup="filterStatusOptions()" onclick="event.stopPropagation()">
                 </div>
@@ -148,7 +148,7 @@
     </div>
 
 
-    <script src="/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.min.js"></script>
     <script>
         function toggleStatusDropdown() {
             var dropdownContent = document.querySelector('.status-dropdown-content');

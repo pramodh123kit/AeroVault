@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Http.Features;
+﻿using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using AeroVault.Models;
 using Microsoft.Extensions.FileProviders;
@@ -104,32 +104,46 @@ namespace AeroVault
 
             app.UseHttpsRedirection();
             app.UseSession();
+
+            bool isLocal = builder.Environment.IsDevelopment();
+            string basePath = isLocal ? "" : "/AeroVaultCore"; // Ensure correct casing!
+
+            if (!string.IsNullOrEmpty(basePath))
+            {
+                app.UsePathBase(basePath);
+            }
+
+            // ✅ Serve static files correctly (no basePath in RequestPath)
             app.UseStaticFiles();
 
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(), "Content")),
-                RequestPath = "/Content"
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Content")),
+                RequestPath = "/Content"  // ✅ Fix: Remove basePath here
             });
 
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(), "Scripts")),
-                RequestPath = "/Scripts"
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Scripts")),
+                RequestPath = "/Scripts"  // ✅ Fix: Remove basePath here
             });
 
+            // Middleware and Routing
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
 
+            // Define controller routes
             app.MapControllerRoute(
                 name: "default",
-            pattern: "{controller=Admin}/{action=Index}/{id?}");
-            //pattern: "{controller=userfilerepository}/{action=filerepository}/{id?}");
-            //pattern: "{controller=login}/{action=index}/{id?}");
-            //pattern: "{controller=test}/{action=testconnection}/{id?}");
+                pattern: "{controller=Admin}/{action=Index}/{id?}"
+            );
+
+
+
+            // Run the application
+            app.Run();
+
 
             app.Run();
         }

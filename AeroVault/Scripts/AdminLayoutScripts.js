@@ -11,47 +11,108 @@ document.getElementById('overlay').addEventListener('click', function () {
 function loadContent(controllerName, pageTitle) {
     document.querySelector('.page-title-name').textContent = pageTitle;
 
-    // Show loading screen after 0.3 seconds
     const loadingScreen = document.getElementById('loading-screen');
+
+    // Show loading screen with a slight delay
     let loadingTimeout = setTimeout(() => {
-        loadingScreen.style.display = 'flex'; // Show loading screen
+        loadingScreen.style.display = 'flex';
     }, 100);
 
-    // Map view names to controllers
+    // Define the base URL correctly
+    const baseUrWel = window.location.origin + "/";
+
+    // Define the correct mapping for controllers and actions
     const controllerMap = {
-        'Index': 'Overview',
-        '_Upload': 'Upload',
-        '_Systems': 'Systems',
-        '_Departments': 'Departments',
-        '_Divisions': 'Divisions',
-        '_Review': 'Review'
+        'Index': { controller: 'Overview', action: 'Index' },
+        'Upload': { controller: 'Upload', action: 'Index' },
+        'Systems': { controller: 'Systems', action: 'Index' },
+        'Departments': { controller: 'Departments', action: 'Index' },
+        'Divisions': { controller: 'Divisions', action: 'Index' },
+        'Review': { controller: 'Review', action: 'Index' }
     };
 
-    // Get the corresponding controller name
-    const controller = controllerMap[controllerName] || 'Overview';
+    // Validate controller name
+    if (!controllerMap[controllerName]) {
+        console.error("Invalid controller name:", controllerName);
+        return;
+    }
+
+    // Get controller and action dynamically
+    const selectedController = controllerMap[controllerName];
+
+    // Construct the correct URL
+    const url = `${baseUrWel}${selectedController.controller}/${selectedController.action}`;
+
+    console.log("Loading URL:", url);
 
     $.ajax({
-        url: `/${controller}/Index`,
+        url: url,
         type: 'GET',
         success: function (result) {
-            clearTimeout(loadingTimeout); // Clear the loading timeout
-            loadingScreen.style.display = 'none'; // Hide loading screen
+            clearTimeout(loadingTimeout);
+            loadingScreen.style.display = 'none';
             $('#main-content').html(result);
 
-            // Check if the loaded content is the Overview page
-            if (controller === 'Overview') {
-                // Re-initialize the charts
+            // If the loaded page is Overview, initialize charts
+            if (selectedController.controller === 'Overview' && selectedController.action === 'Index') {
                 initializeCharts();
             }
         },
         error: function (xhr, status, error) {
-            clearTimeout(loadingTimeout); // Clear the loading timeout
-            loadingScreen.style.display = 'none'; // Hide loading screen
+            clearTimeout(loadingTimeout);
+            loadingScreen.style.display = 'none';
             console.error("Error loading content:", error);
             $('#main-content').html('<p class="text-danger">Failed to load content. Please try again later.</p>');
         }
     });
 }
+
+
+
+//function loadContent(controllerName, pageTitle) {
+//    document.querySelector('.page-title-name').textContent = pageTitle;
+
+//    const loadingScreen = document.getElementById('loading-screen');
+//    let loadingTimeout = setTimeout(() => {
+//        loadingScreen.style.display = 'flex'; /
+//    }, 100);
+
+   
+//    const controllerMap = {
+//        'Index': 'Overview',
+//        '_Upload': 'Upload',
+//        '_Systems': 'Systems',
+//        '_Departments': 'Departments',
+//        '_Divisions': 'Divisions',
+//        '_Review': 'Review'
+//    };
+  
+//    const controller = controllerMap[controllerName] || 'Overview';
+//    if (typeof baseUrWel === 'undefined') {
+//        var baseUrWel = 'https://localhost:44369/';
+//    }
+//    console.log("base", baseUrWel)
+//    $.ajax({
+//        url: `${baseUrWel}Overview/Index`, 
+//        type: 'GET',
+//        success: function (result) {
+//            clearTimeout(loadingTimeout); 
+//            loadingScreen.style.display = 'none'; 
+//            $('#main-content').html(result);
+
+//            if (controller === 'Overview') {
+              
+//                initializeCharts();
+//            }
+//        },
+//        error: function (xhr, status, error) {
+//            clearTimeout(loadingTimeout); // Clear the loading timeout
+//            loadingScreen.style.display = 'none'; // Hide loading screen
+//            console.error("Error loading content:", error);
+//            $('#main-content').html('<p class="text-danger">Failed to load content. Please try again later.</p>');
+//        }
+//    });
+//}
 
 document.addEventListener("DOMContentLoaded", function () {
     loadContent('Index', 'Overview');
@@ -142,7 +203,34 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', handleNavLinkClick);
+        link.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent default action
+
+            document.querySelectorAll('.nav-link').forEach(otherLink => {
+                otherLink.classList.remove('active');
+
+                const otherIcon = otherLink.querySelector('img');
+                if (otherIcon) {
+                    const originalIcon = otherIcon.getAttribute('data-original');
+                    if (originalIcon) {
+                        otherIcon.src = originalIcon;
+                    }
+                }
+            });
+
+            this.classList.add('active');
+
+            const icon = this.querySelector('img');
+            let activeIcon = this.getAttribute('data-icon');
+
+            if (icon && activeIcon) {
+               
+                if (activeIcon.startsWith('~/')) {
+                    activeIcon = activeIcon.replace('~/', window.location.origin + '/');
+                }
+                icon.src = activeIcon;
+            }
+        });
 
         const icon = link.querySelector('img');
         if (icon) {
@@ -150,8 +238,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         link.addEventListener('mouseover', function () {
-            const hoverIcon = this.getAttribute('data-icon');
+            let hoverIcon = this.getAttribute('data-icon');
             if (icon && hoverIcon) {
+                if (hoverIcon.startsWith('~/')) {
+                    hoverIcon = hoverIcon.replace('~/', window.location.origin + '/');
+                }
                 icon.src = hoverIcon;
             }
         });
@@ -165,6 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
 });
 
 function fileEditopenPopup() {

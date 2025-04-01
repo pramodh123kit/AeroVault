@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/Content/css/AdminLayout.css" />
+    <link rel="stylesheet" href="~/Content/css/AdminLayout.css" />
 </head>
 <body>
 
     <div id="loading-screen" class="loading-screen" style="display: none;">
-        <img src="../Content/Assets/AeroVault-Logo.svg" alt="Loading..." class="loading-icon" />
+        <img src="~/Content/Assets/AeroVault-Logo.svg" alt="Loading..." class="loading-icon" />
         <p>Loading, please wait...</p>
         <div class="loading-dots">
             <span class="dot"></span>
@@ -20,10 +20,10 @@
 
     <div class="container" style="margin:0px; padding:0px;">
         <div class="sidebar" id="sidebar">
-            <img src="/Content/Assets/admin-sidebar-peacock1.svg" alt="Sri Lankan IT Systems Logo" class="footer-logo  peacock-background" />
-            <img src="/Content/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" class="logo" />
+            <img src="~/Content/Assets/admin-sidebar-peacock1.svg" alt="Sri Lankan IT Systems Logo" class="footer-logo  peacock-background" />
+            <img src="~/Content/Assets/AeroVault-Logo.svg" alt="AeroVault Logo" class="logo" />
             <div class="profile-info" style="margin-top:0px">
-                <img src="/Content/Assets/AdminProf.svg" alt="Profile Picture">
+                <img src="~/Content/Assets/AdminProf.svg" alt="Profile Picture">
                 <span class="name">@Context.Session.GetString("StaffName")</span>
             </div>
             <div class="profile-details" style="display: none;">
@@ -33,52 +33,52 @@
             </div>
             <ul class="menu">
                 <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('Index', 'Overview')" class="nav-link active" data-icon="Content/Assets/overview-icon1.svg">
-                        <img src="/Content/Assets/overview-icon.svg" alt="Overview Icon" class="sidebar-icon" />
+                    <a href="javascript:void(0);" onclick="loadContent('Index', '_Overview')" class="nav-link active" data-icon="@Url.Content("~/Content/Assets/overview-icon.svg")">
+                        <img src="@Url.Content("~/Content/Assets/overview-icon1.svg")" alt="Overview Icon" class="sidebar-icon" />
                         Overview
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('_Upload', 'Upload')" class="nav-link" data-icon="Content/Assets/upload-icon1.svg">
-                        <img src="/Content/Assets/upload-icon.svg" alt="Upload Icon" class="sidebar-icon" />
+                    <a href="javascript:void(0);" onclick="loadContent('Upload', '_Upload')" class="nav-link" data-icon="@Url.Content("/Content/Assets/upload-icon.svg")">
+                        <img src="@Url.Content("~/Content/Assets/upload-icon1.svg")" alt="Upload Icon" class="sidebar-icon" />
                         Upload
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void(0);" id="manage-toggle" class="nav-link" data-icon="Content/Assets/manage-icon1.svg">
-                        <img src="/Content/Assets/manage-icon.svg" alt="Manage Icon" class="sidebar-icon" />
+                    <a href="javascript:void(0);" id="manage-toggle" class="nav-link" data-icon="/Content/Assets/manage-icon1.svg">
+                        <img src="@Url.Content("~/Content/Assets/manage-icon1.svg")" alt="Manage Icon" class="sidebar-icon" />
                         Manage
                         <span id="dropdown-icon" class="dropdown-icon">▼</span>
                     </a>
                     <ul class="sub-menu" id="manage-sub-menu">
                         <li class="nav-item" style="margin-top:10px;">
-                            <a href="javascript:void(0);" onclick="loadContent('_Systems', 'Systems')" class="nav-link" data-icon="Content/Assets/systems-icon1.svg">
-                                <img src="/Content/Assets/systems-icon.svg" alt="Systems Icon" class="sidebar-icon" />
+                            <a href="javascript:void(0);" onclick="loadContent('Systems', '_Systems')" class="nav-link" data-icon="@Url.Content("~/Content/Assets/systems-icon1.svg")">
+                                <img src="@Url.Content("~/Content/Assets/systems-icon1.svg")" alt="Systems Icon" class="sidebar-icon" />
                                 Systems
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="javascript:void(0);" onclick="loadContent('_Departments', 'Departments')" class="nav-link" data-icon="Content/Assets/departments-icon1.svg">
-                                <img src="/Content/Assets/departments-icon.svg" alt="Departments Icon" class="sidebar-icon" />
+                            <a href="javascript:void(0);" onclick="loadContent('Departments', '_Departments')" class="nav-link" data-icon="@Url.Content("/Content/Assets/departments-icon1.svg")">
+                                <img src="@Url.Content("/Content/Assets/departments-icon1.svg")" alt="Departments Icon" class="sidebar-icon" />
                                 Departments
                             </a>
                         </li>
                         <li class="nav-item" style="margin-bottom:0px;">
-                            <a href="javascript:void(0);" onclick="loadContent('_Divisions', 'Divisions')" class="nav-link" data-icon="Content/Assets/divisions-sidebar-icon1.svg">
-                                <img src="/Content/Assets/divisions-sidebar-icon.svg" alt="Divisions Icon" class="sidebar-icon" />
+                            <a href="javascript:void(0);" onclick="loadContent('Divisions', '_Divisions')" class="nav-link" data-icon="@Url.Content("/Content/Assets/divisions-sidebar-icon1.svg")">
+                                <img src="@Url.Content("/Content/Assets/divisions-sidebar-icon1.svg")" alt="Divisions Icon" class="sidebar-icon" />
                                 Divisions
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void(0);" onclick="loadContent('_Review', 'Review')" class="nav-link" data-icon="Content/Assets/review-icon1.svg">
-                        <img src="/Content/Assets/review-icon.svg" alt="Review Icon" class="sidebar-icon" />
+                    <a href="javascript:void(0);" onclick="loadContent('Review', '_Review')" class="nav-link" data-icon="@Url.Content("/Content/Assets/review-icon1.svg")">
+                        <img src="@Url.Content("/Content/Assets/review-icon1.svg")" alt="Review Icon" class="sidebar-icon" />
                         Review
                     </a>
                 </li>
             </ul>
-            <img src="/Content/Assets/admin-sidebar-SLA-logo.svg" alt="Sri Lankan Peacock brand" class="footer-logo" />
+            <img src="~/Content/Assets/admin-sidebar-SLA-logo.svg" alt="Sri Lankan Peacock brand" class="footer-logo" />
         </div>
 
         <div class="overlay" id="overlay"></div>
@@ -86,10 +86,10 @@
         <div class="content" style="height: auto;">
             <div class="header">
                 <div style="display: flex; align-items: center;">
-                    <img src="/Content/Assets/admin-sidebar-collapse.svg" alt="sidebar-collapse-icon" id="sidebar-toggle" />
+                    <img src="~/Content/Assets/admin-sidebar-collapse.svg" alt="sidebar-collapse-icon" id="sidebar-toggle" />
                     <h1 class="page-title-name">Overview</h1>
                 </div>
-                <img src="/Content/Assets/LogoutIcon.svg" class="logout-icon" alt="Logout-icon" />
+                <img src="~/Content/Assets/LogoutIcon.svg" class="logout-icon" alt="Logout-icon" />
             </div>
 
             <div class="main-content" id="main-content">
@@ -98,7 +98,7 @@
 
             <footer class="footer-section">
                 <div class="footer-content">
-                    <img src="/Content/Assets/copyright-icon.svg" alt="Copyright Icon" class="copyright-icon">
+                    <img src="~/Content/Assets/copyright-icon.svg" alt="Copyright Icon" class="copyright-icon">
                     <span>2025 Sri Lankan IT Systems. All Rights Reserved.</span>
                 </div>
             </footer>
@@ -108,19 +108,22 @@
     <div id="dark-overlay6" class="dark-overlay" style="display: none;"></div>
     @Html.Partial("AdminPopups/_AdminLogoutPopup")
 
-    <script src="/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.min.js"></script>
     <script>
         const staffNo = '@Context.Session.GetString("StaffNo")';
         const staffName = '@Context.Session.GetString("StaffName")';
         const department = '@Context.Session.GetString("Department")';
     </script>
-    <script src="/Scripts/AdminLayoutScripts.js"></script>
+    <script src="~/Scripts/AdminLayoutScripts.js"></script>
     <script>
                 if (typeof jQuery !== 'undefined') {
             console.log('jQuery is loaded!');
         } else {
             console.error('jQuery is not loaded!');
         }
+    </script>
+    <script>
+        const baseUrWel = '@Url.Content("~/")';  // Razor resolves this correctly
     </script>
    
 </body>

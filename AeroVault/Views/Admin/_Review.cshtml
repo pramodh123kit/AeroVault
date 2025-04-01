@@ -1,8 +1,8 @@
 @model AeroVault.Models.DepartmentViewModel
 
-<link href="/Content/css/all.min.css" rel="stylesheet">
-<link href="/Content/css/AdminReview.css" rel="stylesheet" />
-<script src="/Scripts/adminReview.js" defer></script>
+<link href="~/Content/css/all.min.css" rel="stylesheet">
+<link href="~/Content/css/AdminReview.css" rel="stylesheet" />
+<script src="~/Scripts/adminReview.js" defer></script>
 
 <div class="ReviewReviewTabs">
     <div class="reviewtab active" id="system-reviewtab" onclick="showSystemView()">
@@ -26,7 +26,7 @@
                     </div>
                     <div class="status-dropdown-content">
                         <div class="status-search-container">
-                            <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                            <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
                             <input type="text" id="status-search-input" placeholder="Search Department"
                                    onkeyup="filterStatusOptions()" onclick="event.stopPropagation()">
                         </div>
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="file-search-container1" style="margin-bottom:0px;">
-                        <img src="/Content/Assets/search-icon.svg" class="search-icon1" alt="Search Icon" />
+                        <img src="~/Content/Assets/search-icon.svg" class="search-icon1" alt="Search Icon" />
                         <input id="searchInputStaff" onkeyup="filterStaffViewSidebar()" placeholder="Search System" type="text"
                                class="file-search-input1" style="width:200px;" />
                     </div>
@@ -59,7 +59,7 @@
     </div>
     <div class="reviewcontent" id="system-view-reviewcontent">
         <div class="image-container" id="image-container-id">
-            <img src="/Content/Assets/system-background-icon.svg" alt="System Background Image" />
+            <img src="~/Content/Assets/system-background-icon.svg" alt="System Background Image" />
         </div>
 
         <div id="system-review-table" style="display:none;">
@@ -68,7 +68,7 @@
                     System Name
                 </div>
                 <div class="file-search-container2" style="margin-bottom:0px;">
-                    <img src="/Content/Assets/search-icon.svg" class="search-icon2" alt="Search Icon">
+                    <img src="~/Content/Assets/search-icon.svg" class="search-icon2" alt="Search Icon">
                     <input id="SystemfileSearch" onkeyup="filterFiles()" placeholder="Search File Name" type="text" class="file-search-input2" style="width:200px;">
                 </div>
 
@@ -102,7 +102,7 @@
                     </div>
                     <div class="readUsers-search-bar">
                         <div class="read-search-bar-container">
-                            <img src="/Content/Assets/search-icon.svg" class="search-icon2" alt="Search Icon">
+                            <img src="~/Content/Assets/search-icon.svg" class="search-icon2" alt="Search Icon">
                             <input type="text" id="readUsers-searchInput" onkeyup="searchTable()" placeholder="Search by Staff ID" autocomplete="off">
                         </div>
                         
@@ -164,13 +164,13 @@
                     <button onclick="staffViewPerformSearch()">Search</button>
                     <div id="error-message" style="color: red; display: none; margin-top: 5px;"></div>
                 </div>
-                <img src="/Content/Assets/StaffViewBottom.png" />
+                <img src="~/Content/Assets/StaffViewBottom.png" />
             </div>
         </div>
 
         <div class="staffAfterSearch" id="staffAfterSearch" style="display:none; display: flex; justify-content: space-between; align-items: center; width: 101.5%;">
             <div class="reviewtitle2" style="margin-bottom: 20px; display: flex; align-items: center;">
-                <img src="/Content/Assets/back-btn.svg" alt="Back" id="backButton"
+                <img src="~/Content/Assets/back-btn.svg" alt="Back" id="backButton"
                      style="cursor: pointer; margin-right: 10px; display: inline-block; vertical-align: middle;"
                      onclick="goBack()">
                 <span style="display: inline-block; vertical-align: middle;">Select a system to Review Individual Activity</span>
@@ -192,7 +192,7 @@
         <div class="staffcontentLayout" id="staffcontentLayout" style="display:none;">
             <div class="search-and-sidebar-container">
                 <div class="file-search-container1" style="margin-bottom:20px;">
-                    <img src="/Content/Assets/search-icon.svg" class="search-icon1" alt="Search Icon">
+                    <img src="~/Content/Assets/search-icon.svg" class="search-icon1" alt="Search Icon">
                     <input id="searchInputStaff" onkeyup="filterStaffViewSidebar()" placeholder="Search System" type="text" class="file-search-input1" style="width:200px;" autocomplete="off">
                 </div>
                 <div class="staffViewSidebar2">
@@ -233,7 +233,7 @@
                     <div class="staff-header">
                         <h2 class="system-name">Flight Planning</h2>
                         <div class="staff-search-container">
-                            <img src="/Content/Assets/search-icon.svg" alt="Search Icon">
+                            <img src="~/Content/Assets/search-icon.svg" alt="Search Icon">
                             <input type="text" id="staffSearchInput" onkeyup="filterStaffViewTable()" placeholder="Search File Name" autocomplete="off">
                         </div>
                     </div>
@@ -252,7 +252,7 @@
                         </table>
                     </div>
                 </div>
-                <img src="/Content/Assets/PCpic.svg" class="staff-view-image" style="display: none; transform: scale(0.6);" />
+                <img src="~/Content/Assets/PCpic.svg" class="staff-view-image" style="display: none; transform: scale(0.6);" />
             </div>
         </div>
     </div>

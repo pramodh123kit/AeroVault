@@ -4,8 +4,8 @@
     Layout = null;
 }
 
-<link rel="stylesheet" href="/Content/css/AdminSystems.css">
-<link href="/Content/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="~/Content/css/AdminSystems.css">
+<link href="~/Content/css/all.min.css" rel="stylesheet">
 
 <div class="admin-main-content" stlye="overflow:hidden; flex-grow: 1;">
     <div class="header-container">
@@ -13,7 +13,7 @@
             Select a Department to Manage
         </h2>
         <button class="add-system-button add-dep-button" onclick="openAddDepartmentPopup()">
-            <img src="/Content/Assets/add-icon.svg" alt="Add Icon" class="button-icon" />
+            <img src="~/Content/Assets/add-icon.svg" alt="Add Icon" class="button-icon" />
             Add New Department
         </button>
     </div>
@@ -21,7 +21,7 @@
     <div class="sidebar-container">
         <div class="sidebar2">
             <div class="search-container" style="width:90%;">
-                <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
                 <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search Department" type="text" />
             </div>
             <div class="scrollable-content scrollable-content-list">
@@ -59,7 +59,7 @@
                             </div>
                             <div class="custom-dropdown-content" style="position:sticky">
                                 <div class="custom-search-container">
-                                    <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                                    <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
                                     <input type="text" id="custom-search-input" placeholder="Search Department" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
                                 </div>
                                 <div class="custom-dropdown-list">
@@ -83,7 +83,7 @@
             </div>
         </div>
         <div class="image-container">
-            <img src="/Content/Assets/departments-background-icon.svg" alt="Departments Background Image" />
+            <img src="~/Content/Assets/departments-background-icon.svg" alt="Departments Background Image" />
         </div>
 
         <div class="system-container dep-second-container" style="display: none;">
@@ -104,7 +104,7 @@
                         </div>
                         <div class="dropdown-content div-secondary-container">
                             <div class="search-container second-search" style="width: 90%; display: inline-block !important;">
-                                <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                                <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
                                 <input type="text" id="search-division" placeholder="Search Division" onkeyup="filterDivisions()" onclick="event.stopPropagation()">
                             </div>
                             <div class="dropdown-list">
@@ -127,7 +127,7 @@
                         Save Changes
                     </button>
                     <button class="delete-system-button delete-dep-button">
-                        <img src="/Content/Assets/system-delete-icon.svg" alt="Add Icon" class="button-icon" />
+                        <img src="~/Content/Assets/system-delete-icon.svg" alt="Add Icon" class="button-icon" />
                         Delete
                     </button>
                 </div>
@@ -141,7 +141,7 @@
         <button class="popup-close" onclick="closeSuccessPopup()"></button>
 
         <div class="popup-content">
-            <img src="/Content/Assets/system-added-successfully.svg" alt="Alternate Text" />
+            <img src="~/Content/Assets/system-added-successfully.svg" alt="Alternate Text" />
             <h2 class="edit-success-dep">Department was Successfully Edited</h2>
         </div>
     </div>
@@ -158,5 +158,5 @@
 @Html.Partial("AdminDepartmentPopups/_AdminDepartmentAdded", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDepartmentAddedModel())
 
 
-<script src="/Scripts/jquery.min.js"></script>
-<script src="/Scripts/AdminDepartmentScripts.js"></script>
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/AdminDepartmentScripts.js"></script>

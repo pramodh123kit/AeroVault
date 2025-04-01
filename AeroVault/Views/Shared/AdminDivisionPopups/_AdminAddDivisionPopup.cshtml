@@ -2,14 +2,14 @@
 
 @model AeroVault.Views.Shared.AdminDepartmentPopups._AdminAddDepartmentPopupModel
 
-<link rel="stylesheet" href="/Content/css/AdminAddDivisionStyles.css">
+<link rel="stylesheet" href="~/Content/css/AdminAddDivisionStyles.css">
 
 <div class="modal-notification-edit" id="adddepartment-popup" style="display: none;"
      data-add-url="@Url.Action("AddDivision", "Divisions")"
      data-get-url="@Url.Action("GetAllDivisions", "Divisions")">
     <div class="modal-header">
         <h2>Add Division</h2>
-        <img src="/Content/Assets/close-icon.svg" id="close-icon-dep1" style="cursor:pointer;" />
+        <img src="~/Content/Assets/close-icon.svg" id="close-icon-dep1" style="cursor:pointer;" />
     </div>
 
     <div class="modal-body">
@@ -37,4 +37,4 @@
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="/Scripts/AdminAddDivisionScripts.js"></script>
+<script src="~/Scripts/AdminAddDivisionScripts.js"></script>

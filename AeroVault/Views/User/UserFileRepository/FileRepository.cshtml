@@ -9,9 +9,9 @@
 
 <html>
 <head>
-    <link rel="stylesheet" href="/Content/css/site.css" />
-    <link rel="stylesheet" href="/Content/css/FileRepository.css" />
-    <link href="/Content/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/css/site.css" />
+    <link rel="stylesheet" href="~/Content/css/FileRepository.css" />
+    <link href="~/Content/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="banner-content">
@@ -63,12 +63,12 @@
 
                 <!-- Right Side  -->
                 <div class="col-lg-9 content-section">
-                    <img src="/Content/Assets/system-background-icon.svg" alt="System Background Image" id="system-selection-image">
+                    <img src="~/Content/Assets/system-background-icon.svg" alt="System Background Image" id="system-selection-image">
                     <div class="content-hidden" style="display: none;">
                         <div class="row align-items-center mb-3">
                             <div class="upload-title col-lg-6 col-md-6 col-sm-8"></div>
                             <div class="col-lg-6 col-md-6 col-sm-4 d-flex justify-content-end">
-                                <img src="/Content/Assets/uploadsys.svg" alt="system" class="system-icon"
+                                <img src="~/Content/Assets/uploadsys.svg" alt="system" class="system-icon"
                                      onclick="toggleTooltipOnClick()" onmouseover="showTooltip()" onmouseout="hideTooltip()" />
                                 <div id="tooltip" class="tooltip-box">
                                     <span class="close-btn" onclick="forceHideTooltip()">×</span>
@@ -136,14 +136,14 @@
 
                             <div class="overlay-pdf" id="overlay-pdf" style="display: none;">
                                 <div class="iframe-container">
-                                    <img src="/Content/Assets/close-icon.svg" class="close-button" id="close-pdf-button-filerepo" alt="Close" />
+                                    <img src="~/Content/Assets/close-icon.svg" class="close-button" id="close-pdf-button-filerepo" alt="Close" />
                                     <iframe id="pdf-frame" src="" style="width: 100%; height: 100%; border: none;"></iframe>
                                 </div>
                             </div>
 
                             <div class="overlay-pdf1" id="overlay-pdf1" style="display: none;">
                                 <div class="iframe-container1">
-                                    <img src="/Content/Assets/close-icon.svg" class="close-button1" id="close-pdf-button-filerepo" alt="Close" />
+                                    <img src="~/Content/Assets/close-icon.svg" class="close-button1" id="close-pdf-button-filerepo" alt="Close" />
                                     <iframe class="video-iframe" id="pdf-frame1" src="" style="width: 100%; height: 100%; border: none;"></iframe>
                                 </div>
                             </div>
@@ -210,7 +210,7 @@
 
             <!-- New div for custom header -->
             <div class="custom-header">
-                <img src="/Content/Assets/close-icon.svg" class="close-button" id="close-pdf-button-filerepo" alt="Close" />
+                <img src="~/Content/Assets/close-icon.svg" class="close-button" id="close-pdf-button-filerepo" alt="Close" />
                 <div id="file-name-display"></div> <!-- Placeholder for file name -->
             </div>
 
@@ -218,8 +218,8 @@
         </div>
     </div>
 
-    <script src="/Scripts/jquery.min.js"></script>
-    <script src="/Scripts/FileRepository.js"></script>
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/FileRepository.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const loggedInDepartment = '@loggedInDepartment';
