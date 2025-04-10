@@ -182,10 +182,6 @@ function sysLogin() {
 }
 
 
-
-
-
-
 function ResultLoginValidation(data) {
     console.log(data);
 
@@ -194,7 +190,7 @@ function ResultLoginValidation(data) {
         if (data.userRole !== "Unauthorized") {
 
             $(".loader").fadeIn("slow");
-            localStorage.setItem("AeroVaultLog", JSON.stringify(data.data));
+            localStorage.setItem("AeroVaultLog", JSON.stringify(data));
             window.location.href = data.redirectUrl;
 
         } else {
