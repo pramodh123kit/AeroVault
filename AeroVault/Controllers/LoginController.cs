@@ -96,7 +96,7 @@ namespace AeroVault.Controllers
         //    _logger.LogInformation($"User logged out: {HttpContext.Session.GetString("StaffNo")}");
         //    HttpContext.Session.Clear();
         //    return RedirectToAction("Index");
-        //}
+        //}//
 
         [HttpPost]
         public IActionResult GetLoginValidation([FromBody] StaffML staffMl)
