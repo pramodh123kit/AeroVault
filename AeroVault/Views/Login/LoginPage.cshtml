@@ -40,17 +40,42 @@
                     <span>
                         Login Here
                     </span>
-                </div>
-                <form id="form" asp-controller="Login" asp-action="Authenticate" method="post">
-                    <input id="username" name="staffNo" placeholder="Staff ID" type="text" class="errorinput" autocomplete="off" value="" />
+                </div>            
+                  @*   <input id="username" name="staffNo" placeholder="Staff ID" type="text" class="errorinput" autocomplete="off" value="" />
                     <div id="error"></div>
                     <input id="password" name="password" placeholder="Password" type="password" class="errorinput" autocomplete="off" value="" />
-                    <div id="error2"></div>
+                    <div id="error2"></div> *@
 
-                    <button type="submit" id="submit">
+                   @*  <button type="submit" id="submit">
                         Login
-                    </button>
-                </form>
+                    </button> *@
+
+                <div class="input-field-set">
+                    <div class="mt-2 mb-3">
+                        <label for="basic-url" class="form-label">Enter Username</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">
+                                <i class="bi bi-person"></i>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Username" id="txtStaffNo">
+                        </div>
+                    </div>
+                </div>
+                <div class="input-field-set">
+                    <div class="mb-3">
+                        <label for="basic-url" class="form-label">Enter Password</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">
+                                <i class="bi bi-lock"></i>
+                            </span>
+                            <input type="password" class="form-control" placeholder="Password" id="txtPassword">
+                            <span class="input-group-text toggle-password">
+                                <i class="bi bi-eye-slash"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-signIn form-control mt-2" id="btnSignIn">Sign In</button>
                 <div class="footer">
                     <img class="SLLogo2" src="~/Content/Assets/SLLogo.svg" />
                     <p>
@@ -60,17 +85,13 @@
             </div>
         </div>
     </div>
-    @* <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const loginUrl = '@Url.Action("Index", "Login")';
+    
+    }
 
-            if (window.location.pathname !== loginUrl) {
-                window.location.href = loginUrl;
-            }
-        });
-    </script> *@
+    <script src="~/Scripts/jquery.min.js"></script>
     <script src="~/Scripts/Login.js"></script>
-
-
+    <script src="~/Scripts/ProjectScripts/notiflix.js"></script>
+    <link href="~/Content/css/ProjectStyles/notiflix.css" rel="stylesheet" />
+   
 </body>
 </html>
