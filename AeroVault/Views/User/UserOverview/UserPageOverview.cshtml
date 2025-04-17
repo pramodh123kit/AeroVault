@@ -17,9 +17,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/Content/css/site.css" />
-    <link href="/Content/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/Content/css/UserOverview.css" />
+    <link rel="stylesheet" href="~/Content/css/site.css" />
+    <link href="~/Content/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/css/UserOverview.css" />
 </head>
 <body>
     <input type="hidden" id="userRole" value="@Context.Session.GetString("UserRole")" />
@@ -55,7 +55,7 @@
                         </div>
                         <div class="custom-dropdown-content" style="display: none;">
                             <div class="custom-search-container">
-                                <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                                <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
                                 <input type="text" id="custom-search-input" placeholder="Search System"
                                        onkeyup="filterCustomOptions()"
                                        onclick="event.stopPropagation()"
@@ -107,15 +107,15 @@
         <div class="right-column">
             <div class="Cards">
                 <div class="Card">
-                    <img src="/Content/Assets/systemiconsvg1.svg" />
+                    <img src="~/Content/Assets/systemiconsvg1.svg" />
                     <h1 class="card-count">@(ViewBag.SystemCount ?? 0)</h1>
                 </div>
                 <div class="Card">
-                    <img src="/Content/Assets/documenticonsvg1.svg" />
+                    <img src="~/Content/Assets/documenticonsvg1.svg" />
                     <h1 class="card-count">@(ViewBag.DocumentCount ?? 0)</h1>
                 </div>
                 <div class="Card">
-                    <img src="/Content/Assets/videosiconsvg1.svg" />
+                    <img src="~/Content/Assets/videosiconsvg1.svg" />
                     <h1 class="card-count">@(ViewBag.VideoCount ?? 0)</h1>
                 </div>
             </div>
@@ -174,8 +174,8 @@
         </div>
     </div>
 
-    <script src="/Scripts/jquery.min.js"></script>
-    <script src="/Scripts/chart.min.js"></script>
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/chart.min.js"></script>
     <script>
                 document.addEventListener('DOMContentLoaded', function () {
 

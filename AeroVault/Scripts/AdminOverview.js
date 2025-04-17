@@ -12,7 +12,8 @@ $(document).ready(function () {
 
 function initializeCharts() {
     console.log("Fetching staff login times...");
-    fetch('/Overview/GetStaffLoginTimes')
+   
+    fetch(`${baseUrWel}Overview/GetStaffLoginTimes`)
         .then(response => {
             console.log("Response status:", response.status);
             if (!response.ok) {

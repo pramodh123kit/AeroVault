@@ -111,13 +111,13 @@ body {
 
 
 
-.nav-link:hover img {
+/*.nav-link:hover img {
     opacity: 0; 
-}
+}*/
 
-.nav-link:hover img[data-original] {
+/*.nav-link:hover img[data-original] {
     opacity: 1;
-}
+}*/
 
 .profile-info {
     cursor:pointer;
@@ -416,9 +416,9 @@ body {
 .nav-link.active {
     color: black;
 }
-    .nav-link.active img {
+/*    .nav-link.active img {
         filter: brightness(0); 
-    }
+    }*/
 
 .logout-icon {
     width:20px;

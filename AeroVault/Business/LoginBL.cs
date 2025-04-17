@@ -141,7 +141,7 @@ namespace AeroVault.Business
 
         public static readonly HttpClient client = new HttpClient();
 
-        public async Task<StaffML> GetRole(StaffML staffMl)
+        public StaffML GetRole(StaffML staffMl)
         {
             try
             {
@@ -160,10 +160,10 @@ namespace AeroVault.Business
                     var content = new FormUrlEncodedContent(requestData);
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
 
-                    HttpResponseMessage response = await client.PostAsync(url, content);
+                    HttpResponseMessage response = client.PostAsync(url, content).GetAwaiter().GetResult();
                     response.EnsureSuccessStatusCode();
 
-                    string jsonResponse = await response.Content.ReadAsStringAsync();
+                    string jsonResponse =  response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
                     JArray responseData = JArray.Parse(jsonResponse);
 

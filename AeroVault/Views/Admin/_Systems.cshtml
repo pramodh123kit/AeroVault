@@ -5,8 +5,8 @@
     Layout = null; 
 }
 
-    <link rel="stylesheet" href="/Content/css/AdminSystems.css">
-    <link href="/Content/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/css/AdminSystems.css">
+    <link href="~/Content/css/all.min.css" rel="stylesheet">
 
     <div class="admin-main-content">
         <div class="header-container">
@@ -14,7 +14,7 @@
                 Select a System to Manage
             </h2>
             <button class="add-system-button">
-                <img src="/Content/Assets/add-icon.svg" alt="Add Icon" class="button-icon" />
+                <img src="~/Content/Assets/add-icon.svg" alt="Add Icon" class="button-icon" />
                 Add New System
             </button>
         </div>
@@ -22,7 +22,7 @@
         <div class="sidebar-container">
             <div class="sidebar2">
                 <div class="search-container" style="width:90%;">
-                    <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                    <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
                     <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search System" type="text" />
                 </div>
                 <div class="scrollable-content scrollable-content-list">             
@@ -44,7 +44,7 @@
                                     data-system-id="@system.SystemID"
                                     data-system-description="@(system.Description ?? string.Empty)">
                                     <a href="#">
-                                        <img src="/Content/Assets/folder-icon.svg" alt="Folder icon" class="folder-icon" />
+                                        <img src="~/Content/Assets/folder-icon.svg" alt="Folder icon" class="folder-icon" />
                                         @system.SystemName
                                     </a>
                                 </li>
@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="custom-dropdown-content">
                                     <div class="custom-search-container">
-                                        <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
+                                        <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
                                         <input type="text" id="custom-search-input" placeholder="Search system" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
                                     </div>
                                     <div class="custom-dropdown-list">
@@ -82,7 +82,7 @@
                 </div>
             </div>
             <div class="image-container">
-                <img src="/Content/Assets/system-background-icon.svg" alt="System Background Image" />
+                <img src="~/Content/Assets/system-background-icon.svg" alt="System Background Image" />
             </div>
 
             <div class="system-container" style="display: none;">
@@ -91,17 +91,17 @@
                         <h2 class="systems-name">System Name</h2>
                         <div class="button-container" style="margin-top:0px;">
                             <button class="edit-system-button">
-                                <img src="/Content/Assets/system-details-edit-icon.svg" alt="Add Icon" class="button-icon" />
+                                <img src="~/Content/Assets/system-details-edit-icon.svg" alt="Add Icon" class="button-icon" />
                                 Edit
                             </button>
                             <button class="delete-system-button">
-                                <img src="/Content/Assets/system-delete-icon.svg" alt="Add Icon" class="button-icon" />
+                                <img src="~/Content/Assets/system-delete-icon.svg" alt="Add Icon" class="button-icon" />
                                 Delete
                             </button>
                         </div>
                     </div>
                     <div class="file-search-container">
-                        <img src="/Content/Assets/search-icon.svg" class="search-icon" alt="Search Icon" />
+                        <img src="~/Content/Assets/search-icon.svg" class="search-icon" alt="Search Icon" />
                         <input id="SystemfileSearch" onkeyup="filterFiles()" placeholder="Search" type="text" class="file-search-input" />
                     </div>
                 </div>
@@ -134,7 +134,7 @@
 <div id="success-popup" class="modal-success" style="display: none;">
     <div class="modal-header-success" style="display: flex; align-items: center;">
         <h2 style="margin: 0; margin-bottom: 0px;">Success</h2>
-        <img src="/Content/Assets/close-icon.svg" id="close-success-popup" style="margin-left: auto; cursor: pointer;" />
+        <img src="~/Content/Assets/close-icon.svg" id="close-success-popup" style="margin-left: auto; cursor: pointer;" />
     </div>
     <div class="modal-body-success">
         <p id="success-message"></p>
@@ -150,7 +150,7 @@
         <button class="popup-close" onclick="closeSuccessPopup()"></button>
 
         <div class="popup-content">
-            <img src="/Content/Assets/system-added-successfully.svg" alt="Alternate Text" />
+            <img src="~/Content/Assets/system-added-successfully.svg" alt="Alternate Text" />
             <h2 class="edit-success-dep">System was Successfully Edited</h2>
         </div>
     </div>
@@ -178,8 +178,8 @@
     @Html.Partial("AdminSystemPopups/_AdminSystemSuccessfullyUpdatedSystem", new AeroVault.Views.Shared.AdminSystemPopups._AdminSystemSuccessfullyUpdatedSystemModel())
 
 
-<script src="/Scripts/jquery.min.js"></script>
-    <script src="/Scripts/AdminSystemScripts.js"></script>
+<script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/AdminSystemScripts.js"></script>
 <script>
     document.getElementById('edit-save-btn').addEventListener('click', async function () {
         await editSystem();
