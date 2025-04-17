@@ -1,4 +1,4 @@
-﻿@model AeroVault.Models.DepartmentViewModel
+﻿   @model AeroVault.Models.DepartmentViewModel
 
 @{
     Layout = null;
@@ -53,16 +53,16 @@
                             Select a Department to Manage
                         </h2>
                         <div class="custom-dropdown">
-                            <div class="custom-dropdown-toggle custom-selector" onclick="toggleCustomDropdown(event)">
+                            <div class="custom-dropdown-toggle custom-selector" id=" cus-dro-toggle" onclick="toggleCustomDropdown(event)">
                                 <span id="selected-option" style="color:#333333;">Select a department</span>
                                 <i class="fas fa-chevron-down"></i>
                             </div>
-                            <div class="custom-dropdown-content" style="position:sticky">
+                            <div class="custom-dropdown-content" id ="cus-dro-content" style="position:sticky">
                                 <div class="custom-search-container">
                                     <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
                                     <input type="text" id="custom-search-input" placeholder="Search Department" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
                                 </div>
-                                <div class="custom-dropdown-list">
+                                <div class="custom-dropdown-list" id="cus-dro-list">
                                     @foreach (var department in Model.Departments)
                                     {
                                         <div onclick="selectCustomOption(this); highlightSystem(this)"
@@ -71,7 +71,7 @@
                                              data-division-id="@department.DivisionID"
                                              data-division-name="@department.Division.DivisionName">
                                             @department.DepartmentName
-                                        </div>                                    
+                                        </div>
 
                                     }
 
@@ -89,7 +89,7 @@
         <div class="system-container dep-second-container" style="display: none;">
             <div class="dep-inner-container">
                 <h2 class="edit-del-instruc" style="font-weight:bold;">Edit or Delete Department</h2>
-                <h2 class="systems-name" style="font-weight:bold;">System Name</h2>
+                <h2 class="systems-name" id="sys-nsme" style="font-weight:bold;">System Name</h2>
                 <div class="form-group div-secondary-container">
                     <label class="label" for="department-name" style="margin-top: 20px;">Department Name</label>
                     <input class="depname-input" type="text" id="department-name" value="" style="border-radius:10px; font-size:16px; border:1px solid #6D6D6D;">
@@ -98,11 +98,11 @@
                 <div class="form-group second-input div-secondary-container">
                     <label class="label" for="division" style="margin-top: 20px;">Division</label>
                     <div class="dropdown">
-                        <div class="dropdown-toggle division-selector" onclick="toggleDropdown()">
+                        <div class="dropdown-toggle division-selector" id="drop-toggle" onclick="toggleDropdown()">
                             <span id="selected-division">Information Technology</span>
                             <i class="fas fa-chevron-down"></i>
                         </div>
-                        <div class="dropdown-content div-secondary-container">
+                        <div class="dropdown-content div-secondary-container" id="drop-cont">
                             <div class="search-container second-search" style="width: 90%; display: inline-block !important;">
                                 <img src="/Content/Assets/search-icon.svg" alt="Search Icon" />
                                 <input type="text" id="search-division" placeholder="Search Division" onkeyup="filterDivisions()" onclick="event.stopPropagation()">
@@ -123,7 +123,7 @@
                     <button class="reset-changes">
                         Reset
                     </button>
-                    <button class="edit-system-button" onclick="saveChanges()">
+                    <button class="edit-system-button" id="sys-edit-btn" onclick="saveChanges()">
                         Save Changes
                     </button>
                     <button class="delete-system-button delete-dep-button">
@@ -136,7 +136,7 @@
     </div>
 </div>
 
-<div id="overlay-edit-dep" class="overlay-edit-dep">
+<div id="dep-edit-overlay" class="overlay-edit-dep">
     <div id="successPopup" class="popup">
         <button class="popup-close" onclick="closeSuccessPopup()"></button>
 
@@ -158,5 +158,6 @@
 @Html.Partial("AdminDepartmentPopups/_AdminDepartmentAdded", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDepartmentAddedModel())
 
 
-<script src="/Scripts/jquery.min.js"></script>
+<script src="/Scripts/
+.min.js"></script>
 <script src="/Scripts/AdminDepartmentScripts.js"></script>

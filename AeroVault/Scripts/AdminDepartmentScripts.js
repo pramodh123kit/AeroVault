@@ -1,8 +1,12 @@
 ﻿function toggleCustomDropdown(event) {
     event.stopPropagation();
-    var dropdownContent = document.querySelector('.custom-dropdown-content');
-    var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
-    var selector = document.querySelector('.custom-selector');
+    //var dropdownContent = document.querySelector('.custom-dropdown-content');
+    $("#cus-dro-content").val(dropdownContent)
+    //val dropdownContent = $("#cus-dro-content");
+   // var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
+    $("#cus-dro-toggle").val(dropdownToggle)
+    //var selector = document.querySelector('.custom-selector');
+    $("#cus-dro-toggle").val(selector)
 
     if (dropdownContent.style.display === 'block') {
         dropdownContent.style.display = 'none';
@@ -22,9 +26,11 @@
 }
 
 function filterCustomOptions() {
-    const searchInput = document.getElementById('custom-search-input');
+   // const searchInput = document.getElementById('custom-search-input');
+    $("#custom-search-input").val(searchInput)
     const filter = searchInput.value.toUpperCase();
-    const dropdownList = document.querySelector('.custom-dropdown-list');
+    //const dropdownList = document.querySelector('.custom-dropdown-list');
+    $("#cus-dro-list").val(dropdownList)
     const items = dropdownList.querySelectorAll('div');
 
     items.forEach(item => {
@@ -38,7 +44,8 @@ function filterCustomOptions() {
 }
 
 function filterSystems() {
-    const searchInput = document.getElementById('systemSearch');
+    //const searchInput = document.getElementById('systemSearch');
+    $("#systemSearch").val(searchInput)
     const filter = searchInput.value.toUpperCase();
     const systemList = document.getElementById('systemList');
     const listItems = systemList.querySelectorAll('li');
@@ -59,7 +66,8 @@ function selectCustomOption(element) {
     document.querySelector('.custom-dropdown-content').style.display = 'none';
     document.querySelector('.custom-dropdown-toggle').classList.remove('open');
 
-    var selector = document.querySelector('.custom-selector');
+   // var selector = document.querySelector('.custom-selector');
+    $("#cus-dro-toggle").val(selector)
     selector.style.borderBottomLeftRadius = '10px';
     selector.style.borderBottomRightRadius = '10px';
     selector.style.borderBottom = '1px solid #6D6D6D';
@@ -98,7 +106,8 @@ function selectCustomOption(element) {
         document.getElementById('selected-division').innerText = divisionName;
 
         // Update division selector
-        const divisionSelector = document.querySelector('.division-selector');
+        //const divisionSelector = document.querySelector('.division-selector');
+        $("#drop-toggle").val(divisionSelector)
         if (divisionSelector) {
             divisionSelector.setAttribute('data-division-id', divisionId);
             const divisionSelectorSpan = divisionSelector.querySelector('span');
@@ -138,9 +147,12 @@ function showAllCustomOptions() {
 
 window.addEventListener('click', function (event) {
 
-    var dropdownContent = document.querySelector('.custom-dropdown-content');
-    var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
-    var selector = document.querySelector('.custom-selector');
+    //var dropdownContent = document.querySelector('.custom-dropdown-content');
+    $("#cus-dro-content").val(dropdownContent)
+   // var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
+    $("#cus-dro-toggle").val(dropdownToggle)
+    //var selector = document.querySelector('.custom-selector');
+    $("#cus-dro-toggle").val(selector)
 
     if (!dropdownToggle.contains(event.target) && !dropdownContent.contains(event.target) && dropdownContent.style.display === 'block') {
         dropdownContent.style.display = 'none';
@@ -151,9 +163,12 @@ window.addEventListener('click', function (event) {
     }
 });
 function toggleDropdown() {
-    const dropdownContent = document.querySelector('.dropdown-content');
-    const dropdownToggle = document.querySelector('.dropdown-toggle');
-    const divisionSelector = document.querySelector('.division-selector');
+    //const dropdownContent = document.querySelector('.dropdown-content');
+    $("#drop-cont").val(dropdownContent)
+    //const dropdownToggle = document.querySelector('.dropdown-toggle');
+    $("#drop-toggle").val(dropdownToggle)
+    //const divisionSelector = document.querySelector('.division-selector');
+    $("#drop-toggle").val(divisionSelector)
 
     if (dropdownContent.style.display === 'block') {
         closeDropdown();
@@ -169,9 +184,12 @@ function toggleDropdown() {
 }
 
 function closeDropdown() {
-    const dropdownContent = document.querySelector('.dropdown-content');
-    const dropdownToggle = document.querySelector('.dropdown-toggle');
-    const divisionSelector = document.querySelector('.division-selector');
+    //const dropdownContent = document.querySelector('.dropdown-content');
+    $("#drop-cont").val(dropdownContent)
+    //const dropdownToggle = document.querySelector('.dropdown-toggle');
+    $("#drop-toggle").val(dropdownToggle)
+    //const divisionSelector = document.querySelector('.division-selector');
+    $("#drop-toggle").val(divisionSelector)
 
     dropdownContent.style.display = 'none';
     dropdownToggle.classList.remove('open');
@@ -197,7 +215,8 @@ function selectDivision(element) {
 
     document.getElementById('selected-division').innerHTML = selectedDivision;
 
-    const divisionSelector = document.querySelector('.division-selector');
+    //const divisionSelector = document.querySelector('.division-selector');
+    $("#drop-toggle").val(divisionSelector)
     divisionSelector.dataset.divisionId = selectedDivisionId;
 
     // Close the dropdown
@@ -209,13 +228,15 @@ function selectDivision(element) {
 
 function showAllDivisions() {
     var divs = document.querySelectorAll('.dropdown-list div');
+
     divs.forEach(function (div) {
         div.style.display = "";
     });
 }
 
 document.getElementById('search-division').addEventListener('blur', function () {
-    const divisionSelector = document.querySelector('.division-selector');
+    //const divisionSelector = document.querySelector('.division-selector');
+    $("#drop-toggle").val(divisionSelector)
 
     divisionSelector.style.borderBottomLeftRadius = '10px';
     divisionSelector.style.borderBottomRightRadius = '10px';
@@ -226,16 +247,20 @@ document.getElementById('search-division').addEventListener('blur', function () 
 
 
 document.addEventListener('click', function (event) {
-    const dropdownContent = document.querySelector('.dropdown-content');
-    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    //const dropdownContent = document.querySelector('.dropdown-content');
+    $("#drop-cont").val(dropdownContent)
+    //const dropdownToggle = document.querySelector('.dropdown-toggle');
+    $("#drop-toggle").val(dropdownToggle)
     if (!dropdownContent.contains(event.target) && !dropdownToggle.contains(event.target)) {
         closeDropdown();
     }
 });
 
 window.onclick = function (event) {
-    const dropdownContent = document.querySelector('.dropdown-content');
-    const selector = document.querySelector('.division-selector');
+    //const dropdownContent = document.querySelector('.dropdown-content');
+    $("#drop-cont").val(dropdownContent)
+    //const selector = document.querySelector('.division-selector');
+    $("#drop-toggle").val(selector)
 
     if (!event.target.matches('.dropdown-toggle') && !event.target.matches('.dropdown-toggle *') && !event.target.matches('#search-division')) {
 
@@ -697,7 +722,8 @@ function softDeleteDepartment() {
             selectedDepartment.remove();
 
             // Remove from custom dropdown list
-            const customDropdownList = document.querySelector('.custom-dropdown-list');
+            //const customDropdownList = document.querySelector('.custom-dropdown-list');
+            $("#cus-dro-list").val(customDropdownList)
             const customDropdownItem = customDropdownList.querySelector(`div[data-department-id="${departmentId}"]`);
             if (customDropdownItem) {
                 customDropdownItem.remove();
@@ -844,8 +870,10 @@ document.querySelector('.custom-dropdown-list').addEventListener('click', functi
 
 function checkForChanges() {
     const departmentNameInput = document.getElementById('department-name');
-    const selectedDivision = document.querySelector('.division-selector');
-    const saveChangesButton = document.querySelector('.edit-system-button');
+    //const selectedDivision = document.querySelector('.division-selector');
+    $("#drop-toggle").val(selectedDivision)
+    //const saveChangesButton = document.querySelector('.edit-system-button');
+    $("#sys-edit-btn").val(saveChangesButton)
 
     const originalName = originalDepartmentName;
     const originalDivision = originalDivisionName;
@@ -878,7 +906,8 @@ document.querySelector('.division-selector').addEventListener('click', function 
 });
 
 function saveChanges() {
-    const saveChangesButton = document.querySelector('.edit-system-button');
+    //const saveChangesButton = document.querySelector('.edit-system-button');
+    $("#sys-edit-btn").val(saveChangesButton)
 
     // Check if the button is disabled
     if (saveChangesButton.disabled) {
@@ -948,7 +977,8 @@ function saveChanges() {
             selectedDepartment.textContent = departmentName;
 
             // Update the custom dropdown list
-            const customDropdownList = document.querySelector('.custom-dropdown-list');
+            //const customDropdownList = document.querySelector('.custom-dropdown-list');
+            $("#cus-dro-list").val(customDropdownList)
             const customDropdownItems = customDropdownList.querySelectorAll('div');
 
             customDropdownItems.forEach(item => {
@@ -975,7 +1005,8 @@ function saveChanges() {
             }
 
             // Update the systems name h2 element
-            const systemsNameElement = document.querySelector('.systems-name');
+            //const systemsNameElement = document.querySelector('.systems-name');
+            $("#sys-nsme").val(systemsNameElement)
             if (systemsNameElement) {
                 systemsNameElement.textContent = departmentName;
             }
@@ -1012,7 +1043,8 @@ function updateDepartmentLists(newDepartmentName, departmentId, divisionId) {
     }
 
     // Update the custom dropdown list
-    const customDropdownList = document.querySelector('.custom-dropdown-list');
+    //const customDropdownList = document.querySelector('.custom-dropdown-list');
+    $("#cus-dro-list").val(customDropdownList)
     const customDropdownItems = customDropdownList.querySelectorAll('div');
 
     customDropdownItems.forEach(item => {
@@ -1040,14 +1072,16 @@ document.querySelector('.reset-changes').addEventListener('click', function () {
     }
 
     // Disable the Save Changes button
-    const saveChangesButton = document.querySelector('.edit-system-button');
+    //const saveChangesButton = document.querySelector('.edit-system-button');
+    $("#sys-edit-btn").val(saveChangesButton)
     saveChangesButton.style.backgroundColor = '#6c757d';  // Disabled gray color
     saveChangesButton.style.cursor = 'not-allowed';
     saveChangesButton.disabled = true;
 });
 
 function showSuccessPopup() {
-    const overlay = document.getElementById('overlay-edit-dep');
+    //const overlay = document.getElementById('overlay-edit-dep');
+    $("#dep-edit-overlay").val(overlay)
     const popup = document.getElementById('successPopup');
 
     // Show overlay and popup
@@ -1055,7 +1089,8 @@ function showSuccessPopup() {
 }
 
 function closeSuccessPopup() {
-    const overlay = document.getElementById('overlay-edit-dep');
+    //const overlay = document.getElementById('overlay-edit-dep');
+    $("#dep-edit-overlay").val(overlay)
     overlay.classList.remove('show');
 }
 
