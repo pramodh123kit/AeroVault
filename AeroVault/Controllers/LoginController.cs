@@ -107,7 +107,7 @@ namespace AeroVault.Controllers
             if (isValid)
             {
                 var role = _loginBl.GetRole(staffMl);
-                var name = _loginBl.GetNameAndEmail(staffMl);
+               // var name = _loginBl.GetNameAndEmail(staffMl);
 
                 if (role != null)
                 {
@@ -121,8 +121,8 @@ namespace AeroVault.Controllers
                             isRedirect = true,
                             userRole = role.UserRole,
                             staffNo = staffMl.StaffNo,
-                            staffName = name.StaffName,
-                            email = name.EmailAddress,
+                            staffName = staffMl.StaffName,
+                            //email = name.EmailAddress,
 
                         });
 
@@ -136,8 +136,8 @@ namespace AeroVault.Controllers
                             isRedirect = true,
                             userRole = role.UserRole,
                             staffNo = staffMl.StaffNo,
-                            staffName = name.StaffName,
-                            email = name.EmailAddress,
+                            staffName = staffMl.StaffName,
+                            //email = name.EmailAddress,
 
                         });
                     }
@@ -151,8 +151,8 @@ namespace AeroVault.Controllers
                         isRedirect = true,
                         userRole = role.UserRole,
                         staffNo = staffMl.StaffNo,
-                        staffName = name.StaffName,
-                        email = name.EmailAddress,
+                        staffName = staffMl.StaffName,
+                        //email = name.EmailAddress,
 
                     });
                 }

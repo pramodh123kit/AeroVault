@@ -230,45 +230,45 @@ namespace AeroVault.Business
             }
         }
 
-        public StaffML GetNameAndEmail(StaffML staffNo)
-        {
-            StaffML emailMl = new StaffML();
+        //public StaffML GetNameAndEmail(StaffML staffNo)
+        //{
+        //    StaffML emailMl = new StaffML();
 
-            try
-            {
-                var updateDe = new DirectoryEntry();
-                var dirSearcher = new DirectorySearcher(updateDe)
-                {
-                    Filter = "(&(objectCategory=Person)(objectClass=user)(SAMAccountName=" + staffNo.StaffNo + "))",
-                    SearchScope = SearchScope.Subtree
-                };
-                var searchResults = dirSearcher.FindOne();
+        //    try
+        //    {
+        //        var updateDe = new DirectoryEntry();
+        //        var dirSearcher = new DirectorySearcher(updateDe)
+        //        {
+        //            Filter = "(&(objectCategory=Person)(objectClass=user)(SAMAccountName=" + staffNo.StaffNo + "))",
+        //            SearchScope = SearchScope.Subtree
+        //        };
+        //        var searchResults = dirSearcher.FindOne();
 
-                if (searchResults != null)
-                {
-                    var directoryEntry = searchResults.GetDirectoryEntry();
-                    if (directoryEntry.Properties["displayName"].Value != null)
-                    {
-                        emailMl.StaffName = directoryEntry.Properties["displayName"].Value.ToString();
-                    }
+        //        if (searchResults != null)
+        //        {
+        //            var directoryEntry = searchResults.GetDirectoryEntry();
+        //            if (directoryEntry.Properties["displayName"].Value != null)
+        //            {
+        //                emailMl.StaffName = directoryEntry.Properties["displayName"].Value.ToString();
+        //            }
 
-                    if (directoryEntry.Properties["mail"].Value != null)
-                    {
-                        emailMl.EmailAddress = directoryEntry.Properties["mail"].Value.ToString();
-                    }
-                }
-                else
-                {
-                    Console.WriteLine($"No results found for {staffNo.StaffNo}");
-                }
+        //            if (directoryEntry.Properties["mail"].Value != null)
+        //            {
+        //                emailMl.EmailAddress = directoryEntry.Properties["mail"].Value.ToString();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Console.WriteLine($"No results found for {staffNo.StaffNo}");
+        //        }
 
-                return emailMl;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error retrieving name and email: {ex}");
-                return null;
-            }
-        }
+        //        return emailMl;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Error retrieving name and email: {ex}");
+        //        return null;
+        //    }
+        //}
     }
 }
