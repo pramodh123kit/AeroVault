@@ -1,4 +1,15 @@
-﻿function toggleCustomDropdown(event) {
+﻿$(document).ready(function () {
+
+    $("#openAddDepartmentBtn").click(openAddDepartmentModal);
+
+});
+
+
+
+function openAddDepartmentModal() {
+    $("#addepartmentModal").show()
+}
+function toggleCustomDropdown(event) {
     event.stopPropagation();
     //var dropdownContent = document.querySelector('.custom-dropdown-content');
     $("#cus-dro-content").val(dropdownContent)

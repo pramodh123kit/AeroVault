@@ -12,7 +12,7 @@
         <h2 class="systems-header" id="systems-header">
             Select a Department to Manage
         </h2>
-        <button class="add-system-button add-dep-button" onclick="openAddDepartmentPopup()">
+        <button class="add-system-button add-dep-button" id="openAddDepartmentBtn">
             <img src="~/Content/Assets/add-icon.svg" alt="Add Icon" class="button-icon" />
             Add New Department
         </button>
@@ -160,3 +160,54 @@
 
 <script src="~/Scripts/jquery.min.js"></script>
 <script src="~/Scripts/AdminDepartmentScripts.js"></script>
+
+
+<div class="modal-notification-edit" id="addepartmentModal" style="display: none;">
+<div class="modal-header">
+    <h2>Add Department</h2>
+    <img src="~/Content/Assets/close-icon.svg" id="close-icon-dep1" style="cursor:pointer;" />
+</div>
+
+<div class="modal-body">
+    <p>Enter department name, select division to add this department</p>
+    <div class="add-dep-form-popup">
+        <div style="display: flex; align-items: center;">
+            <label for="new-department-name">Department Name</label>
+            <span id="department-name-error" style="color: red; margin-left: 10px; margin-bottom: 5px; display: none;">Please enter a department name</span>
+        </div>
+        <input type="text" id="new-department-name" placeholder="New Department Name" />
+    </div>
+
+    <div class="unique-form-group unique-add-dep-popup-dropdown">
+        <div style="display: flex; align-items: center;">
+            <label class="unique-label" for="unique-selector">Select Division</label>
+            <span id="division-error" style="color: red; margin-left: 10px; margin-bottom: 5px; display: none;">Please select a division</span>
+        </div>
+        <div class="unique-dropdown">
+            <div class="unique-dropdown-toggle unique-selector" onclick="toggleUniqueDropdown()">
+                <span id="unique-selected-option">Select a Division</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+
+            <div class="unique-dropdown-content">
+                <div class="unique-search-container">
+                    <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
+                    <input type="text" id="unique-search-input" placeholder="Search Division" onkeyup="filterUniqueOptions()" onclick="event.stopPropagation()">
+                </div>
+                <div class="unique-dropdown-list" id="division-dropdown-list">
+                    @foreach (var division in ViewData["Divisions"] as List<AeroVault.Models.DivisionModel> ?? new List<AeroVault.Models.DivisionModel>())
+                    {
+                        <div onclick="selectUniqueOption(this)" data-division-id="@division.DivisionID">
+                            @division.DivisionName
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer" style="border:none;">
+    <button class="save-btn add-new-dep-popup-btn" id="add-department-btn">Add New Department</button>
+</div>
+</div>
