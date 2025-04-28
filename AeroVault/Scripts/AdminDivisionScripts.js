@@ -78,7 +78,7 @@ var divisionListTable = $("#division-viewer").DataTable({
 
 function openEditModal(divisionID) {
   
-    const division = divisionList.find(d => d.divisionID === divisionID);
+ const division = divisionList.find(d => d.divisionID === divisionID);
     if (!division) return;
    
     $("#edit-department-name").val(division.divisionName);
@@ -191,7 +191,15 @@ function saveUpdate() {
             svgColor: '#00436C',
         }
     });
-    var divisionName = $("#edit-department-name").val();
+
+    var divisionName = $("#edit-department-name").val().trim();
+
+    const isDuplicate = divisionList.some(d => d.divisionName === divisionName);
+
+    if (isDuplicate) {
+        Notiflix.Report.warning("Duplicate", "A division with this name already exists.", "OK");
+        return;
+    }
 
     var putData = {
         DivisionID: DivisionIDEdit,
@@ -226,7 +234,14 @@ function addDivision() {
             svgColor: '#00436C',
         }
     });
-    var divisionName = $("#add-department-name").val();
+    var divisionName = $("#add-department-name").val().trim();
+
+    const isDuplicate = divisionList.some(d => d.divisionName === divisionName);
+
+    if (isDuplicate) {
+        Notiflix.Report.warning("Duplicate", "A division with this name already exists.", "OK");
+        return;
+    }
 
     if (divisionName != "") {
 

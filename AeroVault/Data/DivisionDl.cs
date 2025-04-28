@@ -345,7 +345,7 @@ END;";
         {
             using (var connection = new OracleConnection(_connectionString))
             {
-                connection.OpenAsync();
+                connection.Open();
                 using (var command = new OracleCommand(
                     "SELECT DivisionID, DivisionName, IsDeleted, ADDED_DATE " +
                     "FROM DIVISIONS ",
