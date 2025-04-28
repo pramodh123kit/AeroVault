@@ -1,35 +1,61 @@
-function filterSystems() {
+$(document).ready(function () {
 
-    var input, filter, ul, li, a, i, txtValue;
+    $("#EditSysBtn").click(openEditSystemModal);
+    $("#AddsysBtn").click(AddSystemModal);
+    $("#SyscloseBtn").click(SyscloseButton);
+    
 
-    input = document.getElementById('systemSearch');
+});
 
-    filter = input.value.toUpperCase();
-
-    ul = document.getElementById("systemList");
-
-    li = ul.getElementsByTagName('li');
-
-
-    for (i = 0; i < li.length; i++) {
-
-        a = li[i].getElementsByTagName("a")[0];
-
-        txtValue = a.textContent || a.innerText;
-
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-
-            li[i].style.display = "";
-
-        } else {
-
-            li[i].style.display = "none";
-
-        }
-
-    }
+function openEditSystemModal() {
+    $("#editsystemModel").show()
+    console.log("show")
 
 }
+
+function AddSystemModal() {
+    console.log("show")
+     $("#addsystemModal").show()
+}
+
+function SyscloseButton() {
+    $("#addsystemModal").hide()
+    console.log("abc")
+}
+
+
+//function filterSystems() {
+
+//    var input, filter, ul, li, a, i, txtValue;
+
+//    input = document.getElementById('systemSearch');
+
+//    filter = input.value.toUpperCase();
+
+//    ul = document.getElementById("systemList");
+
+//    li = ul.getElementsByTagName('li');
+
+
+//    for (i = 0; i < li.length; i++) {
+
+//        a = li[i].getElementsByTagName("a")[0];
+
+//        txtValue = a.textContent || a.innerText;
+
+//        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+
+//            li[i].style.display = "";
+
+//        } else {
+
+//            li[i].style.display = "none";
+
+//        }
+
+//    }
+
+//}
 
 async function highlightSystem(selectedItem) {
 
@@ -189,18 +215,23 @@ function filterFiles() {
 
 
 // SYSTEM ADD POPUP
-function openPopup() {
-    document.getElementById('dark-overlay').style.display = 'block';
-    document.getElementById('addsystem-popup').style.display = 'block';
-}
 
-function closePopup() {
-    document.getElementById('dark-overlay').style.display = 'none'; 
-    document.getElementById('addsystem-popup').style.display = 'none';
-}
+//new commented
+//function openPopup() {
+//    document.getElementById('dark-overlay').style.display = 'block';
+//    document.getElementById('addsystem-popup').style.display = 'block';
+//}
 
-document.querySelector('.add-system-button').onclick = openPopup;
-document.getElementById('close-icon').onclick = closePopup;
+//function closePopup() {
+//    document.getElementById('dark-overlay').style.display = 'none';
+//    document.getElementById('addsystem-popup').style.display = 'none';
+//}
+
+//document.querySelector('.add-system-button').onclick = openPopup;
+//document.getElementById('close-icon').onclick = closePopup;
+
+
+
 //document.getElementById('dark-overlay').onclick = closePopup;
 
 
@@ -791,17 +822,17 @@ function showDeleteSuccessNotification(message) {
 
 
 
-window.onclick = function (event) {
+//window.onclick = function (event) {
 
-    const successPopup = document.getElementById('success-popup');
+//    const successPopup = document.getElementById('success-popup');
 
-    if (event.target === successPopup) {
+//    if (event.target === successPopup) {
 
-        successPopup.style.display = 'none';
+//        successPopup.style.display = 'none';
 
-    }
+//    }
 
-};
+//};
 
 // Function to refresh systems list
 async function refreshSystemsList() {
@@ -895,17 +926,17 @@ function showAllDivisionOptions() {
     });
 }
 
-window.onclick = function (event) {
-    const dropdownContent = document.querySelector('.division-dropdown-content');
-    const dropdownToggle = document.querySelector('.division-dropdown-toggle');
+//window.onclick = function (event) {
+//    const dropdownContent = document.querySelector('.division-dropdown-content');
+//    const dropdownToggle = document.querySelector('.division-dropdown-toggle');
 
-    if (!event.target.matches('.division-dropdown-toggle') && !event.target.matches('.division-dropdown-toggle *') && !event.target.matches('#division-search')) {
-        if (dropdownContent.style.display === 'block') {
-            dropdownContent.style.display = 'none'; 
-            dropdownToggle.classList.remove('open'); 
-        }
-    }
-};
+//    if (!event.target.matches('.division-dropdown-toggle') && !event.target.matches('.division-dropdown-toggle *') && !event.target.matches('#division-search')) {
+//        if (dropdownContent.style.display === 'block') {
+//            dropdownContent.style.display = 'none'; 
+//            dropdownToggle.classList.remove('open'); 
+//        }
+//    }
+//};
 
 function toggleSystemList() {
     const systemList = document.getElementById('systemList');

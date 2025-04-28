@@ -1,10 +1,18 @@
 ﻿$(document).ready(function () {
 
     $("#openAddDepartmentBtn").click(openAddDepartmentModal);
+    $("#closeBtn").click(closeButton);
+    //$(".btn-close").on('click', function () {
+    //    console.log('click');
+    //})
+
 
 });
 
-
+function closeButton() {
+    $("#addepartmentModal").hide()
+    console.log("hide")
+}
 
 function openAddDepartmentModal() {
     $("#addepartmentModal").show()
@@ -158,12 +166,12 @@ function showAllCustomOptions() {
 
 window.addEventListener('click', function (event) {
 
-    //var dropdownContent = document.querySelector('.custom-dropdown-content');
-    $("#cus-dro-content").val(dropdownContent)
-   // var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
-    $("#cus-dro-toggle").val(dropdownToggle)
-    //var selector = document.querySelector('.custom-selector');
-    $("#cus-dro-toggle").val(selector)
+    var dropdownContent = document.querySelector('.custom-dropdown-content');
+    //$("#cus-dro-content").val(dropdownContent)
+    var dropdownToggle = document.querySelector('.custom-dropdown-toggle');
+   // $("#cus-dro-toggle").val(dropdownToggle)
+    var selector = document.querySelector('.custom-selector');
+   // $("#cus-dro-toggle").val(selector)
 
     if (!dropdownToggle.contains(event.target) && !dropdownContent.contains(event.target) && dropdownContent.style.display === 'block') {
         dropdownContent.style.display = 'none';
@@ -195,12 +203,12 @@ function toggleDropdown() {
 }
 
 function closeDropdown() {
-    //const dropdownContent = document.querySelector('.dropdown-content');
-    $("#drop-cont").val(dropdownContent)
-    //const dropdownToggle = document.querySelector('.dropdown-toggle');
-    $("#drop-toggle").val(dropdownToggle)
-    //const divisionSelector = document.querySelector('.division-selector');
-    $("#drop-toggle").val(divisionSelector)
+    const dropdownContent = document.querySelector('.dropdown-content');
+    //$("#drop-cont").val(dropdownContent)
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    //$("#drop-toggle").val(dropdownToggle)
+    const divisionSelector = document.querySelector('.division-selector');
+    //$("#drop-toggle").val(divisionSelector)
 
     dropdownContent.style.display = 'none';
     dropdownToggle.classList.remove('open');
@@ -258,10 +266,10 @@ document.getElementById('search-division').addEventListener('blur', function () 
 
 
 document.addEventListener('click', function (event) {
-    //const dropdownContent = document.querySelector('.dropdown-content');
-    $("#drop-cont").val(dropdownContent)
-    //const dropdownToggle = document.querySelector('.dropdown-toggle');
-    $("#drop-toggle").val(dropdownToggle)
+    const dropdownContent = document.querySelector('.dropdown-content');
+    //$("#drop-cont").val(dropdownContent)
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    //$("#drop-toggle").val(dropdownToggle)
     if (!dropdownContent.contains(event.target) && !dropdownToggle.contains(event.target)) {
         closeDropdown();
     }
@@ -1119,33 +1127,33 @@ document.querySelector('.reset-changes').addEventListener('click', function () {
     saveChangesButton.disabled = true;
 });
 
-function showSuccessPopup() {
-    //const overlay = document.getElementById('overlay-edit-dep');
-    $("#dep-edit-overlay").val(overlay)
-    const popup = document.getElementById('successPopup');
+//function showSuccessPopup() {
+//    //const overlay = document.getElementById('overlay-edit-dep');
+//    $("#dep-edit-overlay").val(overlay)
+//    const popup = document.getElementById('successPopup');
 
-    // Show overlay and popup
-    overlay.classList.add('show');
-}
+//    // Show overlay and popup
+//    overlay.classList.add('show');
+//}
 
-function closeSuccessPopup() {
-    //const overlay = document.getElementById('overlay-edit-dep');
-    $("#dep-edit-overlay").val(overlay)
-    overlay.classList.remove('show');
-}
+//function closeSuccessPopup() {
+//    const overlay = document.getElementById('overlay-edit-dep');
+//    //$("#dep-edit-overlay").val(overlay)
+//    overlay.classList.remove('show');
+//}
 
 // Optional: Add a click event to close the popup if needed
-document.getElementById('overlay-edit-dep').addEventListener('click', function (event) {
-    // Only close if clicking directly on the overlay (not the popup)
-    if (event.target === this) {
-        closeSuccessPopup();
-    }
-});
+//document.getElementById('overlay-edit-dep').addEventListener('click', function (event) {
+//    // Only close if clicking directly on the overlay (not the popup)
+//    if (event.target === this) {
+//        closeSuccessPopup();
+//    }
+//});
 
 
-document.getElementById('overlay-edit-dep').addEventListener('click', function (event) {
-    // Only close if clicking directly on the overlay (not the popup)
-    if (event.target === this) {
-        this.classList.remove('show');
-    }
-});
+//document.getElementById('overlay-edit-dep').addEventListener('click', function (event) {
+//    // Only close if clicking directly on the overlay (not the popup)
+//    if (event.target === this) {
+//        this.classList.remove('show');
+//    }
+//});
