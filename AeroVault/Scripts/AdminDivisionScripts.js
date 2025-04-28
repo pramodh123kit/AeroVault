@@ -1,15 +1,8 @@
 var divisionList;
 var DivisionIDEdit;
 $(document).ready(function () {
+
     getDivisionList()
-
-    console.log("jQuery version: " + $.fn.jquery);
-
-    if ($.fn.modal) {
-        console.log("Bootstrap modal is available");
-    } else {
-        console.log("Bootstrap modal is NOT available");
-    }
 
     $("#add_divisionBtn").click(openmodal)
     $(".close").click(closeModal)
@@ -19,7 +12,7 @@ $(document).ready(function () {
 });
 
 function getDivisionList() {
-    console.log("hihihihihi")
+  
     $.ajax({
         url: '/Divisions/GetAllDivisionsNew',
         type: 'GET',
