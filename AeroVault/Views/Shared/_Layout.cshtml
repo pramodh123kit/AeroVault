@@ -8,8 +8,9 @@
     <title>@ViewData["Title"] - AeroVault</title>
    @*  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
    @*  <link rel="stylesheet" href="~/Content/css/site.css" asp-append-version="true" /> *@
+    <link rel="stylesheet" href="~/Content/css/ProjectStyles/Bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="~/AeroVault.styles.css" asp-append-version="true" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    @* <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous"> *@
 
     @RenderSection("CustomPageStyles", required: false)
 </head>
@@ -74,7 +75,8 @@
     @Html.Partial("UserPopups/_UserSidebar", new UserSidebarModel())
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+   @*  <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
+    <script src="~/Scripts/ProjectScripts/Bootstrap/bootstrap.min.js"></script>
     <script src="~/Scripts/UserLayoutScripts.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
     @RenderSection("ProjectScripts", required: false)
