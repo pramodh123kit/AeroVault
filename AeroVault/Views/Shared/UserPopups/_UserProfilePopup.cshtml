@@ -1,7 +1,4 @@
-﻿@* @page *@
-@* @model AeroVault.Models.UserProfilePopupModel *@
-@* @{ *@
-@* } *@
+﻿@using Microsoft.AspNetCore.Http
 <link rel="stylesheet" href="~/Content/css/UserProfileStyles.css">
 
 <div class="modal-notification-edit4" id="editfile-popup6" style="display: none;">
@@ -11,12 +8,15 @@
     </div>
 
     <div class="modal-body4">
-        @* <img src="/Content/Assets/UserProfilePic.svg" alt="User Icon" width="60" height="60"  /> *@
-        <p style="text-align:center; margin-top:10px; font-weight:bold; margin-bottom:0px;">@Context.Session.GetString("StaffNo")</p>
+        @{
+            var staffNo = Context.Session.GetString("StaffNo");
+            var staffName = Context.Session.GetString("StaffName");
+            var department = Context.Session.GetString("Department");
+        }
 
-        <p style="text-align:center; margin-top:5px; margin-bottom:0px;">@Context.Session.GetString("StaffName")</p>
-
-        <p style="text-align:center; margin-top:5px; margin-bottom:10px;">@Context.Session.GetString("Department")</p>
+        <p style="text-align:center; margin-top:10px; font-weight:bold; margin-bottom:0px;">@staffNo</p>
+        <p style="text-align:center; margin-top:5px; margin-bottom:0px;">@staffName</p>
+        <p style="text-align:center; margin-top:5px; margin-bottom:10px;">@department</p>
     </div>
 
 </div>

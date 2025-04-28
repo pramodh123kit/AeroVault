@@ -8,7 +8,8 @@ using AeroVault.Repositories;
 using AeroVault.Services;
 using System.DirectoryServices;
 using DataLayer;
-using SLA_Authentication_DLL; 
+using SLA_Authentication_DLL;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AeroVault
 {
@@ -17,6 +18,17 @@ namespace AeroVault
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            if (builder.Environment.IsDevelopment())
+            {
+                builder.Services
+                       .AddControllersWithViews().AddRazorRuntimeCompilation();
+            }
+            else
+            {
+                builder.Services
+                       .AddControllersWithViews();
+            }
 
             builder.WebHost.ConfigureKestrel(serverOptions =>
             {
@@ -95,6 +107,7 @@ namespace AeroVault
             if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage(); 
+
             }
             else
             {

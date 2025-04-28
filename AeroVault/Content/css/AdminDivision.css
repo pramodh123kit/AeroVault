@@ -1,0 +1,124 @@
+﻿.add-dep-button {
+    width: 280px;
+}
+.close {
+    padding: 1px 10px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: red;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 24px; /* increases the size of the "×" */
+    line-height: 1;
+}
+.btn-save {
+    padding: 8px 0px;
+    font-size: 16px;
+    font-weight: bold;
+    width: 135px;
+    background: #00436C;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-left: auto;
+}
+.btn-add {
+    padding: 8px 0px;
+    font-size: 16px;
+    font-weight: bold;
+    width: 200px;
+    background: #00436C;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.modal-header {
+    background-color: #00436C;
+    color: white;
+    border-bottom: none;
+    height: 50px; /* Set desired height */
+    display: flex;
+    align-items: center; /* Center vertically */
+    padding: 0 20px; /* Horizontal spacing */
+}
+.card-body {
+    background-color: white;
+}
+
+
+
+.add-system-button {
+    padding: 8px 0px;
+    font-size: 16px;
+    font-weight: bold;
+    width: 230px;
+    background: #00436C;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.view-status {
+    color: white;
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px !important;
+    text-align: center !important;
+    background-color: #0F2E6B;
+    cursor: pointer;
+    width: 70px !important;
+    margin-right: 7px !important;
+}
+
+.edit-status {
+    color: white !important;
+    background-color: #0F2E6B !important;
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px;
+    text-align: center !important;
+    display: inline-block;
+    cursor: pointer;
+    margin-right: 7px !important;
+}
+
+.delete-status {
+    color: white !important;
+    background-color: indianred !important;
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px;
+    text-align: center !important;
+    display: inline-block;
+    cursor: pointer;
+    margin-right: 7px !important;
+}
+
+.disable-status {
+    color: white !important;
+    background-color: indianred !important;
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px;
+    text-align: center !important;
+    display: inline-block;
+    cursor: pointer;
+    margin-right: 7px !important;
+}
+
+.enable-status {
+    color: white !important;
+    background-color: forestgreen !important;
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px;
+    text-align: center !important;
+    display: inline-block;
+    cursor: pointer;
+    margin-right: 7px !important;
+}
