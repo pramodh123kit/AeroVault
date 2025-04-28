@@ -12,11 +12,6 @@ body {
     min-height: 100vh;
 }
 
-.container {
-    display: flex;
-    width: 100%;
-   
-}
 
 .manage-active {
 
@@ -272,10 +267,7 @@ body {
     font-family: Arial;
 }
 
-.container {
-    display: flex;
-    width: 100%;
-}
+
 
 /* Sidebar */
 .sidebar {
