@@ -66,5 +66,37 @@ namespace AeroVault.Business
         {
             return await _reviewDl.GetStaffNosByUniqueFileIdentifierAsync(uniqueFileIdentifier);
         }
+
+        public async Task<List<FileWithViewDetailsModel>> GetFilesWithViewDetailsAsync(int systemId)
+        {
+            var result = new List<FileWithViewDetailsModel>();
+
+            // Step 1: Get all files for the system
+            var files = await _reviewDl.GetFilesBySystemAsync(systemId); // Assume _fileRepository is your DAL class
+
+            foreach (var file in files)
+            {
+                var model = new FileWithViewDetailsModel
+                {
+                    File = file,
+                    ViewedCount = 0,
+                    Viewers = new List<ViewedFileModel>()
+                };
+
+                if (!string.IsNullOrEmpty(file.UniqueFileIdentifier))
+                {
+                    // Step 2: Get count of unique viewers
+                    model.ViewedCount = await _reviewDl.GetViewedFileCountAsync(file.UniqueFileIdentifier);
+
+                    // Step 3: Get list of viewers (optional - remove if not needed)
+                    model.Viewers = await _reviewDl.GetStaffNosByUniqueFileIdentifierAsync(file.UniqueFileIdentifier);
+                }
+
+                result.Add(model);
+            }
+
+            return result;
+        }
+
     }
 }
