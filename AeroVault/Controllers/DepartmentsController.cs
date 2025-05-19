@@ -44,10 +44,10 @@ namespace AeroVault.Controllers
 
 
 
-        [HttpGet]
-        public async Task<ActionResult> AddDepartment([FromBody] UpdateDepartmentRequest request)
+        [HttpPost]
+        public ActionResult AddDepartment([FromBody] UpdateDepartmentRequest request)
         {
-            var result = await _departmentBl.AddDepartmentAsync(request.DepartmentName, request.DivisionId);
+            var result =_departmentBl.AddDepartmentAsync(request.DepartmentName, request.DivisionId);
             if (!result.Success)
             {
                 return BadRequest(result.Message);

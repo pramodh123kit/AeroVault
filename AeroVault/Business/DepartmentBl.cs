@@ -25,7 +25,7 @@ namespace AeroVault.Services
             return await _departmentDl.GetAllDivisionsAsync();
         }
 
-        public async Task<(bool Success, string Message, object Data)> AddDepartmentAsync(string departmentName, int divisionId)
+        public (bool Success, string Message, object Data) AddDepartmentAsync(string departmentName, int divisionId)
         {
             if (string.IsNullOrWhiteSpace(departmentName))
             {
@@ -34,13 +34,9 @@ namespace AeroVault.Services
 
             try
             {
-                bool exists = await _departmentDl.DepartmentExistsAsync(departmentName, divisionId);
-                if (exists)
-                {
-                    return (false, "A department with this name already exists in the selected division.", null);
-                }
+                
 
-                var (departmentId, divisionName) = await _departmentDl.AddDepartmentAsync(departmentName, divisionId);
+                var (departmentId, divisionName) = _departmentDl.AddDepartmentAsync(departmentName, divisionId);
 
                 return (true, "Department added successfully.", new
                 {

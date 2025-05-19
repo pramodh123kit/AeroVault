@@ -134,18 +134,18 @@ namespace AeroVault.Repositories
             }
         }
 
-        public async Task<(int DepartmentId, string DivisionName)> AddDepartmentAsync(string departmentName, int divisionId)
+        public (int DepartmentId, string DivisionName) AddDepartmentAsync(string departmentName, int divisionId)
         {
             using (var connection = new OracleConnection(_connectionString))
             {
-                await connection.OpenAsync();
+                 connection.Open();
                 int newDepartmentId = 0;
                 string divisionName = "";
 
                 string sequenceSql = "SELECT SEQ_DEPARTMENTID.NEXTVAL FROM dual";
                 using (var sequenceCommand = new OracleCommand(sequenceSql, connection))
                 {
-                    newDepartmentId = Convert.ToInt32(await sequenceCommand.ExecuteScalarAsync());
+                    newDepartmentId = Convert.ToInt32(sequenceCommand.ExecuteScalar());
                 }
 
                 string insertSql = @"
@@ -158,14 +158,14 @@ namespace AeroVault.Repositories
                     insertCommand.Parameters.Add(new OracleParameter(":DepartmentName", departmentName));
                     insertCommand.Parameters.Add(new OracleParameter(":DivisionID", divisionId));
 
-                    await insertCommand.ExecuteNonQueryAsync();
+                    insertCommand.ExecuteNonQuery();
                 }
 
                 string divisionNameSql = "SELECT DivisionName FROM Divisions WHERE DivisionID = :DivisionID";
                 using (var divisionCommand = new OracleCommand(divisionNameSql, connection))
                 {
                     divisionCommand.Parameters.Add(new OracleParameter(":DivisionID", divisionId));
-                    divisionName = (await divisionCommand.ExecuteScalarAsync())?.ToString();
+                    divisionName = (divisionCommand.ExecuteScalar())?.ToString();
                 }
 
                 return (newDepartmentId, divisionName);

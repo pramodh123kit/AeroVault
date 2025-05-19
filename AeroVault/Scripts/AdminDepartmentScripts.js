@@ -1,21 +1,12 @@
 ﻿var departmentList;
 $(document).ready(function () {
 
-
-    //$("#openAddDepartmentBtn").click(openAddDepartmentModal);
-    $(".close").click(closeButton);
-    //$(".btn-close").on('click', function () {
-    //    console.log('click');
-    //})
+    $(".close").click(closeButton);  
     getDepartmentList();
     loadDivisions();
     $("#openAddDepartmentBtn").click(openAddDepartmentModal)
     $("#depbtnSave").click(addDepartment)
-    
-   // $(".close").click()
-
-    
-
+  
 });
 
 function getDepartmentList() {
@@ -135,12 +126,12 @@ function resultgetAllDesignations(data) {
 
     /***Populate the dropdown of the countries of the add hotel modal***/
     var dropdown = $("#department-category");
-    var defaultOption = $("<option></option>").val("0").text("Select Division");
+    var defaultOption = $("<option></option>").val("").text("Select Division");
     dropdown.append(defaultOption);
     for (var i = 0; i < designations.length; i++) {
 
         if (designations[i].divisionName != null || designations[i].divisionName != "") {
-            var option = $("<option></option>").val(designations[i].divisionId).text(designations[i].divisionName);
+            var option = $("<option></option>").val(designations[i].divisionID).text(designations[i].divisionName);
             dropdown.append(option);
         }
     }
@@ -180,7 +171,7 @@ function addDepartment() {
 
 
     var DepartmentName = $("#add-department-name").val().trim();
-    var DivisionIDNew = $("#department-category option:selected").val();
+    var DivisionIDNew = $("#department-category").val();
 
     Notiflix.Report.init({
         success: {
@@ -205,19 +196,19 @@ function addDepartment() {
 
         var putData = {
             departmentName: DepartmentName,
-            divisionId: DivisionIDNew,
+            divisionId: parseInt(DivisionIDNew),
 
         };
         $.ajax({
             url: '/Departments/AddDepartment',
-            type: 'GET',
+            type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(putData),
             success: function (data) {
 
                 console.log("Added:", data);
                 Notiflix.Report.success("Added", "Department Added Successfully", "OK");
-                closeModal()
+                closeButton();
                 getDepartmentList()
             },
             error: function (jqXHR, textStatus, errorThrown) {
