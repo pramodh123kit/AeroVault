@@ -30,6 +30,8 @@ function getDivisionList() {
 
 }
 
+//table
+
 
 function assignDivisionsToList(data) {
 
