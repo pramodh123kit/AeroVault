@@ -1,33 +1,37 @@
-﻿   @model AeroVault.Models.DepartmentViewModel
-
-@{
-    Layout = null;
-}
-
-<link rel="stylesheet" href="~/Content/css/AdminSystems.css">
-<link href="~/Content/css/all.min.css" rel="stylesheet">
+﻿<link href="~/Content/css/ProjectStyles/notiflix.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/Content/css/ProjectStyles/JQuerryTable/jquery.dataTables.min.css">
+<link rel="stylesheet" href="~/Content/css/AdminDivision.css">
+<link rel="stylesheet" href="~/Content/css/ProjectStyles/Bootstrap/bootstrap.min.css" />
 
 <div class="admin-main-content" stlye="overflow:hidden; flex-grow: 1;">
     <div class="header-container">
         <h2 class="systems-header" id="systems-header">
             Select a Department to Manage
         </h2>
-        <button class="add-system-button add-dep-button" id="openAddDepartmentBtn">
+        <button class="btn-add" id="openAddDepartmentBtn">
             <img src="~/Content/Assets/add-icon.svg" alt="Add Icon" class="button-icon" />
             Add New Department
         </button>
     </div>
 
     <div class="sidebar-container">
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="department-viewer" class="display" style="width:100%"></table>
+                </div>
+            </div>
+        </div>
         <div class="sidebar2">
             <div class="search-container" style="width:90%;">
-                <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
-                <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search Department" type="text" />
+                @* <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" /> *@
+                @* <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search Department" type="text" /> *@
             </div>
             <div class="scrollable-content scrollable-content-list">
                 <div id="systemListContainer">
                     <ul id="systemList">
-                        @if (Model.Departments == null || !Model.Departments.Any())
+                        @*  @if (Model.Departments == null || !Model.Departments.Any())
                         {
                             <li>No Departments available.</li>
                         }
@@ -45,24 +49,24 @@
 
                                 </li>
                             }
-                        }
+                        } *@
                     </ul>
 
                     <div class="custom-form-group">
-                        <h2 class="systems-header systems-header-label">
-                            Select a Department to Manage
-                        </h2>
+                        @* <h2 class="systems-header systems-header-label"> *@
+                        @*     Select a Department to Manage *@
+                        @* </h2> *@
                         <div class="custom-dropdown">
                             <div class="custom-dropdown-toggle custom-selector" id=" cus-dro-toggle" onclick="toggleCustomDropdown(event)">
-                                <span id="selected-option" style="color:#333333;">Select a department</span>
+                                @* <span id="selected-option" style="color:#333333;">Select a department</span>  *@
                                 <i class="fas fa-chevron-down"></i>
                             </div>
                             <div class="custom-dropdown-content" id="cus-dro-content" style="position:sticky">
                                 <div class="custom-search-container">
-                                    <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
-                                    <input type="text" id="custom-search-input" placeholder="Search Department" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()">
+                                    @* <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" /> *@
+                                    @* <input type="text" id="custom-search-input" placeholder="Search Department" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()"> *@
                                 </div>
-                                <div class="custom-dropdown-list" id="cus-dro-list">
+                                @* <div class="custom-dropdown-list" id="cus-dro-list">
                                     @foreach (var department in Model.Departments)
                                     {
                                         <div onclick="selectCustomOption(this); highlightSystem(this)"
@@ -75,7 +79,7 @@
 
                                     }
 
-                                </div>
+                                </div> *@
                             </div>
                         </div>
                     </div>
@@ -101,20 +105,21 @@
                         <div class="dropdown-toggle division-selector" id="drop-toggle" onclick="toggleDropdown()">
                             <span id="selected-division">Information Technology</span>
                             <i class="fas fa-chevron-down"></i>
+
                         </div>
                         <div class="dropdown-content div-secondary-container" id="drop-cont">
                             <div class="search-container second-search" style="width: 90%; display: inline-block !important;">
-                                <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
+                                @* <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" /> *@
                                 <input type="text" id="search-division" placeholder="Search Division" onkeyup="filterDivisions()" onclick="event.stopPropagation()">
                             </div>
-                            <div class="dropdown-list">
+                            @* <div class="dropdown-list">
                                 @foreach (var division in Model.Divisions)
                                 {
                                     <div onclick="selectDivision(this)" data-division-id="@division.DivisionID">
                                         @division.DivisionName
                                     </div>
                                 }
-                            </div>
+                            </div> *@
                         </div>
                     </div>
                 </div>
@@ -136,26 +141,103 @@
     </div>
 </div>
 
-<div id="dep-edit-overlay" class="overlay-edit-dep">
-    <div id="successPopup" class="popup">
-        <button class="popup-close" onclick="closeSuccessPopup()"></button>
 
-        <div class="popup-content">
-            <img src="~/Content/Assets/system-added-successfully.svg" alt="Alternate Text" />
-            <h2 class="edit-success-dep">Department was Successfully Edited</h2>
+<!-- Modal -->
+
+<div class="modal fade" id="addepartmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Department</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p>Enter department name to add this department</p>
+                <div class="add-dep-form-popup">
+                    <label for="new-department-name" style="display: inline-block;">Department Name</label>
+                    <input type="text" class="form-control" id="add-department-name" placeholder="Enter New Department Name">
+                    <!--Drop Down-->
+                    <div class="divi-dropdown">
+                        <label for="Divi-name">Division Name</label><br />
+                        <select class="form-control" id="department-category">
+                            </select>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="depbtnSave" class="btn-save">Save</button>
+            </div>
         </div>
+
     </div>
+
+    @* <div class="modal-footer"> *@
+
+    @* <div class="modal-footer"> *@
+    @*     <button type="button" id="btnSave" class="btn-save">Save</button> *@
+    @* </div> *@
 </div>
 
+@* </div> *@
+
+
+
+
+
+@* <div class="modal fade" id="addDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> *@
+@*     <div class="modal-dialog" role="document"> *@
+@*         <div class="modal-content"> *@
+@*             <div class="modal-header"> *@
+@*                 <h5 class="modal-title" id="exampleModalLabel">Add New Department</h5> *@
+@*                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"> *@
+@*                     <span aria-hidden="true">&times;</span> *@
+@*                 </button> *@
+@*             </div> *@
+
+@*             <div class="modal-body"> *@
+@*                 <p>Enter department name to add this department</p> *@
+@*                 <div class="add-dep-form-popup"> *@
+@*                     <label for="new-department-name" style="display: inline-block;">Department Name</label> *@
+@*                     <input type="text" class="form-control" id="add-department-name" placeholder="Enter New Department Name"> *@
+@*                 </div> *@
+@*             </div> *@
+
+@*             <div class="modal-footer"> *@
+
+@*                 <div class="modal-footer"> *@
+@*                     <button type="button" id="btnAddDepSave" class="btn-save">Save</button> *@
+@*                 </div> *@
+@*             </div> *@
+
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+
+@* <div id="dep-edit-overlay" class="overlay-edit-dep"> *@
+@* <div id="successPopup" class="popup"> *@
+@* <button class="popup-close" onclick="closeSuccessPopup()"></button> *@
+
+@* <div class="popup-content"> *@
+@* <img src="~/Content/Assets/system-added-successfully.svg" alt="Alternate Text" /> *@
+@* <h2 class="edit-success-dep">Department was Successfully Edited</h2> *@
+@* </div> *@
+@* </div> *@
+@* </div> *@
+
 <!-- Overlay -->
-<div id="dark-overlay-dep1" class="dark-overlay" style="display: none;"></div>
-@Html.Partial("AdminDepartmentPopups/_AdminAddDepartmentPopup", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminAddDepartmentPopupModel())
+@* <div id="dark-overlay-dep1" class="dark-overlay" style="display: none;"></div> *@
+@* @Html.Partial("AdminDepartmentPopups/_AdminAddDepartmentPopup", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminAddDepartmentPopupModel()) *@
 
-<div id="dark-overlay-dep2" class="dark-overlay" style="display: none;"></div>
-@Html.Partial("AdminDepartmentPopups/_AdminDeleteDepartmentPopup", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDeleteDepartmentPopupModel())
+@* <div id="dark-overlay-dep2" class="dark-overlay" style="display: none;"></div> *@
+@* @Html.Partial("AdminDepartmentPopups/_AdminDeleteDepartmentPopup", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDeleteDepartmentPopupModel()) *@
 
-<div id="dark-overlay-dep3" class="dark-overlay-success" style="display: none;"></div>
-@Html.Partial("AdminDepartmentPopups/_AdminDepartmentAdded", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDepartmentAddedModel())
+@* <div id="dark-overlay-dep3" class="dark-overlay-success" style="display: none;"></div> *@
+@* @Html.Partial("AdminDepartmentPopups/_AdminDepartmentAdded", new AeroVault.Views.Shared.AdminDepartmentPopups._AdminDepartmentAddedModel()) *@
 
 
 <script src="~/Scripts/jquery.min.js"></script>
@@ -163,46 +245,47 @@
 
 
 <div class="modal-notification-edit" id="addepartmentModal" style="display: none;">
-    <div class="modal-header">
-        <h2>Add Department</h2>
-        @*  <img src="~/Content/Assets/close-icon.svg" id="close-icon-dep1" style="cursor:pointer;" /> *@
+    @* <div class="modal-header"> *@
+    @*     <h2>Add Department</h2> *@
+    @*  <img src="~/Content/Assets/close-icon.svg" id="close-icon-dep1" style="cursor:pointer;" /> *@
 
-        <button type="button" aria-label="Close" class="btn-close" id="closeBtn">X</button>
-    </div>
+    @*     <button type="button" aria-label="Close" class="btn-close" id="closeBtn">X</button> *@
+    @* </div> *@
 
     <div class="modal-body">
-        <p>Enter department name, select division to add this department</p>
+        @* <p>Enter department name, select division to add this department</p> *@
         <div class="add-dep-form-popup">
             <div style="display: flex; align-items: center;">
-                <label for="new-department-name">Department Name</label>
+                @* <label for="new-department-name">Department Name</label> *@
                 <span id="department-name-error" style="color: red; margin-left: 10px; margin-bottom: 5px; display: none;">Please enter a department name</span>
             </div>
-            <input type="text" id="new-department-name" placeholder="New Department Name" />
+            @* <input type="text" id="new-department-name" placeholder="New Department Name" /> *@
         </div>
 
         <div class="unique-form-group unique-add-dep-popup-dropdown">
             <div style="display: flex; align-items: center;">
-                <label class="unique-label" for="unique-selector">Select Division</label>
+                @* <label class="unique-label" for="unique-selector">Select Division</label> *@
                 <span id="division-error" style="color: red; margin-left: 10px; margin-bottom: 5px; display: none;">Please select a division</span>
             </div>
             <div class="unique-dropdown">
                 <div class="unique-dropdown-toggle unique-selector" onclick="toggleUniqueDropdown()">
-                    <span id="unique-selected-option">Select a Division</span>
+                    @* <span id="unique-selected-option">Select a Division</span> *@
                     <i class="fas fa-chevron-down"></i>
                 </div>
 
                 <div class="unique-dropdown-content">
                     <div class="unique-search-container">
-                        <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" />
-                        <input type="text" id="unique-search-input" placeholder="Search Division" onkeyup="filterUniqueOptions()" onclick="event.stopPropagation()">
+                        @* <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" /> *@
+                        @* <input type="text" id="unique-search-input" placeholder="Search Division" onkeyup="filterUniqueOptions()" onclick="event.stopPropagation()"> *@
                     </div>
                     <div class="unique-dropdown-list" id="division-dropdown-list">
-                        @foreach (var division in ViewData["Divisions"] as List<AeroVault.Models.DivisionModel> ?? new List<AeroVault.Models.DivisionModel>())
+
+                        @*  @foreach (var division in ViewData["Divisions"] as List<AeroVault.Models.DivisionModel> ?? new List<AeroVault.Models.DivisionModel>())
                         {
                             <div onclick="selectUniqueOption(this)" data-division-id="@division.DivisionID">
                                 @division.DivisionName
                             </div>
-                        }
+                        } *@
                     </div>
                 </div>
             </div>
@@ -210,6 +293,12 @@
     </div>
 
     <div class="modal-footer" style="border:none;">
-        <button class="save-btn add-new-dep-popup-btn" id="add-department-btn">Add New Department</button>
+        @* <button class="save-btn add-new-dep-popup-btn" id="add-department-btn">Add New Department</button> *@
     </div>
 </div>
+
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/ProjectScripts/JQuerryTable/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/ProjectScripts/Bootstrap/bootstrap.min.js"></script>
+<script src="~/Scripts/AdminDepartmentScripts.js"></script>
+<script src="~/Scripts/ProjectScripts/notiflix.js"></script>

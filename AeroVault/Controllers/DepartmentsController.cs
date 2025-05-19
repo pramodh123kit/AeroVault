@@ -1,4 +1,5 @@
 ﻿using AeroVault.Models;
+using AeroVault.Repositories;
 using AeroVault.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -36,14 +37,17 @@ namespace AeroVault.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllDepartments()
         {
-            var departments = await _departmentBl.GetAllDepartmentsAsync();
-            return Json(departments);
+            var divisions = await _departmentBl.GetAllDepartmentsAsync();
+            return Json(divisions);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddDepartment(string departmentName, int divisionId)
+
+
+
+        [HttpGet]
+        public async Task<ActionResult> AddDepartment([FromBody] UpdateDepartmentRequest request)
         {
-            var result = await _departmentBl.AddDepartmentAsync(departmentName, divisionId);
+            var result = await _departmentBl.AddDepartmentAsync(request.DepartmentName, request.DivisionId);
             if (!result.Success)
             {
                 return BadRequest(result.Message);
@@ -93,6 +97,7 @@ namespace AeroVault.Controllers
             public int DepartmentId { get; set; }
             public string DepartmentName { get; set; }
             public int DivisionId { get; set; }
+
         }
 
         public class DepartmentDeleteModel
