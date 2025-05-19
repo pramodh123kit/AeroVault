@@ -282,6 +282,7 @@ function closeModal() {
     $("#addDivisionModal").modal("hide")
     $("#editDivisionModal").modal("hide")
 }
+
 //function assignDivisionsToList(divisions) {
 
 
