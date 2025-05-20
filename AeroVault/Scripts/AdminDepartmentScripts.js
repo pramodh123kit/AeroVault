@@ -99,6 +99,7 @@ function loadDivisions() {
         success: function (data) {
             //populateDivisionDropdown(data);
             resultgetAllDesignations(data)
+            resultgetAllDesignationsEdit(data)
             console.log("AllDivision", data)
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -128,6 +129,28 @@ function resultgetAllDesignations(data) {
 
     /***Populate the dropdown of the countries of the add hotel modal***/
     var dropdown = $("#department-category");
+    var defaultOption = $("<option></option>").val("").text("Select Division");
+    dropdown.append(defaultOption);
+    for (var i = 0; i < designations.length; i++) {
+
+        if (designations[i].divisionName != null || designations[i].divisionName != "") {
+            var option = $("<option></option>").val(designations[i].divisionID).text(designations[i].divisionName);
+            dropdown.append(option);
+        }
+    }
+
+}
+
+
+function resultgetAllDesignationsEdit(data) {
+    var designations = data;
+
+    console.log("Division dropdown", designations);
+    /***sort the countries in alphebetical order***/
+    designations.sort((a, b) => a.divisionName.localeCompare(b.divisionName));
+
+    /***Populate the dropdown of the countries of the add hotel modal***/
+    var dropdown = $("#edit-department-category");
     var defaultOption = $("<option></option>").val("").text("Select Division");
     dropdown.append(defaultOption);
     for (var i = 0; i < designations.length; i++) {
