@@ -6,6 +6,7 @@ $(document).ready(function () {
     loadDivisions();
     $("#openAddDepartmentBtn").click(openAddDepartmentModal)
     $("#depbtnSave").click(addDepartment)
+    $("#btnUpdate").click(saveUpdate);
   
 });
 
@@ -77,6 +78,7 @@ var departmentListTable = $("#department-viewer").DataTable({
 
 function closeButton() {
     $("#addepartmentModal").modal("hide")
+    $("#editDepartmentModal").modal("hide");
     console.log("hide")
 }
 
@@ -224,6 +226,117 @@ function addDepartment() {
     }
 }
 
+
+function openEditModal(departmentID) {
+    const department = departmentList.find(d => d.departmentID === departmentID);
+    if (!department) {
+        console.error("Department not found for ID:", departmentID);
+        return;
+    }
+
+    DepartmentIDEdit = departmentID;
+    $("#edit-department-name").val(department.departmentName);
+
+    // Current status
+    const statusText = department.isDeleted === 0
+    $("#edit-department-status").text(statusText);
+
+    loadDivisions();
+    $("#edit-department-category").val(department.divisionID);
+
+
+    const divisionStatusText = department.divisionStatus === 0 ? "Active" : "Disabled";
+    $("#edit-division-status").text(divisionStatusText);
+
+    $("#editDepartmentModal").modal("show");
+}
+
+
+
+function disableDepartment(departmentID) {
+    Notiflix.Confirm.show(
+        'Confirm',
+        'Are you sure you want to disable this department?',
+        'Yes',
+        'No',
+        () => {
+            $.ajax({
+                url: '/Department/disableDepartment',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ DepartmentID: departmentID }),
+                success: function () {
+                    Notiflix.Report.success("Disabled", "Department Disabled Successfully", "OK");
+                    getDepartmentList();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log('Error disabling department:', errorThrown);
+                    Notiflix.Report.warning("Disable", "Failed to disable the department", "OK");
+                }
+            });
+        }
+    );
+}
+
+// Enable department
+function enableDepartment(departmentID) {
+    Notiflix.Confirm.show(
+        'Confirm',
+        'Are you sure you want to enable this department?',
+        'Yes',
+        'No',
+        () => {
+            $.ajax({
+                url: '/Department/enableDepartment',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ DepartmentID: departmentID }),
+                success: function () {
+                    Notiflix.Report.success("Enabled", "Department Enabled Successfully", "OK");
+                    getDepartmentList();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log('Error enabling department:', errorThrown);
+                    Notiflix.Report.warning("Enable", "Failed to enable the department", "OK");
+                }
+            });
+        }
+    );
+}
+
+// Save updates to the department
+function saveUpdate() {
+    var departmentName = $("#edit-department-name").val().trim();
+    var divisionID = $("#edit-department-category").val();
+    const isDuplicate = departmentList.some(d => d.departmentName === departmentName && d.departmentID !== DepartmentIDEdit);
+
+    if (isDuplicate) {
+        Notiflix.Report.warning("Duplicate", "A department with this name already exists.", "OK");
+        return;
+    }
+
+    var putData = {
+        DepartmentID: DepartmentIDEdit,
+        DepartmentName: departmentName,
+        DivisionID: divisionID
+    };
+
+    $.ajax({
+        url: '/Department/UpdateDepartment',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(putData),
+        success: function () {
+            Notiflix.Report.success("Update", "Department Updated Successfully", "OK");
+            closeButton();
+            getDepartmentList();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log('Error updating:', errorThrown);
+            Notiflix.Report.warning("Update", "Failed to Update the Department", "OK");
+        }
+    });
+}
 
 
 
