@@ -9,6 +9,7 @@ document.getElementById('overlay').addEventListener('click', function () {
 });
 
 function loadContent(controllerName, pageTitle) {
+
     document.querySelector('.page-title-name').textContent = pageTitle;
 
     const loadingScreen = document.getElementById('loading-screen');

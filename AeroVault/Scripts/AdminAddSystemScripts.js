@@ -1,4 +1,19 @@
-﻿function resetPopup(popupType) {
+﻿$(document).ready(function () {
+
+    $("#AddsysBtn").click(AddSystemModal);
+
+
+});
+function AddSystemModal() {
+    console.log("show")
+   // $("#addsystemModal").show()
+}
+
+
+
+
+
+function resetPopup(popupType) {
     const systemNameInput = document.getElementById('system-name');
     const descriptionInput = document.getElementById('description');
     const searchInput = document.getElementById('DepartmentsDivisionsSearch');

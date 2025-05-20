@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
             datasets: [{
                 data: [readPercentage, pendingPercentage],
                 backgroundColor: [
-                    '#2a5298',   
+                    '#58AD1F',
                     '#f5f5f5'    
                 ],
                 borderWidth: 0

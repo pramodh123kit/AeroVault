@@ -45,9 +45,9 @@ namespace AeroVault.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> AddDepartment([FromBody] UpdateDepartmentRequest request)
+        public ActionResult AddDepartment([FromBody] UpdateDepartmentRequest request)
         {
-            var result = await _departmentBl.AddDepartmentAsync(request.DepartmentName, request.DivisionId);
+            var result =_departmentBl.AddDepartmentAsync(request.DepartmentName, request.DivisionId);
             if (!result.Success)
             {
                 return BadRequest(result.Message);
@@ -97,6 +97,7 @@ namespace AeroVault.Controllers
             public int DepartmentId { get; set; }
             public string DepartmentName { get; set; }
             public int DivisionId { get; set; }
+
         }
 
         public class DepartmentDeleteModel

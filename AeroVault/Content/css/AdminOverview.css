@@ -204,6 +204,7 @@
     border-radius: 8px;
     justify-content: space-between;
     overflow: hidden;
+    
 }
 
 .stat-item {
@@ -213,16 +214,16 @@
 }
 
 .stat-number {
-    font-size: 30px;
+    font-size: 19px !important;
     font-weight: bold;
     color: #1E4979;
     margin: 0;
 }
 
 .stat-label {
-    font-size: 22px;
+    font-size: 14px !important ;
     color: gray;
-    margin: 0;
+    margin: 5px;
 }
 
 .separator {
@@ -454,6 +455,21 @@
     .header2 h2 {
         font-size: 16px; 
     }      
+}
+
+/* For devices with a max width of 720px */
+
+@media (max-width: 720px) {
+
+   
+   /* .card-header {
+        font-size: 20px;
+    }*/
+    .Card .card-header {
+        font-size: 28px;
+    }
+
+    
 }
 
 

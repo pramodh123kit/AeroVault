@@ -112,14 +112,7 @@
                                 @* <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" /> *@
                                 <input type="text" id="search-division" placeholder="Search Division" onkeyup="filterDivisions()" onclick="event.stopPropagation()">
                             </div>
-                            @* <div class="dropdown-list">
-                                @foreach (var division in Model.Divisions)
-                                {
-                                    <div onclick="selectDivision(this)" data-division-id="@division.DivisionID">
-                                        @division.DivisionName
-                                    </div>
-                                }
-                            </div> *@
+                          
                         </div>
                     </div>
                 </div>
@@ -144,8 +137,6 @@
 </div>
 
 
-
-
 <!-- Modal -->
 
 <div class="modal fade" id="addepartmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -167,6 +158,7 @@
                     <div class="divi-dropdown">
                         <label for="Divi-name">Division Name</label><br />
                         <select class="form-control" id="department-category"> </select>
+
                     </div>
                 </div>
             </div>
@@ -177,9 +169,8 @@
 
     </div>
 
-
-</div>
    
+</div>
 
 <!-- Edit -->
 
@@ -199,14 +190,14 @@
                     <label for="edit-department-name" style="display: inline-block;">Department Name</label>
                     <input type="text" class="form-control" id="edit-department-name" placeholder="Enter Department Name">
 
-<!-- Current Status -->
+                    <!-- Current Status -->
                     <div>
                         <span id="edit-department-status"></span>
                         <span id="edit-division-status"></span>
 
                     </div>
 
-<!-- Drop Down for Division -->
+                    <!-- Drop Down for Division -->
                     <div class="divi-dropdown">
                         <label for="department-category">Division Name</label><br />
                         <select class="form-control" id="edit-department-category"></select>
@@ -221,10 +212,8 @@
     </div>
 </div>
 
-       
 
-    
-
+<
 
 <script src="~/Scripts/jquery.min.js"></script>
 <script src="~/Scripts/ProjectScripts/JQuerryTable/jquery.dataTables.min.js"></script>
