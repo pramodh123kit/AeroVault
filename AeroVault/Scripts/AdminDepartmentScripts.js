@@ -110,7 +110,6 @@ function loadDivisions() {
 
 
 
-
 function resultgetAllDesignations(data) {
     var designations = data;
 
@@ -153,6 +152,33 @@ function resultgetAllDesignationsEdit(data) {
     }
 
 }
+
+
+
+//function resultgetAllDesignations(data) {
+//    const departments = data;
+//    divisionName
+
+//    const divisionNames = [];
+//    departments.forEach(dept => {
+//        if (dept.division && dept.division.divisionName) {
+//            divisionNames.push(dept.division.divisionName);
+//        }
+//    });
+
+
+//    const uniqueDivisionNames = [...new Set(divisionNames)].sort((a, b) => a.localeCompare(b));
+
+//    const dropdown = $("#department-category");
+//    dropdown.empty(); // Clear any existing options
+//    const defaultOption = $("<option></option>").val("").text("Select Division");
+//    dropdown.append(defaultOption);
+
+//    uniqueDivisionNames.forEach(name => {
+//        const option = $("<option></option>").val(name).text(name);
+//        dropdown.append(option);
+//    });
+//}
 
 
 //add department
@@ -305,42 +331,45 @@ function saveUpdate() {
         }
     });
 
-    var systemName = $("#edit-department-name").val().trim();
+    var departmentName = $("#edit-department-name").val().trim();
     var divisionID = $("#edit-department-category").val();
 
-    const isDuplicate = systemList.some(d =>
-        s.systemName === systemName && s.systemID !== SystemIDEdit
+    const isDuplicate = departmentList.some(d =>
+        d.departmentName === departmentName && d.departmentID !== DepartmentIDEdit
     );
 
     if (isDuplicate) {
-        Notiflix.Report.warning("Duplicate", "A system with this name already exists.", "OK");
+        Notiflix.Report.warning("Duplicate", "A department with this name already exists.", "OK");
         return;
     }
 
     var putData = {
-        SystemId: SystemIDEdit,
-        SystemName: systemName,
+        DepartmentId: DepartmentIDEdit,
+        DepartmentName: departmentName,
         DivisionId: parseInt(divisionID),
     };
 
     $.ajax({
-        url: '/Systems/UpdateDepartment',
+        url: '/Departments/UpdateDepartment',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(putData),
         success: function (data) {
             console.log("Response Data:", data);
             if (data.success) {
-                Notiflix.Report.success("Update", "System Updated Successfully", "OK");
+                Notiflix.Report.success("Update", "Department Updated Successfully", "OK");
                 closeButton();
-                getSystemList();
+                getDepartmentList();
             } else {
-                Notiflix.Report.failure("Update", data.message || "Failed to update the system.", "OK");
+                Notiflix.Report.failure("Update", data.message || "Failed to update the department.", "OK");
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log('Error updating:', errorThrown);
-            Notiflix.Report.failure("Update", jqXHR.responseText || "Failed to update the system.", "OK");
+            Notiflix.Report.failure("Update", jqXHR.responseText || "Failed to update the department.", "OK");
         }
     });
 }
+
+
+

@@ -244,6 +244,16 @@ namespace AeroVault.Services
             }
         }
 
+        public async Task<List<DepartmentModel>> GetdiviAsync(int divisionID)
+        {
+            return await _departmentDl.GetDepartmentsByDivisionAsync(divisionID);
+        }
+
+        public async Task<List<int>> GetDepartmentIdsBySystemIdAsync(int systemId)
+        {
+            return await _departmentDl.GetDepartmentIdsBySystemIdAsync(systemId);
+        }
+
 
 
 

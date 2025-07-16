@@ -1,4 +1,192 @@
 ﻿
+@* <link href="~/Content/css/ProjectStyles/notiflix.css" rel="stylesheet" /> *@
+@* <link rel="stylesheet" href="~/Content/css/ProjectStyles/JQuerryTable/jquery.dataTables.min.css"> *@
+@* <link rel="stylesheet" href="~/Content/css/AdminDivision.css"> *@
+@* <link rel="stylesheet" href="~/Content/css/ProjectStyles/Bootstrap/bootstrap.min.css" /> *@
+
+@* <div class="admin-main-content" stlye="overflow:hidden; flex-grow: 1;"> *@
+@*     <div class="header-container"> *@
+@*         <h2 class="systems-header" id="systems-header"> *@
+@*             Select a Department to Manage *@
+@*         </h2> *@
+@*         <button class="btn-add" id="openAddDepartmentBtn"> *@
+@*             <img src="~/Content/Assets/add-icon.svg" alt="Add Icon" class="button-icon" /> *@
+@*             Add New Department *@
+@*         </button> *@
+@*     </div> *@
+
+@*     <div class="sidebar-container"> *@
+
+@*         <div class="card-body"> *@
+@*             <div class="row"> *@
+@*                 <div class="col-sm-12"> *@
+@*                     <table id="department-viewer" class="display" style="width:100%"></table> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*         <div class="sidebar2"> *@
+@*             <div class="search-container" style="width:90%;"> *@
+@*             </div> *@
+@*             <div class="scrollable-content scrollable-content-list"> *@
+@*                 <div id="systemListContainer"> *@
+@*                     <ul id="systemList"> *@
+                       
+@*                     </ul> *@
+
+@*                     <div class="custom-form-group"> *@
+                       
+@*                         <div class="custom-dropdown"> *@
+@*                             <div class="custom-dropdown-toggle custom-selector" id=" cus-dro-toggle" onclick="toggleCustomDropdown(event)"> *@
+@*                                 <i class="fas fa-chevron-down"></i> *@
+@*                             </div> *@
+@*                             <div class="custom-dropdown-content" id="cus-dro-content" style="position:sticky"> *@
+@*                                 <div class="custom-search-container"> *@
+@*                                 </div> *@
+                                
+@*                             </div> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*         <div class="image-container"> *@
+@*             <img src="~/Content/Assets/departments-background-icon.svg" alt="Departments Background Image" /> *@
+@*         </div> *@
+
+@*         <div class="system-container dep-second-container" style="display: none;"> *@
+@*             <div class="dep-inner-container"> *@
+@*                 <h2 class="edit-del-instruc" style="font-weight:bold;">Edit or Delete Department</h2> *@
+@*                 <h2 class="systems-name" id="sys-nsme" style="font-weight:bold;">System Name</h2> *@
+@*                 <div class="form-group div-secondary-container"> *@
+@*                     <label class="label" for="department-name" style="margin-top: 20px;">Department Name</label> *@
+@*                     <input class="depname-input" type="text" id="department-name" value="" style="border-radius:10px; font-size:16px; border:1px solid #6D6D6D;"> *@
+@*                 </div> *@
+
+@*                 <div class="form-group second-input div-secondary-container"> *@
+@*                     <label class="label" for="division" style="margin-top: 20px;">Division</label> *@
+@*                     <div class="dropdown"> *@
+@*                         <div class="dropdown-toggle division-selector" id="drop-toggle" onclick="toggleDropdown()"> *@
+@*                             <span id="selected-division">Information Technology</span> *@
+@*                             <i class="fas fa-chevron-down"></i> *@
+
+@*                         </div> *@
+@*                         <div class="dropdown-content div-secondary-container" id="drop-cont"> *@
+@*                             <div class="search-container second-search" style="width: 90%; display: inline-block !important;"> *@
+                              
+@*                                 <input type="text" id="search-division" placeholder="Search Division" onkeyup="filterDivisions()" onclick="event.stopPropagation()"> *@
+@*                             </div> *@
+
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+
+
+
+@*                 <div class="button-container"> *@
+@*                     <button class="reset-changes"> *@
+@*                         Reset *@
+@*                     </button> *@
+@*                     <button class="edit-system-button" id="sys-edit-btn" onclick="saveChanges()"> *@
+@*                         Save Changes *@
+@*                     </button> *@
+@*                     <button class="delete-system-button delete-dep-button"> *@
+@*                         <img src="~/Content/Assets/system-delete-icon.svg" alt="Add Icon" class="button-icon" /> *@
+@*                         Delete *@
+@*                     </button> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+
+
+@* <!-- Modal --> *@
+
+@* <div class="modal fade" id="addepartmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> *@
+@*     <div class="modal-dialog" role="document"> *@
+@*         <div class="modal-content"> *@
+@*             <div class="modal-header"> *@
+@*                 <h5 class="modal-title" id="exampleModalLabel">Add Department</h5> *@
+@*                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"> *@
+@*                     <span aria-hidden="true">&times;</span> *@
+@*                 </button> *@
+@*             </div> *@
+
+@*             <div class="modal-body"> *@
+@*                 <p>Enter department name to add this department</p> *@
+@*                 <div class="add-dep-form-popup"> *@
+@*                     <label for="new-department-name" style="display: inline-block;">Department Name</label> *@
+@*                     <input type="text" class="form-control" id="add-department-name" placeholder="Enter New Department Name"> *@
+@*                     <!--Drop Down--> *@
+@*                     <div class="divi-dropdown"> *@
+@*                         <label for="Divi-name">Division Name</label><br /> *@
+@*                         <select class="form-control" id="department-category"> </select> *@
+
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+@*             <div class="modal-footer"> *@
+@*                 <button type="button" id="depbtnSave" class="btn-save">Save</button> *@
+@*             </div> *@
+@*         </div> *@
+
+@*     </div> *@
+
+
+@* </div> *@
+
+@* <!-- Edit --> *@
+
+@* <div class="modal fade" id="editDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> *@
+@*     <div class="modal-dialog" role="document"> *@
+@*         <div class="modal-content"> *@
+@*             <div class="modal-header"> *@
+@*                 <h5 class="modal-title" id="exampleModalLabel">Edit Department</h5> *@
+@*                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"> *@
+@*                     <span aria-hidden="true">&times;</span> *@
+@*                 </button> *@
+@*             </div> *@
+
+@*             <div class="modal-body"> *@
+@*                 <p>Enter department name to update this department</p> *@
+@*                 <div class="add-dep-form-popup"> *@
+@*                     <label for="edit-department-name" style="display: inline-block;">Department Name</label> *@
+@*                     <input type="text" class="form-control" id="edit-department-name" placeholder="Enter Department Name"> *@
+
+@*                     <!-- Current Status --> *@
+@*                     <div> *@
+@*                         <span id="edit-department-status"></span> *@
+@*                         <span id="edit-division-status"></span> *@
+
+@*                     </div> *@
+
+@*                     <!-- Drop Down for Division --> *@
+@*                     <div class="divi-dropdown"> *@
+@*                         <label for="department-category">Division Name</label><br /> *@
+@*                         <select class="form-control" id="edit-department-category"></select> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+
+@*             <div class="modal-footer"> *@
+@*                 <button type="button" id="btnUpdate" class="btn-save">Update</button> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+
+
+
+
+@* <script src="~/Scripts/jquery.min.js"></script> *@
+@* <script src="~/Scripts/ProjectScripts/JQuerryTable/jquery.dataTables.min.js"></script> *@
+@* <script src="~/Scripts/ProjectScripts/Bootstrap/bootstrap.min.js"></script> *@
+@* <script src="~/Scripts/AdminDepartmentScripts.js"></script> *@
+@* <script src="~/Scripts/ProjectScripts/notiflix.js"></script> *@
+
+
+
+
 <link href="~/Content/css/ProjectStyles/notiflix.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/Content/css/ProjectStyles/JQuerryTable/jquery.dataTables.min.css">
 <link rel="stylesheet" href="~/Content/css/AdminDivision.css">
@@ -26,23 +214,61 @@
         </div>
         <div class="sidebar2">
             <div class="search-container" style="width:90%;">
+                @* <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" /> *@
+                @* <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search Department" type="text" /> *@
             </div>
             <div class="scrollable-content scrollable-content-list">
                 <div id="systemListContainer">
                     <ul id="systemList">
-                       
+                        @*  @if (Model.Departments == null || !Model.Departments.Any())
+                        {
+                            <li>No Departments available.</li>
+                        }
+                        else
+                        {
+                            @foreach (var department in Model.Departments)
+                            {
+                                <li onclick="highlightSystem(this)"
+                                    data-department-id="@department.DepartmentID"
+                                    data-department-name="@department.DepartmentName"
+                                    data-division-id="@department.DivisionID"
+                                    data-division-name="@department.Division.DivisionName">
+
+                                    @department.DepartmentName
+
+                                </li>
+                            }
+                        } *@
                     </ul>
 
                     <div class="custom-form-group">
-                       
+                        @* <h2 class="systems-header systems-header-label"> *@
+                        @*     Select a Department to Manage *@
+                        @* </h2> *@
                         <div class="custom-dropdown">
                             <div class="custom-dropdown-toggle custom-selector" id=" cus-dro-toggle" onclick="toggleCustomDropdown(event)">
+                                @* <span id="selected-option" style="color:#333333;">Select a department</span>  *@
                                 <i class="fas fa-chevron-down"></i>
                             </div>
                             <div class="custom-dropdown-content" id="cus-dro-content" style="position:sticky">
                                 <div class="custom-search-container">
+                                    @* <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" /> *@
+                                    @* <input type="text" id="custom-search-input" placeholder="Search Department" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()"> *@
                                 </div>
-                                
+                                @* <div class="custom-dropdown-list" id="cus-dro-list">
+                                    @foreach (var department in Model.Departments)
+                                    {
+                                        <div onclick="selectCustomOption(this); highlightSystem(this)"
+                                             data-department-id="@department.DepartmentID"
+                                             data-department-name="@department.DepartmentName"
+                                             data-division-id="@department.DivisionID"
+                                             data-division-name="@department.Division.DivisionName">
+                                            @department.DepartmentName
+                                        </div>
+
+                                    }
+
+                                </div> *@
                             </div>
                         </div>
                     </div>
@@ -72,7 +298,7 @@
                         </div>
                         <div class="dropdown-content div-secondary-container" id="drop-cont">
                             <div class="search-container second-search" style="width: 90%; display: inline-block !important;">
-                              
+                                @* <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" /> *@
                                 <input type="text" id="search-division" placeholder="Search Division" onkeyup="filterDivisions()" onclick="event.stopPropagation()">
                             </div>
 

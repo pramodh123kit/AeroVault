@@ -106,5 +106,35 @@ namespace AeroVault.Business
         {
             throw new NotImplementedException();
         }
+
+        public bool enableSystem(int SystemID)
+        {
+            try
+            {
+                bool Updated = _systemDl.enableSystem(SystemID);
+                return Updated ? true : false;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public bool disableSystem(int SystemID)
+        {
+            try
+            {
+                bool Updated = _systemDl.disableSystem(SystemID);
+                return Updated ? true : false;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+
+
+
     }
 }

@@ -27,7 +27,11 @@ namespace AeroVault.Data
             using (var connection = new OracleConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string sql = @"
+                try
+                {
+
+
+                    string sql = @"
             SELECT s.SystemID, s.SystemName, s.Description, s.added_date
             FROM SYSTEMS s
             WHERE s.IS_DELETED = 0 
@@ -39,23 +43,31 @@ namespace AeroVault.Data
                 WHERE sd.SystemID = s.SystemID AND d.is_deleted = 0  -- Updated column name
             )";
 
-                using (var command = new OracleCommand(sql, connection))
-                {
-                    command.Parameters.Add(new OracleParameter(":fromDate", fromDate));
-
-                    using (var reader = await command.ExecuteReaderAsync())
+                    using (var command = new OracleCommand(sql, connection))
                     {
-                        while (await reader.ReadAsync())
+                        command.Parameters.Add(new OracleParameter(":fromDate", fromDate));
+
+                        using (var reader = await command.ExecuteReaderAsync())
                         {
-                            systems.Add(new SystemModel
+                            while (await reader.ReadAsync())
                             {
-                                SystemID = reader.GetInt32(0),
-                                SystemName = reader.GetString(1),
-                                Description = reader.IsDBNull(2) ? string.Empty : reader.GetString(2),
-                                AddedDate = reader.IsDBNull(3) ? (DateTime?)null : reader.GetDateTime(3)
-                            });
+                                systems.Add(new SystemModel
+                                {
+                                    SystemID = Convert.ToInt32(reader["SystemID"]),
+                                    SystemName = reader["SystemName"].ToString(),
+                                    Description = reader["Description"].ToString(),
+                                    AddedDate = Convert.ToDateTime(reader["added_date"]),
+                                    
+                                });
+                            }
                         }
                     }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred: {ex.Message}");
+
+
                 }
             }
             return systems;
@@ -69,35 +81,50 @@ namespace AeroVault.Data
             {
                 await connection.OpenAsync();
 
-                string sql = @"
-            SELECT DISTINCT s.SystemID, s.SystemName, s.Description, s.added_date
+                try
+                {
+
+                    string sql = @"
+            SELECT DISTINCT s.SystemID, s.SystemName, s.Description, s.added_date,d.DIVISIONID , s.IS_DELETED
             FROM SYSTEMS s
             JOIN SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
             JOIN DEPARTMENTS d ON sd.DepartmentID = d.DepartmentID
-            WHERE s.IS_DELETED = 0 AND d.is_deleted = 0";
+            WHERE  d.is_deleted = 0";
 
-                using (var command = new OracleCommand(sql, connection))
-                {
-                    using (var reader = await command.ExecuteReaderAsync())
+                    using (var command = new OracleCommand(sql, connection))
                     {
-                        while (await reader.ReadAsync())
+                        using (var reader = await command.ExecuteReaderAsync())
                         {
-                            var description = reader.IsDBNull(2) ? string.Empty : reader.GetString(2);
-                            var addedDate = reader.IsDBNull(3) ? (DateTime?)null : reader.GetDateTime(3);
-
-                            systems.Add(new SystemModel
+                            while (await reader.ReadAsync())
                             {
-                                SystemID = reader.GetInt32(0),
-                                SystemName = reader.GetString(1),
-                                Description = description,
-                                AddedDate = addedDate
-                            });
+
+                                systems.Add(new SystemModel
+                                {
+                                    SystemID = Convert.ToInt32(reader["SystemID"]),
+                                    SystemName = reader["SystemName"].ToString(),
+                                    Description = reader["Description"].ToString(),
+                                    AddedDate = Convert.ToDateTime(reader["added_date"]),
+                                    DivisionID = Convert.ToInt32(reader["DIVISIONID"]),
+                                    IsDeleted = Convert.ToInt32(reader["IS_DELETED"]),
+
+                                });
+                            
+                            }
                         }
                     }
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred: {ex.Message}");
+
+
                 }
             }
-            return systems;
-        }
+                return systems;
+            }
+        
+
 
         public async Task<bool> CheckSystemExistsAsyncch
             (string systemName)
@@ -132,6 +159,7 @@ namespace AeroVault.Data
                 {
                     newSystemId = Convert.ToInt32(await sequenceCommand.ExecuteScalarAsync());
                 }
+
 
                 string insertSql = @"
         INSERT INTO SYSTEMS (SYSTEMID, SYSTEMNAME, DESCRIPTION) 
@@ -198,7 +226,7 @@ namespace AeroVault.Data
             {
                 await connection.OpenAsync();
 
-                string divisionsSql = "SELECT DivisionID, DivisionName FROM DIVISIONS WHERE IsDeleted = 0";
+                string divisionsSql = "SELECT DivisionID, DivisionName FROM DIVISIONS WHERE IsDeleted = 0";  
                 var divisionList = new List<DivisionModel>();
                 using (var command = new OracleCommand(divisionsSql, connection))
                 {
@@ -357,10 +385,44 @@ namespace AeroVault.Data
             }
         }
 
+        //private async Task<SystemModel> GetSystemByIdAsync(int systemId)
+        //{
+        //    return await _context.Set<SystemModel>().FirstOrDefaultAsync(s => s.SystemID == systemId);
+        //}
+
         private async Task<SystemModel> GetSystemByIdAsync(int systemId)
         {
-            return await _context.Set<SystemModel>().FirstOrDefaultAsync(s => s.SystemID == systemId);
+            using (var connection = new OracleConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+
+                string sql = @"
+            SELECT SYSTEMID, SYSTEMNAME, DESCRIPTION
+            FROM SYSTEMS
+            WHERE SYSTEMID = :SystemID";
+
+                using (var command = new OracleCommand(sql, connection))
+                {
+                    command.Parameters.Add(new OracleParameter(":SystemID", systemId));
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            return new SystemModel
+                            {
+                                SystemID = Convert.ToInt32(reader["SYSTEMID"]),
+                                SystemName = reader["SYSTEMNAME"].ToString(),
+                                Description = reader["DESCRIPTION"].ToString()
+                            };
+                        }
+                    }
+                }
+            }
+
+            return null;
         }
+
 
         private async Task<SystemModel> GetSystemByNameAsync(string systemName)
         {
@@ -649,5 +711,74 @@ namespace AeroVault.Data
                 }
             }
         }
+
+        public bool enableSystem(int SystemID)
+        {
+            string sql = @"
+BEGIN
+    UPDATE SYSTEMS 
+    SET IS_DELETED = 0 
+    WHERE SYSTEMID = :SyestemId;
+
+    UPDATE SYSTEMS  
+    SET IS_DELETED = 0 
+    WHERE SYSTEMID = :SyestemId;
+END;";
+
+            var parameters = new[]
+            {
+
+                  new OracleParameter(":SyestemID", SystemID)
+
+            };
+
+            int rowsAffected = _context.Database.ExecuteSqlRaw(sql, parameters);
+
+            if (rowsAffected == 0)
+            {
+                throw new Exception("No rows were updated. System may not exist.");
+            }
+            return true;
+        }
+
+
+        public bool disableSystem(int SystemID)
+        {
+            try
+            {
+                string sql = @"
+BEGIN
+    UPDATE SYSTEMS 
+    SET IS_DELETED = 1 
+    WHERE SYSTEMID = :SyestemId;
+
+    UPDATE SYSTEMS 
+    SET IS_DELETED = 1 
+    WHERE SYSTEMID = :SyestemId;
+END;";
+
+                var parameters = new[]
+                {
+
+                  new OracleParameter(":SyestemID", SystemID)
+
+            };
+
+                int rowsAffected = _context.Database.ExecuteSqlRaw(sql, parameters);
+
+                if (rowsAffected == 0)
+                {
+                    throw new Exception("No rows were updated. System may not exist.");
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+     
+                return false;
+            }
+        }
+    
     }
+
 }

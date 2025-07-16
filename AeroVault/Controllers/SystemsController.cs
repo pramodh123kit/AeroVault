@@ -7,6 +7,7 @@ using AeroVault.Business;
 using AeroVault.Services;
 using AeroVault.Repositories;
 using static AeroVault.Controllers.DepartmentsController;
+using AeroVault.Data;
 
 namespace AeroVault.Controllers
 {
@@ -101,7 +102,7 @@ namespace AeroVault.Controllers
             public List<int> DepartmentIds { get; set; }
         }
 
-        [HttpPut]
+        [HttpPost]
         public async Task<IActionResult> UpdateSystem([FromBody] UpdateSystemRequest request)
         {
             try
@@ -211,6 +212,7 @@ namespace AeroVault.Controllers
             public int FileId { get; set; }
         }
 
+
         [HttpPut]
         [Route("Systems/UpdateFile")]
         public async Task<IActionResult> UpdateFile([FromBody] UpdateFileRequest request)
@@ -233,7 +235,57 @@ namespace AeroVault.Controllers
             public string FileName { get; set; }
             public string FileCategory { get; set; }
         }
-        
-    }
+
+        [HttpPost]
+        public ActionResult enableSystem([FromBody] SystemModel model)
+        {
+            try
+            {
+
+                if (model.SystemID != 0)
+                {
+                    _systemService.enableSystem(model.SystemID);
+                    return Ok();
+                }
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new
+                {
+                    Message = "NO ID Number",
+                    ErrorDetails = e.Message
+                });
+            }
+            return null;
+        }
+
+
+        [HttpPost]
+        public ActionResult disableSystem([FromBody] SystemModel model)
+        {
+            try
+            {
+
+                if (model.SystemID != 0)
+                {
+                    _systemService.disableSystem(model.SystemID);
+                    return Ok();
+                }
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new
+                {
+                    Message = "NO ID Number",
+                    ErrorDetails = e.Message
+                });
+            }
+            return null;
+        }
+
+
+
 
     }
+}
+

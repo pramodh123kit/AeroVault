@@ -20,5 +20,7 @@ namespace AeroVault.Models
 
         public int VideoCount { get; set; }
         public int DocCount { get; set; }
+        public int DivisionID { get; set; }
+       
     }
 }

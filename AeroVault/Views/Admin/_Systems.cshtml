@@ -1,389 +1,4 @@
 ﻿
-@* <link href="~/Content/css/ProjectStyles/notiflix.css" rel="stylesheet" /> *@
-@* <link rel="stylesheet" href="~/Content/css/ProjectStyles/JQuerryTable/jquery.dataTables.min.css">  *@
-@* <link rel="stylesheet" href="~/Content/css/AdminDivision.css"> *@
-@* <link rel="stylesheet" href="~/Content/css/ProjectStyles/Bootstrap/bootstrap.min.css" /> *@
-
-@* <div class="admin-main-content" stlye="overflow:hidden; flex-grow: 1;">  *@
-@*     <div class="header-container">  *@
-@*         <h2 class="systems-header" id="systems-header"> *@
-@*             Select a System to Manage *@
-@*         </h2> *@
-@*         <button class="btn-add" id="openAddSystemBtn"> *@
-@*             <img src="~/Content/Assets/add-icon.svg" alt="Add Icon" class="button-icon" /> *@
-@*             Add New System *@
-@*         </button> *@
-@*     </div> *@
-
-@*     <div class="sidebar-container"> *@
-
-@*         <div class="card-body"> *@
-@*             <div class="row"> *@
-@*                 <div class="col-sm-12"> *@
-@*                     <table id="system-viewer" class="display" style="width:100%"></table> *@
-@*                 </div> *@
-@*             </div> *@
-@*         </div> *@
-@*         <div class="sidebar2"> *@
-@*             <div class="search-container" style="width:90%;"> *@
-@*             </div> *@
-@*             <div class="scrollable-content scrollable-content-list"> *@
-@*                 <div id="systemListContainer"> *@
-@*                     <ul id="systemList"> *@
-@*                     </ul> *@
-
-@*                     <div class="custom-form-group"> *@
-
-@*                         <div class="custom-dropdown"> *@
-@*                             <div class="custom-dropdown-toggle custom-selector" id=" cus-dro-toggle" onclick="toggleCustomDropdown(event)"> *@
-@*                                 <i class="fas fa-chevron-down"></i> *@
-@*                             </div> *@
-@*                             <div class="custom-dropdown-content" id="cus-dro-content" style="position:sticky"> *@
-@*                                 <div class="custom-search-container"> *@
-@*                                 </div> *@
-
-@*                             </div> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                 </div> *@
-            </div>
-@*         </div> *@
-@*         <div class="image-container"> *@
-@*             <img src="~/Content/Assets/departments-background-icon.svg" alt="Departments Background Image" /> *@
-@*         </div> *@
-
-@*         <div class="system-container dep-second-container" style="display: none;"> *@
-@*             <div class="dep-inner-container"> *@
-@*                 <h2 class="edit-del-instruc" style="font-weight:bold;">Edit or Delete System</h2> *@
-@*                 <h2 class="systems-name" id="sys-nsme" style="font-weight:bold;">System Name</h2> *@
-@*                 <div class="form-group div-secondary-container"> *@
-@*                     <label class="label" for="department-name" style="margin-top: 20px;">System Name</label> *@
-@*                     <input class="depname-input" type="text" id="department-name" value="" style="border-radius:10px; font-size:16px; border:1px solid #6D6D6D;"> *@
-@*                 </div> *@
-
-@*                 <div class="form-group second-input div-secondary-container"> *@
-@*                     <label class="label" for="division" style="margin-top: 20px;">Division</label> *@
-@*                     <div class="dropdown"> *@
-@*                         <div class="dropdown-toggle division-selector" id="drop-toggle" onclick="toggleDropdown()"> *@
-@*                             <span id="selected-division">Information Technology</span> *@
-@*                             <i class="fas fa-chevron-down"></i> *@
-
-@*                         </div> *@
-@*                         <div class="dropdown-content div-secondary-container" id="drop-cont"> *@
-@*                             <div class="search-container second-search" style="width: 90%; display: inline-block !important;"> *@
-
-@*                                 <input type="text" id="search-division" placeholder="Search Division" onkeyup="filterDivisions()" onclick="event.stopPropagation()"> *@
-@*                             </div> *@
-
-@*                         </div> *@
-@*                     </div> *@
-@*                 </div> *@
-
-
-
-@*                 <div class="button-container"> *@
-@*                     <button class="reset-changes"> *@
-@*                         Reset *@
-@*                     </button> *@
-@*                     <button class="edit-system-button" id="sys-edit-btn" onclick="saveChanges()"> *@
-@*                         Save Changes *@
-@*                     </button> *@
-@*                     <button class="delete-system-button delete-dep-button"> *@
-@*                         <img src="~/Content/Assets/system-delete-icon.svg" alt="Add Icon" class="button-icon" /> *@
-@*                         Delete *@
-@*                     </button> *@
-@*                 </div> *@
-@*             </div> *@
-@*         </div> *@
-@*     </div> *@
-@* </div> *@
-
-
-@* <!-- Modal --> *@
-
-@* <div class="modal fade" id="addsystemModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> *@
-@*     <div class="modal-dialog" role="document"> *@
-@*         <div class="modal-content"> *@
-@*             <div class="modal-header"> *@
-@*                 <h5 class="modal-title" id="exampleModalLabel">Add System</h5> *@
-@*                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"> *@
-@*                     <span aria-hidden="true">&times;</span> *@
-@*                 </button> *@
-@*             </div> *@
-
-@*             <div class="modal-body"> *@
-@*                 <p>Enter system name to add this system</p> *@
-@*                 <div class="add-dep-form-popup"> *@
-@*                     <label for="new-department-name" style="display: inline-block;">System Name</label> *@
-@*                     <input type="text" class="form-control" id="add-system-name" placeholder="Enter New System Name"> *@
-
-
-@*                     <label for="description" style="margin-top: 10px;">Description</label> *@
-@*                     <textarea class="form-control" id="description" placeholder="Enter Description"></textarea> *@
-@*                     <!--Drop Down--> *@
-@*                     <div class="divi-dropdown"> *@
-@*                         <label for="Divi-name">Division Name</label><br /> *@
-@*                         <select class="form-control" id="system-category"> </select> *@
-
-@*                     </div> *@
-@*                 </div> *@
-@*             </div> *@
-@*             <div class="modal-footer"> *@
-@*                 <button type="button" id="sysbtnSave" class="btn-save">Save</button> *@
-@*             </div> *@
-@*         </div> *@
-
-@*     </div> *@
-
-
-@* </div> *@
-
-@* <!-- Edit --> *@
-
-@* <div class="modal fade" id="editSystemModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> *@
-@*     <div class="modal-dialog" role="document"> *@
-@*         <div class="modal-content"> *@
-@*             <div class="modal-header"> *@
-@*                 <h5 class="modal-title" id="exampleModalLabel">Edit System</h5> *@
-@*                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"> *@
-@*                     <span aria-hidden="true">&times;</span> *@
-@*                 </button> *@
-@*             </div> *@
-
-@*             <div class="modal-body"> *@
-@*                 <p>Enter system name to update this system</p> *@
-@*                 <div class="add-dep-form-popup"> *@
-@*                     <label for="edit-system-name" style="display: inline-block;">System Name</label> *@
-@*                     <input type="text" class="form-control" id="edit-system-name" placeholder="Enter Department Name"> *@
-
-@*                     <!-- Current Status --> *@
-@*                     <div> *@
-@*                         <span id="edit-department-status"></span> *@
-@*                         <span id="edit-division-status"></span> *@
-
-@*                     </div> *@
-
-@*                     <!-- Drop Down for Division --> *@
-@*                     <div class="divi-dropdown"> *@
-@*                         <label for="system-category">Division Name</label><br /> *@
-@*                         <select class="form-control" id="edit-system-category"></select> *@
-@*                     </div> *@
-@*                 </div> *@
-@*             </div> *@
-
-@*             <div class="modal-footer"> *@
-@*                 <button type="button" id="btnUpdate" class="btn-save">Update</button> *@
-@*             </div> *@
-@*         </div> *@
-@*     </div> *@
-@* </div> *@
-
-
-
-
-@* <script src="~/Scripts/jquery.min.js"></script> *@
-@* <script src="~/Scripts/ProjectScripts/JQuerryTable/jquery.dataTables.min.js"></script> *@
-@* <script src="~/Scripts/ProjectScripts/Bootstrap/bootstrap.min.js"></script> *@
-@* <script src="~/Scripts/AdminSystemScripts.js"></script> *@
-@* <script src="~/Scripts/ProjectScripts/notiflix.js"></script> *@
-
-
-
-
-
-
-
-@* <link href="~/Content/css/ProjectStyles/notiflix.css" rel="stylesheet" /> *@
-@* <link rel="stylesheet" href="~/Content/css/ProjectStyles/JQuerryTable/jquery.dataTables.min.css"> *@
-@* <link rel="stylesheet" href="~/Content/css/AdminDivision.css"> *@
-@* <link rel="stylesheet" href="~/Content/css/ProjectStyles/Bootstrap/bootstrap.min.css" /> *@
-
-@* <div class="admin-main-content" stlye="overflow:hidden; flex-grow: 1;"> *@
-@*     <div class="header-container"> *@
-@*         <h2 class="systems-header" id="systems-header"> *@
-@*             Select a System to Manage *@
-@*         </h2> *@
-@*         <button class="btn-add" id="openAddSystemBtn"> *@
-@*             <img src="~/Content/Assets/add-icon.svg" alt="Add Icon" class="button-icon" /> *@
-@*             Add New System *@
-@*         </button> *@
-@*     </div> *@
-
-@*     <div class="sidebar-container"> *@
-
-@*         <div class="card-body"> *@
-@*             <div class="row"> *@
-@*                 <div class="col-sm-12"> *@
-@*                     <table id="system-viewer" class="display" style="width:100%"></table> *@
-@*                 </div> *@
-@*             </div> *@
-@*         </div> *@
-@*         <div class="sidebar2"> *@
-@*             <div class="search-container" style="width:90%;"> *@
-@*             </div> *@
-@*             <div class="scrollable-content scrollable-content-list"> *@
-@*                 <div id="systemListContainer"> *@
-@*                     <ul id="systemList"> *@
-@*                     </ul> *@
-
-@*                     <div class="custom-form-group"> *@
-
-@*                         <div class="custom-dropdown"> *@
-@*                             <div class="custom-dropdown-toggle custom-selector" id=" cus-dro-toggle" onclick="toggleCustomDropdown(event)"> *@
-@*                                 <i class="fas fa-chevron-down"></i> *@
-@*                             </div> *@
-@*                             <div class="custom-dropdown-content" id="cus-dro-content" style="position:sticky"> *@
-@*                                 <div class="custom-search-container"> *@
-@*                                 </div> *@
-
-@*                             </div> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                 </div> *@
-@*             </div> *@
-@*         </div> *@
-@*         <div class="image-container"> *@
-@*             <img src="~/Content/Assets/departments-background-icon.svg" alt="Departments Background Image" /> *@
-@*         </div> *@
-
-@*         <div class="system-container dep-second-container" style="display: none;"> *@
-@*             <div class="dep-inner-container"> *@
-@*                 <h2 class="edit-del-instruc" style="font-weight:bold;">Edit or Delete System</h2> *@
-@*                 <h2 class="systems-name" id="sys-nsme" style="font-weight:bold;">System Name</h2> *@
-@*                 <div class="form-group div-secondary-container"> *@
-@*                     <label class="label" for="department-name" style="margin-top: 20px;">System Name</label> *@
-@*                     <input class="depname-input" type="text" id="department-name" value="" style="border-radius:10px; font-size:16px; border:1px solid #6D6D6D;"> *@
-@*                 </div> *@
-
-@*                 <div class="form-group second-input div-secondary-container"> *@
-@*                     <label class="label" for="division" style="margin-top: 20px;">Division</label> *@
-@*                     <div class="dropdown"> *@
-@*                         <div class="dropdown-toggle division-selector" id="drop-toggle" onclick="toggleDropdown()"> *@
-@*                             <span id="selected-division">Information Technology</span> *@
-@*                             <i class="fas fa-chevron-down"></i> *@
-
-@*                         </div> *@
-@*                         <div class="dropdown-content div-secondary-container" id="drop-cont"> *@
-@*                             <div class="search-container second-search" style="width: 90%; display: inline-block !important;"> *@
-
-@*                                 <input type="text" id="search-division" placeholder="Search Division" onkeyup="filterDivisions()" onclick="event.stopPropagation()"> *@
-@*                             </div> *@
-
-@*                         </div> *@
-@*                     </div> *@
-@*                 </div> *@
-
-
-
-@*                 <div class="button-container"> *@
-@*                     <button class="reset-changes"> *@
-@*                         Reset *@
-@*                     </button> *@
-@*                     <button class="edit-system-button" id="sys-edit-btn" onclick="saveChanges()"> *@
-@*                         Save Changes *@
-@*                     </button> *@
-@*                     <button class="delete-system-button delete-dep-button"> *@
-@*                         <img src="~/Content/Assets/system-delete-icon.svg" alt="Add Icon" class="button-icon" /> *@
-@*                         Delete *@
-@*                     </button> *@
-@*                 </div> *@
-@*             </div> *@
-@*         </div> *@
-@*     </div> *@
-@* </div> *@
-
-
-@* <!-- Modal --> *@
-
-@* <div class="modal fade" id="addsystemModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> *@
-@*     <div class="modal-dialog" role="document"> *@
-@*         <div class="modal-content"> *@
-@*             <div class="modal-header"> *@
-@*                 <h5 class="modal-title" id="exampleModalLabel">Add System</h5> *@
-@*                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"> *@
-@*                     <span aria-hidden="true">&times;</span> *@
-@*                 </button> *@
-@*             </div> *@
-
-@*             <div class="modal-body"> *@
-@*                 <p>Enter system name to add this system</p> *@
-@*                 <div class="add-dep-form-popup"> *@
-@*                     <label for="new-department-name" style="display: inline-block;">System Name</label> *@
-@*                     <input type="text" class="form-control" id="add-system-name" placeholder="Enter New System Name"> *@
-
-
-@*                     <label for="description" style="margin-top: 10px;">Description</label> *@
-@*                     <textarea class="form-control" id="description" placeholder="Enter Description"></textarea> *@
-@*                     <!--Drop Down--> *@
-@*                     <div class="divi-dropdown"> *@
-@*                         <label for="Divi-name">Division Name</label><br /> *@
-@*                         <select class="form-control" id="system-category"> </select> *@
-
-@*                     </div> *@
-@*                 </div> *@
-@*             </div> *@
-@*             <div class="modal-footer"> *@
-@*                 <button type="button" id="sysbtnSave" class="btn-save">Save</button> *@
-@*             </div> *@
-@*         </div> *@
-
-@*     </div> *@
-
-
-@* </div> *@
-
-@* <!-- Edit --> *@
-
-@* <div class="modal fade" id="editSystemModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> *@
-@*     <div class="modal-dialog" role="document"> *@
-@*         <div class="modal-content"> *@
-@*             <div class="modal-header"> *@
-@*                 <h5 class="modal-title" id="exampleModalLabel">Edit System</h5> *@
-@*                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"> *@
-@*                     <span aria-hidden="true">&times;</span> *@
-@*                 </button> *@
-@*             </div> *@
-
-@*             <div class="modal-body"> *@
-@*                 <p>Enter system name to update this system</p> *@
-@*                 <div class="add-dep-form-popup"> *@
-@*                     <label for="edit-system-name" style="display: inline-block;">System Name</label> *@
-@*                     <input type="text" class="form-control" id="edit-system-name" placeholder="Enter Department Name"> *@
-
-@*                     <!-- Current Status --> *@
-@*                     <div> *@
-@*                         <span id="edit-department-status"></span> *@
-@*                         <span id="edit-division-status"></span> *@
-
-@*                     </div> *@
-
-@*                     <!-- Drop Down for Division --> *@
-@*                     <div class="divi-dropdown"> *@
-@*                         <label for="system-category">Division Name</label><br /> *@
-@*                         <select class="form-control" id="edit-system-category"></select> *@
-@*                     </div> *@
-@*                 </div> *@
-@*             </div> *@
-
-@*             <div class="modal-footer"> *@
-@*                 <button type="button" id="btnUpdate" class="btn-save">Update</button> *@
-@*             </div> *@
-@*         </div> *@
-@*     </div> *@
-@* </div> *@
-
-
-
-
-@* <script src="~/Scripts/jquery.min.js"></script> *@
-@* <script src="~/Scripts/ProjectScripts/JQuerryTable/jquery.dataTables.min.js"></script> *@
-@* <script src="~/Scripts/ProjectScripts/Bootstrap/bootstrap.min.js"></script> *@
-@* <script src="~/Scripts/AdminSystemScripts.js"></script> *@
-@* <script src="~/Scripts/ProjectScripts/notiflix.js"></script> *@
-
-
-
-
 
 <link href="~/Content/css/ProjectStyles/notiflix.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/Content/css/ProjectStyles/JQuerryTable/jquery.dataTables.min.css" />
@@ -429,7 +44,7 @@
 
                         <div class="divi-dropdown">
                             <label for="division-select">Select Division</label>
-                            <select class="form-control" id="division-select" onchange="populateDepartments()">
+                            <select class="form-control" id="division-select" onchange="selectDivision()">
                                 <option value="">-- Select Division --</option>
                             </select>
                         </div>
@@ -438,6 +53,8 @@
                             <label>Select Departments According to Division</label>
                             <div id="department-list"></div>
                         </div>
+
+                        
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -448,42 +65,45 @@
     </div>
 
     <!-- Modal for Editing System -->
-    <div class="modal fade" id="editsystemModel" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Edit System</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Edit system details</p>
-                    <div class="add-sys-form-popup">
-                        <label for="system-edit-name">System Name</label>
-                        <input type="text" id="system-edit-name" class="form-control" />
-                        <label for="edit-description" style="margin-top: 10px;">Description</label>
-                        <textarea id="edit-description" class="form-control" placeholder="Description Comes Here"></textarea>
+    <div class="modal fade" id="editsystemModel" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true"> 
+        <div class="modal-dialog modal-lg" role="document"> 
+            <div class="modal-content"> 
+                 <div class="modal-header"> 
+                     <h5 class="modal-title" id="editModalLabel">Edit System</h5> 
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
+                         <span aria-hidden="true">&times;</span> 
+                     </button> 
+                 </div> 
+                 <div class="modal-body"> 
+                     <p>Edit system details</p> 
+                     <div class="add-sys-form-popup">
+                        <input type="hidden" id="edit-system-id" />
+                         <label for="system-edit-name">System Name</label> 
+                         <input type="text" id="system-edit-name" class="form-control" /> 
+                         <label for="edit-description" style="margin-top: 10px;">Description</label> 
+                         <textarea id="edit-description" class="form-control" placeholder="Description Comes Here"></textarea> 
 
-                        <div class="divi-dropdown">
-                            <label for="edit-division-select">Select Division</label>
-                            <select class="form-control" id="edit-division-select" onchange="populateEditDepartments()">
-                                <option value="">-- Select Division --</option>
-                            </select>
-                        </div>
+                         <div class="divi-dropdown"> 
+                             <label for="edit-division-select">Select Division</label> 
+                             <select class="form-control" id="edit-division-select" onchange=""> 
+                                
+                             </select> 
+                         </div> 
 
-                        <div class="department-container">
-                            <label>Select Departments According to Division</label>
-                            <div id="edit-department-list"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="edit-btn-save" class="btn btn-primary">Save Changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
+                         <div class="department-container"> 
+                             <label>Select Departments According to Division</label> 
+                             <div id="edit-department-list"></div> 
+                         </div> 
+                    </div> 
+               </div> 
+                 <div class="modal-footer"> 
+                     <button type="button" id="edit-btn-save" class="btn btn-primary">Save Changes</button> 
+                 </div> 
+             </div> 
+         </div> 
+     </div> 
+
+    
 
 </div>
 
