@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using AeroVault.Models;
 using AeroVault.Business;
 using AeroVault.Services;
+using AeroVault.Repositories;
+using static AeroVault.Controllers.DepartmentsController;
 
 namespace AeroVault.Controllers
 {
@@ -29,6 +31,7 @@ namespace AeroVault.Controllers
         }
 
 
+
         [HttpGet]
         [Route("Systems/GetAllSystems")]
         public async Task<IActionResult> GetAllSystems()
@@ -44,8 +47,11 @@ namespace AeroVault.Controllers
             return Json(new { exists });
         }
 
+        // add system 
+
 
         [HttpPost]
+        [Route("Systems/AddSystem")]
         public async Task<IActionResult> CreateSystem([FromBody] CreateSystemRequest request)
         {
             try
@@ -55,11 +61,6 @@ namespace AeroVault.Controllers
                     return BadRequest(new { message = "System name is required" });
                 }
 
-                if (request.DepartmentIds == null || request.DepartmentIds.Count == 0)
-                {
-                    return BadRequest(new { message = "At least one department must be selected" });
-                }
-
                 var exists = await _systemService.CheckSystemExistsAsync(request.SystemName);
                 if (exists)
                 {
@@ -67,11 +68,11 @@ namespace AeroVault.Controllers
                 }
 
                 var result = await _systemService.CreateSystemAsync(request);
-                return result;
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = "An error occurred while creating the system" });
+                return StatusCode(500, new { message = "An error occurred while creating the system", error = ex.Message });
             }
         }
 
@@ -106,7 +107,7 @@ namespace AeroVault.Controllers
             try
             {
                 var result = await _systemService.UpdateSystemAsync(request);
-                return result; 
+                return result;
             }
             catch (Exception ex)
             {
@@ -116,7 +117,7 @@ namespace AeroVault.Controllers
 
         public class UpdateSystemRequest
         {
-            public int SystemID { get; set; } 
+            public int SystemID { get; set; }
             public string SystemName { get; set; }
             public string Description { get; set; }
             public List<int> DepartmentIds { get; set; }
@@ -161,7 +162,7 @@ namespace AeroVault.Controllers
             return Json(systemDetails);
         }
 
-        
+
         public class SoftDeleteSystemRequest
         {
             public string SystemName { get; set; }
@@ -232,5 +233,7 @@ namespace AeroVault.Controllers
             public string FileName { get; set; }
             public string FileCategory { get; set; }
         }
+        
     }
-}
+
+    }

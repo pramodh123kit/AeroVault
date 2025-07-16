@@ -74,7 +74,7 @@ namespace AeroVault.Data
             FROM SYSTEMS s
             JOIN SYSTEM_DEPARTMENTS sd ON s.SystemID = sd.SystemID
             JOIN DEPARTMENTS d ON sd.DepartmentID = d.DepartmentID
-            WHERE s.IS_DELETED = 0 AND d.is_deleted = 0"; 
+            WHERE s.IS_DELETED = 0 AND d.is_deleted = 0";
 
                 using (var command = new OracleCommand(sql, connection))
                 {
@@ -351,7 +351,7 @@ namespace AeroVault.Data
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        throw; 
+                        throw;
                     }
                 }
             }
@@ -494,7 +494,7 @@ namespace AeroVault.Data
                     }
                 }
             }
-            return null; 
+            return null;
         }
 
         public async Task<List<FileModel>> GetFilesBySystemIdAsync(int systemId)
@@ -607,7 +607,7 @@ namespace AeroVault.Data
                                 else
                                 {
                                     transaction.Rollback();
-                                    return false; 
+                                    return false;
                                 }
                             }
                         }
@@ -634,11 +634,11 @@ namespace AeroVault.Data
                         if (rowsAffected == 0)
                         {
                             transaction.Rollback();
-                            return false; 
+                            return false;
                         }
 
                         transaction.Commit();
-                        return true; 
+                        return true;
                     }
                     catch (Exception ex)
                     {

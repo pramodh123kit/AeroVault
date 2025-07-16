@@ -1,4 +1,5 @@
-﻿<link href="~/Content/css/ProjectStyles/notiflix.css" rel="stylesheet" />
+﻿
+<link href="~/Content/css/ProjectStyles/notiflix.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/Content/css/ProjectStyles/JQuerryTable/jquery.dataTables.min.css">
 <link rel="stylesheet" href="~/Content/css/AdminDivision.css">
 <link rel="stylesheet" href="~/Content/css/ProjectStyles/Bootstrap/bootstrap.min.css" />
@@ -25,61 +26,23 @@
         </div>
         <div class="sidebar2">
             <div class="search-container" style="width:90%;">
-                @* <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" /> *@
-                @* <input id="systemSearch" onkeyup="filterSystems()" placeholder="Search Department" type="text" /> *@
             </div>
             <div class="scrollable-content scrollable-content-list">
                 <div id="systemListContainer">
                     <ul id="systemList">
-                        @*  @if (Model.Departments == null || !Model.Departments.Any())
-                        {
-                            <li>No Departments available.</li>
-                        }
-                        else
-                        {
-                            @foreach (var department in Model.Departments)
-                            {
-                                <li onclick="highlightSystem(this)"
-                                    data-department-id="@department.DepartmentID"
-                                    data-department-name="@department.DepartmentName"
-                                    data-division-id="@department.DivisionID"
-                                    data-division-name="@department.Division.DivisionName">
-
-                                    @department.DepartmentName
-
-                                </li>
-                            }
-                        } *@
+                       
                     </ul>
 
                     <div class="custom-form-group">
-                        @* <h2 class="systems-header systems-header-label"> *@
-                        @*     Select a Department to Manage *@
-                        @* </h2> *@
+                       
                         <div class="custom-dropdown">
                             <div class="custom-dropdown-toggle custom-selector" id=" cus-dro-toggle" onclick="toggleCustomDropdown(event)">
-                                @* <span id="selected-option" style="color:#333333;">Select a department</span>  *@
                                 <i class="fas fa-chevron-down"></i>
                             </div>
                             <div class="custom-dropdown-content" id="cus-dro-content" style="position:sticky">
                                 <div class="custom-search-container">
-                                    @* <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" /> *@
-                                    @* <input type="text" id="custom-search-input" placeholder="Search Department" onkeyup="filterCustomOptions()" onclick="event.stopPropagation()"> *@
                                 </div>
-                                @* <div class="custom-dropdown-list" id="cus-dro-list">
-                                    @foreach (var department in Model.Departments)
-                                    {
-                                        <div onclick="selectCustomOption(this); highlightSystem(this)"
-                                             data-department-id="@department.DepartmentID"
-                                             data-department-name="@department.DepartmentName"
-                                             data-division-id="@department.DivisionID"
-                                             data-division-name="@department.Division.DivisionName">
-                                            @department.DepartmentName
-                                        </div>
-
-                                    }
-
-                                </div> *@
+                                
                             </div>
                         </div>
                     </div>
@@ -109,13 +72,15 @@
                         </div>
                         <div class="dropdown-content div-secondary-container" id="drop-cont">
                             <div class="search-container second-search" style="width: 90%; display: inline-block !important;">
-                                @* <img src="~/Content/Assets/search-icon.svg" alt="Search Icon" /> *@
+                              
                                 <input type="text" id="search-division" placeholder="Search Division" onkeyup="filterDivisions()" onclick="event.stopPropagation()">
                             </div>
-                          
+
                         </div>
                     </div>
                 </div>
+
+
 
                 <div class="button-container">
                     <button class="reset-changes">
@@ -167,13 +132,51 @@
 
     </div>
 
-   
+
+</div>
+
+<!-- Edit -->
+
+<div class="modal fade" id="editDepartmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Department</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p>Enter department name to update this department</p>
+                <div class="add-dep-form-popup">
+                    <label for="edit-department-name" style="display: inline-block;">Department Name</label>
+                    <input type="text" class="form-control" id="edit-department-name" placeholder="Enter Department Name">
+
+                    <!-- Current Status -->
+                    <div>
+                        <span id="edit-department-status"></span>
+                        <span id="edit-division-status"></span>
+
+                    </div>
+
+                    <!-- Drop Down for Division -->
+                    <div class="divi-dropdown">
+                        <label for="department-category">Division Name</label><br />
+                        <select class="form-control" id="edit-department-category"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="btnUpdate" class="btn-save">Update</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 
 
-
-<
 
 <script src="~/Scripts/jquery.min.js"></script>
 <script src="~/Scripts/ProjectScripts/JQuerryTable/jquery.dataTables.min.js"></script>

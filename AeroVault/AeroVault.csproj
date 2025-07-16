@@ -7,280 +7,280 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Content Include="Content\Assets\2024-01-30 08-38-38.mp4">
+	  <Content Include="APPSEC\Assets\2024-01-30 08-38-38.mp4">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\add-icon.svg">
+	  <Content Include="APPSEC\Assets\add-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\admin-sidebar-collapse.svg">
+	  <Content Include="APPSEC\Assets\admin-sidebar-collapse.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\admin-sidebar-peacock.png">
+	  <Content Include="APPSEC\Assets\admin-sidebar-peacock.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\admin-sidebar-peacock.svg">
+	  <Content Include="APPSEC\Assets\admin-sidebar-peacock.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\admin-sidebar-peacock1.svg">
+	  <Content Include="APPSEC\Assets\admin-sidebar-peacock1.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\admin-sidebar-SLA-logo.svg">
+	  <Content Include="APPSEC\Assets\admin-sidebar-SLA-logo.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\AdminProf.svg">
+	  <Content Include="APPSEC\Assets\AdminProf.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\AdminSystemDeletePopupCloseIcon.svg">
+	  <Content Include="APPSEC\Assets\AdminSystemDeletePopupCloseIcon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\AeroVault-Logo.svg">
+	  <Content Include="APPSEC\Assets\AeroVault-Logo.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\arrow-icon.svg">
+	  <Content Include="APPSEC\Assets\arrow-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\banner-new.svg">
+	  <Content Include="APPSEC\Assets\banner-new.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\banner-new2.svg">
+	  <Content Include="APPSEC\Assets\banner-new2.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\banner-new3.svg">
+	  <Content Include="APPSEC\Assets\banner-new3.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\banner-new4.svg">
+	  <Content Include="APPSEC\Assets\banner-new4.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\close-icon.svg">
+	  <Content Include="APPSEC\Assets\close-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\copyright-icon.svg">
+	  <Content Include="APPSEC\Assets\copyright-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\database design.pdf">
+	  <Content Include="APPSEC\Assets\database design.pdf">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\department.svg">
+	  <Content Include="APPSEC\Assets\department.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\departments-background-icon.svg">
+	  <Content Include="APPSEC\Assets\departments-background-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\departments-icon.svg">
+	  <Content Include="APPSEC\Assets\departments-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\departments-icon1.svg">
+	  <Content Include="APPSEC\Assets\departments-icon1.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\divisions-icon.svg">
+	  <Content Include="APPSEC\Assets\divisions-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\divisions-sidebar-icon.svg">
+	  <Content Include="APPSEC\Assets\divisions-sidebar-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\divisions-sidebar-icon1.svg">
+	  <Content Include="APPSEC\Assets\divisions-sidebar-icon1.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\documenticonsvg1.svg">
+	  <Content Include="APPSEC\Assets\documenticonsvg1.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\documents.svg">
+	  <Content Include="APPSEC\Assets\documents.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\dropDown.svg">
+	  <Content Include="APPSEC\Assets\dropDown.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\file-delete-confirm-icon.svg">
+	  <Content Include="APPSEC\Assets\file-delete-confirm-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\fileviewicn.svg">
+	  <Content Include="APPSEC\Assets\fileviewicn.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\FliSTA User Manual for Apple version.pdf">
+	  <Content Include="APPSEC\Assets\FliSTA User Manual for Apple version.pdf">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\folder-icon.svg">
+	  <Content Include="APPSEC\Assets\folder-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\Line.svg">
+	  <Content Include="APPSEC\Assets\Line.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\Login.png">
+	  <Content Include="APPSEC\Assets\Login.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\LogoutIcon.svg">
+	  <Content Include="APPSEC\Assets\LogoutIcon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\LogoWithText.svg">
+	  <Content Include="APPSEC\Assets\LogoWithText.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\manage-icon.svg">
+	  <Content Include="APPSEC\Assets\manage-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\manage-icon1.svg">
+	  <Content Include="APPSEC\Assets\manage-icon1.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\Overview latest - 2nd option.png">
+	  <Content Include="APPSEC\Assets\Overview latest - 2nd option.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\overview-dep-card.svg">
+	  <Content Include="APPSEC\Assets\overview-dep-card.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\overview-dep-card1.png">
+	  <Content Include="APPSEC\Assets\overview-dep-card1.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\overview-dep-card1.svg">
+	  <Content Include="APPSEC\Assets\overview-dep-card1.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\overview-doc-card.svg">
+	  <Content Include="APPSEC\Assets\overview-doc-card.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\overview-doc-card1.png">
+	  <Content Include="APPSEC\Assets\overview-doc-card1.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\overview-icon.svg">
+	  <Content Include="APPSEC\Assets\overview-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\overview-icon1.svg">
+	  <Content Include="APPSEC\Assets\overview-icon1.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\overview-sys-card.svg">
+	  <Content Include="APPSEC\Assets\overview-sys-card.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\overview-sys-card1.png">
+	  <Content Include="APPSEC\Assets\overview-sys-card1.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\overview-vid-card.svg">
+	  <Content Include="APPSEC\Assets\overview-vid-card.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\overview-vid-card1.png">
+	  <Content Include="APPSEC\Assets\overview-vid-card1.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\passwordIcon.svg">
+	  <Content Include="APPSEC\Assets\passwordIcon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\PCpic.svg">
+	  <Content Include="APPSEC\Assets\PCpic.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\pdfImage.png">
+	  <Content Include="APPSEC\Assets\pdfImage.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\readIcon.svg">
+	  <Content Include="APPSEC\Assets\readIcon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\review-icon.svg">
+	  <Content Include="APPSEC\Assets\review-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\review-icon1.svg">
+	  <Content Include="APPSEC\Assets\review-icon1.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\search-icon.svg">
+	  <Content Include="APPSEC\Assets\search-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\Search.svg">
+	  <Content Include="APPSEC\Assets\Search.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\SLLogo.svg">
+	  <Content Include="APPSEC\Assets\SLLogo.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\StaffViewBottom.png">
+	  <Content Include="APPSEC\Assets\StaffViewBottom.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\system-added-successfully.svg">
+	  <Content Include="APPSEC\Assets\system-added-successfully.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\system-background-icon.svg">
+	  <Content Include="APPSEC\Assets\system-background-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\system-delete-doc-icon.svg">
+	  <Content Include="APPSEC\Assets\system-delete-doc-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\system-delete-icon.svg">
+	  <Content Include="APPSEC\Assets\system-delete-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\system-delete-video-icon.svg">
+	  <Content Include="APPSEC\Assets\system-delete-video-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\system-details-edit-icon.svg">
+	  <Content Include="APPSEC\Assets\system-details-edit-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\system-doc-icon.svg">
+	  <Content Include="APPSEC\Assets\system-doc-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\system-file-delete-icon.svg">
+	  <Content Include="APPSEC\Assets\system-file-delete-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\system-file-edit-icon.svg">
+	  <Content Include="APPSEC\Assets\system-file-edit-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\system-video-icon.svg">
+	  <Content Include="APPSEC\Assets\system-video-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\systemIcon.svg">
+	  <Content Include="APPSEC\Assets\systemIcon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\systemiconsvg1.svg">
+	  <Content Include="APPSEC\Assets\systemiconsvg1.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\systems-icon.svg">
+	  <Content Include="APPSEC\Assets\systems-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\systems-icon1.svg">
+	  <Content Include="APPSEC\Assets\systems-icon1.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\Systems.svg">
+	  <Content Include="APPSEC\Assets\Systems.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\test.svg">
+	  <Content Include="APPSEC\Assets\test.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\typelist.svg">
+	  <Content Include="APPSEC\Assets\typelist.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\unread.svg">
+	  <Content Include="APPSEC\Assets\unread.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\unreadIcon.svg">
+	  <Content Include="APPSEC\Assets\unreadIcon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\upload-icon.svg">
+	  <Content Include="APPSEC\Assets\upload-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\upload-icon1.svg">
+	  <Content Include="APPSEC\Assets\upload-icon1.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\Uploadbtn.png">
+	  <Content Include="APPSEC\Assets\Uploadbtn.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\Uploadbtn.svg">
+	  <Content Include="APPSEC\Assets\Uploadbtn.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\Uploadbtn1.svg">
+	  <Content Include="APPSEC\Assets\Uploadbtn1.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\uploadicn.svg">
+	  <Content Include="APPSEC\Assets\uploadicn.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\uploadsys.svg">
+	  <Content Include="APPSEC\Assets\uploadsys.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\userIcon.svg">
+	  <Content Include="APPSEC\Assets\userIcon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\UserProfilePic.svg">
+	  <Content Include="APPSEC\Assets\UserProfilePic.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\Vector-1.svg">
+	  <Content Include="APPSEC\Assets\Vector-1.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\Vector.svg">
+	  <Content Include="APPSEC\Assets\Vector.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\Videos.svg">
+	  <Content Include="APPSEC\Assets\Videos.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="Content\Assets\videosiconsvg1.svg">
+	  <Content Include="APPSEC\Assets\videosiconsvg1.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
 	  <Content Include="Content\css\AdminLayout.css">
@@ -687,16 +687,16 @@
 	  <None Update="Common\UgaBuga360NoScopeOnGod.css">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Content\Assets\back-btn.svg">
+	  <None Update="APPSEC\Assets\back-btn.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Content\Assets\pending-icon.svg">
+	  <None Update="APPSEC\Assets\pending-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Content\Assets\read-icon.svg">
+	  <None Update="APPSEC\Assets\read-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Content\Assets\system-file-icon.svg">
+	  <None Update="APPSEC\Assets\system-file-icon.svg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Content\css\AdminAddDep.css">

@@ -24,8 +24,7 @@ function getDivisionList() {
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            console.log('Error fetching data:', errorThrown);
-        }
+            console.log('Error fetching data:', errorThrown);        }
     });
 
 }
@@ -39,7 +38,7 @@ function assignDivisionsToList(data) {
 }
 
 var divisionListTable = $("#division-viewer").DataTable({
-    //pageLength: 5,
+    //pageLength: 5, 
     scrollX: true,
     order: [[0, 'desc']], // Sort by RequestID column (index 0) in descending order
     columns: [
