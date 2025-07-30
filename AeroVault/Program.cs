@@ -51,7 +51,7 @@ namespace AeroVault
                 options.Cookie.IsEssential = true;
             });
 
-            builder.Services.AddControllersWithViews();
+        
             builder.Services.AddScoped<DivisionDl>();
             builder.Services.AddScoped<DivisionBl>();
             builder.Services.AddScoped<UserOverviewBl>();
@@ -71,14 +71,14 @@ namespace AeroVault
             builder.Services.AddScoped<AdminOverviewDl>();
             builder.Services.AddScoped<AdminOverviewBl>();
 
-            builder.Services.AddSingleton(sp =>
-            {
-                var configuration = sp.GetRequiredService<IConfiguration>();
-                return new DBManager(
-                    Base.SLA_AUTH_ConnectionDataProvider,
-                    configuration.GetConnectionString("SLA_AUTH_ConnectionString")
-                );
-            });
+            //builder.Services.AddSingleton(sp =>
+            //{
+            //    var configuration = sp.GetRequiredService<IConfiguration>();
+            //    return new DBManager(
+            //        Base.SLA_AUTH_ConnectionDataProvider,
+            //        configuration.GetConnectionString("SLA_AUTH_ConnectionString")
+            //    );
+            //});
 
             builder.Logging.ClearProviders();
             builder.Logging.AddConsole();
@@ -155,7 +155,7 @@ namespace AeroVault
 
 
             // Run the application
-            app.Run();
+          
 
 
             app.Run();

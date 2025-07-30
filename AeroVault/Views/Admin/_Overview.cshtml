@@ -1,140 +1,4 @@
-﻿@* @model AeroVault.Models.OverviewViewModel *@
-@* <link href="~/Content/css/all.min.css" rel="stylesheet"> *@
-@* <link rel="stylesheet" href="~/Content/css/AdminOverview.css" /> *@
-
-@*     <div class="admin-main-content"> *@
-@*         <div class="Cards"> *@
-@*             <div class="Card"> *@
-@*             <img src="~/Content/Assets/overview-dep-card1.png" /> *@
-@*                 <h1 class="card-header">Departments</h1> *@
-@*                 <h1 class="card-count">@Model.DepartmentCount</h1> *@
-@*             </div> *@
-@*             <div class="Card"> *@
-@*             <img src="~/Content/Assets/overview-sys-card1.png" /> *@
-@*                 <h1 class="card-header">Systems</h1> *@
-@*             <h1 class="card-count">@Model.SystemCount</h1> *@
-@*             </div> *@
-@*             <div class="Card"> *@
-@*             <img src="~/Content/Assets/overview-doc-card1.png" /> *@
-@*                 <h1 class="card-header">Documents</h1> *@
-@*             <h1 class="card-count">@Model.DocumentCount</h1> *@
-@*             </div> *@
-@*             <div class="Card"> *@
-@*             <img src="~/Content/Assets/overview-vid-card1.png" /> *@
-@*                 <h1 class="card-header">Videos</h1> *@
-@*             <h1 class="card-count">@Model.VideoCount</h1> *@
-@*             </div>  *@
-@*         </div> *@
-@*         <h1 class="ActivityO">Activity Overview</h1> *@
-
-@*         <div class="charts-container"> *@
-@*             <div class="outerPieChartsContainer"> *@
-@*                 <div class="header2 header-pie"> *@
-@*                     <h2>Recent Activity</h2> *@
-                   
-@*                     <div class="dropdown"> *@
-@*                         <p class="dropdown-label" style="display:inline-block">Viewing Period:</p> *@
-@*                         <div class="custom-form-group"> *@
-@*                             <div class="custom-dropdown"> *@
-@*                                 <div class="custom-dropdown-toggle custom-selector" onclick="toggleCustomDropdown()"> *@
-@*                                     <span id="selected-option">All Time</span> *@
-@*                                     <i class="fas fa-chevron-down"></i> *@
-@*                                 </div> *@
-@*                                 <div class="custom-dropdown-content">                                   *@
-@*                                     <div class="custom-dropdown-list"> *@
-@*                                         <div onclick="selectCustomOption(this)" class="active">All Time</div> *@
-@*                                         <div onclick="selectCustomOption(this)">Last Month</div> *@
-@*                                         <div onclick="selectCustomOption(this)">Last 3 Months</div> *@
-@*                                         <div onclick="selectCustomOption(this)">Last 6 Months</div> *@
-@*                                         <div onclick="selectCustomOption(this)">Last Year</div>                                    *@
-@*                                     </div> *@
-@*                                 </div> *@
-@*                             </div> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                 </div> *@
-@*                 <div class="contentInfo"> *@
-@*                     <div class="pieChart"> *@
-@*                         <canvas id="myChart" class="myChart" ></canvas> *@
-@*                     </div> *@
-@*                     <div class="legend"> *@
-@*                         <div class="legend-item"> *@
-@*                             <div class="legend-color" style="background-color: #CE1D1D;"></div> *@
-@*                             <div class="legend-text">Systems Added</div> *@
-@*                         </div> *@
-@*                         <div class="legend-item"> *@
-@*                             <div class="legend-color" style="background-color: #C9AA22;"></div> *@
-@*                             <div class="legend-text">Videos Uploaded</div> *@
-@*                         </div> *@
-@*                         <div class="legend-item"> *@
-@*                             <div class="legend-color" style="background-color: #FF6333;"></div> *@
-@*                             <div class="legend-text">Documents Uploaded</div> *@
-@*                         </div> *@
-@*                         <div class="legend-item"> *@
-@*                             <div class="legend-color" style="background-color: #007D32;"></div> *@
-@*                             <div class="legend-text">Departments Added</div> *@
-@*                         </div> *@
-@*                         <div class="legend-item"> *@
-@*                             <div class="legend-color" style="background-color: #36A2EB;"></div> *@
-@*                             <div class="legend-text">Divisions Added</div> *@
-@*                         </div> *@
-@*                     </div> *@
-@*                 </div> *@
-
-@*                 <div class="stats-container"> *@
-@*                     <div class="stat-item" data-all-time-docs="@Model.DocumentCount" data-last-month-docs="@Model.Document_1_Count" data-last-3-months-docs="@Model.Document_3_Count" data-last-6-months-docs="@Model.Document_6_Count" data-last-year-docs="@Model.Document_12_Count"> *@
-@*                         <p class="stat-number">@Model.DocumentCount</p> *@
-@*                         <p class="stat-label">Docs</p> *@
-@*                     </div> *@
-@*                     <div class="separator"></div> *@
-@*                     <div class="stat-item" data-all-time-videos="@Model.VideoCount" data-last-month-videos="@Model.Video_1_Count" data-last-3-months-videos="@Model.Video_3_Count" data-last-6-months-videos="@Model.Video_6_Count" data-last-year-videos="@Model.Video_12_Count"> *@
-@*                         <p class="stat-number">@Model.VideoCount</p> *@
-@*                         <p class="stat-label">Videos</p> *@
-@*                     </div> *@
-@*                     <div class="separator"></div> *@
-@*                 <div class="stat-item" data-all-time-systems="@Model.SystemCount" data-last-month-systems="@Model.System_1_Count" data-last-3-months-systems="@Model.System_3_Count" data-last-6-months-systems="@Model.System_6_Count" data-last-year-systems="@Model.System_12_Count"> *@
-@*                         <p class="stat-number">@Model.SystemCount</p> *@
-@*                         <p class="stat-label">Systems</p> *@
-@*                     </div> *@
-@*                     <div class="separator"></div> *@
-@*                 <div class="stat-item" data-all-time-departments="@Model.DepartmentCount" data-last-month-departments="@Model.Department_1_Count" data-last-3-months-departments="@Model.Department_3_Count" data-last-6-months-departments="@Model.Department_6_Count" data-last-year-departments="@Model.Department_12_Count"> *@
-@*                         <p class="stat-number">@Model.DepartmentCount</p> *@
-@*                         <p class="stat-label">Depts.</p> *@
-@*                     </div> *@
-@*                     <div class="separator"></div> *@
-@*                 <div class="stat-item" data-all-time-divisions="@Model.DivisionCount" data-last-month-divisions="@Model.Division_1_Count" data-last-3-months-divisions="@Model.Division_3_Count" data-last-6-months-divisions="@Model.Division_6_Count" data-last-year-divisions="@Model.Division_12_Count"> *@
-@*                         <p class="stat-number">@Model.DivisionCount</p> *@
-@*                         <p class="stat-label">Divisions</p> *@
-@*                     </div> *@
-@*                 </div> *@
-@*             </div> *@
-@*             <div class="outerBarChartsContainer"> *@
-@*             @{ *@
-@*                 var currentDate = DateTime.Now; *@
-
-@*                 var firstDayOfCurrentMonth = new DateTime(currentDate.Year, currentDate.Month, 1); *@
-
-@*                 var firstDayOfNextMonth = firstDayOfCurrentMonth.AddMonths(1); *@
-
-@*                 var formattedCurrentMonth = firstDayOfCurrentMonth.ToString("MMM d"); *@
-@*                 var formattedNextMonth = firstDayOfNextMonth.ToString("MMM d"); *@
-@*             } *@
-
-@*             <div class="header2 barchart-header"> *@
-@*                 <h2>Logged In Staff</h2> *@
-@*                 <p>@formattedCurrentMonth - @formattedNextMonth</p> *@
-@*             </div> *@
-@*                 <div class="contentInfo barchart-contentInfo"> *@
-@*                     <div class="BarChart"> *@
-@*                         <canvas id="myChart2" class="myChart2" style="box-sizing: border-box;"></canvas> *@
-@*                     </div> *@
-@*                 </div>                 *@
-@*             </div> *@
-@*         </div> *@
-@*     </div> *@
-@* <script src="~/Scripts/jquery.min.js"></script> *@
-@* <script src="~/Scripts/chart.min.js"></script> *@
-@* <script src="~/Scripts/AdminOverview.js"></script> *@
+﻿
 
 <link href="~/Content/css/ProjectStyles/notiflix.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/Content/css/ProjectStyles/JQuerryTable/jquery.dataTables.min.css">
@@ -172,45 +36,18 @@
             <div class="header2 header-pie">
                 <h2>Recent Activity</h2>
 
-                @* <div class="dropdown"> *@
-                @*     <p class="dropdown-label" style="display:inline-block">Viewing Period:</p> *@
-                @*     <div class="custom-form-group"> *@
-                @*         <div class="custom-dropdown"> *@
-                @*             <div class="custom-dropdown-toggle custom-selector" onclick="toggleCustomDropdown()"> *@
-                @*                 <span id="selected-option">All Time</span> *@
-                @*                 <i class="fas fa-chevron-down"></i> *@
-                @*             </div> *@
-                @*             <div class="custom-dropdown-content"> *@
-                @*                 <div class="custom-dropdown-list"> *@
-                                  
-                @*                     <div id="allTimeOption" class="dropdown-option active">All Time</div> *@
-                @*                     <div id="lastMonthOption" class="dropdown-option">Last Month</div> *@
-                @*                     <div id="last3MonthsOption" class="dropdown-option">Last 3 Months</div> *@
-                @*                     <div id="last6MonthsOption" class="dropdown-option">Last 6 Months</div> *@
-                @*                     <div id="last12MonthsOption" class="dropdown-option">Last Year</div> *@
-                @*                 </div> *@
-                @*             </div> *@
-                @*         </div> *@
-                @*     </div> *@
-                @* </div> *@
+               
                 <div class="dropdown">
                     <p class="dropdown-label" style="display:inline-block">Viewing Period:</p>
                     <div class="custom-form-group">
-                        <div id="customDropdown" class="custom-dropdown">
-                            <div id="dropdownToggle" class="custom-dropdown-toggle custom-selector">
-                                <span id="selectedOption">All Time</span>
-                                <i class="fas fa-chevron-down"></i>
-                            </div>
-                            <div id="dropdownContent" class="custom-dropdown-content">
-                                <div id="dropdownList" class="custom-dropdown-list">
-                                    <div id="allTimeOption" class="dropdown-option active">All Time</div>
-                                    <div id="lastMonthOption" class="dropdown-option">Last Month</div>
-                                    <div id="last3MonthsOption" class="dropdown-option">Last 3 Months</div>
-                                    <div id="last6MonthsOption" class="dropdown-option">Last 6 Months</div>
-                                    <div id="last12MonthsOption" class="dropdown-option">Last Year</div>
-                                </div>
-                            </div>
-                        </div>
+                        <select id="customDropdown" class="form-control custom-select">
+                            <option value="all">All Time</option>
+                            <option value="1">Last Month</option>
+                            <option value="3">Last 3 Months</option>
+                            <option value="6">Last 6 Months</option>
+                            <option value="12">Last Year</option>
+                        </select>
+
                     </div>
                 </div>
 
@@ -290,18 +127,18 @@
                 <h2>Logged In Staff</h2>
                 <p>@formattedCurrentMonth - @formattedNextMonth</p>
             </div>
-            <div class="contentInfo barchart-contentInfo">
+           @*  <div class="contentInfo barchart-contentInfo">
                 <div class="BarChart">
                     <canvas id="myChart2" class="myChart2" style="box-sizing: border-box;"></canvas>
                 </div>
-            </div>
+            </div> *@
         </div>-->
     </div>
 </div>
 <script src="~/Scripts/jquery.min.js"></script>
-<script src="~/Scripts/chart.min.js"></script>
 <script src="~/Scripts/ProjectScripts/JQuerryTable/jquery.dataTables.min.js"></script>
 <script src="~/Scripts/ProjectScripts/Bootstrap/bootstrap.min.js"></script>
 <script src="~/Scripts/AdminOverview.js"></script>
 <script src="~/Scripts/ProjectScripts/notiflix.js"></script>
+<script src="~/Scripts/chart.min.js"></script>
 

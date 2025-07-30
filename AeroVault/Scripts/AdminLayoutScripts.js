@@ -128,7 +128,7 @@ function initializeCharts() {
             console.log("Week 3 Count:", week3Count);
             console.log("Week 4 Count:", week4Count);
 
-            renderCharts();
+           // renderCharts();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.error("There was a problem with the AJAX request:", textStatus, errorThrown);

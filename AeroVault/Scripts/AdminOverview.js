@@ -2,46 +2,40 @@
 var week2Count = 0;
 var week3Count = 0;
 var week4Count = 0;
-
-var myChart; 
-var myChart2; 
 var returnList;
-const ctx;
+
+let myChartInstance = null; 
 
 
 $(document).ready(function () {
-    //initializeCharts(); 
+
     getAllTimeCounts();
 
-    ctx = $('#myChart').val()
 
-    $('#dropdownToggle').on('click', function () {
-        toggleCustomDropdown();
-    });
+    $('#customDropdown').on('change', function () {
+        const selectedValue = $(this).val();
+        console.log('Selected value:', selectedValue);
 
-    $('#allTimeOption').on('click', function () {
-        console.log('All Time option clicked');
-        getAllTimeCountsForDropDown();
-    });
-
-    $('#lastMonthOption').on('click', function () {
-        console.log('Last month option clicked');
-        getLastMonthCounts();
-    });
-
-    $('#last3MonthsOption').on('click', function () {
-        console.log('Last 3 months option clicked');
-        getLast3MonthsCounts();
-    });
-
-    $('#last6MonthsOption').on('click', function () {
-        console.log('Last 6 months option clicked');
-        getLast6MonthsCounts();
-    });
-
-    $('#last12MonthsOption').on('click', function () {
-        console.log('Last year option clicked');
-        getLastYearCounts();
+        switch (selectedValue) {
+            case 'all':
+                getAllTimeCountsForDropDown();
+                break;
+            case '1':
+                getLastMonthCounts();
+                break;
+            case '3':
+                getLast3MonthsCounts();
+                break;
+            case '6':
+                getLast6MonthsCounts();
+                break;
+            case '12':
+                getLastYearCounts();
+                break;
+            default:
+                console.warn('Unknown selection');
+                break;
+        }
     });
 
 });
@@ -55,23 +49,19 @@ function getAllTimeCounts() {
         success: function (data) {
             returnList = data;
 
-            var depCount = returnList.departmentCount;
-            var sysCount = returnList.systemCount;
-            var docCount = returnList.documentCount;
-            var videoCount = returnList.videoCount;
-            var divCount = returnList.divisionCount;
+            $('#DepCount').text(data.departmentCount);
+            $('#SysCount').text(data.systemCount);
+            $('#DocCount').text(data.documentCount);
+            $('#VideoCount').text(data.videoCount);
+            $('#DivCount').text(data.divisionCount);
 
-            console.log("AllTime count:", data);
-            console.log("01:", depCount);
-            console.log("S01:", sysCount);
-            console.log("Di01:", divCount);
-           
-            $('#DepCount').text(depCount);
-            $('#SysCount').text(sysCount);
-            $('#DocCount').text(docCount);
-            $('#VideoCount').text(videoCount);
-            $('#DivCount').text(returnList.divisionCount);
-            charts(depCount, sysCount, docCount, videoCount, divCount);
+            charts(
+                data.departmentCount,
+                data.systemCount,
+                data.documentCount,
+                data.videoCount,
+                data.divisionCount
+            );
         },
         error: function (xhr, status, error) {
             console.error('Error fetching all-time counts:', error);
@@ -80,7 +70,7 @@ function getAllTimeCounts() {
 }
 
 function getAllTimeCountsForDropDown() {
-    const ctxa = $('#myChart').val()
+    
 
     $('#DeC').text(returnList.departmentCount);
     $('#SC').text(returnList.systemCount);
@@ -88,15 +78,16 @@ function getAllTimeCountsForDropDown() {
     $('#VC').text(returnList.videoCount);
     $('#DiC').text(returnList.divisionCount);
 
-    if (ctxa !== null) {
-        ctxa.destroy();
+    if (myChartInstance !== null) {
+        myChartInstance.destroy();
     }
+
 
     charts(returnList.departmentCount, returnList.systemCount, returnList.documentCount, returnList.videoCount, returnList.divisionCount);
 }
 
 function getLastMonthCounts() {
-    const ctxb = $('#myChart').val()
+   
 
     console.log("02:", returnList.department_1_Count);
     console.log("S02:", returnList.system_1_Count);
@@ -107,16 +98,17 @@ function getLastMonthCounts() {
     $('#DoC').text(returnList.document_1_Count);
     $('#VC').text(returnList.video_1_Count);
     $('#DiC').text(returnList.division_1_Count);
-    if (ctxb !== null) {
-        ctxb.destroy();
+    if (myChartInstance !== null) {
+        myChartInstance.destroy();
     }
+
 
     charts(returnList.department_1_Count, returnList.system_1_Count, returnList.document_1_Count, returnList.video_1_Count, returnList.division_1_Count);
 
 }
 
 function getLast3MonthsCounts() {
-    const ctxc = $('#myChart').val()
+   
     console.log("03:", returnList.department_3_Count);
     console.log("S03:", returnList.system_3_Count);
     console.log("DiV03:", returnList.division_3_Count);
@@ -126,16 +118,17 @@ function getLast3MonthsCounts() {
     $('#DoC').text(returnList.document_3_Count);
     $('#VC').text(returnList.video_3_Count);
     $('#DiC').text(returnList.division_3_Count);
-    if (ctxc !== null) {
-        ctxc.destroy();
+    if (myChartInstance !== null) {
+        myChartInstance.destroy();
     }
+
 
     charts(returnList.department_3_Count, returnList.system_3_Count, returnList.document_3_Count, returnList.video_3_Count, returnList.division_3_Count);
        
 }
 
 function getLast6MonthsCounts() {
-    const ctxd = $('#myChart').val()
+  
     console.log("04:", returnList.department_6_Count);
     console.log("S04:", returnList.system_6_Count);
     console.log("DiV04:", returnList.division_6_Count);
@@ -145,16 +138,17 @@ function getLast6MonthsCounts() {
     $('#DoC').text(returnList.document_6_Count);
     $('#VC').text(returnList.video_6_Count);
     $('#DiC').text(returnList.division_6_Count);
-    if (ctxd !== null) {
-        ctxd.destroy();
+    if (myChartInstance !== null) {
+        myChartInstance.destroy();
     }
+
 
     charts(returnList.department_6_Count, returnList.system_6_Count, returnList.document_6_Count, returnList.video_6_Count, returnList.division_6_Count);
       
 }
 
 function getLastYearCounts() {
-    const ctxe = $('#myChart').val()
+   
     console.log("05:", returnList.department_12_Count);
     console.log("S05:", returnList.system_12_Count);
     console.log("DiV05:", returnList.division_12_Count);
@@ -165,34 +159,31 @@ function getLastYearCounts() {
     $('#VC').text(returnList.video_12_Count);
     $('#DiC').text(returnList.division_12_Count);
 
-    if (ctxe !== null) {
-        ctxe.destroy();
+    if (myChartInstance !== null) {
+        myChartInstance.destroy();
     }
+
 
     charts(returnList.department_12_Count, returnList.system_12_Count, returnList.document_12_Count, returnList.video_12_Count, returnList.division_12_Count);
        
 }
 
-function setActiveOption(element) {
-    $('.dropdown-option').removeClass('active');
-    $(element).addClass('active');
-}
+
 
 function charts(depCount, sysCount, docCount, videoCount, divCount) { 
 
-   const ctxy = $('#myChart').val()
-    
+    const ctx = $('#myChart')[0].getContext('2d'); 
 
-    // Destroy existing chart if already created
-    if (ctxy !== null) {
-        ctxy.destroy();
+    // Properly destroy the previous chart instance
+    if (myChartInstance) {
+        myChartInstance.destroy();
+        myChartInstance = null;
     }
 
-    //const department = Number($('#DeC').text());
-    //const system = Number($('#SC').text());
-    //const documentCount = Number($('#DoC').text());
-    //const video = Number($('#VC').text());
-    //const division = Number($('#DiC').text());
+ 
+
+
+
 
 
 const data = {
@@ -205,7 +196,7 @@ const data = {
     ],
     datasets: [{
         label: 'Count',
-        data: [sysCount, divCount, videoCount,depCount,docCount ],
+        data: [depCount, sysCount, docCount, videoCount, divCount ],
         backgroundColor: [
             'rgb(206, 29, 29)',
             'rgb(54, 162, 235)',
@@ -214,7 +205,7 @@ const data = {
             'rgb(255, 99, 51)'
 
         ],
-        hoverOffset: 4
+        hoverOffset: 5
     }]
     };
 
@@ -223,7 +214,7 @@ const data = {
         data: data,
     };
 
-    new Chart(ctxy, config);
+    myChartInstance = new Chart(ctx, config);
 }
 
 //function initializeCharts() {
@@ -458,39 +449,39 @@ const data = {
 //}
 
 
-function toggleCustomDropdown() {
-    const $dropdownContent = $('#dropdownContent');
-    const $dropdownToggle = $('#dropdownToggle');
-    const $selector = $('#dropdownToggle'); 
+//function toggleCustomDropdown() {
+//    const $dropdownContent = $('#dropdownContent');
+//    const $dropdownToggle = $('#dropdownToggle');
+//    const $selector = $('#dropdownToggle'); 
 
-    if ($dropdownContent.css('display') === 'block') {
-        $dropdownContent.css('display', 'none');
-        $dropdownToggle.removeClass('open');
+//    if ($dropdownContent.css('display') === 'block') {
+//        $dropdownContent.css('display', 'none');
+//        $dropdownToggle.removeClass('open');
 
-        $selector.css({
-            'border-bottom-left-radius': '10px',
-            'border-bottom-right-radius': '10px',
-            'border-bottom': '1px solid #6D6D6D'
-        });
-    } else {
-        $dropdownContent.css('display', 'block');
-        $dropdownToggle.addClass('open');
+//        $selector.css({
+//            'border-bottom-left-radius': '10px',
+//            'border-bottom-right-radius': '10px',
+//            'border-bottom': '1px solid #6D6D6D'
+//        });
+//    } else {
+//        $dropdownContent.css('display', 'block');
+//        $dropdownToggle.addClass('open');
 
-        $selector.css({
-            'border-bottom-left-radius': '0',
-            'border-bottom-right-radius': '0',
-            'border-bottom': 'none'
-        });
+//        $selector.css({
+//            'border-bottom-left-radius': '0',
+//            'border-bottom-right-radius': '0',
+//            'border-bottom': 'none'
+//        });
 
-        showAllCustomOptions();
-    }
-}
+//        showAllCustomOptions();
+//    }
+//}
 
-function showAllCustomOptions() {
-    $('#dropdownList div').each(function () {
-        $(this).css('display', '');
-    });
-}
+//function showAllCustomOptions() {
+//    $('#dropdownList div').each(function () {
+//        $(this).css('display', '');
+//    });
+//}
 
 
 
