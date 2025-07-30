@@ -501,7 +501,7 @@
 	  <Compile Update="Models\UserPopupModels.cs">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Compile>
-	  <Compile Update="Models\ViewedFileModel.cs">
+	  <Compile Update="Scripts\ViewedFileModel.cs">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Compile>
 	</ItemGroup>

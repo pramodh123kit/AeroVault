@@ -1,4 +1,12 @@
-﻿document.getElementById('sidebar-toggle').addEventListener('click', function () {
+﻿var week1Count = 0;
+var week2Count = 0;
+var week3Count = 0;
+var week4Count = 0;
+
+var myChart;
+var myChart2; 
+
+document.getElementById('sidebar-toggle').addEventListener('click', function () {
     document.getElementById('sidebar').classList.toggle('sidebar-visible');
     document.getElementById('overlay').classList.toggle('overlay-visible');
 });
@@ -67,6 +75,206 @@ function loadContent(controllerName, pageTitle) {
         }
     });
 }
+
+function initializeCharts() {
+    console.log("Fetching staff login times...");
+
+    $.ajax({
+        url: baseUrWel + "Overview/GetStaffLoginTimes",
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+            console.log("Data received:", data);
+
+            const currentDate = new Date();
+            const firstDayOfCurrentMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+            const firstDayOfNextMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+
+            const filteredLoginTimes = data.filter(function (login) {
+                const loginTime = new Date(login.timeOfLoggingIn);
+                return loginTime >= firstDayOfCurrentMonth && loginTime < firstDayOfNextMonth;
+            });
+
+            const groups = {
+                week1: [],
+                week2: [],
+                week3: [],
+                week4: []
+            };
+
+            $.each(filteredLoginTimes, function (index, login) {
+                const loginTime = new Date(login.timeOfLoggingIn);
+                const dayOfMonth = loginTime.getDate();
+
+                if (dayOfMonth <= 7) {
+                    groups.week1.push(login);
+                } else if (dayOfMonth <= 14) {
+                    groups.week2.push(login);
+                } else if (dayOfMonth <= 21) {
+                    groups.week3.push(login);
+                } else {
+                    groups.week4.push(login);
+                }
+            });
+
+            week1Count = groups.week1.length;
+            week2Count = groups.week2.length;
+            week3Count = groups.week3.length;
+            week4Count = groups.week4.length;
+
+            console.log("Counts:");
+            console.log("Week 1 Count:", week1Count);
+            console.log("Week 2 Count:", week2Count);
+            console.log("Week 3 Count:", week3Count);
+            console.log("Week 4 Count:", week4Count);
+
+            renderCharts();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("There was a problem with the AJAX request:", textStatus, errorThrown);
+        }
+    });
+}
+function renderCharts() {
+    const docs = document.querySelector('.stats-container .stat-item[data-all-time-docs]');
+    const videos = document.querySelector('.stats-container .stat-item[data-all-time-videos]');
+    const systems = document.querySelector('.stats-container .stat-item[data-all-time-systems]');
+    const departments = document.querySelector('.stats-container .stat-item[data-all-time-departments]');
+    const divisions = document.querySelector('.stats-container .stat-item[data-all-time-divisions]');
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const ctx2 = document.getElementById('myChart2').getContext('2d');
+
+    const gradient1 = ctx.createLinearGradient(0, 0, 400, 400);
+    gradient1.addColorStop(0, '#36A2EB');
+    gradient1.addColorStop(1, '#05448B');
+
+    const gradient2 = ctx.createLinearGradient(0, 0, 800, 400);
+    gradient2.addColorStop(0, '#C9AA22');
+    gradient2.addColorStop(1, '#635411');
+
+    const gradient3 = ctx.createLinearGradient(0, 0, 800, 400);
+    gradient3.addColorStop(0, '#CE1D1D');
+    gradient3.addColorStop(1, '#680F0F');
+
+    const gradient4 = ctx.createLinearGradient(0, 0, 800, 400);
+    gradient4.addColorStop(0, '#2E8D58');
+    gradient4.addColorStop(1, '#04612D');
+
+    const gradient5 = ctx.createLinearGradient(0, 0, 800, 400);
+    gradient5.addColorStop(0, '#FF6333');
+    gradient5.addColorStop(1, '#993B1F');
+
+    const gradient6 = ctx.createLinearGradient(0, 0, 800, 400);
+    gradient6.addColorStop(0, '#053C7A');
+    gradient6.addColorStop(1, '#052850');
+
+    const gradient7 = ctx2.createLinearGradient(0, 0, 800, 0);
+    gradient7.addColorStop(0, 'rgba(5, 60, 122, 0.90)');
+    gradient7.addColorStop(1, 'rgba(5, 40, 80, 0.90)');
+
+    let selectedDocs = docs ? docs.getAttribute('data-all-time-docs') : null;
+    let selectedVideos = videos ? videos.getAttribute('data-all-time-videos') : null;
+    let selectedSystems = systems ? systems.getAttribute('data-all-time-systems') : null;
+    let selectedDepartments = departments ? departments.getAttribute('data-all-time-departments') : null;
+    let selectedDivisions = divisions ? divisions.getAttribute('data-all-time-divisions') : null;
+
+    const dataset = [{
+        label: 'Total ',
+        data: [selectedSystems, selectedDepartments, selectedDocs, selectedVideos, selectedDivisions],
+        borderWidth: 0,
+        backgroundColor: [gradient3, gradient4, gradient5, gradient2, gradient1],
+        hoverBackgroundColor: ['#CE1D1D', '#2E8D58', '#FF6333', '#C9AA22', '#36A2EB']
+    }];
+
+    function calculateBarThickness() {
+        const screenWidth = window.innerWidth;
+        return Math.max(30, Math.min(70, screenWidth / 15));
+    }
+
+    const barThickness = calculateBarThickness();
+
+    const dataset2 = [{
+        label: 'Logged In Staff  ',
+        data: [week1Count, week2Count, week3Count, week4Count],
+        borderWidth: 0,
+        backgroundColor: [gradient7],
+        hoverBackgroundColor: ['#36A2EB'],
+        barThickness: barThickness,
+        borderRadius: {
+            topLeft: 10,
+            topRight: 10,
+            bottomLeft: 0,
+            bottomRight: 0
+        }
+    }];
+
+    if (myChart) {
+        myChart.destroy();
+    }
+    if (myChart2) {
+        myChart2.destroy();
+    }
+
+    myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ["Systems", "Departments", "Documents", "Videos", "Divisions"],
+            datasets: dataset
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    bodyFont: {
+                        size: 14
+                    },
+                    titleFont: {
+                        size: 15
+                    }
+                }
+            }
+        }
+    });
+
+    myChart2 = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+            datasets: dataset2
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    ticks: {
+                        stepSize: 1,
+                        beginAtZero: true
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    bodyFont: {
+                        size: 14
+                    },
+                    titleFont: {
+                        size: 15
+                    }
+                }
+            }
+        }
+    });
+}
+
 
 
 
